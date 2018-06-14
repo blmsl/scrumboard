@@ -11,7 +11,7 @@ export class BoardsService {
 
   constructor(public afs: AngularFirestore) {
 
-    boardsCollection = this.afs.coll;
-   }
+    this.boardsCollection = afs.collection('boards');
+  }
 
 }
