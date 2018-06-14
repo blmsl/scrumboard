@@ -17,6 +17,7 @@ import { LoginComponent } from './ui/login/login.component';
 import { NavbarComponent } from './ui/navbar/navbar.component';
 import { BoardsComponent } from './ui/boards/boards.component';
 import { BoardsService } from './services/boards.service';
+import { AuthServiceService } from './services/auth-service.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { BoardsService } from './services/boards.service';
       // { path: '**', component: NotFoundComponent } // Needs to be last
     ])
   ],
-  providers: [AngularFireAuth, BoardsService],
+  providers: [AngularFireAuth, BoardsService, AuthServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

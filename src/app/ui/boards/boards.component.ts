@@ -8,7 +8,9 @@ import { BoardsService } from '../../services/boards.service';
 })
 export class BoardsComponent implements OnInit {
 
-  constructor(public boardsService: BoardsService) { }
+  constructor(public boardsService: BoardsService) {
+
+  }
 
   ngOnInit() {
   }
