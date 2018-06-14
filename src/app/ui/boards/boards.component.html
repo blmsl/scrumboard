@@ -6,6 +6,9 @@
       <div class="card">
         <div class="container">
           <h3>{{board.name}}</h3>
+          <span class="deleteBtn" (click)="deleteBoard(board.id, $event)">
+            <h3>Delete</h3>
+          </span>
         </div>
       </div>
     </section>

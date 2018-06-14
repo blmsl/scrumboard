@@ -25,8 +25,9 @@
     "core-js": "^2.4.1",
     "firebase": "^5.0.4",
     "rxjs": "^6.2.1",
-    "zone.js": "^0.8.19",
-    "rxjs-compat": "^6.0.0-rc.0"
+    "rxjs-compat": "^6.0.0-rc.0",
+    "sweetalert2": "^7.22.2",
+    "zone.js": "^0.8.19"
   },
   "devDependencies": {
     "@angular/cli": "^6.0.8",
