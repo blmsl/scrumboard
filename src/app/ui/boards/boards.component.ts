@@ -15,4 +15,11 @@ export class BoardsComponent implements OnInit {
   ngOnInit() {
   }
 
+  addBoard() {
+    console.log('add new baord');
+    this.boardsService.boardCollection.add({
+      name: prompt('What is the name of the board?')
+    });
+  }
+
 }

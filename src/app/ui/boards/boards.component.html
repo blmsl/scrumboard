@@ -1,7 +1,13 @@
 <div id="mainContainer">
   <h2>All boards</h2>
-  <button id="addButton">+</button>
+  <button id="addButton" (click)="addBoard()">+</button>
   <main>
-      
+    <section id="todoSection" *ngFor="let board of boardsService.$boards | async" [routerLink]="['scrum', board.id]">
+      <div class="card">
+        <div class="container">
+          <h4>{{board.name}}</h4>
+        </div>
+      </div>
+    </section>
   </main>
 </div>

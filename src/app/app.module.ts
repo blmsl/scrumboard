@@ -18,6 +18,7 @@ import { NavbarComponent } from './ui/navbar/navbar.component';
 import { BoardsComponent } from './ui/boards/boards.component';
 import { BoardsService } from './services/boards.service';
 import { AuthServiceService } from './services/auth-service.service';
+import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
 
 
 @NgModule({
@@ -29,14 +30,16 @@ import { AuthServiceService } from './services/auth-service.service';
   ],
   imports: [
     AngularFireModule.initializeApp(FirebaseConfig),
+    AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
     BrowserModule,
     RouterModule.forRoot([
       { path: '', component: BoardsComponent },
+      { path: 'scrum', component: BoardsComponent },
       // { path: '**', component: NotFoundComponent } // Needs to be last
     ])
   ],
-  providers: [AngularFireAuth, BoardsService, AuthServiceService],
+  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
