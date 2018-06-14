@@ -50,10 +50,11 @@ export class BoardsComponent implements OnInit {
   }
 
   addBoard() {
-    console.log('add new baord');
-    this.boardsService.boardCollection.add({
-      name: prompt('What is the name of the project?')
-    });
+    console.log('add new board');
+    const name = prompt('What is the name of the project?');
+    if  (name) { // check that it conatains a name
+      this.boardsService.boardCollection.add({ name });
+    }
   }
 
 }

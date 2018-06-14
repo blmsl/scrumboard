@@ -1,23 +1,43 @@
 <main>
   <button id="addButton" (click)="add()">+</button>
   <section id="todoSection">
-      <h3>TODO</h3>
-      
-      <div id="todoElements">
-
+    <h3>TODO</h3>
+    <div id="todoElements">
+      <div class="card" *ngFor="let entry of todoCollection | async">
+        <div class="container">
+          <p>{{entry.txt}}</p>
+        </div>
+        <button class="setButton">SET TO INPROGRESS</button>
       </div>
+    </div>
 
   </section>
   <section id="inprogressSection">
-      <h3>In progress</h3>
-      <div id="inprogressElements">
-
+    <h3>In progress</h3>
+    <div id="inprogressElements">
+      <div class="card" *ngFor="let entry of inProgressCollection | async">
+        <div class="container">
+          <p>
+            <strong>Developer: {{entry.developer}}</strong>
+          </p>
+          <p>{{entry.txt}}</p>
+        </div>
+        <button class="setButton">SET TO INPROGRESS</button>
       </div>
+    </div>
   </section>
   <section id="finishedSection">
-      <h3>Finished</h3>
-      <div id="finishedElements">
- 
+    <h3>Finished</h3>
+    <div id="finishedElements">
+      <div class="card" *ngFor="let entry of doneCollection | async">
+        <div class="container">
+          <p>
+            <strong>Developer: {{entry.developer}}</strong>
+          </p>
+          <p>{{entry.txt}}</p>
+        </div>
+        <button class="setButton">SET TO INPROGRESS</button>
       </div>
+    </div>
   </section>
 </main>
