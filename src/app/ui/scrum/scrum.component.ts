@@ -1,31 +1,76 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
+import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-scrum',
   templateUrl: './scrum.component.html',
   styleUrls: ['./scrum.component.css']
 })
+
 export class ScrumComponent implements OnInit {
 
-  key: string;
 
-  constructor(
-    public route: ActivatedRoute,
-    public boardsService: BoardsService
-  ) {
-    this.key = this.route.snapshot.paramMap.get('key');
+  id: string;
+
+  todoCollection: AngularFirestoreCollection<EntryInterface[]>;
+  inProgressCollection: AngularFirestoreCollection<EntryInterface[]>;
+  doneCollection: AngularFirestoreCollection<EntryInterface[]>;
+
+  $todo: Observable<EntryInterface[]>;
+  $inProgress: Observable<EntryInterface[]>;
+  $done: Observable<EntryInterface[]>;
+
+  constructor(public route: ActivatedRoute,
+    public boardsService: BoardsService) {
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log({ key: this.id });
+
+    this.$todo = this.toMap(boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('todo')
+      .snapshotChanges());
+
+    this.$inProgress = this.toMap(boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('inProgress')
+      .snapshotChanges());
+
+    this.$done = this.toMap(boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('done')
+      .snapshotChanges());
+
+  }
+
+  moveToProgress(entry: EntryInterface) {
+    // delete from todo
+    this.todoCollection.doc(entry.id).delete();
+    // TODO add it to inProgress
+    
   }
 
   ngOnInit() {
 
   }
 
-  add() {
-    this.boardsService.boardCollection.doc(this.key).collection('todo').add({
-      name: prompt('What is the name of the board?')
+  toMap(observable: Observable<DocumentChangeAction<EntryInterface>[]>): Observable<EntryInterface[]> {
+    return observable.map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as EntryInterface;
+        data.id = a.payload.doc.id;
+        return data;
+      });
     });
   }
 
+  add() {
+    const txt = prompt('What is the name of the board?');
+    this.boardsService.boardCollection.doc(this.id).collection('todo').add({ txt });
+  }
+}
+
+export interface EntryInterface {
+  txt: string;
+  developer?: string;
+  id?: string;
 }
