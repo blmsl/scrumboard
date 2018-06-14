@@ -24,6 +24,7 @@ header h1 {
 main {
     margin: 16px;
     display: grid;
+    width: calc(100% - 36px);
     grid-template-columns: 1fr 1fr 1fr;
 }
 

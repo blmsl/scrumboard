@@ -1,4 +1,4 @@
-import { AuthService } from './auth.service';
+import { AuthServiceService } from './auth-service.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import 'rxjs/add/operator/map';
@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProfileGuardService implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthServiceService, private router: Router) { }
 
   canActivate(route, state: RouterStateSnapshot) {
     return this.auth.user$.map(user => {

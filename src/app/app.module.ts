@@ -20,6 +20,7 @@ import { BoardsService } from './services/boards.service';
 import { AuthServiceService } from './services/auth-service.service';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
 import { ProfileGuardService } from './services/profile-guard.service';
+import { ScrumComponent } from './ui/scrum/scrum.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ProfileGuardService } from './services/profile-guard.service';
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    BoardsComponent
+    BoardsComponent,
+    ScrumComponent
   ],
   imports: [
     AngularFireModule.initializeApp(FirebaseConfig),
@@ -36,12 +38,12 @@ import { ProfileGuardService } from './services/profile-guard.service';
     BrowserModule,
     RouterModule.forRoot([
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
-      { path: 'scrum', component: BoardsComponent },
+      { path: 'scrum/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
       { path: 'login', component: LoginComponent },
       // { path: '**', component: NotFoundComponent } // must be last
     ])
   ],
-  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore],
+  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore, ProfileGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

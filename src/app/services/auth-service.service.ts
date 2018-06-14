@@ -16,8 +16,8 @@ export class AuthServiceService {
     return this.user$;
   }
 
-  loginWithGithub() {
-    return this.afAuth.auth.signInWithRedirect(new firebase.auth.GithubAuthProvider());
+  loginWithGoogle() {
+    return this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
   }
 
   resetPassword(email: string) {
