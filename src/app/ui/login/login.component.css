@@ -1,0 +1,12 @@
+.btn-github {
+  background-color: #2a2a2a;
+  background-image: url("../../../assets/github.svg");
+}
+
+.btn-github:hover {
+  background-color: #444444;
+}
+
+.btn-github:active {
+  background-color: #101010;
+}
