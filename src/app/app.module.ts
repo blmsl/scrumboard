@@ -19,6 +19,7 @@ import { BoardsComponent } from './ui/boards/boards.component';
 import { BoardsService } from './services/boards.service';
 import { AuthServiceService } from './services/auth-service.service';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
+import { ProfileGuardService } from './services/profile-guard.service';
 
 
 @NgModule({
@@ -34,9 +35,10 @@ import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore
     AngularFireDatabaseModule,
     BrowserModule,
     RouterModule.forRoot([
-      { path: '', component: BoardsComponent },
+      { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: 'scrum', component: BoardsComponent },
-      // { path: '**', component: NotFoundComponent } // Needs to be last
+      { path: 'login', component: LoginComponent },
+      // { path: '**', component: NotFoundComponent } // must be last
     ])
   ],
   providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore],
