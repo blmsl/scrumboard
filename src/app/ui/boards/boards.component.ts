@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public boardsService: BoardsService) { }
 
   ngOnInit() {
   }

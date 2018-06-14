@@ -1,0 +1,15 @@
+header {
+  height: 80px;
+  background-color: #4285f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+}
+
+header h1 {
+  display: table;
+  margin: 0;
+  color: white;
+  font-family: audiowide;
+}
