@@ -10,13 +10,9 @@ import { AuthServiceService } from './../../services/auth-service.service';
 export class LoginComponent implements OnInit {
   ngOnInit() {
   }
-  constructor() {
-    public auth: AuthServiceService,
-  }
+  constructor(public auth: AuthServiceService) { }
 
- 
-
-  signInWithGithub(){
+  signInWithGithub() {
     const that = this;
     this.auth.loginWithGithub();
   }
