@@ -18,6 +18,7 @@ import { NavbarComponent } from './ui/navbar/navbar.component';
 import { BoardsComponent } from './ui/boards/boards.component';
 import { BoardsService } from './services/boards.service';
 import { AuthServiceService } from './services/auth-service.service';
+import { ProfileGuardService } from './services/profile-guard.service';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AuthServiceService } from './services/auth-service.service';
     AngularFireDatabaseModule,
     BrowserModule,
     RouterModule.forRoot([
-      { path: '', component: BoardsComponent },
+      { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
+      { path: 'login', component: LoginComponent },
       // { path: '**', component: NotFoundComponent } // Needs to be last
     ])
   ],
