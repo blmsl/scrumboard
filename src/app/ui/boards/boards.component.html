@@ -5,7 +5,7 @@
     <section id="todoSection" *ngFor="let board of boardsService.$boards | async" [routerLink]="['scrum', board.id]">
       <div class="card">
         <div class="container">
-          <h4>{{board.name}}</h4>
+          <h3>{{board.name}}</h3>
         </div>
       </div>
     </section>
