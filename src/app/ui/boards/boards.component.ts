@@ -29,11 +29,13 @@ export class BoardsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // Delete method here
+        this.boardsService.boardCollection.doc(id).delete();
+
         swal(
           'Deleted!',
           'Your file has been deleted.',
           'success'
-        )
+        );
       } else if (
         // Read more about handling dismissals
         result.dismiss === swal.DismissReason.cancel
@@ -42,9 +44,9 @@ export class BoardsComponent implements OnInit {
           'Cancelled',
           'Your project is safe',
           'error'
-        )
+        );
       }
-    })
+    });
 
     e.stopPropagation();
   }
