@@ -46,7 +46,6 @@ export class ScrumComponent implements OnInit {
     // delete from todo
     this.todoCollection.doc(entry.id).delete();
     // TODO add it to inProgress
-    
   }
 
   ngOnInit() {
@@ -64,8 +63,10 @@ export class ScrumComponent implements OnInit {
   }
 
   add() {
-    const txt = prompt('What is the name of the board?');
-    this.boardsService.boardCollection.doc(this.id).collection('todo').add({ txt });
+    const txt = prompt('What is the name of the task?');
+    if (txt) {
+      this.boardsService.boardCollection.doc(this.id).collection('todo').add({ txt });
+    }
   }
 }
 
