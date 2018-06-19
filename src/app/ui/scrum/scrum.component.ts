@@ -3,6 +3,8 @@ import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
+import { AuthServiceService } from '../../services/auth-service.service';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-scrum',
@@ -24,7 +26,8 @@ export class ScrumComponent implements OnInit {
   $done: Observable<EntryInterface[]>;
 
   constructor(public route: ActivatedRoute,
-    public boardsService: BoardsService) {
+    public boardsService: BoardsService,
+    public auth: AuthServiceService) {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log({ key: this.id });
 
@@ -49,8 +52,19 @@ export class ScrumComponent implements OnInit {
   moveToProgress(entry: EntryInterface) {
     // delete from todo
     this.todoCollection.doc(entry.id).delete();
-    // TODO add it to inProgress
-    this.inProgressCollection.add({ txt: entry.txt, developer: 'Sondre' });
+    // add it to inProgress
+    this.inProgressCollection.add({ txt: entry.txt, developer: this.getDeveloperName() });
+  }
+
+  moveToFinished(entry: EntryInterface) {
+    // delete from inProgress
+    this.inProgressCollection.doc(entry.id).delete();
+    // add to done
+    this.doneCollection.add({ txt: entry.txt, developer: this.getDeveloperName() });
+  }
+
+  getDeveloperName(): string {
+    return this.auth.user$.switchMap((user) => user.displayName);
   }
 
   ngOnInit() {
