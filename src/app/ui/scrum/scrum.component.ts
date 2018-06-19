@@ -14,7 +14,6 @@ import 'rxjs/add/operator/switchMap';
 
 export class ScrumComponent implements OnInit {
 
-
   id: string;
 
   todoCollection: AngularFirestoreCollection<EntryInterface>;
@@ -49,22 +48,40 @@ export class ScrumComponent implements OnInit {
 
   }
 
+  delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+    if (confirm('Are you sure you want to delete this entry?')) {
+      collection.doc(entry.id).delete().then();
+    }
+  }
+
+  edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+    const editTxt = prompt('Edit the text of the entry', entry.txt);
+    if (editTxt) {
+      collection.doc(entry.id).update({
+        txt: editTxt
+      });
+    }
+  }
+
   moveToProgress(entry: EntryInterface) {
     // delete from todo
     this.todoCollection.doc(entry.id).delete();
     // add it to inProgress
-    this.inProgressCollection.add({ txt: entry.txt, developer: this.getDeveloperName() });
+    this.auth.user$.subscribe((user) => {
+      this.inProgressCollection.add({ txt: entry.txt, developer: user.displayName });
+    });
   }
 
   moveToFinished(entry: EntryInterface) {
     // delete from inProgress
     this.inProgressCollection.doc(entry.id).delete();
     // add to done
-    this.doneCollection.add({ txt: entry.txt, developer: this.getDeveloperName() });
-  }
+    this.auth.user$.subscribe((user) => {
+      this.doneCollection.add({
+        txt: entry.txt, developer: user.displayName
+      });
+    });
 
-  getDeveloperName(): string {
-    return this.auth.user$.switchMap((user) => user.displayName);
   }
 
   ngOnInit() {

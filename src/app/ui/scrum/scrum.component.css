@@ -6,6 +6,11 @@ main {
     font-family: roboto;
 }
 
+.menuBtn {
+    position: absolute;
+    right: 0;
+}
+
 main>section {
     flex-grow: 1;
     margin: 0 10px;
@@ -24,6 +29,7 @@ section .container {
     border-radius: 2px;
     margin-bottom: 13px;
     overflow: hidden;
+    position: relative;
 }
 
 #addButton {

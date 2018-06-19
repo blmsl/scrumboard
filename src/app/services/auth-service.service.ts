@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import * as firebase from 'firebase';
+import { auth } from 'firebase/app';
+import { User } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable()
 export class AuthServiceService {
 
-  user$: Observable<firebase.User>;
+  user$: Observable<User>;
 
   constructor(private afAuth: AngularFireAuth) {
     this.user$ = afAuth.authState;
@@ -17,7 +18,7 @@ export class AuthServiceService {
   }
 
   loginWithGoogle() {
-    return this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    return this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
   }
 
   resetPassword(email: string) {

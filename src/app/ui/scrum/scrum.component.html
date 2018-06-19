@@ -4,6 +4,19 @@
     <h3>TODO</h3>
     <div id="todoElements">
       <div class="card" *ngFor="let entry of $todo | async">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(entry, todoCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="delete(entry, todoCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
         <div class="container">
           <p>{{entry.txt}}</p>
         </div>
@@ -16,13 +29,30 @@
     <h3>In progress</h3>
     <div id="inprogressElements">
       <div class="card" *ngFor="let entry of $inProgress | async">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>dialpad</mat-icon>
+            <span>Redial</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>voicemail</mat-icon>
+            <span>Check voicemail</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>notifications_off</mat-icon>
+            <span>Disable alerts</span>
+          </button>
+        </mat-menu>
         <div class="container">
           <p>
             <strong>Developer: {{entry.developer}}</strong>
           </p>
           <p>{{entry.txt}}</p>
         </div>
-        <button class="setButton">SET TO INPROGRESS</button>
+        <button class="setButton" (click)="moveToFinished(entry)">SET TO INPROGRESS</button>
       </div>
     </div>
   </section>
@@ -30,13 +60,25 @@
     <h3>Done</h3>
     <div id="finishedElements">
       <div class="card" *ngFor="let entry of $done | async">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>dialpad</mat-icon>
+            <span>Redial</span>
+          </button>
+          <button mat-menu-item disabled>
+            <mat-icon>voicemail</mat-icon>
+            <span>Check voicemail</span>
+          </button>
+        </mat-menu>
         <div class="container">
           <p>
             <strong>Developer: {{entry.developer}}</strong>
           </p>
           <p>{{entry.txt}}</p>
         </div>
-        <button class="setButton">SET TO INPROGRESS</button>
       </div>
     </div>
   </section>

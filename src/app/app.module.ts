@@ -22,6 +22,11 @@ import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore
 import { ProfileGuardService } from './services/profile-guard.service';
 import { ScrumComponent } from './ui/scrum/scrum.component';
 
+// Angular Material components
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -32,6 +37,10 @@ import { ScrumComponent } from './ui/scrum/scrum.component';
     ScrumComponent
   ],
   imports: [
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
     AngularFireModule.initializeApp(FirebaseConfig),
     AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
