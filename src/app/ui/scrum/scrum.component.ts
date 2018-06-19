@@ -15,9 +15,9 @@ export class ScrumComponent implements OnInit {
 
   id: string;
 
-  todoCollection: AngularFirestoreCollection<EntryInterface[]>;
-  inProgressCollection: AngularFirestoreCollection<EntryInterface[]>;
-  doneCollection: AngularFirestoreCollection<EntryInterface[]>;
+  todoCollection: AngularFirestoreCollection<EntryInterface>;
+  inProgressCollection: AngularFirestoreCollection<EntryInterface>;
+  doneCollection: AngularFirestoreCollection<EntryInterface>;
 
   $todo: Observable<EntryInterface[]>;
   $inProgress: Observable<EntryInterface[]>;
@@ -28,16 +28,20 @@ export class ScrumComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log({ key: this.id });
 
-    this.$todo = this.toMap(boardsService.boardCollection.doc(this.id)
-      .collection<EntryInterface>('todo')
+    this.todoCollection = boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('todo');
+    this.inProgressCollection = boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('inProgress');
+    this.doneCollection = boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('done');
+
+    this.$todo = this.toMap(this.todoCollection
       .snapshotChanges());
 
-    this.$inProgress = this.toMap(boardsService.boardCollection.doc(this.id)
-      .collection<EntryInterface>('inProgress')
+    this.$inProgress = this.toMap(this.inProgressCollection
       .snapshotChanges());
 
-    this.$done = this.toMap(boardsService.boardCollection.doc(this.id)
-      .collection<EntryInterface>('done')
+    this.$done = this.toMap(this.doneCollection
       .snapshotChanges());
 
   }
@@ -46,6 +50,7 @@ export class ScrumComponent implements OnInit {
     // delete from todo
     this.todoCollection.doc(entry.id).delete();
     // TODO add it to inProgress
+    this.inProgressCollection.add({ txt: entry.txt, developer: 'Sondre' });
   }
 
   ngOnInit() {
@@ -65,7 +70,7 @@ export class ScrumComponent implements OnInit {
   add() {
     const txt = prompt('What is the name of the task?');
     if (txt) {
-      this.boardsService.boardCollection.doc(this.id).collection('todo').add({ txt });
+      this.todoCollection.add({ txt });
     }
   }
 }
