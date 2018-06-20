@@ -3,11 +3,29 @@
 /* You can add global styles to this file, and also import other style files */
 html, body {
     margin: 0;
-    background-color: #F5F6F7;
-
+    background-color: #203139;
+    font-family: roboto;
+    color: white;
 }
 
-h1,h2,h3,h4,p,a{
-    font-family: roboto;
-    color: #484848;
+main {
+    max-width: 1600px;
+    display: table;
+    padding: 20px;
+    width: calc(100% - 40px);
+}
+
+#addButton {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    height: 60px;
+    width: 60px;
+    color: #203139;
+    font-size: 40px;
+    border-radius: 50%;
+    border-style: none;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }

@@ -1,16 +1,25 @@
-<div id="mainContainer">
+<main>
   <h2>All boards</h2>
-  <button id="addButton" (click)="addBoard()">+</button>
-  <main>
-    <section id="todoSection" *ngFor="let board of boardsService.$boards | async" [routerLink]="['scrum', board.id]">
-      <div class="card">
-        <div class="container">
-          <h3>{{board.name}}</h3>
-          <span class="deleteBtn" (click)="deleteBoard(board.id, $event)">
-            <h3>Delete</h3>
-          </span>
-        </div>
+  <section id="todoSection" *ngFor="let board of boardsService.$boards | async" [routerLink]="['scrum', board.id]">
+    <div class="card">
+      <div class="container">
+        <h3>{{board.name}}</h3>
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(board)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="delete(board)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
       </div>
-    </section>
-  </main>
-</div>
+    </div>
+  </section>
+</main>
+
+<button id="addButton" (click)="addBoard()">+</button>

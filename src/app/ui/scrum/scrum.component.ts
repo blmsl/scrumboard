@@ -27,7 +27,7 @@ export class ScrumComponent implements OnInit {
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService) {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id'); 
     console.log({ key: this.id });
 
     this.todoCollection = boardsService.boardCollection.doc(this.id)

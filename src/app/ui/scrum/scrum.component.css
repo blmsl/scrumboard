@@ -1,6 +1,5 @@
-
 main {
-    margin: 16px;
+    margin: 16px auto;
     display: flex;
     flex-direction: row;
     font-family: roboto;
@@ -23,28 +22,13 @@ section .container {
 
 .card {
     width: 100%;
-    background: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background: #2B3942;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
     display: table;
     border-radius: 2px;
     margin-bottom: 13px;
     overflow: hidden;
     position: relative;
-}
-
-#addButton {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    height: 60px;
-    width: 60px;
-    color: white;
-    font-size: 40px;
-    border-radius: 50%;
-    border-style: none;
-    background-color: #4285f4;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    cursor: pointer;
 }
 
 #backButton {
@@ -60,8 +44,8 @@ section .container {
     border-style: none;
     font-size: 15px;
     padding: 10px;
-    background-color: #4285f4;
-    color: white;
+    background-color: white;
+    color: #2B3942;
     cursor: pointer;
 }
 

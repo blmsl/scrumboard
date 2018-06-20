@@ -1,3 +1,4 @@
+import { Board } from './../../extra/BoardInterface';
 import { Component, OnInit } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import swal from 'sweetalert2';
@@ -16,7 +17,15 @@ export class BoardsComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteBoard(id, e) {
+  addBoard() {
+    console.log('add new board');
+    const name = prompt('What is the name of the project?');
+    if (name) { // check that it conatains a name
+      this.boardsService.boardCollection.add({ name });
+    }
+  }
+
+  delete(board: Board) {
     swal({
       title: 'Are you sure?',
       text: 'This will delete your project permanently!',
@@ -29,7 +38,7 @@ export class BoardsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // Delete method here
-        this.boardsService.boardCollection.doc(id).delete();
+        this.boardsService.boardCollection.doc(board.id).delete();
 
         swal(
           'Deleted!',
@@ -48,15 +57,16 @@ export class BoardsComponent implements OnInit {
       }
     });
 
-    e.stopPropagation();
   }
 
-  addBoard() {
-    console.log('add new board');
-    const name = prompt('What is the name of the project?');
-    if  (name) { // check that it conatains a name
-      this.boardsService.boardCollection.add({ name });
+  edit(board: Board) {
+    const updatedName = prompt('Update the board name', board.name);
+    if (updatedName) {
+      this.boardsService.boardCollection.doc(board.id).update({
+        name: updatedName
+      });
     }
   }
+
 
 }

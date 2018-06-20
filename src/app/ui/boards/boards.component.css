@@ -5,15 +5,9 @@ body {
   font-family: roboto;
 }
 
-#todoSection{
-    outline: 0;
-}
-
 main {
-  margin: 16px;
-  display: grid;
-  width: calc(100% - 36px);
-  grid-template-columns: 1fr;
+  max-width: 750px;
+  margin: 0 auto;
 }
 
 h3 {
@@ -22,7 +16,7 @@ h3 {
 }
 
 h2 {
-  margin-left: 30px;
+  margin: 15px 0;
 }
 
 a {
@@ -30,25 +24,21 @@ a {
   color: black;
 }
 
-#mainContainer {
-  margin: 0 auto;
-  max-width: 1000px;
-}
-
-main>section {
-  flex-grow: 1;
-  margin: 0 10px 15px 10px;
-}
-
 .container {
   display: grid;
   grid-template-columns: 1fr 0.13fr;
+  position: relative;
+}
+
+.menuBtn {
+  position: absolute;
+  right: 0;
 }
 
 .card {
   width: 100%;
-  background: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background: #2B3942;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
   display: table;
   border-radius: 2px;
   cursor: pointer;
@@ -80,18 +70,3 @@ main>section {
   box-shadow: 1px 6px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
-#addButton {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  height: 60px;
-  width: 60px;
-  color: white;
-  font-size: 40px;
-  border-radius: 50%;
-  border-style: none;
-  background-color: #4285f4;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  outline: 0;
-}
