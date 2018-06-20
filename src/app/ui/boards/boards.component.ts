@@ -64,11 +64,18 @@ export class BoardsComponent implements OnInit {
         );
       }
     });
-
   }
 
-  edit(board: Board) {
-    const updatedName = prompt('Update the board name', board.name);
+  async edit(board: Board) {
+    const { value: updatedName } = await swal({
+      title: 'Update the project name',
+      input: 'text',
+      inputValue: board.name,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write something!';
+      }
+    });
     if (updatedName) {
       this.boardsService.boardCollection.doc(board.id).update({
         name: updatedName

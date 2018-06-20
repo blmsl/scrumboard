@@ -47,6 +47,11 @@ a {
   transition: all 0.3s;
 }
 
+#todoSection {
+  outline: 0;
+
+}
+
 .deleteBtn {
   font-family: roboto;
   float: right;

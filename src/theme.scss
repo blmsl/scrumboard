@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$dark-theme : mat-dark-theme($bg, $cards, $header);
+
+.dark-theme {
+    @include angular-material-theme($dark-theme);
+}
+
+
+
