@@ -3,4 +3,19 @@
     <mat-icon id="backBtn">arrow_back</mat-icon>
   </a>
   <h1>MAGSON Scrum</h1>
+  <div id="profilePic" [matMenuTriggerFor]="menu">
+    <img [src]="profileUrl" alt="">
+    <mat-icon>account_circle</mat-icon>
+  </div>
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <div id="infoWrapper">
+      <img [src]="profileUrl" alt="">
+      <p id="name">{{profileName}}</p>
+      <p id="email">{{profileEmail}}</p>
+    </div>
+    <button mat-menu-item (click)="auth.logOut()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 </header>

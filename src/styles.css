@@ -28,3 +28,10 @@ main {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
+
+#addButton mat-icon {
+    width: 100%;
+    line-height: 100%;
+    text-align: center;
+    font-size: 30px;
+}
