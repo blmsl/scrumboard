@@ -5,6 +5,8 @@ import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/f
 import { Observable } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
+import swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-scrum',
@@ -27,7 +29,7 @@ export class ScrumComponent implements OnInit {
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService) {
-    this.id = this.route.snapshot.paramMap.get('id'); 
+    this.id = this.route.snapshot.paramMap.get('id');
     console.log({ key: this.id });
 
     this.todoCollection = boardsService.boardCollection.doc(this.id)
@@ -49,13 +51,46 @@ export class ScrumComponent implements OnInit {
   }
 
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
-    if (confirm('Are you sure you want to delete this entry?')) {
-      collection.doc(entry.id).delete().then();
-    }
+    swal({
+      title: 'Are you sure?',
+      text: 'This will delete this post permanently!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#e95d4f',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        // Delete method here
+        collection.doc(entry.id).delete().then();
+        swal(
+          'Deleted!',
+          'The post has been deleted.',
+          'success'
+        );
+      } else if (
+        result.dismiss === swal.DismissReason.cancel
+      ) {
+        swal(
+          'Cancelled',
+          'The post is safe',
+          'error'
+        );
+      }
+    });
   }
 
-  edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
-    const editTxt = prompt('Edit the text of the entry', entry.txt);
+ async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+    const {value: editTxt} = await swal({
+      title: 'Edit the post',
+      input: 'text',
+      inputValue: entry.txt,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write something!';
+      }
+    });
     if (editTxt) {
       collection.doc(entry.id).update({
         txt: editTxt

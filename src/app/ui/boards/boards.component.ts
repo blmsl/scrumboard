@@ -42,7 +42,7 @@ export class BoardsComponent implements OnInit {
 
         swal(
           'Deleted!',
-          'Your file has been deleted.',
+          'Your project has been deleted.',
           'success'
         );
       } else if (
