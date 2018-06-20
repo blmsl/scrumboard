@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { NavbarService } from './../../services/navbar.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/firestore';
@@ -14,7 +15,7 @@ import swal from 'sweetalert2';
   styleUrls: ['./scrum.component.css']
 })
 
-export class ScrumComponent implements OnInit {
+export class ScrumComponent implements OnInit, OnDestroy {
 
   id: string;
 
@@ -28,7 +29,8 @@ export class ScrumComponent implements OnInit {
 
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
-    public auth: AuthServiceService) {
+    public auth: AuthServiceService,
+    public navbarService: NavbarService) {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log({ key: this.id });
 
@@ -85,7 +87,7 @@ export class ScrumComponent implements OnInit {
     // Delete from in-progress
     this.inProgressCollection.doc(entry.id).delete();
     // Add to To-do
-    this.todoCollection.add({ txt: entry.txt});
+    this.todoCollection.add({ txt: entry.txt });
   }
 
   rollback_from_finished(entry: EntryInterface) {
@@ -97,8 +99,8 @@ export class ScrumComponent implements OnInit {
     });
   }
 
- async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
-    const {value: editTxt} = await swal({
+  async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+    const { value: editTxt } = await swal({
       title: 'Edit the post',
       input: 'text',
       inputValue: entry.txt,
@@ -136,7 +138,11 @@ export class ScrumComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.navbarService.backBtn = true;
+  }
 
+  ngOnDestroy() {
+    this.navbarService.backBtn = false;
   }
 
   toMap(observable: Observable<DocumentChangeAction<EntryInterface>[]>): Observable<EntryInterface[]> {

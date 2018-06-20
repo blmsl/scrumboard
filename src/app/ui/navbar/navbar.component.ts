@@ -1,3 +1,4 @@
+import { NavbarService } from './../../services/navbar.service';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
 
-  constructor(public auth: AuthServiceService) {
+  constructor(public auth: AuthServiceService, public navbarService: NavbarService) {
     this.sub = auth.user$.subscribe((user) => {
       this.profileUrl = user.photoURL;
       this.profileName = user.displayName;
