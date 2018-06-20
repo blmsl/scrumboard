@@ -17,18 +17,19 @@ main {
 }
 
 #addButton {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  height: 60px;
-  width: 60px;
-  color: #203139;
-  border-radius: 50%;
-  border-style: none;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  outline: 0;
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    height: 60px;
+    width: 60px;
+    color: #203139;
+    border-radius: 50%;
+    border-style: none;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    outline: 0;
+    z-index: 9;
 }
 
 #addButton mat-icon {

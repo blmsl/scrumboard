@@ -1,3 +1,4 @@
+import { NavbarService } from './services/navbar.service';
 import { FirebaseConfig } from './../environments/FirebaseConfig';
 
 
@@ -55,7 +56,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       // { path: '**', component: NotFoundComponent } // must be last
     ])
   ],
-  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore, ProfileGuardService],
+  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore, ProfileGuardService, NavbarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

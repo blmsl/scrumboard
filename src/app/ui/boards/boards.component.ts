@@ -1,3 +1,4 @@
+import { NavbarService } from './../../services/navbar.service';
 import { Board } from './../../extra/BoardInterface';
 import { Component, OnInit } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
@@ -10,7 +11,7 @@ import swal from 'sweetalert2';
 })
 export class BoardsComponent implements OnInit {
 
-  constructor(public boardsService: BoardsService) {
+  constructor(public boardsService: BoardsService, public navbarService: NavbarService) {
 
   }
 
