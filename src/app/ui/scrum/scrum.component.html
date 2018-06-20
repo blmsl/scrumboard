@@ -34,15 +34,19 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, inProgressCollection)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="delete(entry, inProgressCollection)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
+          <button mat-menu-item (click)="edit(entry, inProgressCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="rollback_from_inprogress(entry)">
+            <mat-icon>replay</mat-icon>
+            <span>Rollback</span>
+          </button>
+          <button mat-menu-item (click)="delete(entry, inProgressCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
         <div class="container">
           <p>
             <strong>Developer: {{entry.developer}}</strong>
@@ -61,15 +65,19 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, doneCollection)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="delete(entry, doneCollection)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
+          <button mat-menu-item (click)="edit(entry, doneCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="rollback_from_finished(entry)">
+            <mat-icon>replay</mat-icon>
+            <span>Rollback</span>
+          </button>
+          <button mat-menu-item (click)="delete(entry, doneCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
         <div class="container">
           <p>
             <strong>Developer: {{entry.developer}}</strong>

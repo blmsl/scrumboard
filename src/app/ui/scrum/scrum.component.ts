@@ -81,6 +81,22 @@ export class ScrumComponent implements OnInit {
     });
   }
 
+  rollback_from_inprogress(entry: EntryInterface) {
+    // Delete from in-progress
+    this.inProgressCollection.doc(entry.id).delete();
+    // Add to To-do
+    this.todoCollection.add({ txt: entry.txt});
+  }
+
+  rollback_from_finished(entry: EntryInterface) {
+    // Delete from finished
+    this.doneCollection.doc(entry.id).delete();
+    // add it to inProgress
+    this.auth.user$.subscribe((user) => {
+      this.inProgressCollection.add({ txt: entry.txt, developer: user.displayName });
+    });
+  }
+
  async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
     const {value: editTxt} = await swal({
       title: 'Edit the post',
