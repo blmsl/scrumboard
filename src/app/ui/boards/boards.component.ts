@@ -17,10 +17,17 @@ export class BoardsComponent implements OnInit {
   ngOnInit() {
   }
 
-  addBoard() {
-    console.log('add new board');
-    const name = prompt('What is the name of the project?');
-    if (name) { // check that it conatains a name
+  async addBoard() {
+    const { value: name } = await swal({
+      title: 'What is the name of your project?',
+      input: 'text',
+      inputPlaceholder: 'Project name',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write something!';
+      }
+    });
+    if (name) {
       this.boardsService.boardCollection.add({ name });
     }
   }
