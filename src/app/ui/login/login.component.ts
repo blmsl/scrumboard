@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
   constructor(public auth: AuthServiceService, public router: Router) {
@@ -17,5 +17,8 @@ export class LoginComponent implements OnInit {
         router.navigate(['/']);
       }
     });
+  }
+  ngOnDestroy() {
+
   }
 }
