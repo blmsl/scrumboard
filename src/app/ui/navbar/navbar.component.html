@@ -10,8 +10,10 @@
   <mat-menu #menu="matMenu" [overlapTrigger]="false">
     <div id="infoWrapper">
       <img [src]="profileUrl" alt="">
-      <p id="name">{{profileName}}</p>
-      <p id="email">{{profileEmail}}</p>
+      <div>
+        <p id="name">{{profileName}}</p>
+        <p id="email">{{profileEmail}}</p>
+      </div>
     </div>
     <button mat-menu-item (click)="auth.logOut()">
       <mat-icon>exit_to_app</mat-icon>
