@@ -15,6 +15,10 @@
         <p id="email">{{profileEmail}}</p>
       </div>
     </div>
+    <div id="darkModeSettings">
+      <p>Dark mode:</p>
+      <mat-slide-toggle (click)="$event.stopPropagation()"></mat-slide-toggle>
+    </div>
     <button mat-menu-item (click)="auth.logOut()">
       <mat-icon>exit_to_app</mat-icon>
       <span>Logout</span>
