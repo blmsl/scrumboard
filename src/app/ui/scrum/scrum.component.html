@@ -34,26 +34,22 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>Redial</span>
-          </button>
-          <button mat-menu-item disabled>
-            <mat-icon>voicemail</mat-icon>
-            <span>Check voicemail</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon>notifications_off</mat-icon>
-            <span>Disable alerts</span>
-          </button>
-        </mat-menu>
+            <button mat-menu-item (click)="edit(entry, inProgressCollection)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="delete(entry, inProgressCollection)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
         <div class="container">
           <p>
             <strong>Developer: {{entry.developer}}</strong>
           </p>
           <p>{{entry.txt}}</p>
         </div>
-        <button class="setButton" (click)="moveToFinished(entry)">SET TO INPROGRESS</button>
+        <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
       </div>
     </div>
   </section>
@@ -65,15 +61,15 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>Redial</span>
-          </button>
-          <button mat-menu-item disabled>
-            <mat-icon>voicemail</mat-icon>
-            <span>Check voicemail</span>
-          </button>
-        </mat-menu>
+            <button mat-menu-item (click)="edit(entry, doneCollection)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="delete(entry, doneCollection)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
         <div class="container">
           <p>
             <strong>Developer: {{entry.developer}}</strong>
