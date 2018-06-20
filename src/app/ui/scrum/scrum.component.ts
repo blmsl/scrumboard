@@ -149,11 +149,20 @@ export class ScrumComponent implements OnInit {
     });
   }
 
-  add() {
-    const txt = prompt('What is the name of the task?');
+  async add() {
+    const { value: txt } = await swal({
+      title: 'What is the name of the task?',
+      input: 'text',
+      inputPlaceholder: 'Task description',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return !value && 'You need to write something!';
+      }
+    });
     if (txt) {
       this.todoCollection.add({ txt });
     }
+
   }
 }
 
