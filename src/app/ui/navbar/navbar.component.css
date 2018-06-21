@@ -37,7 +37,7 @@ header h1 {
 #darkModeSettings {
     color: black;
     display: flex;
-    margin: 16px;
+    margin: 0 16px;
     font-weight: 500;
 }
 
