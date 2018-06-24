@@ -22,7 +22,7 @@ section .container {
 
 .card {
   width: 100%;
-  background: #2B3942;
+  background: var(--cards);
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
   display: table;
   border-radius: 2px;
@@ -44,8 +44,8 @@ section .container {
   border-style: none;
   font-size: 15px;
   padding: 10px;
-  background-color: white;
-  color: #2B3942;
+  background-color:var(--txt-color);
+  color: var(--cards);
   cursor: pointer;
 }
 
@@ -53,6 +53,3 @@ section .container {
   font-size: 19px;
 }
 
-.material-icons.md-light {
-  color: rgba(255, 255, 255, 1);
-}

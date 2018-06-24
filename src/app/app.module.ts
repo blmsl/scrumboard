@@ -29,6 +29,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { OverlayModule } from '@angular/cdk/overlay';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -43,6 +45,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     BrowserAnimationsModule,
     MatIconModule,
     MatMenuModule,
+    MatToolbarModule,
+    OverlayModule,
     MatButtonModule,
     MatSlideToggleModule,
     AngularFireModule.initializeApp(FirebaseConfig),
