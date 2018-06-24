@@ -14,6 +14,7 @@ body {
     font-family: roboto;
     color: var(--txt-color);
     background: var(--bg-color);
+    transition: background-color .4s, color .4s;
 }
 
 main {
