@@ -31,7 +31,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // get the saved theme option from localStorage
-    this.darkTheme = localStorage.darkTheme;
+    this.darkTheme = JSON.parse(localStorage.darkTheme);
     console.log('retrieved from localStorage | darkTheme:', this.darkTheme);
     this.setTheme();
   }
@@ -40,23 +40,25 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  toggleTheme() {
-    this.darkTheme = !this.darkTheme;
+  toggleTheme(event) {
+    this.darkTheme = event.checked;
     console.log('toggling theme | darkTheme: ', this.darkTheme);
     this.setTheme();
+    // save the theme opttion to localStorage
+    localStorage.darkTheme = this.darkTheme;
   }
 
   setTheme() {
+    console.log('darkTheme:', this.darkTheme);
     const theme = 'dark-theme';
-    if (this.darkTheme === true) {
+    if (this.darkTheme) {
       this.overlayContainer.getContainerElement().classList.add(theme);
+      console.log('dark theme');
     } else {
       this.overlayContainer.getContainerElement().classList.remove(theme);
+      console.log('default theme');
     }
-    console.log('set theme', theme);
     this.componentCssClass = theme;
-    // save the theme opttion to localStorage
-    localStorage.darkTheme = this.darkTheme;
   }
 
 }

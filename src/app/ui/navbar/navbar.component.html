@@ -17,7 +17,7 @@
     </div>
     <div id="darkModeSettings">
       <p>Dark mode:</p>
-      <mat-slide-toggle (change)="toggleTheme()" [checked]="darkTheme" (click)="$event.stopPropagation()"></mat-slide-toggle>
+      <mat-slide-toggle [checked]="darkTheme" (change)="toggleTheme($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
     </div>
     <button mat-menu-item (click)="auth.logOut()">
       <mat-icon>exit_to_app</mat-icon>
