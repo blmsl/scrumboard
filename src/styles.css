@@ -1,18 +1,26 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    --header: white;
+    --cards: white;
+    --txt-color: black;
+    --bg-color: white;
+}
 
 html,
 body {
-  margin: 0;
-  background-color: #203139;
-  font-family: roboto;
-  color: white;
+    margin: 0;
+    font-family: roboto;
+    color: var(--txt-color);
+    background: var(--bg-color);
 }
 
 main {
-  max-width: 1600px;
-  display: table;
-  padding: 20px;
-  width: calc(100% - 40px);
+    max-width: 1600px;
+    display: table;
+    padding: 20px;
+    width: calc(100% - 40px);
 }
 
 #addButton {
@@ -21,10 +29,10 @@ main {
     right: 32px;
     height: 60px;
     width: 60px;
-    color: #203139;
+    color: var(--bg-color);
     border-radius: 50%;
     border-style: none;
-    background-color: white;
+    background-color: var(--txt-color);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
     outline: 0;
@@ -32,8 +40,8 @@ main {
 }
 
 #addButton mat-icon {
-  width: 100%;
-  line-height: 100%;
-  text-align: center;
-  font-size: 30px;
+    width: 100%;
+    line-height: 100%;
+    text-align: center;
+    font-size: 30px;
 }

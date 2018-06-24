@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="!navbarService.hidden">
+<header *ngIf="!navbarService.hidden">
   <a [routerLink]="['/']">
     <mat-icon *ngIf="navbarService.backBtn" id="backBtn">arrow_back</mat-icon>
   </a>
@@ -17,11 +17,11 @@
     </div>
     <div id="darkModeSettings">
       <p>Dark mode:</p>
-      <mat-slide-toggle [checked]="darkTheme" (change)="toggleTheme($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
+      <mat-slide-toggle [checked]="darkThemeActivated" (change)="toggleTheme($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
     </div>
     <button mat-menu-item (click)="auth.logOut()">
       <mat-icon>exit_to_app</mat-icon>
       <span>Logout</span>
     </button>
   </mat-menu>
-</mat-toolbar>
+</header>

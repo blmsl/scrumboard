@@ -19,11 +19,6 @@ h2 {
   margin: 15px 0;
 }
 
-a {
-  text-decoration: none;
-  color: black;
-}
-
 .container {
   display: grid;
   grid-template-columns: 1fr 0.13fr;
@@ -37,7 +32,7 @@ a {
 
 .card {
   width: 100%;
-  background: #2B3942;
+  background: var(--cards);
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
   display: table;
   border-radius: 2px;

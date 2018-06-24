@@ -1,11 +1,13 @@
-mat-toolbar {
+header {
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: var(--header);
+    box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
 }
 
-mat-toolbar h1 {
+header h1 {
     display: table;
     margin: 0;
     font-family: audiowide;
@@ -34,8 +36,9 @@ mat-toolbar h1 {
 #infoWrapper,
 #darkModeSettings {
     display: flex;
-    margin: 16px;
+    margin: 0 16px;
     font-weight: 500;
+    color: rgba(0, 0, 0, .87);
 }
 
 #infoWrapper img {
@@ -68,10 +71,11 @@ mat-slide-toggle {
     top: 0;
     left: 35px;
     font-size: 32px;
+    color: var(--txt-color);
 }
 
 @media only screen and (max-width: 400px) {
-    mat-toolbar h1 {
+    header h1 {
         font-size: 30px;
     }
 }
