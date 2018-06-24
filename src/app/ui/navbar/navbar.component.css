@@ -1,15 +1,13 @@
-header {
+mat-toolbar {
     height: 64px;
-    background-color: #1D2A32;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-header h1 {
+mat-toolbar h1 {
     display: table;
     margin: 0;
-    color: white;
     font-family: audiowide;
 }
 
@@ -35,7 +33,6 @@ header h1 {
 
 #infoWrapper,
 #darkModeSettings {
-    color: black;
     display: flex;
     margin: 16px;
     font-weight: 500;
@@ -71,11 +68,10 @@ mat-slide-toggle {
     top: 0;
     left: 35px;
     font-size: 32px;
-    color: white;
 }
 
 @media only screen and (max-width: 400px) {
-    header h1 {
+    mat-toolbar h1 {
         font-size: 30px;
     }
 }

@@ -1,4 +1,4 @@
-<header *ngIf="!navbarService.hidden">
+<mat-toolbar *ngIf="!navbarService.hidden">
   <a [routerLink]="['/']">
     <mat-icon *ngIf="navbarService.backBtn" id="backBtn">arrow_back</mat-icon>
   </a>
@@ -24,4 +24,4 @@
       <span>Logout</span>
     </button>
   </mat-menu>
-</header>
+</mat-toolbar>
