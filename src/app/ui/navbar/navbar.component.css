@@ -12,6 +12,7 @@ header h1 {
     margin: 0;
     font-family: audiowide;
     color: var(--header-title);
+    font-size: 30px;
 }
 
 #profilePic {
@@ -75,8 +76,11 @@ mat-slide-toggle {
     color: var(--txt-color);
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 800px) {
+    header {
+        height: 56px;
+    }
     header h1 {
-        font-size: 30px;
+        font-size: 20px;
     }
 }
