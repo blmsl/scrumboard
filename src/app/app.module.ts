@@ -31,7 +31,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {MatToolbarModule} from '@angular/material/toolbar';
-
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -43,6 +43,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   ],
   imports: [
     BrowserAnimationsModule,
+    MatSelectModule,
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,

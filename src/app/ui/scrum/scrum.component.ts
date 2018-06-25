@@ -28,6 +28,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
   $inProgress: Observable<EntryInterface[]>;
   $done: Observable<EntryInterface[]>;
 
+  sortBy = 'time';
+
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService,
@@ -55,6 +57,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.$done = this.toMap(this.doneCollection
       .snapshotChanges());
 
+  }
+
+  sortChanged() {
+    console.log(this.sortBy);
   }
 
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {

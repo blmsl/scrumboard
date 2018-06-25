@@ -1,5 +1,13 @@
 <main>
-  <button id="addButton" (click)="add()">
+  <div id="sortBy">
+    <mat-icon>sort</mat-icon>
+    <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+      <mat-option value="time">Time created</mat-option>
+      <mat-option value="alfabetical">Alfabetical</mat-option>
+      <mat-option value="priority">Priority</mat-option>
+    </mat-select>
+  </div>
+  <button mat-fab id="addButton" (click)="add()">
     <mat-icon>add</mat-icon>
   </button>
   <section id="todoSection">

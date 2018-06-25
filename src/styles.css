@@ -30,21 +30,23 @@ main {
     position: fixed;
     bottom: 32px;
     right: 32px;
-    height: 60px;
-    width: 60px;
     color: white;
-    border-radius: 50%;
-    border-style: none;
     background-color: var(--button-color);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
     outline: 0;
     z-index: 9;
 }
 
-#addButton mat-icon {
-    width: 100%;
-    line-height: 100%;
-    text-align: center;
-    font-size: 30px;
-}
+/* didnt work in scrum component :( */
+
+.mat-select-value {
+    color: var(--txt-color) !important;
+  }
+  
+  .mat-select-placeholder {
+    color: var(--txt-color) !important;
+  }
+  
+  .mat-select-arrow {
+    color: var(--txt-color) !important;
+  }
