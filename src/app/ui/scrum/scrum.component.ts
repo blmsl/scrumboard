@@ -72,6 +72,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
       <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
     </div>`;
 
+  sortBy = 'time';
+
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService,
@@ -99,6 +101,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.$done = this.toMap(this.doneCollection
       .snapshotChanges());
 
+  }
+
+  sortChanged() {
+    console.log(this.sortBy);
   }
 
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {

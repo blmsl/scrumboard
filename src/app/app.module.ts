@@ -32,7 +32,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
-
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -44,6 +44,7 @@ import { MatSliderModule } from '@angular/material/slider';
   ],
   imports: [
     BrowserAnimationsModule,
+    MatSelectModule,
     MatIconModule,
     MatMenuModule,
     MatSliderModule,

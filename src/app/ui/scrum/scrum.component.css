@@ -5,6 +5,22 @@ main {
     font-family: roboto;
 }
 
+#sortBy {
+  position: absolute;
+  right: 50px;
+  color: var(--txt-color) !important;
+  width: 120px;
+}
+
+mat-select {
+  position: inherit;
+}
+
+
+
+mat-select mat-option {
+}
+
 .menuBtn {
     position: absolute;
     right: 0;
