@@ -16,6 +16,7 @@ export class BoardsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.navbarService.title = 'Magson Scrum';
   }
 
   async addBoard() {

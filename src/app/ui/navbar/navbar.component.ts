@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+
   profileUrl: string;
   profileName: string;
   profileEmail: string;
@@ -21,8 +22,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private defaultTheme = `
     --header: white;
     --cards: white;
-    --txt-color: black;
+    --txt-color: #484848;
     --bg-color: white;
+    --button-color: #4285f4;
+    --header-title: ;
   `;
 
   private darkTheme = `
@@ -30,6 +33,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --txt-color: white;
     --cards: #2B3942;
     --bg-color: #203139;
+    --button-color: #e91e63;
+    --header-title: #e91e63;
+
   `;
 
   constructor(public auth: AuthServiceService, public navbarService: NavbarService) {
