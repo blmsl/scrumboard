@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --txt-color: #484848;
     --bg-color: white;
     --button-color: #4285f4;
+    --button-accent: rgba(66, 133, 244, .5)
     --header-title: ;
   `;
 
@@ -35,7 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --bg-color: #203139;
     --button-color: #e91e63;
     --header-title: #e91e63;
-
+    --button-accent: rgba(233, 30, 99, 0.5);
   `;
 
   constructor(public auth: AuthServiceService, public navbarService: NavbarService) {

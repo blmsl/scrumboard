@@ -47,6 +47,7 @@ section .container {
   background-color:var(--button-color);
   color: white;
   cursor: pointer;
+  outline: none;
 }
 
 .container>p {
@@ -56,6 +57,7 @@ section .container {
 .container>p:first-letter {
     text-transform: uppercase;
 }
+
 
 @media only screen and (max-width: 800px) {
   main {

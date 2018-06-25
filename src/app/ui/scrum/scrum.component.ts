@@ -28,6 +28,50 @@ export class ScrumComponent implements OnInit, OnDestroy {
   $inProgress: Observable<EntryInterface[]>;
   $done: Observable<EntryInterface[]>;
 
+  radioDiv = `
+  <style>
+  .swalRadioBtns {
+   position: absolute;
+   visibility: hidden;
+   display: none;
+   background-color: #332f35;
+ }
+
+ .swalRadioBtnsLabel {
+   color: var(--button-color);
+   cursor: pointer;
+   font-weight: bold;
+   padding: 5px 20px;
+   float: left;
+   outline: 0;
+ }
+
+ .swalRadioBtns:checked+.swalRadioBtnsLabel {
+   color: white;
+   background: var(--button-color);
+ }
+
+ .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
+   border-left: solid 3px var(--button-color);
+ }
+
+ .radio-group {
+   border: solid 3px var(--button-color);
+   display: inline-block;
+   margin: 20px;
+   border-radius: 10px;
+   overflow: hidden;
+ }
+  </style>
+  <div class="radio-group">
+      <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!">
+      <label class="swalRadioBtnsLabel" for="option-one">!</label>
+      <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!">
+      <label class="swalRadioBtnsLabel" for="option-two">!!</label>
+      <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!">
+      <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
+    </div>`;
+
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService,
@@ -60,7 +104,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
     swal({
       title: 'Are you sure?',
-      text: 'This will delete this post permanently!',
+      text: 'This will delete this task permanently!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -73,7 +117,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
         collection.doc(entry.id).delete().then();
         swal(
           'Deleted!',
-          'The post has been deleted.',
+          'The task has been deleted.',
           'success'
         );
       } else if (
@@ -81,7 +125,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       ) {
         swal(
           'Cancelled',
-          'The post is safe',
+          'This task is safe',
           'error'
         );
       }
@@ -163,9 +207,17 @@ export class ScrumComponent implements OnInit, OnDestroy {
   async add() {
     const { value: txt } = await swal({
       title: 'What is the name of the task?',
-      input: 'text',
-      inputPlaceholder: 'Task description',
+      html:
+        '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
+        this.radioDiv,
       showCancelButton: true,
+      /* html: '<mat-slider max="3" min="0" step="1" thumbLabel tickInterval="1"></mat-slider>', */
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+
+        ];
+      },
       inputValidator: (value) => {
         return !value && 'You need to write something!';
       }
