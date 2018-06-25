@@ -44,8 +44,8 @@ section .container {
   border-style: none;
   font-size: 15px;
   padding: 10px;
-  background-color:var(--txt-color);
-  color: var(--cards);
+  background-color:var(--button-color);
+  color: white;
   cursor: pointer;
 }
 

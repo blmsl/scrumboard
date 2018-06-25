@@ -1,3 +1,5 @@
+import { Board } from './../../extra/BoardInterface';
+import { NavbarComponent } from './../navbar/navbar.component';
 import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
@@ -7,7 +9,6 @@ import { Observable } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-scrum',
@@ -33,6 +34,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
     public navbarService: NavbarService) {
     this.id = this.route.snapshot.paramMap.get('id');
     console.log({ key: this.id });
+
+    boardsService.boardCollection.doc<Board>(this.id).valueChanges().subscribe((board) => {
+      navbarService.title = board.name;
+    });
 
     this.todoCollection = boardsService.boardCollection.doc(this.id)
       .collection<EntryInterface>('todo');

@@ -4,8 +4,10 @@
 body {
     --header: white;
     --cards: white;
-    --txt-color: black;
+    --txt-color: #484848;
     --bg-color: white;
+    --button-color: #4285f4;
+    --header-title: #4285f4;
 }
 
 html,
@@ -30,10 +32,10 @@ main {
     right: 32px;
     height: 60px;
     width: 60px;
-    color: var(--bg-color);
+    color: white;
     border-radius: 50%;
     border-style: none;
-    background-color: var(--txt-color);
+    background-color: var(--button-color);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
     outline: 0;
