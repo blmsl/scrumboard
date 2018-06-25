@@ -5,10 +5,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-scrum',
@@ -31,48 +32,49 @@ export class ScrumComponent implements OnInit, OnDestroy {
   radioDiv = `
   <style>
   .swalRadioBtns {
-   position: absolute;
-   visibility: hidden;
-   display: none;
-   background-color: #332f35;
- }
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    background-color: #332f35;
+  }
 
- .swalRadioBtnsLabel {
-   color: var(--button-color);
-   cursor: pointer;
-   font-weight: bold;
-   padding: 5px 20px;
-   float: left;
-   outline: 0;
- }
+  .swalRadioBtnsLabel {
+    color: var(--button-color);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 20px;
+    float: left;
+    outline: 0;
+  }
 
- .swalRadioBtns:checked+.swalRadioBtnsLabel {
-   color: white;
-   background: var(--button-color);
- }
+  .swalRadioBtns:checked+.swalRadioBtnsLabel {
+    color: white;
+    background: var(--button-color);
+  }
 
- .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
-   border-left: solid 3px var(--button-color);
- }
+  .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
+    border-left: solid 3px var(--button-color);
+  }
 
- .radio-group {
-   border: solid 3px var(--button-color);
-   display: inline-block;
-   margin: 20px;
-   border-radius: 10px;
-   overflow: hidden;
- }
+  .radio-group {
+    border: solid 3px var(--button-color);
+    display: inline-block;
+    margin: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
   </style>
   <div class="radio-group">
-      <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!">
-      <label class="swalRadioBtnsLabel" for="option-one">!</label>
-      <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!">
-      <label class="swalRadioBtnsLabel" for="option-two">!!</label>
-      <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!">
-      <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
-    </div>`;
+  <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!">
+  <label class="swalRadioBtnsLabel" for="option-one">!</label>
+  <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!">
+  <label class="swalRadioBtnsLabel" for="option-two">!!</label>
+  <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!">
+  <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
+  </div>`;
 
   sortBy = 'time';
+  $orderBy = new Subject<string>();
 
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
@@ -85,15 +87,17 @@ export class ScrumComponent implements OnInit, OnDestroy {
       navbarService.title = board.name;
     });
 
+    this.$todo = this.$orderBy.switchMap(sortBy => {
+      return this.toMap(boardsService.boardCollection.doc(this.id)
+      .collection<EntryInterface>('todo', ref => ref.orderBy(sortBy)).snapshotChanges());
+    });
+
     this.todoCollection = boardsService.boardCollection.doc(this.id)
-      .collection<EntryInterface>('todo');
+    .collection<EntryInterface>('todo');
     this.inProgressCollection = boardsService.boardCollection.doc(this.id)
       .collection<EntryInterface>('inProgress');
     this.doneCollection = boardsService.boardCollection.doc(this.id)
       .collection<EntryInterface>('done');
-
-    this.$todo = this.toMap(this.todoCollection
-      .snapshotChanges());
 
     this.$inProgress = this.toMap(this.inProgressCollection
       .snapshotChanges());
@@ -105,6 +109,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
   sortChanged() {
     console.log(this.sortBy);
+    this.$orderBy.next(this.sortBy);
   }
 
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
@@ -220,8 +225,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       /* html: '<mat-slider max="3" min="0" step="1" thumbLabel tickInterval="1"></mat-slider>', */
       preConfirm: () => {
         return [
-          document.getElementById('swal-input1').value,
-
+          (<HTMLInputElement>document.getElementById('swal-input1')).value
         ];
       },
       inputValidator: (value) => {
@@ -229,7 +233,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       }
     });
     if (txt) {
-      this.todoCollection.add({ txt });
+      this.todoCollection.add({ txt, time: firebase.firestore.FieldValue.serverTimestamp() });
     }
 
   }
@@ -237,6 +241,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
 export interface EntryInterface {
   txt: string;
+  time: firebase.firestore.FieldValue;
   developer?: string;
   id?: string;
 }

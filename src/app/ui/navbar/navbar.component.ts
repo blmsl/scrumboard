@@ -49,7 +49,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // get the saved theme option from localStorage
-    this.darkThemeActivated = JSON.parse(localStorage.darkTheme);
+    try {
+      this.darkThemeActivated = JSON.parse(localStorage.darkTheme);
+    } catch {
+      this.darkThemeActivated = false;
+    }
     console.log('retrieved from localStorage | darkTheme:', this.darkThemeActivated);
     this.setTheme();
   }
