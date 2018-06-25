@@ -1,55 +1,67 @@
 main {
-  margin: 16px auto;
-  display: flex;
-  flex-direction: row;
-  font-family: roboto;
+    margin: 16px auto;
+    display: flex;
+    flex-direction: row;
+    font-family: roboto;
 }
 
 .menuBtn {
-  position: absolute;
-  right: 0;
+    position: absolute;
+    right: 0;
 }
 
 main>section {
-  flex-grow: 1;
-  margin: 0 10px;
-  max-width: calc(33.33% - 20px);
+    flex-grow: 1;
+    margin: 0 10px;
+    max-width: calc(33.33% - 20px);
 }
 
 section .container {
-  margin: 0 10px;
+    margin: 0 10px;
 }
 
 .card {
-  width: 100%;
-  background: var(--cards);
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-  display: table;
-  border-radius: 2px;
-  margin-bottom: 13px;
-  overflow: hidden;
-  position: relative;
+    width: 100%;
+    background: var(--cards);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+    display: table;
+    border-radius: 2px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    position: relative;
 }
 
 #backButton {
-  cursor: pointer;
-  position: absolute;
-  left: 30px;
-  font-size: 35px;
-  top: 24px;
+    cursor: pointer;
+    position: absolute;
+    left: 30px;
+    font-size: 35px;
+    top: 24px;
 }
 
 .setButton {
-  width: 100%;
-  border-style: none;
-  font-size: 15px;
-  padding: 10px;
-  background-color:var(--txt-color);
-  color: var(--cards);
-  cursor: pointer;
+    width: 100%;
+    border-style: none;
+    font-size: 15px;
+    padding: 10px;
+    background-color: var(--txt-color);
+    color: var(--cards);
+    cursor: pointer;
 }
 
 .container>p {
-  font-size: 19px;
+    font-size: 19px;
 }
 
+.container>p:first-letter {
+    text-transform: uppercase;
+}
+
+@media only screen and (max-width: 800px) {
+  main {
+    display: block;
+  }
+  main>section {
+    max-width: unset;
+  }
+}
