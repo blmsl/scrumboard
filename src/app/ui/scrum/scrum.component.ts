@@ -88,11 +88,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
     this.$todo = this.$orderBy.switchMap(sortBy => {
       return this.toMap(boardsService.boardCollection.doc(this.id)
-      .collection<EntryInterface>('todo', ref => ref.orderBy(sortBy)).snapshotChanges());
+        .collection<EntryInterface>('todo', ref => ref.orderBy(sortBy)).snapshotChanges());
     });
 
     this.todoCollection = boardsService.boardCollection.doc(this.id)
-    .collection<EntryInterface>('todo');
+      .collection<EntryInterface>('todo');
     this.inProgressCollection = boardsService.boardCollection.doc(this.id)
       .collection<EntryInterface>('inProgress');
     this.doneCollection = boardsService.boardCollection.doc(this.id)
@@ -257,7 +257,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       }
     });
     if (post) {
-       this.todoCollection.add({ txt: post[0], priority: post[1], time: firebase.firestore.FieldValue.serverTimestamp() });
+      this.todoCollection.add({ txt: post[0], priority: post[1], time: firebase.firestore.FieldValue.serverTimestamp() });
     }
 
   }
