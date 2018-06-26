@@ -53,4 +53,12 @@ li {
   background-color: #2d4373;
 }
 
+#progressbar{
+    display: none;
+}
+
+.mdc-linear-progress .mdc-linear-progress__bar-inner {
+  background-color: var(--button-color);
+}
+
 

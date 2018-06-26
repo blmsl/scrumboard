@@ -23,4 +23,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.navbarService.hidden = false;
   }
+
+  signInWithFacebook() {
+    document.getElementById('progressbar').style.display = 'block';
+    this.auth.signInWithFacebook();
+  }
+
+  signInWithGoogle() {
+    document.getElementById('progressbar').style.display = 'block';
+    this.auth.signInWithGoogle();
+  }
+
+
 }

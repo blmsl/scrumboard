@@ -167,11 +167,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
       preConfirm: () => {
         let priority: string;
 
-        if ((<HTMLInputElement>document.getElementById('option-one').checked)) {
+        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
           priority = '!';
-        } else if ((<HTMLInputElement>document.getElementById('option-two').checked)) {
+        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
           priority = '!!';
-        } else if ((<HTMLInputElement>document.getElementById('option-three').checked)) {
+        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
           priority = '!!!';
         }
         return [
@@ -240,11 +240,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
       preConfirm: () => {
         let priority: string;
 
-        if ((<HTMLInputElement>document.getElementById('option-one').checked)) {
+        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
           priority = '!';
-        } else if ((<HTMLInputElement>document.getElementById('option-two').checked)) {
+        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
           priority = '!!';
-        } else if ((<HTMLInputElement>document.getElementById('option-three').checked)) {
+        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
           priority = '!!!';
         }
         return [
@@ -266,7 +266,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 export interface EntryInterface {
   txt: string;
   priority: string;
-  time: firebase.firestore.FieldValue;
+  time?: firebase.firestore.FieldValue;
   developer?: string;
   id?: string;
 }
