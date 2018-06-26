@@ -28,6 +28,7 @@
           </button>
         </mat-menu>
         <div class="container">
+          <p>{{entry.priority}}</p>
           <p>{{entry.txt}}</p>
         </div>
         <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
@@ -60,6 +61,7 @@
           <p>
             <strong>Developer: {{entry.developer}}</strong>
           </p>
+          <p>{{entry.priority}}</p>
           <p>{{entry.txt}}</p>
         </div>
         <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
@@ -91,6 +93,7 @@
           <p>
             <strong>Developer: {{entry.developer}}</strong>
           </p>
+          <p>{{entry.priority}}</p>
           <p>{{entry.txt}}</p>
         </div>
       </div>

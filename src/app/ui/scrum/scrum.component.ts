@@ -65,7 +65,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
   }
   </style>
   <div class="radio-group">
-  <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!">
+  <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!" checked>
   <label class="swalRadioBtnsLabel" for="option-one">!</label>
   <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!">
   <label class="swalRadioBtnsLabel" for="option-two">!!</label>
@@ -81,7 +81,6 @@ export class ScrumComponent implements OnInit, OnDestroy {
     public auth: AuthServiceService,
     public navbarService: NavbarService) {
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log({ key: this.id });
 
     boardsService.boardCollection.doc<Board>(this.id).valueChanges().subscribe((board) => {
       navbarService.title = board.name;
@@ -216,24 +215,33 @@ export class ScrumComponent implements OnInit, OnDestroy {
   }
 
   async add() {
-    const { value: txt } = await swal({
+    const { value: post } = await swal({
       title: 'What is the name of the task?',
       html:
         '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
         this.radioDiv,
       showCancelButton: true,
-      /* html: '<mat-slider max="3" min="0" step="1" thumbLabel tickInterval="1"></mat-slider>', */
       preConfirm: () => {
+        let priority: string;
+
+        if ((<HTMLInputElement>document.getElementById('option-one').checked)) {
+          priority = '!';
+        } else if ((<HTMLInputElement>document.getElementById('option-two').checked)) {
+          priority = '!!';
+        } else if ((<HTMLInputElement>document.getElementById('option-three').checked)) {
+          priority = '!!!';
+        }
         return [
-          (<HTMLInputElement>document.getElementById('swal-input1')).value
+          (<HTMLInputElement>document.getElementById('swal-input1')).value,
+          priority
         ];
       },
       inputValidator: (value) => {
         return !value && 'You need to write something!';
       }
     });
-    if (txt) {
-      this.todoCollection.add({ txt, time: firebase.firestore.FieldValue.serverTimestamp() });
+    if (post) {
+       this.todoCollection.add({ txt: post[0], priority: post[1], time: firebase.firestore.FieldValue.serverTimestamp() });
     }
 
   }
@@ -241,6 +249,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
 export interface EntryInterface {
   txt: string;
+  priority: string;
   time: firebase.firestore.FieldValue;
   developer?: string;
   id?: string;

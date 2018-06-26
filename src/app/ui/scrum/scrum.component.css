@@ -64,6 +64,11 @@ section .container {
   color: white;
   cursor: pointer;
   outline: none;
+  transition: all 0.2s;
+}
+
+.setButton:hover{
+    background-color: var(--button-accent);
 }
 
 .container>p {

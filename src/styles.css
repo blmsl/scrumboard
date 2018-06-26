@@ -35,6 +35,11 @@ main {
     cursor: pointer;
     outline: 0;
     z-index: 9;
+    transition: all 0.2s;
+}
+
+#addButton:hover{
+    background-color: var(--button-accent);
 }
 
 /* didnt work in scrum component :( */
