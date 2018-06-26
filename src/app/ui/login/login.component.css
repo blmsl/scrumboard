@@ -10,6 +10,11 @@ li {
     margin-top: 16px;
 }
 
+main {
+    display: table;
+    margin: 50px auto;
+}
+
 .btn {
     background-position: 1em;
     background-repeat: no-repeat;
