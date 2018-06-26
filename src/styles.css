@@ -38,7 +38,7 @@ main {
     transition: all 0.2s;
 }
 
-#addButton:hover{
+#addButton:hover {
     background-color: var(--button-accent);
 }
 
@@ -46,12 +46,12 @@ main {
 
 .mat-select-value {
     color: var(--txt-color) !important;
-  }
-  
-  .mat-select-placeholder {
+}
+
+.mat-select-placeholder {
     color: var(--txt-color) !important;
-  }
-  
-  .mat-select-arrow {
+}
+
+.mat-select-arrow {
     color: var(--txt-color) !important;
-  }
+}

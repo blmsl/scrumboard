@@ -5,7 +5,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/firestore';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
@@ -73,8 +73,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
   <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
   </div>`;
 
-  sortBy = 'time';
-  $orderBy = new Subject<string>();
+  sortBy = 'txt';
+  $orderBy: BehaviorSubject<string>;
 
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
@@ -86,10 +86,12 @@ export class ScrumComponent implements OnInit, OnDestroy {
       navbarService.title = board.name;
     });
 
-    this.$todo = this.$orderBy.switchMap(sortBy => {
-      return this.toMap(boardsService.boardCollection.doc(this.id)
-        .collection<EntryInterface>('todo', ref => ref.orderBy(sortBy)).snapshotChanges());
-    });
+    // set the orderBy to default TODO save and retrieve from localStorage
+    if (localStorage.orderBy) {
+      this.sortBy = localStorage.orderBy;
+    }
+    console.log('sending orderBy:', this.sortBy);
+    this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
     this.todoCollection = boardsService.boardCollection.doc(this.id)
       .collection<EntryInterface>('todo');
@@ -98,16 +100,43 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.doneCollection = boardsService.boardCollection.doc(this.id)
       .collection<EntryInterface>('done');
 
-    this.$inProgress = this.toMap(this.inProgressCollection
-      .snapshotChanges());
+    console.log('sub');
+    this.$todo = this.$orderBy.switchMap(sortBy => {
+      let direction;
+      if (sortBy === 'priority') {
+        direction = 'desc';
+      } else {
+        direction = 'asc';
+      }
+      return this.toMap(boardsService.boardCollection.doc(this.id)
+        .collection<EntryInterface>('todo', ref => ref.orderBy(sortBy, direction)).snapshotChanges());
+    });
 
-    this.$done = this.toMap(this.doneCollection
-      .snapshotChanges());
+    this.$inProgress = this.$orderBy.switchMap(sortBy => {
+      console.log('$orderBy has new value', sortBy);
+      let direction;
+      if (sortBy === 'priority') {
+        direction = 'desc';
+      } else {
+        direction = 'asc';
+      }
+      return this.toMap(boardsService.boardCollection.doc(this.id)
+        .collection<EntryInterface>('inProgress', ref => ref.orderBy(sortBy, direction)).snapshotChanges());
+    });
 
-  }
+    this.$done = this.$orderBy.switchMap(sortBy => {
+      let direction;
+      if (sortBy === 'priority') {
+        direction = 'desc';
+      } else {
+        direction = 'asc';
+      }
+      return this.toMap(boardsService.boardCollection.doc(this.id)
+        .collection<EntryInterface>('done', ref => ref.orderBy(sortBy, direction)).snapshotChanges());
+    });
 
-  sortChanged() {
-    this.$orderBy.next(this.sortBy);
+
+
   }
 
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
@@ -214,6 +243,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.navbarService.backBtn = true;
+  }
+
+  sortChanged() {
+    this.$orderBy.next(this.sortBy);
+    localStorage.orderBy = this.sortBy;
   }
 
   ngOnDestroy() {
