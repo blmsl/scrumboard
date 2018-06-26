@@ -107,7 +107,6 @@ export class ScrumComponent implements OnInit, OnDestroy {
   }
 
   sortChanged() {
-    console.log(this.sortBy);
     this.$orderBy.next(this.sortBy);
   }
 
@@ -146,7 +145,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // Delete from in-progress
     this.inProgressCollection.doc(entry.id).delete();
     // Add to To-do
-    this.todoCollection.add({ txt: entry.txt });
+    this.todoCollection.add({ txt: entry.txt, priority: entry.priority });
   }
 
   rollback_from_finished(entry: EntryInterface) {
@@ -154,23 +153,40 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.doneCollection.doc(entry.id).delete();
     // add it to inProgress
     this.auth.user$.subscribe((user) => {
-      this.inProgressCollection.add({ txt: entry.txt, developer: user.displayName });
+      this.inProgressCollection.add({ txt: entry.txt, priority: entry.priority, developer: user.displayName });
     });
   }
 
   async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
-    const { value: editTxt } = await swal({
+    const { value: post } = await swal({
       title: 'Edit the post',
-      input: 'text',
-      inputValue: entry.txt,
+      html:
+        `<input id="swal-input1" type="text" value="${entry.txt}" class="swal2-input">` +
+        this.radioDiv,
       showCancelButton: true,
+      preConfirm: () => {
+        let priority: string;
+
+        if ((<HTMLInputElement>document.getElementById('option-one').checked)) {
+          priority = '!';
+        } else if ((<HTMLInputElement>document.getElementById('option-two').checked)) {
+          priority = '!!';
+        } else if ((<HTMLInputElement>document.getElementById('option-three').checked)) {
+          priority = '!!!';
+        }
+        return [
+          (<HTMLInputElement>document.getElementById('swal-input1')).value,
+          priority
+        ];
+      },
       inputValidator: (value) => {
         return !value && 'You need to write something!';
       }
     });
-    if (editTxt) {
+    if (post) {
       collection.doc(entry.id).update({
-        txt: editTxt
+        txt: post[0],
+        priority: post[1]
       });
     }
   }
@@ -180,7 +196,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.todoCollection.doc(entry.id).delete();
     // add it to inProgress
     this.auth.user$.subscribe((user) => {
-      this.inProgressCollection.add({ txt: entry.txt, developer: user.displayName });
+      this.inProgressCollection.add({ txt: entry.txt, priority: entry.priority, developer: user.displayName });
     });
   }
 
@@ -190,7 +206,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add to done
     this.auth.user$.subscribe((user) => {
       this.doneCollection.add({
-        txt: entry.txt, developer: user.displayName
+        txt: entry.txt, priority: entry.priority, developer: user.displayName
       });
     });
 
