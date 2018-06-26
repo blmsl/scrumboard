@@ -2,6 +2,14 @@ main {
     text-align: center;
 }
 
+ul {
+    list-style: none;
+}
+
+li {
+    margin-top: 16px;
+}
+
 .btn {
     background-position: 1em;
     background-repeat: no-repeat;
@@ -16,6 +24,7 @@ main {
     padding: 0 2em 0 4em;
     text-decoration: none;
     transition: all 0.5s;
+    width: 260px;
 }
 
 .btn-google {
@@ -30,3 +39,18 @@ main {
 .btn-google:active {
     background-color: #c23321;
 }
+
+.btn-facebook {
+  background-color: #3b5998;
+  background-image: url("../../../assets/facebook.svg");
+}
+
+.btn-facebook:hover {
+  background-color: #4c70ba;
+}
+
+.btn-facebook:active {
+  background-color: #2d4373;
+}
+
+

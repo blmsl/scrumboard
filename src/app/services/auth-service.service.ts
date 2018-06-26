@@ -18,8 +18,12 @@ export class AuthServiceService {
     return this.user$;
   }
 
-  loginWithGoogle() {
+  signInWithGoogle() {
     return this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
+  }
+
+  signInWithFacebook() {
+    return this.afAuth.auth.signInWithRedirect(new auth.FacebookAuthProvider());
   }
 
   resetPassword(email: string) {
