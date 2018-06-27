@@ -88,4 +88,7 @@ mat-slide-toggle {
     header h1 {
         font-size: 20px;
     }
+    #magsonLogo {
+        text-shadow: 0 1px 4px var(--button-accent);
+    }
 }
