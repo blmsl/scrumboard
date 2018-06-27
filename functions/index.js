@@ -27,10 +27,10 @@ exports.newRequest = functions.firestore
           .then(function (userRecord) {
             let userEmail = userRecord.toJSON().email;
             return sendInvite(userEmail, uid, teamName, teamId).then(() => {
-              return admin.firebase().doc('teams/' + teamId).get().then(doc => {
+              return admin.firestore().doc('teams/' + teamId).get().then(doc => {
                 let members = doc.data().members;
                 members[uid] = false;
-                admin.firestore().doc(`teams/${teamId}`).update({
+                return admin.firestore().doc(`teams/${teamId}`).update({
                   members
                 });
               })
