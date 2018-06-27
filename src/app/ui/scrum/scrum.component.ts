@@ -130,7 +130,9 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // Delete from in-progress
     this.inProgressCollection.doc(entry.id).delete();
     // Add to To-do
-    this.todoCollection.add({ txt: entry.txt, priority: entry.priority, time: entry.time });
+    this.todoCollection.add({
+      txt: entry.txt, priority: entry.priority, time: firebase.firestore.FieldValue.serverTimestamp()
+    });
   }
 
   rollback_from_finished(entry: EntryInterface) {
@@ -138,7 +140,9 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.doneCollection.doc(entry.id).delete();
     // add it to inProgress
     this.auth.user$.subscribe((user) => {
-      this.inProgressCollection.add({ txt: entry.txt, priority: entry.priority, developer: user.displayName, time: entry.time });
+      this.inProgressCollection.add({
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
+      });
     });
   }
 
@@ -181,7 +185,9 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.todoCollection.doc(entry.id).delete();
     // add it to inProgress
     this.auth.user$.subscribe((user) => {
-      this.inProgressCollection.add({ txt: entry.txt, priority: entry.priority, developer: user.displayName, time: entry.time });
+      this.inProgressCollection.add({
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
+      });
     });
   }
 
@@ -191,7 +197,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add to done
     this.auth.user$.subscribe((user) => {
       this.doneCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: entry.time
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
       });
     });
 
