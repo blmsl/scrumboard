@@ -10,6 +10,11 @@ main {
   margin: 0 auto;
 }
 
+app-teams-module {
+  position: absolute;
+  left: 25px;
+}
+
 h3 {
   line-height: 50px;
   margin: 16px 0 16px 16px;

@@ -33,6 +33,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatSelectModule} from '@angular/material/select';
+import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {MatSelectModule} from '@angular/material/select';
     LoginComponent,
     NavbarComponent,
     BoardsComponent,
-    ScrumComponent
+    ScrumComponent,
+    TeamsModuleComponent
   ],
   imports: [
     BrowserAnimationsModule,
