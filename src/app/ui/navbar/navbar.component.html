@@ -2,8 +2,7 @@
   <a [routerLink]="['/']">
     <mat-icon *ngIf="navbarService.backBtn" id="backBtn">arrow_back</mat-icon>
   </a>
-  <h1><span id="magsonLogo">MAGSON</span> Scrum</h1>
-  <!-- <h1>{{navbarService.title}}</h1> -->
+  <h1>{{navbarService.title}}</h1>
   <div id="profilePic" [matMenuTriggerFor]="menu">
     <img [src]="profileUrl" alt="">
     <mat-icon>account_circle</mat-icon>
