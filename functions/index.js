@@ -4,7 +4,6 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-
 const mailTransport = nodemailer.createTransport(
   `smtps://${"magson.dev@gmail.com"}:${"m@gs0n123"}@smtp.gmail.com`);
 
@@ -27,18 +26,19 @@ exports.newRequest = functions.firestore
         console.log(key);
         uid = key;
         console.log({ uid });
-        admin.auth().getUser(uid)
-          .then(function (userRecord) {
-            console.log('succssfully fetched uid: ', uid);
-            let userEmail = userRecord.toJSON().email;
-            sendInvite(userEmail, uid, teamName, teamId).then(() => {
+        return admin.auth().getUser(uid).then(function (userRecord) {
+          admin.app().delete();
+          console.log('succssfully fetched uid: ', uid);
+          let userEmail = userRecord.toJSON().email;
+          members[uid] = false;
+          return admin.firestore().doc(`teams/${teamId}`).update({ members }).then(function () {
+            console.log('updated database');
+            return sendInvite(userEmail, uid, teamName, teamId).then(function () {
               console.log('mail is sent, updating database');
-              members[uid] = false;
-              admin.firestore().doc(`teams/${teamId}`).update({
-                members
-              }).then(() => console.log('updated database'));
+              return null;
             });
           });
+        });
       }
     });
     if (mail === false) {
@@ -75,11 +75,11 @@ exports.addMember = functions.https.onRequest((req, res) => {
 
   var Members;
 
-  admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
+  return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
     Members = doc.data().members;
     Members[UID] = true; // setting user to true in member object
 
-    admin.firestore().doc(`teams/${teamId}`).update({
+    return admin.firestore().doc(`teams/${teamId}`).update({
       members: Members
     }).then(() => res.send(`You have succesfully joined ${teamName}`));
   });
