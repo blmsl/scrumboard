@@ -17,20 +17,24 @@ exports.newRequest = functions.firestore
     const teamId = context.params.teamId;
 
     const members = newData.members;
+    console.log({
+      newData, uid, teamName, teamId
+    })
     let mail = false;
     Object.keys(members).forEach(function (key, idx) {
       if (members[key] === 'mail') { // if send mail
         mail = true;
+        console.log(key);
         uid = key;
         console.log({ uid });
         admin.auth().getUser(uid)
           .then(function (userRecord) {
-            console.log('succssfully fetched uid:', uid);
+            console.log('succssfully fetched uid: ', uid);
             let userEmail = userRecord.toJSON().email;
             sendInvite(userEmail, uid, teamName, teamId).then(() => {
               console.log('mail is sent, updating database');
               members[uid] = false;
-              return admin.firestore().doc(`teams/${teamId}`).update({
+              admin.firestore().doc(`teams/${teamId}`).update({
                 members
               }).then(() => console.log('updated database'));
             });
@@ -90,17 +94,4 @@ function getParameterByName(name, url) {
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-function removeA(arr) {
-  var what, a = arguments,
-    L = a.length,
-    ax;
-  while (L > 1 && arr.length) {
-    what = a[--L];
-    while ((ax = arr.indexOf(what)) !== -1) {
-      arr.splice(ax, 1);
-    }
-  }
-  return arr;
 }
