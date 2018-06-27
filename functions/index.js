@@ -30,7 +30,7 @@ exports.newRequest = functions.firestore
               return admin.firestore().doc('teams/' + teamId).get().then(doc => {
                 let members = doc.data().members;
                 members[uid] = false;
-                admin.firestore().doc(`teams/${teamId}`).update({
+                return admin.firestore().doc(`teams/${teamId}`).update({
                   members
                 });
               })
