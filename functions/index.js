@@ -22,18 +22,17 @@ exports.newRequest = functions.firestore
       if (members[key] === 'mail') { // if send mail
         mail = true;
         uid = key;
-        console.log({uid});
-        return admin.auth().getUser(uid)
+        console.log({ uid });
+        admin.auth().getUser(uid)
           .then(function (userRecord) {
+            console.log('succssfully fetched uid:', uid);
             let userEmail = userRecord.toJSON().email;
-            return sendInvite(userEmail, uid, teamName, teamId).then(() => {
-              return admin.firestore().doc('teams/' + teamId).get().then(doc => {
-                let members = doc.data().members;
-                members[uid] = false;
-                return admin.firestore().doc(`teams/${teamId}`).update({
-                  members
-                });
-              })
+            sendInvite(userEmail, uid, teamName, teamId).then(() => {
+              console.log('mail is sent, updating database');
+              members[uid] = false;
+              return admin.firestore().doc(`teams/${teamId}`).update({
+                members
+              }).then(() => console.log('updated database'));
             });
           });
       }
