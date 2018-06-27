@@ -11,26 +11,37 @@ const mailTransport = nodemailer.createTransport(
 exports.newRequest = functions.firestore
   .document('teams/{teamId}')
   .onUpdate((change, context) => {
-    const newData = change.after.data().pending;
-    const oldData = change.before.data().pending;
-    const uid = newData[newData.length - 1];
-    const teamName = change.after.data().name;
+    const newData = change.after.data();
+    let uid;
+    const teamName = newData.name;
     const teamId = context.params.teamId;
 
-    if (newData.length > oldData.length) {
-
-      return admin.auth().getUser(uid)
-        .then(function (userRecord) {
-          let userEmail = userRecord.toJSON().email;
-
-          return sendInvite(userEmail, uid, teamName, teamId);
-        });
-
-    } else {
-        console.log('cancelling');
+    const members = newData.members;
+    let mail = false;
+    Object.keys(members).forEach(function (key, idx) {
+      if (members[key] === 'mail') { // if send mail
+        mail = true;
+        uid = key;
+        console.log({uid});
+        return admin.auth().getUser(uid)
+          .then(function (userRecord) {
+            let userEmail = userRecord.toJSON().email;
+            return sendInvite(userEmail, uid, teamName, teamId).then(() => {
+              return admin.firebase().doc('teams/' + teamId).get().then(doc => {
+                let members = doc.data().members;
+                members[uid] = false;
+                admin.firestore().doc(`teams/${teamId}`).update({
+                  members
+                });
+              })
+            });
+          });
+      }
+    });
+    if (mail === false) {
+      console.log('cancelling');
       return null;
     }
-
   });
 
 function sendInvite(email, uid, teamName, teamId) {
@@ -59,24 +70,19 @@ exports.addMember = functions.https.onRequest((req, res) => {
   const teamId = getParameterByName('teamId', req.url);
   const teamName = getParameterByName('teamName', req.url);
 
-  var Members = [];
+  var Members;
 
   admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
     Members = doc.data().members;
-    Members.push(UID);
+    Members[UID] = true; // setting user to true in member object
 
     admin.firestore().doc(`teams/${teamId}`).update({
       members: Members
-    }).then(() => {
-      let pending = removeA(doc.data().pending, UID);
-      admin.firestore().doc(`teams/${teamId}`).update({
-        pending: pending
-      }).then(() => res.send(`You have succesfully joined ${teamName}`));
-    });
-
+    }).then(() => res.send(`You have succesfully joined ${teamName}`));
   });
 
 });
+
 
 function getParameterByName(name, url) {
   name = name.replace(/[\[\]]/g, "\\$&");
