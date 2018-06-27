@@ -29,50 +29,6 @@ export class ScrumComponent implements OnInit, OnDestroy {
   $inProgress: Observable<EntryInterface[]>;
   $done: Observable<EntryInterface[]>;
 
-  radioDiv = `
-  <style>
-  .swalRadioBtns {
-    position: absolute;
-    visibility: hidden;
-    display: none;
-    background-color: #332f35;
-  }
-
-  .swalRadioBtnsLabel {
-    color: var(--button-color);
-    cursor: pointer;
-    font-weight: bold;
-    padding: 5px 20px;
-    float: left;
-    outline: 0;
-  }
-
-  .swalRadioBtns:checked+.swalRadioBtnsLabel {
-    color: white;
-    background: var(--button-color);
-  }
-
-  .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
-    border-left: solid 3px var(--button-color);
-  }
-
-  .radio-group {
-    border: solid 3px var(--button-color);
-    display: inline-block;
-    margin: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  </style>
-  <div class="radio-group">
-  <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!" checked>
-  <label class="swalRadioBtnsLabel" for="option-one">!</label>
-  <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!">
-  <label class="swalRadioBtnsLabel" for="option-two">!!</label>
-  <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!">
-  <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
-  </div>`;
-
   sortBy = 'txt';
   $orderBy: BehaviorSubject<string>;
 
@@ -191,7 +147,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       title: 'Edit the post',
       html:
         `<input id="swal-input1" type="text" value="${entry.txt}" class="swal2-input">` +
-        this.radioDiv,
+        this.getRadio(entry.priority),
       showCancelButton: true,
       preConfirm: () => {
         let priority: string;
@@ -269,7 +225,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       title: 'What is the name of the task?',
       html:
         '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
-        this.radioDiv,
+        this.getRadio('!'),
       showCancelButton: true,
       preConfirm: () => {
         let priority: string;
@@ -295,6 +251,58 @@ export class ScrumComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  getRadio(priority: string) {
+    return  `
+  <style>
+  .swalRadioBtns {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    background-color: #332f35;
+  }
+
+  .swalRadioBtnsLabel {
+    color: var(--button-color);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 20px;
+    float: left;
+    outline: 0;
+  }
+
+  .swalRadioBtns:checked+.swalRadioBtnsLabel {
+    color: white;
+    background: var(--button-color);
+  }
+
+  .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
+    border-left: solid 3px var(--button-color);
+  }
+
+  .radio-group {
+    border: solid 3px var(--button-color);
+    display: inline-block;
+    margin: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  </style>
+  <div class="radio-group">
+  <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!" ${this.checkIfChecked(priority, '!')}>
+  <label class="swalRadioBtnsLabel" for="option-one">!</label>
+  <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!" ${this.checkIfChecked(priority, '!!')}>
+  <label class="swalRadioBtnsLabel" for="option-two">!!</label>
+  <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!" ${this.checkIfChecked(priority, '!!!')}>
+  <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
+  </div>`;
+  }
+
+  checkIfChecked(priority: string, x: string) {
+    if (priority === x) { return 'checked'; }
+    return null;
+  }
+
 }
 
 export interface EntryInterface {
