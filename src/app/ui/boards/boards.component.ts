@@ -3,6 +3,9 @@ import { Board } from './../../extra/BoardInterface';
 import { Component, OnInit } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
+import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-boards',
@@ -11,12 +14,31 @@ import swal from 'sweetalert2';
 })
 export class BoardsComponent implements OnInit {
 
-  constructor(public boardsService: BoardsService, public navbarService: NavbarService) {
+  // boards of the selected team
+  $boards: Observable<Board[]>;
+  boardCollection: Observable<AngularFirestoreCollection<Board>>;
+
+  constructor(public boardsService: BoardsService, public navbarService: NavbarService,
+    public route: ActivatedRoute, public afs: AngularFirestore) {
 
   }
 
   ngOnInit() {
     this.navbarService.title = 'Magson Scrum';
+
+    this.boardCollection =  this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
+      const teamId = paramMap.get('teamId');
+      console.log({ teamId });
+      return this.afs.collection<Board>('teams/' + teamId + '/boards');
+    });
+
+    this.$boards = this.boardCollection.switchMap(collection => collection.snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Board;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    }));
   }
 
   async addBoard() {
@@ -30,7 +52,7 @@ export class BoardsComponent implements OnInit {
       }
     });
     if (name) {
-      this.boardsService.boardCollection.add({ name });
+      this.boardCollection.subscribe(collection => collection.add({ name }));
     }
   }
 
@@ -47,7 +69,7 @@ export class BoardsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // Delete method here
-        this.boardsService.boardCollection.doc(board.id).delete();
+        this.boardCollection.subscribe(collection => collection.doc(board.id).delete());
 
         swal(
           'Deleted!',
@@ -78,9 +100,9 @@ export class BoardsComponent implements OnInit {
       }
     });
     if (updatedName) {
-      this.boardsService.boardCollection.doc(board.id).update({
+      this.boardCollection.subscribe(collection => collection.doc(board.id).update({
         name: updatedName
-      });
+      }));
     }
   }
 

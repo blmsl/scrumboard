@@ -60,6 +60,7 @@ import { TeamsModuleComponent } from './modules/teams-module/teams-module.compon
     BrowserModule,
     RouterModule.forRoot([
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
+      { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: 'scrum/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
       { path: 'login', component: LoginComponent },
       // { path: '**', component: NotFoundComponent } // must be last
