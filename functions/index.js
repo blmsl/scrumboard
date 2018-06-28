@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 const admin = require('firebase-admin');
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 const mailTransport = nodemailer.createTransport(
   `smtps://${"magson.dev@gmail.com"}:${"m@gs0n123"}@smtp.gmail.com`);
@@ -11,9 +11,11 @@ exports.newRequest = functions.firestore
   .document('teams/{teamId}')
   .onUpdate((change, context) => {
     const newData = change.after.data();
-    let uid;
     const teamName = newData.name;
     const teamId = context.params.teamId;
+
+    let uid;
+    let userEmail;
 
     const members = newData.members;
     console.log({
@@ -26,24 +28,23 @@ exports.newRequest = functions.firestore
         console.log(key);
         uid = key;
         console.log({ uid });
-        return admin.auth().getUser(uid).then(function (userRecord) {
-          admin.app().delete();
-          console.log('succssfully fetched uid: ', uid);
-          let userEmail = userRecord.toJSON().email;
-          members[uid] = false;
-          return admin.firestore().doc(`teams/${teamId}`).update({ members }).then(function () {
-            console.log('updated database');
-            return sendInvite(userEmail, uid, teamName, teamId).then(function () {
-              console.log('mail is sent, updating database');
-              return null;
-            });
-          });
-        });
       }
     });
     if (mail === false) {
       console.log('cancelling');
       return null;
+    } else {
+      return admin.auth().getUser(uid).then(function (userRecord) {
+        console.log('succssfully fetched uid: ', uid);
+        userEmail = userRecord.toJSON().email;
+        members[uid] = false;
+        return admin.firestore().doc(`teams/${teamId}`).update({ members })
+      }).then(function () {
+        console.log('updated database');
+        return sendInvite(userEmail, uid, teamName, teamId)
+      }).then(function () {
+        console.log('mail is sent, updating database');
+      }).catch(err => console.log('Error:', err));
     }
   });
 
@@ -81,8 +82,9 @@ exports.addMember = functions.https.onRequest((req, res) => {
 
     return admin.firestore().doc(`teams/${teamId}`).update({
       members: Members
-    }).then(() => res.send(`You have succesfully joined ${teamName}`));
-  });
+    });
+  }).then(() => res.send(`You have succesfully joined ${teamName}`))
+  .catch(err => console.error('Error:', err));
 
 });
 
