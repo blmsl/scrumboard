@@ -7,9 +7,14 @@ service cloud.firestore {
     }
 
     // Members can only be added if they do not exist first
-    match /teams/{teamID} {
-      allow read, write: 
-    }
+   // match /teams/{teamID} {
+   //   allow read, write: if 
+   // }
+
+    // All users must be authenticated
+    // match /{document=**)}  {
+    //   allow read, write: if request.auth.uid != null;
+    // }
 
   }
 }

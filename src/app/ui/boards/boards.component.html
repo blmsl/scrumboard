@@ -1,7 +1,7 @@
 <app-teams-module></app-teams-module>
 <main>
   <h2>All boards</h2>
-  <section id="todoSection" *ngFor="let board of boardsService.$boards | async" [routerLink]="['scrum', board.id]">
+  <section id="todoSection" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
     <div class="card">
       <div class="container">
         <h3>{{board.name}}</h3>

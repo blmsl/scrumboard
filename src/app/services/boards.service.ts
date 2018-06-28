@@ -1,27 +1,36 @@
 import { AuthServiceService } from './auth-service.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Board } from '../extra/BoardInterface';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/shareReplay';
+import { TeamsInterface } from '../extra/TeamsInterface';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class BoardsService {
 
-  $boards: Observable<Board[]>;
-  boardCollection: AngularFirestoreCollection<Board>;
+  // all teams user is a member of
+  teamsCollection: Observable<AngularFirestoreCollection<TeamsInterface>>;
+  $teams: Observable<TeamsInterface[]>;
+
+  // id of the selected team
+  $id = new Subject<string>();
 
   constructor(afs: AngularFirestore, auth: AuthServiceService) {
 
-    this.boardCollection = afs.collection<Board>('boards');
-
-    this.$boards = this.boardCollection.snapshotChanges().map(actions => {
+    this.teamsCollection = auth.user$.filter(user => user != null)
+      .map(user => afs.collection<TeamsInterface>('teams', ref => ref.where('members.' + user.uid, '==', true)))
+      .shareReplay(1);
+    this.$teams = this.teamsCollection.switchMap(collection => collection.snapshotChanges().map(actions => {
       return actions.map(a => {
-        const data = a.payload.doc.data() as Board;
+        const data = a.payload.doc.data() as TeamsInterface;
         data.id = a.payload.doc.id;
         return data;
       });
-    });
+    }));
+
   }
 
 }
