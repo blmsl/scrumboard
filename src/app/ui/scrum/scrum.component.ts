@@ -1,10 +1,10 @@
+import { BoardsComponent } from './../boards/boards.component';
 import { Board } from './../../extra/BoardInterface';
-import { NavbarComponent } from './../navbar/navbar.component';
 import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFirestoreCollection, DocumentChangeAction } from 'angularfire2/firestore';
+import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
@@ -20,6 +20,9 @@ import * as firebase from 'firebase';
 export class ScrumComponent implements OnInit, OnDestroy {
 
   id: string;
+  teamId: string;
+
+  boardDoc: AngularFirestoreDocument<Board>;
 
   todoCollection: AngularFirestoreCollection<EntryInterface>;
   inProgressCollection: AngularFirestoreCollection<EntryInterface>;
@@ -35,10 +38,12 @@ export class ScrumComponent implements OnInit, OnDestroy {
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService,
-    public navbarService: NavbarService) {
+    public navbarService: NavbarService, public afs: AngularFirestore) {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.teamId = this.route.snapshot.paramMap.get('teamId');
 
-    boardsService.boardCollection.doc<Board>(this.id).valueChanges().subscribe((board) => {
+    this.boardDoc = afs.doc<Board>('teams/' + this.teamId + '/boards/' + this.id);
+    this.boardDoc.valueChanges().subscribe((board) => {
       navbarService.title = board.name;
     });
 
@@ -49,11 +54,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
     console.log('sending orderBy:', this.sortBy);
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
-    this.todoCollection = boardsService.boardCollection.doc(this.id)
+    this.todoCollection = this.boardDoc
       .collection<EntryInterface>('todo');
-    this.inProgressCollection = boardsService.boardCollection.doc(this.id)
+    this.inProgressCollection = this.boardDoc
       .collection<EntryInterface>('inProgress');
-    this.doneCollection = boardsService.boardCollection.doc(this.id)
+    this.doneCollection = this.boardDoc
       .collection<EntryInterface>('done');
 
     console.log('sub');
@@ -64,7 +69,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       } else {
         direction = 'asc';
       }
-      return this.toMap(boardsService.boardCollection.doc(this.id)
+      return this.toMap(this.boardDoc
         .collection<EntryInterface>('todo', ref => ref.orderBy(sortBy, direction)).snapshotChanges());
     });
 
@@ -76,7 +81,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       } else {
         direction = 'asc';
       }
-      return this.toMap(boardsService.boardCollection.doc(this.id)
+      return this.toMap(this.boardDoc
         .collection<EntryInterface>('inProgress', ref => ref.orderBy(sortBy, direction)).snapshotChanges());
     });
 
@@ -87,7 +92,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       } else {
         direction = 'asc';
       }
-      return this.toMap(boardsService.boardCollection.doc(this.id)
+      return this.toMap(this.boardDoc
         .collection<EntryInterface>('done', ref => ref.orderBy(sortBy, direction)).snapshotChanges());
     });
 

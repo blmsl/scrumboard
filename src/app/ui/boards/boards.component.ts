@@ -18,6 +18,8 @@ export class BoardsComponent implements OnInit {
   $boards: Observable<Board[]>;
   boardCollection: Observable<AngularFirestoreCollection<Board>>;
 
+  teamId: string;
+
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore) {
 
@@ -28,6 +30,7 @@ export class BoardsComponent implements OnInit {
 
     this.boardCollection =  this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
       const teamId = paramMap.get('teamId');
+      this.teamId = teamId;
       console.log({ teamId });
       return this.afs.collection<Board>('teams/' + teamId + '/boards');
     });
