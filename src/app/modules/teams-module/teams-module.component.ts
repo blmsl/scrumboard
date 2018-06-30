@@ -47,7 +47,7 @@ export class TeamsModuleComponent implements OnInit {
   }
   addMember(teamId) {
     swal({
-      title: `Add member to`,
+      // title: `Add member to ${teamName}`,
       confirmButtonText: 'Invite;',
       text:
         'Type in the email ' +
@@ -68,6 +68,8 @@ export class TeamsModuleComponent implements OnInit {
         getUserByMail({ mail: result.value }).toPromise()
           .then((functionResult) => {
             const userData = functionResult.data.userData;
+            // add to team
+            // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
           }).catch(function (error) {
             const code = error.code;
             const message = error.message;
@@ -97,7 +99,15 @@ export class TeamsModuleComponent implements OnInit {
           const members = doc.data().members;
           delete members[user.uid];
           return transaction.update(ref, { members });
-        }).then(() => alert('You have successfully left the team')).catch(err => {
+        }).then(() => {
+          swal({
+            title: `Success`,
+            type: 'success',
+            text: 'You have successfully left this team',
+            confirmButtonColor: '#e95d4f',
+          });
+        })
+          .catch(err => {
           console.log('Error', err);
           alert(err);
         })
