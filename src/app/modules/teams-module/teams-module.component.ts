@@ -92,7 +92,7 @@ export class TeamsModuleComponent implements OnInit {
   leaveTeam(teamId: string, ) {
     this.auth.user$.subscribe(user => {
       // get members object, splice members[uid]
-        // sondre får lov til å prøve seg på firestore siden magnus kan det allerede og lar sondre lære seg det
+      // sondre får lov til å prøve seg på firestore siden magnus kan det allerede og lar sondre lære seg det
 
       // update members
       this.afs.doc(`teams/${teamId}`).update({ members });
