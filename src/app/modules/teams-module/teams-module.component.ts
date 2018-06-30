@@ -4,7 +4,7 @@ import { AngularFireFunctions } from 'angularfire2/functions';
 import { BoardsService } from './../../services/boards.service';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
 
@@ -16,14 +16,13 @@ import swal from 'sweetalert2';
 })
 export class TeamsModuleComponent implements OnInit {
 
-
   constructor(
     public boardsService: BoardsService,
     public router: Router,
     public afs: AngularFirestore,
     public auth: AuthServiceService,
+    public route: ActivatedRoute,
     public afFunctions: AngularFireFunctions) {
-
   }
 
   ngOnInit() {
@@ -38,12 +37,14 @@ export class TeamsModuleComponent implements OnInit {
     this.auth.user$.subscribe(user => {
       const currentUser = user;
       const name = prompt('What is the name of your team?');
-      const uid = currentUser.uid;
-      const team = {
-        name,
-        members: { [uid]: true }
-      };
-      this.afs.collection<TeamsInterface>('teams').add(team);
+      if (name) {
+        const uid = currentUser.uid;
+        const team = {
+          name,
+          members: { [uid]: true }
+        };
+        this.afs.collection<TeamsInterface>('teams').add(team);
+      }
     });
   }
   addMember(teamId) {

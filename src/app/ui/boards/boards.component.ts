@@ -6,6 +6,7 @@ import swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'app-boards',
@@ -22,7 +23,6 @@ export class BoardsComponent implements OnInit {
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore) {
-
   }
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class BoardsComponent implements OnInit {
       }
     });
     if (name) {
-      this.boardCollection.subscribe(collection => collection.add({ name }));
+      this.boardCollection.take(1).subscribe(collection => collection.add({ name }));
     }
   }
 
@@ -72,7 +72,7 @@ export class BoardsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // Delete method here
-        this.boardCollection.subscribe(collection => collection.doc(board.id).delete());
+        this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
 
         swal(
           'Deleted!',
@@ -102,7 +102,7 @@ export class BoardsComponent implements OnInit {
       }
     });
     if (updatedName) {
-      this.boardCollection.subscribe(collection => collection.doc(board.id).update({
+      this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).update({
         name: updatedName
       }));
     }

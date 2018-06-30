@@ -1,7 +1,3 @@
-#magsonTeam {
-    background: rgba(0, 0, 255, .2)
-}
-
 button {
     margin-top: 5px;
     margin-top: 5px;
@@ -19,4 +15,8 @@ button {
 .menuBtn {
   position: absolute;
   right: 0;
+}
+.selected {
+    background: var(--button-accent);
+    color: white;
 }
