@@ -1,5 +1,6 @@
 <h4>
   <strong>Teams</strong>
 </h4>
-<button *ngFor="let team of boardsService.$teams | async" mat-button (click)="selectTeam(team.id)">{{team.name}}</button>
+<button *ngFor="let team of boardsService.$teams | async" mat-button (click)="selectTeam(team.id)" 
+[ngClass]="{'selected': (route.paramMap | async).get('teamId') === team.id}">{{team.name}}</button>
 <button mat-button (click)="createNewTeam()">+ Create a team</button>

@@ -1,11 +1,12 @@
-#magsonTeam {
-    background: rgba(0, 0, 255, .2)
-}
-
 button {
     margin-top: 5px;
     margin-top: 5px;
     width: 150px;
     text-align: left;
     display: list-item;
+}
+
+.selected {
+    background: var(--button-accent);
+    color: white;
 }

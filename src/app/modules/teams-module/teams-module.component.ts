@@ -3,7 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { BoardsService } from './../../services/boards.service';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-teams-module',
@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 })
 export class TeamsModuleComponent implements OnInit {
 
-  constructor(public boardsService: BoardsService, public router: Router, public afs: AngularFirestore, public auth: AuthServiceService) {
-
+  constructor(public boardsService: BoardsService, public router: Router, public afs: AngularFirestore, public auth: AuthServiceService,
+    public route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -28,17 +28,16 @@ export class TeamsModuleComponent implements OnInit {
     this.auth.user$.subscribe(user => {
       const currentUser = user;
       const name = prompt('What is the name of your team?');
-      const uid = currentUser.uid;
-      const team = {
-        name,
-        members: {[uid]: true}
-      };
-      this.afs.collection<TeamsInterface>('teams').add(team);
+      if (name) {
+        const uid = currentUser.uid;
+        const team = {
+          name,
+          members: { [uid]: true }
+        };
+        this.afs.collection<TeamsInterface>('teams').add(team);
+      }
     });
   }
 
 }
 
-interface UserInterface {
-  teams: Array<string>;
-}

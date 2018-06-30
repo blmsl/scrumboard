@@ -23,7 +23,6 @@ export class BoardsComponent implements OnInit {
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore) {
-
   }
 
   ngOnInit() {
