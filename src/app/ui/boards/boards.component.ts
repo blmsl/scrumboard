@@ -6,6 +6,7 @@ import swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'app-boards',
@@ -55,7 +56,7 @@ export class BoardsComponent implements OnInit {
       }
     });
     if (name) {
-      this.boardCollection.subscribe(collection => collection.add({ name }));
+      this.boardCollection.subscribe(collection => collection.add({ name })).take(1);
     }
   }
 
