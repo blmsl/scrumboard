@@ -34,6 +34,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatSelectModule} from '@angular/material/select';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
+import { AngularFireFunctions } from 'angularfire2/functions';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { TeamsModuleComponent } from './modules/teams-module/teams-module.compon
       // { path: '**', component: NotFoundComponent } // must be last
     ])
   ],
-  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore, ProfileGuardService, NavbarService],
+  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore,
+    ProfileGuardService, NavbarService, AngularFireFunctions],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
