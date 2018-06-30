@@ -7,8 +7,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
-
-
 @Component({
   selector: 'app-teams-module',
   templateUrl: './teams-module.component.html',
@@ -66,7 +64,8 @@ export class TeamsModuleComponent implements OnInit {
     }).then((result) => {
 
       if (result.value) {
-        return this.afFunctions.httpsCallable('getUserByMail')({ mail: result.value })
+        const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
+        getUserByMail({ mail: result.value }).toPromise()
           .then((functionResult) => {
             const userData = functionResult.data.userData;
           }).catch(function (error) {
@@ -79,9 +78,9 @@ export class TeamsModuleComponent implements OnInit {
                 console.log('user does not exist');
                 break;
               default:
-              console.log(code);
-              console.log(message);
-              console.log(details);
+                console.log(code);
+                console.log(message);
+                console.log(details);
                 break;
             }
           });
@@ -90,12 +89,19 @@ export class TeamsModuleComponent implements OnInit {
   }
 
   leaveTeam(teamId: string, ) {
-    this.auth.user$.subscribe(user => {
-      // get members object, splice members[uid]
-      // sondre får lov til å prøve seg på firestore siden magnus kan det allerede og lar sondre lære seg det
-
-      // update members
-      this.afs.doc(`teams/${teamId}`).update({ members });
+    // update members
+    this.auth.user$.take(1).subscribe(user => {
+      const ref = this.afs.firestore.doc(`teams/${teamId}`);
+      this.afs.firestore.runTransaction(transaction =>
+        transaction.get(ref).then(doc => {
+          const members = doc.data().members;
+          delete members[user.uid];
+          return transaction.update(ref, { members });
+        }).then(() => alert('You have successfully left the team')).catch(err => {
+          console.log('Error', err);
+          alert(err);
+        })
+      );
     });
 
   }
