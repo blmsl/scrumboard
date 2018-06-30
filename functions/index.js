@@ -18,32 +18,23 @@ exports.newRequest = functions.firestore
     let userEmail;
 
     const members = newData.members;
-    console.log({
-      newData, uid, teamName, teamId
-    })
     let mail = false;
     Object.keys(members).forEach(function (key, idx) {
       if (members[key] === 'mail') { // if send mail
         mail = true;
-        console.log(key);
         uid = key;
-        console.log({ uid });
       }
     });
     if (mail === false) {
-      console.log('cancelling');
       return null;
     } else {
       return admin.auth().getUser(uid).then(function (userRecord) {
-        console.log('succssfully fetched uid: ', uid);
         userEmail = userRecord.toJSON().email;
         members[uid] = false;
         return admin.firestore().doc(`teams/${teamId}`).update({ members })
       }).then(function () {
-        console.log('updated database');
         return sendInvite(userEmail, uid, teamName, teamId)
       }).then(function () {
-        console.log('mail is sent, updating database');
       }).catch(err => console.log('Error:', err));
     }
   });
@@ -84,8 +75,20 @@ exports.addMember = functions.https.onRequest((req, res) => {
       members: Members
     });
   }).then(() => res.send(`You have succesfully joined ${teamName}`))
-  .catch(err => console.error('Error:', err));
+  .catch(err => 
+    console.error('Error:', err));
 
+});
+
+exports.getUserByMail = functions.https.onCall((data, context) => {
+  const mail = data.mail;
+  admin.auth().getUserByEmail(mail)
+    .then(function (userRecord) {
+      const userData = userRecord.toJSON();
+    return {
+      userData
+    }
+    });
 });
 
 

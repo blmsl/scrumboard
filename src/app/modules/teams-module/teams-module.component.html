@@ -1,5 +1,20 @@
 <h4>
   <strong>Teams</strong>
 </h4>
-<button *ngFor="let team of boardsService.$teams | async" mat-button (click)="selectTeam(team.id)">{{team.name}}</button>
+<div *ngFor="let team of boardsService.$teams | async" class="teamButtonDiv">
+  <button mat-button (click)="selectTeam(team.id)">{{team.name}}</button>
+  <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+<button mat-menu-item (click)="addMember(team.id)">
+      <mat-icon>add</mat-icon>
+      <span>Add member</span>
+    </button>
+<button mat-menu-item (click)="leaveTeam(team.id)">
+      <mat-icon>delete</mat-icon>
+      <span>Leave</span>
+    </button>
+  </mat-menu>
+</div>
 <button mat-button (click)="createNewTeam()">+ Create a team</button>

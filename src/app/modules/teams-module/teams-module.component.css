@@ -9,3 +9,14 @@ button {
     text-align: left;
     display: list-item;
 }
+
+.teamButtonDiv {
+   display: grid;
+   grid-template-columns: 1fr 0.13fr;
+   position: relative;
+}
+
+.menuBtn {
+  position: absolute;
+  right: 0;
+}

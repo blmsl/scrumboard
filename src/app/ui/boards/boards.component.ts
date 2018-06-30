@@ -80,7 +80,6 @@ export class BoardsComponent implements OnInit {
           'success'
         );
       } else if (
-        // Read more about handling dismissals
         result.dismiss === swal.DismissReason.cancel
       ) {
         swal(
