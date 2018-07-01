@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   `;
 
   constructor(public auth: AuthServiceService, public navbarService: NavbarService) {
-    this.sub = auth.user$.filter(user => user != null).subscribe((user) => {
+    this.sub = auth.user$.subscribe((user) => {
       this.profileUrl = user.photoURL;
       this.profileName = user.displayName;
       this.profileEmail = user.email;

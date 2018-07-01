@@ -33,7 +33,7 @@ export class TeamsModuleComponent implements OnInit {
   }
 
   async createNewTeam() {
-    this.auth.user$.filter(user => user != null).subscribe(async user => {
+    this.auth.user$.subscribe(async user => {
       const currentUser = user;
       const { value: name } = await swal({
         title: 'What is the name of the team?',
@@ -127,7 +127,7 @@ export class TeamsModuleComponent implements OnInit {
 
   leaveTeam(teamId: string, ) {
     // update members
-    this.auth.user$.filter(user => user != null).take(1).subscribe(user => {
+    this.auth.user$.take(1).subscribe(user => {
       const ref = this.afs.firestore.doc(`teams/${teamId}`);
       this.afs.firestore.runTransaction(transaction =>
         transaction.get(ref).then(doc => {
