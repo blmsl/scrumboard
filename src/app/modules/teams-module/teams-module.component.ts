@@ -84,31 +84,6 @@ export class TeamsModuleComponent implements OnInit {
               confirmButtonText: 'Add',
               showCancelButton: true,
               reverseButtons: true,
-<<<<<<< HEAD
-            });
-            // .then((result) => {
-              // add to team
-            //   console.log('add to team');
-            //   const ref = this.afs.firestore.doc('teams/' + teamId);
-            //   this.afs.firestore.runTransaction(transaction =>
-            //     transaction.get(ref).then(doc => {
-            //       const members = doc.data().members;
-            //       members[uid] = 'mail';
-            //       return transaction.update(ref, { members });
-            //     }).then(() => {
-            //       swal({
-            //         title: `Success`,
-            //         type: 'success',
-            //         text: 'You have successfully added a new member',
-            //       });
-            //     })
-            //       .catch(err => {
-            //         console.log('Error', err);
-            //         alert(err);
-            //       })
-            //   );
-            // });
-=======
             }); /* .then((result) => {
               // add to team
               console.log('add to team');
@@ -131,7 +106,6 @@ export class TeamsModuleComponent implements OnInit {
                   })
               );
             }); */
->>>>>>> 963e3b79f9d309e5f67a5cebc7801d6b15b430c5
           }).catch(function (error) {
             swal.insertQueueStep({
               title: 'Could not find user',
