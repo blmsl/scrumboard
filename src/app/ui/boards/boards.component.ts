@@ -58,6 +58,7 @@ export class BoardsComponent implements OnInit {
     const { value: name } = await swal({
       title: 'What is the name of your project?',
       input: 'text',
+      reverseButtons: true,
       inputPlaceholder: 'Project name',
       showCancelButton: true,
       inputValidator: (value) => {

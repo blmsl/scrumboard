@@ -158,6 +158,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
         `<input id="swal-input1" type="text" value="${entry.txt}" class="swal2-input">` +
         this.getRadio(entry.priority),
       showCancelButton: true,
+      reverseButtons: true,
       preConfirm: () => {
         let priority: string;
 
@@ -237,6 +238,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       html:
         '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
         this.getRadio('!'),
+      reverseButtons: true,
       showCancelButton: true,
       preConfirm: () => {
         let priority: string;

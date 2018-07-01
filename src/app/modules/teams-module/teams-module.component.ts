@@ -46,49 +46,51 @@ export class TeamsModuleComponent implements OnInit {
       }
     });
   }
-  addMember(teamId) {
-    swal({
-      // title: `Add member to ${teamName}`,
-      confirmButtonText: 'Invite;',
-      text:
-        'Type in the email ' +
-        'of the user you want to invite',
-      input: 'text',
+   addMember(teamId: string, teamName: string) {
+
+    swal.queue([{
+      title: `Add member to ${teamName}`,
+      text: 'Type in the email of the user you want to invite',
+      input: 'email',
+      inputPlaceholder: 'Email',
+      confirmButtonText: 'Invite',
       showCancelButton: true,
-      confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
       reverseButtons: true,
       showLoaderOnConfirm: true,
-      inputValidator: (value) => {
-        return !value && 'You need to write something!';
-      },
-    }).then((result) => {
-
-      if (result.value) {
+      preConfirm: (inputValue) => {
         const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
-        getUserByMail({ mail: result.value }).toPromise()
-          .then((functionResult) => {
-            const userData = functionResult.data.userData;
-            // add to team
-            // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
-          }).catch(function (error) {
-            const code = error.code;
-            const message = error.message;
-            const details = error.details;
+        return getUserByMail({ mail: inputValue }).toPromise()
+          .then(function (data) {
+            const uid = data.userData.uid;
+            const imageUrl = data.userData.photoURL;
+            const displayName = data.userData.displayName;
+            const email = data.userData.email;
 
-            switch (code) {
-              case 'auth/user-not-found':
-                console.log('user does not exist');
-                break;
-              default:
-                console.log(code);
-                console.log(message);
-                console.log(details);
-                break;
-            }
+            swal.insertQueueStep({
+              text: `Are you sure you want to add ${displayName} to ${teamName}?`,
+              imageUrl: imageUrl,
+              imageWidth: 100,
+              imageHeight: 100,
+              imageAlt: 'Scrumboard user profile',
+              confirmButtonText: 'Add',
+              showCancelButton: true,
+              reverseButtons: true,
+            }).then((result) => {
+              // add to team
+              // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
+              console.log('add to team');
+            });
+
+          }).catch(function (error) {
+            swal.insertQueueStep({
+              title: 'Could not find user',
+              text: error.message,
+              type: 'error',
+            });
+
           });
       }
-    });
+    }]);
   }
 
   leaveTeam(teamId: string, ) {
@@ -105,7 +107,6 @@ export class TeamsModuleComponent implements OnInit {
             title: `Success`,
             type: 'success',
             text: 'You have successfully left this team',
-            confirmButtonColor: '#e95d4f',
           });
         })
           .catch(err => {
