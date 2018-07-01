@@ -82,11 +82,11 @@ exports.addMember = functions.https.onRequest((req, res) => {
 
 exports.getUserByMail = functions.https.onCall((data, context) => {
   const mail = data.mail;
-  admin.auth().getUserByEmail(mail)
+  return admin.auth().getUserByEmail(mail)
     .then(function (userRecord) {
       const userData = userRecord.toJSON();
     return {
-      userData
+      userData: userData
     }
     });
 });
