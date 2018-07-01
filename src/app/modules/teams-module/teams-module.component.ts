@@ -42,7 +42,7 @@ export class TeamsModuleComponent implements OnInit {
         showCancelButton: true,
         reverseButtons: true,
         inputValidator: (value) => {
-          return !value && 'You need to write a team name!'
+          return !value && 'You need to write a team name!';
         }
       });
       if (name) {
@@ -75,6 +75,8 @@ export class TeamsModuleComponent implements OnInit {
             const displayName = data.userData.displayName;
             const email = data.userData.email;
 
+            const that = this;
+
             swal.insertQueueStep({
               text: `Are you sure you want to add ${displayName} to ${teamName}?`,
               imageUrl: imageUrl,
@@ -84,28 +86,33 @@ export class TeamsModuleComponent implements OnInit {
               confirmButtonText: 'Add',
               showCancelButton: true,
               reverseButtons: true,
-            }); /* .then((result) => {
-              // add to team
-              console.log('add to team');
-              const ref = this.afs.firestore.doc('teams/' + teamId);
-              this.afs.firestore.runTransaction(transaction =>
-                transaction.get(ref).then(doc => {
-                  const members = doc.data().members;
-                  members[uid] = 'mail';
-                  return transaction.update(ref, { members });
-                }).then(() => {
-                  swal({
-                    title: `Success`,
-                    type: 'success',
-                    text: 'You have successfully added a new member',
-                  });
-                })
-                  .catch(err => {
-                    console.log('Error', err);
-                    alert(err);
+              showLoaderOnConfirm: true,
+              preConfirm: (value) => {
+                // add to team
+                console.log('add to team');
+                const ref = that.afs.firestore.doc('teams/' + teamId);
+                that.afs.firestore.runTransaction(transaction =>
+                  transaction.get(ref).then(doc => {
+                    const members = doc.data().members;
+                    members[uid] = 'mail';
+                    return transaction.update(ref, { members });
+                  }).then(() => {
+                    swal({
+                      title: `Success`,
+                      type: 'success',
+                      text: 'You have successfully added a new member',
+                    });
                   })
-              );
-            }); */
+                    .catch(err => {
+                      swal({
+                        title: 'Error',
+                        text: err,
+                        type: 'error'
+                      });
+                    })
+                );
+              }
+            });
           }).catch(function (error) {
             swal.insertQueueStep({
               title: 'Could not find user',
