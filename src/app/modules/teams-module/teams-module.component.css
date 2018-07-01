@@ -1,4 +1,4 @@
-button {
+.teamSelectBtn {
     margin-top: 5px;
     margin-top: 5px;
     width: 150px;
@@ -7,16 +7,21 @@ button {
 }
 
 .teamButtonDiv {
-   display: grid;
-   grid-template-columns: 1fr 0.13fr;
-   position: relative;
+    display: grid;
+    grid-template-columns: 1fr 0.13fr;
+    position: relative;
 }
 
 .menuBtn {
-  position: absolute;
-  right: 0;
+    position: inherit;
+    right: 25px;
+    top: -2px;
 }
+
 .selected {
+    color: var(--bg-color);
+}
+
+.selected .teamSelectBtn {
     background: var(--button-accent);
-    color: white;
 }

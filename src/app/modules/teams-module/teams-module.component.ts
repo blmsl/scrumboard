@@ -28,6 +28,7 @@ export class TeamsModuleComponent implements OnInit {
 
   selectTeam(teamId: string) {
     console.log({ teamId });
+    localStorage.previousSelectedTeam = teamId;
     this.router.navigate(['/', teamId]);
   }
 
