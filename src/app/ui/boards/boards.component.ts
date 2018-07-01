@@ -32,12 +32,16 @@ export class BoardsComponent implements OnInit {
       const teamId = paramMap.get('teamId');
       this.teamId = teamId;
       if (!this.teamId) { // if no team is selected => select previous one
+        console.log('No team is selected in url');
         this.teamId = localStorage.previousSelectedTeam;
         if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre memeber of
+          console.log('No team is selected in localStorage');
           this.boardsService.$teams.subscribe(teams => {
-            localStorage.previousSelectedTeam = teams[0].id;
-            this.router.navigate(['/', teamId]);
+            console.log('select the first team youre memeber of');
+            this.selectTeam(teams[0].id);
           });
+        } else {
+          this.selectTeam(this.teamId);
         }
       } else {
         console.log({ teamId });
@@ -45,7 +49,8 @@ export class BoardsComponent implements OnInit {
       }
     });
 
-    this.$boards = this.boardCollection.switchMap(collection => collection.snapshotChanges().map(actions => {
+    this.$boards = this.boardCollection.filter(collection => collection !== undefined)
+    .switchMap(collection => collection.snapshotChanges().map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Board;
         data.id = a.payload.doc.id;
@@ -119,5 +124,9 @@ export class BoardsComponent implements OnInit {
     }
   }
 
+  selectTeam(teamId: string) {
+    localStorage.previousSelectedTeam = teamId;
+    this.router.navigate(['/', teamId]);
+  }
 
 }

@@ -13,9 +13,9 @@
 }
 
 .menuBtn {
-    position: inherit;
-    right: 25px;
-    top: -2px;
+    position: absolute;
+    right: 12px;
+    top: 1px;
 }
 
 .selected {
