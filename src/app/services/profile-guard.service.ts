@@ -8,17 +8,17 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProfileGuardService implements CanActivate {
-  constructor(private auth: AuthServiceService, private router: Router) { }
+  constructor(private auth: AuthServiceService, public router: Router) { }
 
   canActivate(route, state: RouterStateSnapshot) {
-    return this.auth.user$.map(user => {
+    this.router.navigate(['/login'], {
+      queryParams: { returnUrl: state.url }
+    });
+    return this.auth.user$.take(1).map(user => {
       // if the user is signed in
       if (user) { return true; }
 
       // if the user is not signed in
-      this.router.navigate(['/login'], {
-        queryParams: { returnUrl: state.url }
-      });
       return false;
     });
   }

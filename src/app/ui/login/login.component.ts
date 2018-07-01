@@ -13,10 +13,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
   constructor(public auth: AuthServiceService, public router: Router, public navbarService: NavbarService) {
-    auth.user$.subscribe((user) => {
-      if (user) {
-        router.navigate(['/']);
-      }
+    auth.user$.filter(user => user != null).subscribe((user) => {
+      router.navigate(['/']);
     });
     navbarService.hidden = true;
   }

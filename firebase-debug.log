@@ -1,0 +1,10 @@
+[debug] [2018-07-01T20:19:36.980Z] ----------------------------------------------------------------------
+[debug] [2018-07-01T20:19:36.984Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Sondr\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-07-01T20:19:36.986Z] CLI Version:   3.18.4
+[debug] [2018-07-01T20:19:36.986Z] Platform:      win32
+[debug] [2018-07-01T20:19:36.986Z] Node Version:  v8.9.0
+[debug] [2018-07-01T20:19:36.987Z] Time:          Sun Jul 01 2018 22:19:36 GMT+0200 (Vest-Europa (sommertid))
+[debug] [2018-07-01T20:19:36.987Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-01T20:19:37.032Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-01T20:19:37.036Z] > attempting to authenticate via app default credentials

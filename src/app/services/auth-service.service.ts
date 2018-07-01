@@ -14,10 +14,6 @@ export class AuthServiceService {
     this.user$ = afAuth.authState;
   }
 
-  getUserObservable() {
-    return this.user$;
-  }
-
   signInWithGoogle() {
     return this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
   }
