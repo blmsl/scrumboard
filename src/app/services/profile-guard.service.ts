@@ -14,7 +14,7 @@ export class ProfileGuardService implements CanActivate {
     this.router.navigate(['/login'], {
       queryParams: { returnUrl: state.url }
     });
-    return this.auth.user$.take(1).map(user => {
+    return this.auth.user$.map(user => {
       // if the user is signed in
       if (user) { return true; }
 
