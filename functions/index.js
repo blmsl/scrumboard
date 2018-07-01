@@ -113,13 +113,16 @@ exports.getUserByMail = functions.https.onCall((data, context) => {
 exports.deleteEmptyTeams = functions.firestore
   .document('teams/{teamId}')
   .onUpdate((change, context) => {
-
+    console.log('hello');
+    
     const newData = change.after.data();
-    if (!newData.members) {
+    if (isEmpty(newData.members)) {
       // No more members... delete team
       console.log('deleting team');
       return admin.firestore().document('teams/{teamId)').delete();
     } else {
+      console.log('did not delete');
+      
       return null
     }
 
@@ -207,4 +210,11 @@ function getParameterByName(name, url) {
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function isEmpty(obj) {
+  for (var prop in obj) {
+    return false;
+  }
+  return true;
 }
