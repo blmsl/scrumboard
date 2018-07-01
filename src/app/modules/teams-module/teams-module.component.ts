@@ -28,6 +28,7 @@ export class TeamsModuleComponent implements OnInit {
 
   selectTeam(teamId: string) {
     console.log({ teamId });
+    localStorage.previousSelectedTeam = teamId;
     this.router.navigate(['/', teamId]);
   }
 
@@ -54,7 +55,7 @@ export class TeamsModuleComponent implements OnInit {
       }
     });
   }
-   addMember(teamId: string, teamName: string) {
+  addMember(teamId: string, teamName: string) {
 
     swal.queue([{
       title: `Add member to ${teamName}`,
@@ -85,10 +86,26 @@ export class TeamsModuleComponent implements OnInit {
               reverseButtons: true,
             }); /* .then((result) => {
               // add to team
-              // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
               console.log('add to team');
+              const ref = this.afs.firestore.doc('teams/' + teamId);
+              this.afs.firestore.runTransaction(transaction =>
+                transaction.get(ref).then(doc => {
+                  const members = doc.data().members;
+                  members[uid] = 'mail';
+                  return transaction.update(ref, { members });
+                }).then(() => {
+                  swal({
+                    title: `Success`,
+                    type: 'success',
+                    text: 'You have successfully added a new member',
+                  });
+                })
+                  .catch(err => {
+                    console.log('Error', err);
+                    alert(err);
+                  })
+              );
             }); */
-
           }).catch(function (error) {
             swal.insertQueueStep({
               title: 'Could not find user',
@@ -118,9 +135,9 @@ export class TeamsModuleComponent implements OnInit {
           });
         })
           .catch(err => {
-          console.log('Error', err);
-          alert(err);
-        })
+            console.log('Error', err);
+            alert(err);
+          })
       );
     });
 

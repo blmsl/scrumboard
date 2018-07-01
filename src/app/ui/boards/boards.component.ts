@@ -3,7 +3,7 @@ import { Board } from './../../extra/BoardInterface';
 import { Component, OnInit } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import swal from 'sweetalert2';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
@@ -22,17 +22,27 @@ export class BoardsComponent implements OnInit {
   teamId: string;
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
-    public route: ActivatedRoute, public afs: AngularFirestore) {
+    public route: ActivatedRoute, public afs: AngularFirestore, public router: Router) {
   }
 
   ngOnInit() {
     this.navbarService.title = 'Magson Scrum';
 
-    this.boardCollection =  this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
+    this.boardCollection = this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
       const teamId = paramMap.get('teamId');
       this.teamId = teamId;
-      console.log({ teamId });
-      return this.afs.collection<Board>('teams/' + teamId + '/boards');
+      if (!this.teamId) { // if no team is selected => select previous one
+        this.teamId = localStorage.previousSelectedTeam;
+        if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre memeber of
+          this.boardsService.$teams.subscribe(teams => {
+            localStorage.previousSelectedTeam = teams[0].id;
+            this.router.navigate(['/', teamId]);
+          });
+        }
+      } else {
+        console.log({ teamId });
+        return this.afs.collection<Board>('teams/' + this.teamId + '/boards');
+      }
     });
 
     this.$boards = this.boardCollection.switchMap(collection => collection.snapshotChanges().map(actions => {
