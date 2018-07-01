@@ -74,15 +74,15 @@ export class TeamsModuleComponent implements OnInit {
               confirmButtonText: 'Add',
               showCancelButton: true,
               reverseButtons: true,
-            }); /* .then((result) => {
+            }).then((result) => {
               // add to team
               // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
               console.log('add to team');
-            }); */
+            });
 
           }).catch(function (error) {
             swal.insertQueueStep({
-              title: 'Error',
+              title: 'Could not find user',
               text: error.message,
               type: 'error',
             });
@@ -90,61 +90,6 @@ export class TeamsModuleComponent implements OnInit {
           });
       }
     }]);
-
-    /* await swal({
-      title: `Add member to ${teamName}`,
-      text:
-      'Type in the email of the user you want to invite',
-      input: 'email',
-      inputPlaceholder: 'Email',
-      confirmButtonText: 'Invite',
-      showCancelButton: true,
-      reverseButtons: true,
-      showLoaderOnConfirm: true,
-      preConfirm: (inputValue) => {
-        const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
-        return getUserByMail({ mail: inputValue }).toPromise()
-          .then(function (data) {
-            const uid = data.userData.uid;
-            const imageUrl = data.userData.photoURL;
-            const displayName = data.userData.displayName;
-            const email = data.userData.email;
-
-            swal({
-              title: 'Add ' + displayName,
-              text: 'Are you sure you want to add ${displayName} to ${teamName}?',
-              imageUrl: imageUrl,
-              imageWidth: 100,
-              imageHeight: 100,
-              imageAlt: 'Scrumboard user profile',
-              confirmButtonText: 'Invite',
-              showCancelButton: true,
-              reverseButtons: true,
-              type: 'warning',
-            }).then((result) => {
-                // add to team
-                // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
-                console.log('add to team');
-              });
-          }).catch(function (error) {
-            console.log('error');
-            const code = error.code;
-            const message = error.message;
-            const details = error.details;
-
-            console.log({ code });
-            console.log({ message });
-            console.log({ details });
-
-
-            swal({
-              title: 'Error',
-              text: message,
-              type: 'error'
-            });
-          });
-      }
-    }); */
   }
 
   leaveTeam(teamId: string, ) {
