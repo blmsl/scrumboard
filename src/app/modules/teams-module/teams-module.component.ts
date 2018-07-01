@@ -81,20 +81,12 @@ export class TeamsModuleComponent implements OnInit {
             }); */
 
           }).catch(function (error) {
-            console.log('error');
-            const code = error.code;
-            const message = error.message;
-            const details = error.details;
-
-            console.log({ code });
-            console.log({ message });
-            console.log({ details });
-
-            swal({
+            swal.insertQueueStep({
               title: 'Error',
-              text: message,
-              type: 'error'
+              text: error.message,
+              type: 'error',
             });
+
           });
       }
     }]);
