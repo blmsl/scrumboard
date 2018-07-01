@@ -31,10 +31,19 @@ export class TeamsModuleComponent implements OnInit {
     this.router.navigate(['/', teamId]);
   }
 
-  createNewTeam() {
-    this.auth.user$.subscribe(user => {
+  async createNewTeam() {
+    this.auth.user$.subscribe(async user => {
       const currentUser = user;
-      const name = prompt('What is the name of your team?');
+      const { value: name } = await swal({
+        title: 'What is the name of the team?',
+        input: 'text',
+        inputPlaceholder: 'Teamname',
+        showCancelButton: true,
+        reverseButtons: true,
+        inputValidator: (value) => {
+          return !value && 'You need to write a team name!'
+        }
+      });
       if (name) {
         const uid = currentUser.uid;
         const team = {
@@ -74,11 +83,11 @@ export class TeamsModuleComponent implements OnInit {
               confirmButtonText: 'Add',
               showCancelButton: true,
               reverseButtons: true,
-            }).then((result) => {
+            }); /* .then((result) => {
               // add to team
               // sondre kan få lov til å prøve seg her også, siden magnus allerede kan det
               console.log('add to team');
-            });
+            }); */
 
           }).catch(function (error) {
             swal.insertQueueStep({
