@@ -113,7 +113,6 @@ exports.deleteEmptyTeams = functions.firestore
   .document('teams/{teamId}')
   .onUpdate((change, context) => {
     console.log('hello');
-    
     const newData = change.after.data();
     if (isEmpty(newData.members)) {
       // No more members... delete team
@@ -121,23 +120,72 @@ exports.deleteEmptyTeams = functions.firestore
       return admin.firestore().document('teams/{teamId)').delete();
     } else {
       console.log('did not delete');
-      
       return null
     }
 
   });
 
- /*  exports.deleteUserData = functions.auth.user().onDelete((user) => {
-    // Delete all memberships user are part in
-  });
+exports.createAdmin = functions.https.onCall((data, context) => {
+  const uid = data.uid;
+  const clientUID = context.auth.uid;
 
-  exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
-    // ...
-  });
+  admin.auth().getUser(clientUID).then((userRecord) => {
+    // The claims can be accessed on the user record.
+    if (userRecord.customClaims.admin) {
+      return admin.auth().setCustomUserClaims(uid, {
+        admin: true
+      }).then(() => {
+        console.log(uid + ' is now admin');
+      }).catch(err => {
+        throw new functions.https.HttpsError('aborted', 'An error has occured, please try again later');
+      });
 
-  exports.sendByeEmail = functions.auth.user().onDelete((user) => {
-    // ...
-  }); */
+    } else {
+        throw new functions.https.HttpsError('permission-denied', 'You must be an admin to promote other users to admin.');
+    }
+  });
+});
+
+
+
+/* exports.listAllUsers = functions.https.onCall((data, context) => {
+  // List all users
+   return listAllUsers();
+});
+
+function listAllUsers(nextPageToken, res) {
+  // List batch of users, 1000 at a time.
+  admin.auth().listUsers(1000, nextPageToken)
+    .then(function (listUsersResult) {
+      listUsersResult.users.forEach(function (userRecord) {
+        const userData = userRecord.toJSON();
+        console.log("user", userRecord.toJSON());
+        return {
+          // return users to client
+        }
+      });
+      if (listUsersResult.pageToken) {
+        // List next batch of users.
+        listAllUsers(listUsersResult.pageToken)
+      }
+    })
+    .catch(function (error) {
+      console.log("Error listing users:", error);
+    });
+} */
+
+
+/*  exports.deleteUserData = functions.auth.user().onDelete((user) => {
+   // Delete all memberships user are part in
+ });
+
+ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
+   // ...
+ });
+
+ exports.sendByeEmail = functions.auth.user().onDelete((user) => {
+   // ...
+ }); */
 
 exports.accountcleanup = functions.https.onRequest((req, res) => {
   const key = req.query.key;
