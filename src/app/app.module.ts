@@ -60,7 +60,7 @@ import { AngularFireFunctions } from 'angularfire2/functions';
     AngularFireDatabaseModule,
     BrowserModule,
     RouterModule.forRoot([
-      { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
+      { path: '', component: LoginComponent, canActivate: [ProfileGuardService] },
       { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: 'scrum/:teamId/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
       { path: 'login', component: LoginComponent },
