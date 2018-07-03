@@ -9,7 +9,7 @@ import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
-import * as firebase from 'firebase';
+import {firestore} from 'firebase/app';
 
 @Component({
   selector: 'app-scrum',
@@ -136,7 +136,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.inProgressCollection.doc(entry.id).delete();
     // Add to To-do
     this.todoCollection.add({
-      txt: entry.txt, priority: entry.priority, time: firebase.firestore.FieldValue.serverTimestamp()
+      txt: entry.txt, priority: entry.priority, time: firestore.FieldValue.serverTimestamp()
     });
   }
 
@@ -146,7 +146,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add it to inProgress
     this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp()
       });
     });
   }
@@ -192,7 +192,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add it to inProgress
     this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp()
       });
     });
   }
@@ -203,7 +203,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add to done
     this.auth.user$.take(1).subscribe((user) => {
       this.doneCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp()
       });
     });
   }
@@ -259,7 +259,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       }
     });
     if (post) {
-      this.todoCollection.add({ txt: post[0], priority: post[1], time: firebase.firestore.FieldValue.serverTimestamp() });
+      this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
     }
 
   }
@@ -320,7 +320,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 export interface EntryInterface {
   txt: string;
   priority: string;
-  time: firebase.firestore.FieldValue;
+  time: firestore.FieldValue;
   developer?: string;
   id?: string;
 }

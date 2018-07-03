@@ -8,10 +8,11 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProfileGuardService implements CanActivate {
-  constructor(private auth: AuthServiceService, public router: Router) { }
+  constructor(private auth: AuthServiceService, private router: Router) { }
 
   canActivate(route, state: RouterStateSnapshot) {
-    return this.auth.user$.take(1).map(user => {
+    console.log('canActivate?? is running');
+    return this.auth.user$.map(user => {
       // if the user is signed in
       console.log({user}, 'freeze');
       if (user) { return true; }

@@ -16,15 +16,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   constructor(public auth: AuthServiceService, public router: Router, public navbarService: NavbarService) {
+    console.log('login component is running');
     navbarService.hidden = true;
   }
 
   ngOnInit() {
     this.sub = this.auth.user$.subscribe((user) => {
-      this.router.navigate(['/']);
+      console.log('the user is now authenticated', {user});
+      if (user) {
+        this.router.navigate(['/']);
+      }
     });
   }
-
 
   ngOnDestroy() {
     this.navbarService.hidden = false;

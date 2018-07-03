@@ -62,10 +62,10 @@ import { AdminComponent } from './ui/admin/admin.component';
     AngularFireDatabaseModule,
     BrowserModule,
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, canActivate: [ProfileGuardService] },
-      { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
-      { path: 'scrum/:teamId/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
       { path: 'login', component: LoginComponent },
+      { path: 'scrum/:teamId/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
+      { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
+      { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
       // { path: '**', component: NotFoundComponent } // must be last
     ])
   ],
