@@ -112,12 +112,13 @@ exports.getUserByMail = functions.https.onCall((data, context) => {
 exports.deleteEmptyTeams = functions.firestore
   .document('teams/{teamId}')
   .onUpdate((change, context) => {
-    console.log('hello');
     const newData = change.after.data();
+    const teamId = context.params.teamId;
+
     if (isEmpty(newData.members)) {
       // No more members... delete team
       console.log('deleting team');
-      return admin.firestore().document('teams/{teamId)').delete();
+      return admin.firestore().doc(`teams/${teamId}`).delete();
     } else {
       console.log('did not delete');
       return null
@@ -130,8 +131,8 @@ exports.createAdmin = functions.https.onCall((data, context) => {
   const clientUID = context.auth.uid;
 
   admin.auth().getUser(clientUID).then((userRecord) => {
-    // The claims can be accessed on the user record.
     if (userRecord.customClaims.admin) {
+      // Client is admin
       return admin.auth().setCustomUserClaims(uid, {
         admin: true
       }).then(() => {
@@ -141,6 +142,7 @@ exports.createAdmin = functions.https.onCall((data, context) => {
       });
 
     } else {
+      // Client is not admin
         throw new functions.https.HttpsError('permission-denied', 'You must be an admin to promote other users to admin.');
     }
   });
