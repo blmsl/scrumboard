@@ -99,7 +99,6 @@ exports.getUserByMail = functions.https.onCall((data, context) => {
         case 'auth/user-not-found':
           throw new functions.https.HttpsError('not-found', 'We could not find any user with this email');
           break;
-
         default:
           throw new functions.https.HttpsError('aborted', 'An error has occured, please try again later');
           break;
@@ -107,7 +106,6 @@ exports.getUserByMail = functions.https.onCall((data, context) => {
 
     });
 });
-
 
 exports.deleteEmptyTeams = functions.firestore
   .document('teams/{teamId}')
@@ -117,13 +115,10 @@ exports.deleteEmptyTeams = functions.firestore
 
     if (isEmpty(newData.members)) {
       // No more members... delete team
-      console.log('deleting team');
       return admin.firestore().doc(`teams/${teamId}`).delete();
     } else {
-      console.log('did not delete');
       return null
     }
-
   });
 
 exports.createAdmin = functions.https.onCall((data, context) => {
