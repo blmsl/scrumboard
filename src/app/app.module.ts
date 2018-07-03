@@ -35,6 +35,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import {MatSelectModule} from '@angular/material/select';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
+import { AdminComponent } from './ui/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AngularFireFunctions } from 'angularfire2/functions';
     NavbarComponent,
     BoardsComponent,
     ScrumComponent,
-    TeamsModuleComponent
+    TeamsModuleComponent,
+    AdminComponent
   ],
   imports: [
     BrowserAnimationsModule,
