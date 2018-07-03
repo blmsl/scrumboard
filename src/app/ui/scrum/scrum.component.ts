@@ -144,7 +144,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // Delete from finished
     this.doneCollection.doc(entry.id).delete();
     // add it to inProgress
-    this.auth.user$.subscribe((user) => {
+    this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
         txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
       });
@@ -190,7 +190,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // delete from todo
     this.todoCollection.doc(entry.id).delete();
     // add it to inProgress
-    this.auth.user$.subscribe((user) => {
+    this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
         txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
       });
@@ -201,12 +201,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // delete from inProgress
     this.inProgressCollection.doc(entry.id).delete();
     // add to done
-    this.auth.user$.subscribe((user) => {
+    this.auth.user$.take(1).subscribe((user) => {
       this.doneCollection.add({
         txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase.firestore.FieldValue.serverTimestamp()
       });
     });
-
   }
 
   ngOnInit() {

@@ -36,7 +36,7 @@ export class BoardsComponent implements OnInit {
         this.teamId = localStorage.previousSelectedTeam;
         if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre memeber of
           console.log('No team is selected in localStorage');
-          this.boardsService.$teams.subscribe(teams => {
+          this.boardsService.$teams.take(1).subscribe(teams => {
             console.log('select the first team youre memeber of');
             this.selectTeam(teams[0].id);
           });

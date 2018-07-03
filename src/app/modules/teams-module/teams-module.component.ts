@@ -33,7 +33,7 @@ export class TeamsModuleComponent implements OnInit {
   }
 
   async createNewTeam() {
-    this.auth.user$.subscribe(async user => {
+    this.auth.user$.take(1).subscribe(async user => {
       const currentUser = user;
       const { value: name } = await swal({
         title: 'What is the name of the team?',

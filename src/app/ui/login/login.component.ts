@@ -2,6 +2,7 @@ import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -9,17 +10,25 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit, OnDestroy {
-  ngOnInit() {
-  }
+
+  sub: Subscription;
+
   constructor(public auth: AuthServiceService, public router: Router, public navbarService: NavbarService) {
-    auth.user$.subscribe((user) => {
-      router.navigate(['/']);
-    });
     navbarService.hidden = true;
   }
+
+  ngOnInit() {
+    this.sub = this.auth.user$.subscribe((user) => {
+      this.router.navigate(['/']);
+    });
+  }
+
+
   ngOnDestroy() {
     this.navbarService.hidden = false;
+    this.sub.unsubscribe();
   }
 
   signInWithFacebook() {
