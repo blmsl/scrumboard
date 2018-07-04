@@ -21,7 +21,7 @@ export class BoardsService {
   constructor(afs: AngularFirestore, auth: AuthServiceService) {
 
     this.teamsCollection = auth.user$.filter(user => user != null)
-      .map(user => afs.collection<TeamsInterface>('teams', ref => ref.where('members.' + user.uid, '==', true).orderBy('name')))
+      .map(user => afs.collection<TeamsInterface>('teams', ref => ref.where('members.' + user.uid, '==', true)))
       .shareReplay(1);
     this.$teams = this.teamsCollection.switchMap(collection => collection.snapshotChanges().map(actions => {
       return actions.map(a => {
