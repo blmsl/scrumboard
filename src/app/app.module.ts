@@ -35,7 +35,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import {MatSelectModule} from '@angular/material/select';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
-import { AdminComponent } from './ui/admin/admin.component';
+import { AdminComponent } from './ui/admin-components/admin/admin.component';
+import { AdminSidebarModuleComponent } from './modules/admin-sidebar-module/admin-sidebar-module.component';
+import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-users.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { AdminComponent } from './ui/admin/admin.component';
     BoardsComponent,
     ScrumComponent,
     TeamsModuleComponent,
-    AdminComponent
+    AdminComponent,
+    AdminSidebarModuleComponent,
+    AdminUsersComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -63,6 +67,7 @@ import { AdminComponent } from './ui/admin/admin.component';
     BrowserModule,
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [ProfileGuardService]},
       { path: 'scrum/:teamId/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },

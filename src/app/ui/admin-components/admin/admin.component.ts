@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireFunctions } from 'angularfire2/functions';
-import { AuthServiceService } from './../../services/auth-service.service';
+import { AuthServiceService } from './../../../services/auth-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
         const createAdmin = this.afFunctions.httpsCallable('createAdmin');
         return createAdmin({ uid }).toPromise()
           .then(function (data) {
-
+            console.log(`user: ${uid} is now admin`);
           }).catch(function (error) {
             swal({
               title: 'Error',

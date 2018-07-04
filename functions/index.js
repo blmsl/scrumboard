@@ -138,7 +138,7 @@ exports.createAdmin = functions.https.onCall((data, context) => {
 
     } else {
       // Client is not admin
-        throw new functions.https.HttpsError('permission-denied', 'You must be an admin to promote other users to admin.');
+      throw new functions.https.HttpsError('permission-denied', 'You must be an admin to promote other users to admin.');
     }
   });
 });
@@ -174,13 +174,43 @@ function listAllUsers(nextPageToken, res) {
 
 /*  exports.deleteUserData = functions.auth.user().onDelete((user) => {
    // Delete all memberships user are part in
- });
+ }); */
 
- exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
-   // ...
- });
+exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
 
- exports.sendByeEmail = functions.auth.user().onDelete((user) => {
+  const email = user.email;
+  const name = user.displayName;
+  const firstName = name.substr(0, str.indexOf(' '));
+
+  const mailOptions = {
+    from: 'MAGSON <support@magson.no>',
+    to: email
+  };
+
+  mailOptions.subject = `Welcome to Magson Scrum`;
+  mailOptions.html = `
+        <body style = "margin: 0; background-color: white;">
+          <header style="background-color: #CB0C28; padding: 75px 50px;">
+            <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Hello ${firstName}</h1>
+          </header>
+          <main style="display: table; margin: 0 auto;">
+            <br>
+            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;">We are very pleased you have decided to use Magson Scrum as a tool for your developing.</p>
+            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;">If you have any questions or issues of any kind, please feel free to
+              <a href="mailto:support@magson.no" target="_top" style="font-family:roboto;font-weight:300;color:#484848;">contact us!</a>
+            </p>
+            <div class="footer" style="display: table;margin: 10px auto;">
+              <h3 style="font-family:roboto;font-weight:400;text-align:center;color:#484848;margin-bottom:5px;">The Magson team</h3>
+              <img src="https://magson.no/images/logoWhite.jpg" alt="magsonLogo" style="width: 250px;">
+            </div>
+          </main>
+        </body>
+        `
+  return mailTransport.sendMail(mailOptions)
+
+});
+
+/*  exports.sendByeEmail = functions.auth.user().onDelete((user) => {
    // ...
  }); */
 
