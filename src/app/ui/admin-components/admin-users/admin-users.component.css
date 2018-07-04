@@ -1,0 +1,118 @@
+/*
+ * Copyright (c) Magson 2018. All rights reserved.
+ */
+
+#tableHead {
+  background-color: #F5F5F5;
+  height: 60px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 2px 2px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#reloadBtn {
+  float: right;
+  background-color: #0388CA;
+  
+  margin-right: 20px;
+  border: 0 solid;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+mat-icon {
+  padding: 8px 20px;
+  color: white;
+  font-weight: 100;
+}
+
+#reloadBtn:hover {
+  background-color: #1c93cf;
+}
+
+#table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#table tr {
+  cursor: pointer;
+}
+
+#table {
+  background-color: white;
+}
+
+#table tr:hover {
+  background-color: #ddd;
+}
+
+#table td {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #dddddd;
+}
+
+#table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  background-color: #F5F5F5;
+  color: #707070;
+  cursor: default;
+}
+
+#noListDiv {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  background-color: #bbbbbb;
+  border: 0 solid;
+  border-radius: 10px;
+  width: 700px;
+  height: 200px;
+}
+
+.text {
+  color: white;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+
+#noListHeadline {
+  font-size: 28px;
+}
+
+#noListBtn {
+  cursor: pointer;
+  background-color: #38af73;
+  text-decoration: none;
+  border: 0 solid;
+  border-radius: 2px;
+  font-weight: 300;
+  font-size: 16px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  display: table;
+  margin: 0 auto;
+  margin-top: 40px;
+  transition: all 0.3s;
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+#noListBtn:hover {
+  box-shadow: 2px 5px 12px rgba(0, 0, 0, 0.3);
+  background-color: #3FC380;
+}
