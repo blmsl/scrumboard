@@ -61,8 +61,8 @@ a {
 
 #addButton {
     position: fixed;
-    bottom: 32px;
-    right: 32px;
+    bottom: 24px;
+    right: 24px;
     height: 60px;
     width: 60px;
     color: white;

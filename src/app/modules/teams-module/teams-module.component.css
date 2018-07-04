@@ -23,5 +23,5 @@
 }
 
 .selected .teamSelectBtn {
-    background: var(--button-accent);
+    background: var(--button-color);
 }

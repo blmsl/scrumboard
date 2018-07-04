@@ -23,7 +23,7 @@ export class BoardsComponent implements OnInit {
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore, public router: Router) {
-      console.log('boards component has been initialized');
+    console.log('boards component has been initialized');
   }
 
   ngOnInit() {
@@ -51,13 +51,17 @@ export class BoardsComponent implements OnInit {
     });
 
     this.$boards = this.boardCollection.filter(collection => collection !== undefined)
-    .switchMap(collection => collection.snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as Board;
-        data.id = a.payload.doc.id;
-        return data;
+      .switchMap(collection => collection.snapshotChanges().map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Board;
+          data.id = a.payload.doc.id;
+          return data;
+        });
+      }));
+      // delete this
+      this.$boards.subscribe(boards => {
+        console.log(boards);
       });
-    }));
   }
 
   async addBoard() {
