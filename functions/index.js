@@ -180,6 +180,7 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
 
   const email = user.email;
   const name = user.displayName;
+  const photoURL = user.photoURL;
   const firstName = name.substr(0, str.indexOf(' '));
 
   const mailOptions = {
@@ -190,7 +191,7 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   mailOptions.subject = `Welcome to Magson Scrum`;
   mailOptions.html = `
         <body style = "margin: 0; background-color: white;">
-          <header style="background-color: #CB0C28; padding: 75px 50px;">
+          <header style="background-color: #4285f4; padding: 75px 50px;">
             <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Hello ${firstName}</h1>
           </header>
           <main style="display: table; margin: 0 auto;">

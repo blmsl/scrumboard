@@ -141,6 +141,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
         this.getRadio(entry.priority),
       showCancelButton: true,
       reverseButtons: true,
+      onOpen: function () {
+        const input = (<HTMLInputElement>swal.getInput());
+        input.setSelectionRange(0, input.value.length);
+      },
       preConfirm: () => {
         let priority: string;
 

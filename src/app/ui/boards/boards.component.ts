@@ -118,6 +118,10 @@ export class BoardsComponent implements OnInit {
       input: 'text',
       inputValue: board.name,
       showCancelButton: true,
+      onOpen: function () {
+        const input = (<HTMLInputElement>swal.getInput());
+        input.setSelectionRange(0, input.value.length);
+      },
       inputValidator: (value) => {
         return !value && 'You need to write something!';
       }
