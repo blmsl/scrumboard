@@ -8,7 +8,7 @@
       <mat-option value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
     </mat-select>
   </div>
-  <button mat-fab id="addButton" (click)="add()">
+  <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
     <mat-icon>add</mat-icon>
   </button>
   <section id="todoSection">

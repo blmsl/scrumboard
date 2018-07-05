@@ -81,9 +81,17 @@ mat-slide-toggle {
         height: 56px;
     }
     header h1 {
-        font-size: 20px;
+        font-size: 24px;
     }
     #magsonLogo {
         text-shadow: 0 1px 4px var(--button-accent);
+    }
+    #profilePic {
+        right: 10px;
+    }
+    #backBtn {
+        line-height: 56px;
+        left: 16px;
+        font-size: 30px;
     }
 }

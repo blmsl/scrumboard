@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Scrumboard</title>
@@ -7,8 +8,29 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    #splashScreen {
+      display: none;
+    }
+
+    #splashScreen img {
+      width: 150px;
+    }
+
+    app-root:empty+#splashScreen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+    }
+  </style>
 </head>
+
 <body>
   <app-root></app-root>
+  <div id="splashScreen">
+    <img src="assets/icon.svg" alt="Foko">
+  </div>
 </body>
+
 </html>

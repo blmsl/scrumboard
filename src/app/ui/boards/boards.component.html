@@ -1,28 +1,30 @@
-<app-teams-module></app-teams-module>
 <main>
-  <h2>All boards</h2>
-  <section id="todoSection" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
-    <div class="card">
-      <div class="container">
-        <h3>{{board.name}}</h3>
-        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="edit(board)">
-            <mat-icon>edit</mat-icon>
-            <span>Edit</span>
+  <app-teams-module></app-teams-module>
+  <div id="boardsWrapper">
+    <h2>All boards</h2>
+    <section id="boards" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
+      <div class="card">
+        <div class="container">
+          <h3>{{board.name}}</h3>
+          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-menu-item (click)="delete(board)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-        </mat-menu>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="edit(board)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="delete(board)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </main>
 
-<button mat-fab id="addButton" (click)="addBoard()">
+<button mat-fab id="addButton" (click)="addBoard()" (click)="$event.stopPropagation()">
   <mat-icon>add</mat-icon>
 </button>

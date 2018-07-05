@@ -6,13 +6,18 @@ body {
 }
 
 main {
-  max-width: 750px;
+  max-width: 900px;
   margin: 0 auto;
+  padding: 16px;
+  display: flex;
+}
+
+#boardsWrapper {
+  flex: 1;
 }
 
 app-teams-module {
-  position: absolute;
-  left: 25px;
+  margin-right: 16px;
 }
 
 h3 {
@@ -50,7 +55,7 @@ h2 {
   height: 50px;
 }
 
-#todoSection {
+#boards {
   outline: 0;
 }
 
@@ -70,5 +75,17 @@ h2 {
   line-height: 50px;
   color: white;
   margin-left: 0;
+}
+
+@media only screen and (max-width: 800px) {
+  main {
+    display: block;
+  }
+  app-teams-module {
+    margin: 0;
+  }
+  h2 {
+    font-size: 19px;
+  }
 }
 

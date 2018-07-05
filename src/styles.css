@@ -28,8 +28,8 @@ main {
 
 #addButton {
     position: fixed;
-    bottom: 32px;
-    right: 32px;
+    bottom: 24px;
+    right: 24px;
     color: white;
     background-color: var(--button-color);
     cursor: pointer;

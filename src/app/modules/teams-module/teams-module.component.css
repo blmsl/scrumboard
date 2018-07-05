@@ -1,21 +1,23 @@
+h4 {
+    margin-bottom: 0;
+    font-size: 15px;
+}
+
 .teamSelectBtn {
-    margin-top: 5px;
-    margin-top: 5px;
-    width: 150px;
     text-align: left;
-    display: list-item;
+    width: 100%;
 }
 
 .teamButtonDiv {
-    display: grid;
-    grid-template-columns: 1fr 0.13fr;
     position: relative;
+    margin-top: 5px;
+    width: 150px;
 }
 
 .menuBtn {
     position: absolute;
-    right: 12px;
-    top: 1px;
+    right: -6px;
+    top: -2px;
 }
 
 .selected {
@@ -24,4 +26,20 @@
 
 .selected .teamSelectBtn {
     background: var(--button-color);
+}
+
+@media only screen and (max-width: 800px) {
+    h4 {
+        margin: 0;
+        font-size: 11px;
+    }
+    #teamsWrapper {
+        overflow-x: auto;
+        white-space: nowrap;
+        overflow-y: hidden;
+    }
+    .teamButtonDiv {
+        display: inline-block;
+        margin-right: 5px;
+    }
 }

@@ -6,19 +6,18 @@ main {
 }
 
 #sortBy {
-  position: absolute;
-  right: 50px;
-  color: var(--txt-color) !important;
-  width: 120px;
+    position: absolute;
+    right: 50px;
+    color: var(--txt-color) !important;
+    width: 120px;
+}
+
+#sortBy mat-icon {
+    margin-top: -3px;
 }
 
 mat-select {
-  position: inherit;
-}
-
-
-
-mat-select mat-option {
+    position: inherit;
 }
 
 .menuBtn {
@@ -56,18 +55,18 @@ section .container {
 }
 
 .setButton {
-  width: 100%;
-  border-style: none;
-  font-size: 15px;
-  padding: 10px;
-  background-color:var(--button-color);
-  color: white;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.2s;
+    width: 100%;
+    border-style: none;
+    font-size: 15px;
+    padding: 10px;
+    background-color: var(--button-color);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
 }
 
-.setButton:hover{
+.setButton:hover {
     background-color: var(--button-accent);
 }
 
@@ -79,12 +78,17 @@ section .container {
     text-transform: uppercase;
 }
 
-
 @media only screen and (max-width: 800px) {
-  main {
-    display: block;
-  }
-  main>section {
-    max-width: unset;
-  }
+    main {
+        display: block;
+        margin: 0 auto;
+        padding-top: 5px;
+    }
+    main>section {
+        max-width: unset;
+        margin: 0;
+    }
+    #sortBy {
+        top: 80px;
+    }
 }
