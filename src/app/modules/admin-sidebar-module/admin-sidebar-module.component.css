@@ -2,6 +2,15 @@
  * Copyright (c) Magson 2017. All rights reserved.
  */
 
+:host {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  height: 100%;
+}
+
 body {
   margin: 0 !important;
   background-color: #ECEFF1;
