@@ -21,6 +21,7 @@ exports.newRequest = functions.firestore
 
     let uid;
     let userEmail;
+    let firstName;
 
     const members = newData.members;
     let mail = false;
@@ -36,16 +37,17 @@ exports.newRequest = functions.firestore
       return admin.auth().getUser(uid).then(function (userRecord) {
         userEmail = userRecord.toJSON().email;
         members[uid] = false;
+        firstName = userRecord.toJSON().displayName.substr(0, userRecord.toJSON().displayName.indexOf(' '));
         return admin.firestore().doc(`teams/${teamId}`).update({
           members
         })
       }).then(function () {
-        return sendInvite(userEmail, uid, teamName, teamId)
+        return sendInvite(userEmail, uid, teamName, teamId, firstName)
       }).then(function () {}).catch(err => console.log('Error:', err));
     }
   });
 
-function sendInvite(email, uid, teamName, teamId) {
+function sendInvite(email, uid, teamName, teamId, firstName) {
   const mailOptions = {
     from: 'MAGSON <support@magson.no>',
     to: email
@@ -53,15 +55,28 @@ function sendInvite(email, uid, teamName, teamId) {
 
   mailOptions.subject = `Invitation to join ${teamName}`;
   mailOptions.html = `
-        <h1>Magson Scrum</h1>
-        <p>You have been invited to join ${teamName} on Magson scrum</p>
-        <p>To join, click the button below</p>
+       <body style="margin: 0; background-color: white;">
+    <header style="background-color: #4285f4; padding: 75px 50px;">
+        <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Hello ${firstName}</h1>
+    </header>
+    <main style="display: table; margin: 0 auto; padding: 10px;">
         <br>
-        <a href="https://us-central1-magson-developer.cloudfunctions.net/addMember?uid=${uid}&teamId=${teamId}&teamName=${teamName}"> Join </a>
-        <p>If you do not want to join this project, please disregard this email.</p>
         <br>
         <br>
-        <p>The Magson team</p>
+        <div class="textDiv" style="display:table;margin:10px auto;margin-bottom:50px;">
+            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;font-size:18px;">You have been invited by ${teamName} to join their team!</p>
+            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;font-size:18px;">If you accept this invitation, please click the button below</p>
+        </div>
+        <div style="display: table; margin: 100px auto; margin-bottom: 50px;">
+            <a href="https://us-central1-magson-developer.cloudfunctions.net/addMember?uid=${uid}&teamId=${teamId}&teamName=${teamName}" style="font-family:roboto;font-weight:500;color:#4285f4;border:3px solid #4285f4;border-radius:5px;padding:20px;margin:20px 0;width:auto;cursor:pointer;transition:all .3s;">Join ${teamName}</a>
+        </div>
+        <br>
+        <div class="footer" style="display:table;margin:10px auto;margin-bottom:50px;">
+            <h3 style="font-family:roboto;font-weight:400;text-align:center;color:#484848;margin-bottom:5px;">The Magson team</h3>
+            <img src="https://magson.no/images/logoWhite.jpg" alt="magsonLogo" style="width: 250px;">
+        </div>
+    </main>
+</body>
         `
   return mailTransport.sendMail(mailOptions)
 }
@@ -80,7 +95,30 @@ exports.addMember = functions.https.onRequest((req, res) => {
       return admin.firestore().doc(`teams/${teamId}`).update({
         members: Members
       });
-    }).then(() => res.send(`You have succesfully joined ${teamName}`))
+    }).then(() => {
+      res.send(
+        `
+        <body style="margin: 0;background-color: white;">
+    <header style="background-color: #4285f4;padding: 75px 50px;">
+        <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Welcome to ${teamName}</h1>
+    </header>
+    <main style="display: table;margin: 0 auto;padding: 10px;">
+        <br>
+        <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;font-size:18px;">You have been successfully added as a member to the ${teamName} team!</p>
+        <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;font-size:18px;">We are excited to see the faboulous work you will accomplish using our scrumboard.</p>
+        <div style="display: table;margin: 100px auto;margin-bottom: 50px;">
+            <a href="https://scrum.magson.no/${teamId}" style="font-family:roboto;font-weight:500;color:#4285f4;border:3px solid #4285f4;border-radius:5px;padding:20px;margin:20px 0;width:auto;cursor:pointer;transition:all .3s;">See ${teamName}´s scrumboard</a>
+        </div>
+
+        <br>
+        <div class="footer" style="display:table;margin:10px auto;margin-bottom:50px;">
+            <h3 style="font-family:roboto;font-weight:400;text-align:center;color:#484848;margin-bottom:5px;">The Magson team</h3>
+            <img src="https://magson.no/images/logoWhite.jpg" alt="magsonLogo" style="width: 250px;">
+        </div>
+    </main>
+</body>`
+      )
+    })
     .catch(err =>
       console.error('Error:', err));
 
@@ -181,7 +219,7 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   const email = user.email;
   const name = user.displayName;
   const photoURL = user.photoURL;
-  const firstName = name.substr(0, str.indexOf(' '));
+  const firstName = name.substr(0, name.indexOf(' '));
 
   const mailOptions = {
     from: 'MAGSON <support@magson.no>',
@@ -194,10 +232,10 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
           <header style="background-color: #4285f4; padding: 75px 50px;">
             <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Hello ${firstName}</h1>
           </header>
-          <main style="display: table; margin: 0 auto;">
+          <main style="display: table; margin: 0 auto; padding:"20px">
             <br>
-            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;">We are very pleased you have decided to use Magson Scrum as a tool for your developing.</p>
-            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;">If you have any questions or issues of any kind, please feel free to
+            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;font-size: 18px;">We are very pleased you have decided to use Magson Scrum as a tool for your developing.</p>
+            <p style="font-family:roboto;font-weight:300;margin:0;margin-bottom:3px;color:#484848;font-size: 18px;">If you have any questions or issues of any kind, please feel free to
               <a href="mailto:support@magson.no" target="_top" style="font-family:roboto;font-weight:300;color:#484848;">contact us!</a>
             </p>
             <div class="footer" style="display: table;margin: 10px auto;">

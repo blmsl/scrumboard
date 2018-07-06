@@ -1,0 +1,58 @@
+[debug] [2018-07-06T18:18:46.325Z] ----------------------------------------------------------------------
+[debug] [2018-07-06T18:18:46.327Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2018-07-06T18:18:46.327Z] CLI Version:   3.19.3
+[debug] [2018-07-06T18:18:46.327Z] Platform:      darwin
+[debug] [2018-07-06T18:18:46.327Z] Node Version:  v8.9.4
+[debug] [2018-07-06T18:18:46.328Z] Time:          Fri Jul 06 2018 20:18:46 GMT+0200 (CEST)
+[debug] [2018-07-06T18:18:46.328Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-06T18:18:46.343Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-06T18:18:46.343Z] > authorizing via signed-in user
+[debug] [2018-07-06T18:18:46.344Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/magson-developer  
+  
+ Fri Jul 06 2018 20:18:46 GMT+0200 (CEST)
+[debug] [2018-07-06T18:18:47.701Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-06T18:18:47.704Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/magson-developer/tokens  
+  
+ Fri Jul 06 2018 20:18:47 GMT+0200 (CEST)
+[debug] [2018-07-06T18:18:48.474Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'magson-developer'...
+[info] 
+[info] i  deploying functions
+[debug] [2018-07-06T18:18:51.749Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "~5.12.1",
+    "firebase-functions": "^1.0.3",
+    "nodemailer": "^4.6.4",
+    "es6-promise-pool": "^2.4.4",
+    "secure-compare": "^3.0.1"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2018-07-06T18:18:51.750Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/magson-developer?view=CONSUMER_VIEW  
+  
+ Fri Jul 06 2018 20:18:51 GMT+0200 (CEST)
+[debug] [2018-07-06T18:18:51.751Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/magson-developer?view=CONSUMER_VIEW  
+  
+ Fri Jul 06 2018 20:18:51 GMT+0200 (CEST)
+[debug] [2018-07-06T18:18:53.493Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-06T18:18:53.594Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2018-07-06T18:18:53.596Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/magson-developer  
+  
+ Fri Jul 06 2018 20:18:53 GMT+0200 (CEST)
+[debug] [2018-07-06T18:18:54.664Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-06T18:18:54.664Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/1054331397519:getServerAppConfig  
+  
+ Fri Jul 06 2018 20:18:54 GMT+0200 (CEST)

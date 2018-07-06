@@ -3,7 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { BoardsService } from './../../services/boards.service';
 import { AuthServiceService } from './../../services/auth-service.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
@@ -73,7 +73,6 @@ export class TeamsModuleComponent implements OnInit {
             const uid = data.userData.uid;
             const imageUrl = data.userData.photoURL;
             const displayName = data.userData.displayName;
-            const email = data.userData.email;
 
             const that = this;
 
@@ -87,30 +86,28 @@ export class TeamsModuleComponent implements OnInit {
               showCancelButton: true,
               reverseButtons: true,
               showLoaderOnConfirm: true,
-              preConfirm: (value) => {
+              preConfirm: () => {
                 // add to team
                 console.log('add to team');
                 const ref = that.afs.firestore.doc('teams/' + teamId);
-                that.afs.firestore.runTransaction(transaction =>
-                  transaction.get(ref).then(doc => {
-                    const members = doc.data().members;
-                    members[uid] = 'mail';
-                    return transaction.update(ref, { members });
-                  }).then(() => {
+                that.afs.firestore.runTransaction(transaction => transaction.get(ref).then(doc => {
+                  const members = doc.data().members;
+                  members[uid] = 'mail';
+                  return transaction.update(ref, { members });
+                }).then(() => {
+                  swal({
+                    title: `Success`,
+                    type: 'success',
+                    text: 'You have successfully added a new member',
+                  });
+                })
+                  .catch(err => {
                     swal({
-                      title: `Success`,
-                      type: 'success',
-                      text: 'You have successfully added a new member',
+                      title: 'Error',
+                      text: err,
+                      type: 'error'
                     });
-                  })
-                    .catch(err => {
-                      swal({
-                        title: 'Error',
-                        text: err,
-                        type: 'error'
-                      });
-                    })
-                );
+                  }));
               }
             });
           }).catch(function (error) {
