@@ -183,20 +183,21 @@ exports.createAdmin = functions.https.onCall((data, context) => {
 
 
 
-/* exports.listAllUsers = functions.https.onCall((data, context) => {
+exports.listAllUsers = functions.https.onCall((data, context) => {
   // List all users
    return listAllUsers();
 });
 
 function listAllUsers(nextPageToken, res) {
   // List batch of users, 1000 at a time.
+  var allUsers;
   admin.auth().listUsers(1000, nextPageToken)
     .then(function (listUsersResult) {
       listUsersResult.users.forEach(function (userRecord) {
         const userData = userRecord.toJSON();
-        console.log("user", userRecord.toJSON());
+        allUsers.push(userData);
         return {
-          // return users to client
+          allUsers
         }
       });
       if (listUsersResult.pageToken) {
@@ -207,7 +208,7 @@ function listAllUsers(nextPageToken, res) {
     .catch(function (error) {
       console.log("Error listing users:", error);
     });
-} */
+}
 
 
 /*  exports.deleteUserData = functions.auth.user().onDelete((user) => {
