@@ -2,8 +2,8 @@
   <div id="tableHead">
     <div>
       <div id="reloadBtn">
-      <mat-icon>refresh</mat-icon>
-</div>
+        <mat-icon>refresh</mat-icon>
+      </div>
     </div>
   </div>
   <table id="table" cellspacing="0">
@@ -13,11 +13,12 @@
       <th>Email</th>
       <th>Type</th>
     </tr>
-    <tr *ngFor="let user of allUsers | async">
-      <td>{{user.uid}}</td>
-      <td>{{user.displayName}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.role}}</td> ???
+    <tr *ngFor="let user of adminService.allUsers; let i=index ">
+      <td>{{user[i].email}}</td>
+      <td>{{user[i].displayName}}</td>
+      <td>{{user[i].email}}</td>
+      <td>{{user[i].email}}</td>
+      <!-- <td>{{user[i].role}}</td> ??? -->
     </tr>
 
     <!-- <tr>

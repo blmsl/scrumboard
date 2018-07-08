@@ -185,29 +185,38 @@ exports.createAdmin = functions.https.onCall((data, context) => {
 
 exports.listAllUsers = functions.https.onCall((data, context) => {
   // List all users
-   return listAllUsers();
+  
+  return listAllUsers();
 });
 
-function listAllUsers(nextPageToken, res) {
+function listAllUsers(nextPageToken) {
   // List batch of users, 1000 at a time.
-  var allUsers;
-  admin.auth().listUsers(1000, nextPageToken)
+  var allUsers = [];
+
+  return admin.auth().listUsers(1000, nextPageToken)
     .then(function (listUsersResult) {
       listUsersResult.users.forEach(function (userRecord) {
-        const userData = userRecord.toJSON();
+        // For each user
+        var userData = userRecord.toJSON();
         allUsers.push(userData);
-        return {
-          allUsers
-        }
       });
       if (listUsersResult.pageToken) {
         // List next batch of users.
-        listAllUsers(listUsersResult.pageToken)
+        console.log('Next batch of users');
+        
+        return listAllUsers(listUsersResult.pageToken)
+      }
+      else {
+        // All users have been fetched
+        console.log('All users have been fetched');
+        
+        return allUsers
       }
     })
     .catch(function (error) {
       console.log("Error listing users:", error);
     });
+
 }
 
 

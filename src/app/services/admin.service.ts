@@ -7,16 +7,17 @@ import { AngularFireFunctions } from 'angularfire2/functions';
 })
 export class AdminService {
 
+  allUsers: Array<string>;
+
   constructor(
     public afFunctions: AngularFireFunctions
 
   ) {
-    let allUsers = [];
 
     const listAllUsers = this.afFunctions.httpsCallable('listAllUsers');
     listAllUsers({}).toPromise()
       .then(function (result) {
-        allUsers = result;
+        console.log(result);
       });
   }
 }
