@@ -2,6 +2,17 @@
  * Copyright (c) Magson 2018. All rights reserved.
  */
 
+:host {
+  position: absolute;
+  left: 25%;
+  right: 5%;
+  top: 100px;
+}
+
+.tableDiv {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
 #tableHead {
   background-color: #F5F5F5;
   height: 60px;
@@ -15,7 +26,6 @@
 #reloadBtn {
   float: right;
   background-color: #0388CA;
-  
   margin-right: 20px;
   border: 0 solid;
   border-radius: 7px;

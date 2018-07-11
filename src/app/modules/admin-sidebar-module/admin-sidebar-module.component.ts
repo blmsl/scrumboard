@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavbarService } from './../../services/navbar.service';
+
 
 @Component({
   selector: 'app-admin-sidebar-module',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminSidebarModuleComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public navbarService: NavbarService
+  ) { }
 
   ngOnInit() {
+    this.navbarService.hidden = true;
   }
 
 }

@@ -8,7 +8,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
-import {firestore} from 'firebase/app';
+import { firestore } from 'firebase/app';
 
 @Component({
   selector: 'app-scrum',
@@ -62,7 +62,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
       .collection<EntryInterface>('done');
 
     this.$todo = this.$orderBy.switchMap(sortBy => {
-      console.log({sortBy});
+      console.log({ sortBy });
       const config = JSON.parse(sortBy);
       return this.toMap(this.boardDoc
         .collection<EntryInterface>('todo', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
@@ -95,12 +95,13 @@ export class ScrumComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         // Delete method here
-        collection.doc(entry.id).delete().then();
-        swal(
-          'Deleted!',
-          'The task has been deleted.',
-          'success'
-        );
+        collection.doc(entry.id).delete().then(() => {
+          swal(
+            'Deleted!',
+            'The task has been deleted.',
+            'success'
+          );
+        });
       } else if (
         result.dismiss === swal.DismissReason.cancel
       ) {
@@ -241,18 +242,15 @@ export class ScrumComponent implements OnInit, OnDestroy {
           priority
         ];
       },
-      inputValidator: (value) => {
-        return !value && 'You need to write something!';
-      }
     });
     if (post) {
-      this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
+        this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
     }
 
   }
 
   getRadio(priority: string) {
-    return  `
+    return `
   <style>
   .swalRadioBtns {
     position: absolute;

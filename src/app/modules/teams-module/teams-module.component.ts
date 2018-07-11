@@ -3,7 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { BoardsService } from './../../services/boards.service';
 import { AuthServiceService } from './../../services/auth-service.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
@@ -42,7 +42,7 @@ export class TeamsModuleComponent implements OnInit {
         showCancelButton: true,
         reverseButtons: true,
         inputValidator: (value) => {
-          return !value && 'You need to write a team name!';
+          return !value && 'You need to create a teamname!';
         }
       });
       if (name) {
@@ -56,6 +56,7 @@ export class TeamsModuleComponent implements OnInit {
     });
   }
   addMember(teamId: string, teamName: string) {
+    const that = this;
 
     swal.queue([{
       title: `Add member to ${teamName}`,
@@ -73,9 +74,7 @@ export class TeamsModuleComponent implements OnInit {
             const uid = data.userData.uid;
             const imageUrl = data.userData.photoURL;
             const displayName = data.userData.displayName;
-            const email = data.userData.email;
 
-            const that = this;
 
             swal.insertQueueStep({
               text: `Are you sure you want to add ${displayName} to ${teamName}?`,
@@ -87,30 +86,28 @@ export class TeamsModuleComponent implements OnInit {
               showCancelButton: true,
               reverseButtons: true,
               showLoaderOnConfirm: true,
-              preConfirm: (value) => {
+              preConfirm: () => {
                 // add to team
                 console.log('add to team');
                 const ref = that.afs.firestore.doc('teams/' + teamId);
-                that.afs.firestore.runTransaction(transaction =>
-                  transaction.get(ref).then(doc => {
-                    const members = doc.data().members;
-                    members[uid] = 'mail';
-                    return transaction.update(ref, { members });
-                  }).then(() => {
+                that.afs.firestore.runTransaction(transaction => transaction.get(ref).then(doc => {
+                  const members = doc.data().members;
+                  members[uid] = 'mail';
+                  return transaction.update(ref, { members });
+                }).then(() => {
+                  swal({
+                    title: `Success`,
+                    type: 'success',
+                    text: `You have successfully invited ${displayName} to your team!`,
+                  });
+                })
+                  .catch(err => {
                     swal({
-                      title: `Success`,
-                      type: 'success',
-                      text: 'You have successfully added a new member',
+                      title: 'Error',
+                      text: err,
+                      type: 'error'
                     });
-                  })
-                    .catch(err => {
-                      swal({
-                        title: 'Error',
-                        text: err,
-                        type: 'error'
-                      });
-                    })
-                );
+                  }));
               }
             });
           }).catch(function (error) {
@@ -127,26 +124,42 @@ export class TeamsModuleComponent implements OnInit {
 
   leaveTeam(teamId: string, ) {
     // update members
-    this.auth.user$.take(1).subscribe(user => {
-      const ref = this.afs.firestore.doc(`teams/${teamId}`);
-      this.afs.firestore.runTransaction(transaction =>
-        transaction.get(ref).then(doc => {
-          const members = doc.data().members;
-          delete members[user.uid];
-          return transaction.update(ref, { members });
-        }).then(() => {
-          swal({
-            title: `Success`,
-            type: 'success',
-            text: 'You have successfully left this team',
-          });
-        })
-          .catch(err => {
-            console.log('Error', err);
-            alert(err);
-          })
-      );
+    swal({
+      title: 'Are you sure?',
+      text: 'Are you sure you want to leave this team??!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Leave',
+      confirmButtonColor: '#e95d4f',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        // Delete method here
+        this.auth.user$.take(1).subscribe(user => {
+          const ref = this.afs.firestore.doc(`teams/${teamId}`);
+          this.afs.firestore.runTransaction(transaction =>
+            transaction.get(ref).then(doc => {
+              const members = doc.data().members;
+              delete members[user.uid];
+              return transaction.update(ref, { members });
+            }).then(() => {
+              swal({
+                title: `Success`,
+                type: 'success',
+                text: 'You have successfully left this team',
+              });
+            })
+              .catch(err => {
+                console.log('Error', err);
+                swal({
+                  title: `Error`,
+                  type: 'error',
+                  text: err.message,
+                });
+              })
+          );
+        });
+      }
     });
-
+    }
   }
-}
