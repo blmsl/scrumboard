@@ -6,6 +6,8 @@
   <title>Scrumboard</title>
   <base href="/">
 
+  <link href="https://fonts.googleapis.com/css?family=Audiowide|Roboto:100,300|Material+Icons" rel="stylesheet">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
@@ -23,6 +25,15 @@
       width: 150px;
     }
 
+    #splashScreen h1 {
+      font-family: roboto;
+      text-align: center;
+      margin-top: 118px;
+      font-size: 39px;
+      position: absolute;
+      width: 150px;
+    }
+
     app-root:empty+#splashScreen {
       display: flex;
       justify-content: center;
@@ -35,8 +46,11 @@
 <body>
   <app-root></app-root>
   <div id="splashScreen">
-    <img src="assets/icon.svg" alt="Foko">
-    <h1>Scrum</h1>
+    <div>
+      <img src="assets/icon.svg" alt="Foko">
+      <br>
+      <h1>Scrum</h1>
+    </div>
   </div>
 </body>
 

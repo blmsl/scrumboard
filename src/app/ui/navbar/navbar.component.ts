@@ -1,8 +1,9 @@
+import { AngularFirestore } from 'angularfire2/firestore';
 import { NavbarService } from './../../services/navbar.service';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Subscription } from 'rxjs';
-
+import swal from 'sweetalert2';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -39,7 +40,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --button-accent: #eb3472;
   `;
 
-  constructor(public auth: AuthServiceService, public navbarService: NavbarService) {
+  constructor(public auth: AuthServiceService, public navbarService: NavbarService, public afs: AngularFirestore) {
     this.sub = auth.user$.filter(user => user !== null).subscribe((user) => {
       this.profileUrl = user.photoURL;
       this.profileName = user.displayName;
@@ -80,6 +81,40 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   changeCssVariables(theme: string) {
     document.querySelector('body').style.cssText = theme;
+  }
+
+  sendFeedback() {
+    swal({
+      title: 'Send feedback',
+      input: 'textarea',
+      confirmButtonText: 'Send',
+      showCancelButton: true,
+      reverseButtons: true,
+      inputValidator: (txt) => {
+        return !txt && 'You need to write something!';
+      }
+    }).then(txt => {
+      if (txt.value) {
+      this.auth.user$.take(1).subscribe(user => {
+        this.afs.collection('feedback').add({
+          txt: txt.value,
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email
+        }).then(() => {
+            swal(
+              'Sent!',
+              'Your feedback has been sent.',
+              'success'
+            );
+        }).catch(() => swal(
+          'Error',
+          'Your feedback was not sent, please try again',
+          'error'
+        ));
+      });
+    }
+    });
   }
 
 }
