@@ -27,7 +27,7 @@ export class BoardsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.navbarService.title = 'Magson Scrum';
+    this.navbarService.title = null;
 
     this.boardCollection = this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
       const teamId = paramMap.get('teamId');
