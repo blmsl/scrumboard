@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment.prod';
 import { NavbarService } from './services/navbar.service';
 import { FirebaseConfig } from './../environments/FirebaseConfig';
 
@@ -72,7 +73,7 @@ import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-use
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
       // { path: '**', component: NotFoundComponent } // must be last
-    ])
+    ]),
   ],
   providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore,
     ProfileGuardService, NavbarService, AngularFireFunctions],
