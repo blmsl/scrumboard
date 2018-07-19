@@ -23,7 +23,6 @@ export class BoardsComponent implements OnInit {
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore, public router: Router) {
-    console.log('boards component has been initialized');
   }
 
   ngOnInit() {
@@ -33,19 +32,15 @@ export class BoardsComponent implements OnInit {
       const teamId = paramMap.get('teamId');
       this.teamId = teamId;
       if (!this.teamId) { // if no team is selected => select previous one
-        console.log('No team is selected in url');
         this.teamId = localStorage.previousSelectedTeam;
         if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre memeber of
-          console.log('No team is selected in localStorage');
           this.boardsService.$teams.take(1).subscribe(teams => {
-            console.log('select the first team youre memeber of');
             this.selectTeam(teams[0].id);
           });
         } else {
           this.selectTeam(this.teamId);
         }
       } else {
-        console.log({ teamId });
         return this.afs.collection<Board>('teams/' + this.teamId + '/boards');
       }
     });
@@ -58,10 +53,6 @@ export class BoardsComponent implements OnInit {
           return data;
         });
       }));
-      // delete this
-      this.$boards.subscribe(boards => {
-        console.log(boards);
-      });
   }
 
   async addBoard() {

@@ -55,7 +55,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     } catch {
       this.darkThemeActivated = false;
     }
-    console.log('retrieved from localStorage | darkTheme:', this.darkThemeActivated);
     this.setTheme();
   }
 
@@ -65,7 +64,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   toggleTheme(event) {
     this.darkThemeActivated = event.checked;
-    console.log('toggling theme | darkTheme: ', this.darkThemeActivated);
     this.setTheme();
     // save the theme opttion to localStorage
     localStorage.darkTheme = this.darkThemeActivated;

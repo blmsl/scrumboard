@@ -202,7 +202,7 @@ function listAllUsers(nextPageToken) {
       });
       if (listUsersResult.pageToken) {
         // List next batch of users.
-        console.log('Next batch of users');
+        
         
         return listAllUsers(listUsersResult.pageToken)
       }

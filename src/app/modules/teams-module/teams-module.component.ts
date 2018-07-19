@@ -27,7 +27,7 @@ export class TeamsModuleComponent implements OnInit {
   }
 
   selectTeam(teamId: string) {
-    console.log({ teamId });
+    
     localStorage.previousSelectedTeam = teamId;
     this.router.navigate(['/', teamId]);
   }
@@ -88,7 +88,6 @@ export class TeamsModuleComponent implements OnInit {
               showLoaderOnConfirm: true,
               preConfirm: () => {
                 // add to team
-                console.log('add to team');
                 const ref = that.afs.firestore.doc('teams/' + teamId);
                 that.afs.firestore.runTransaction(transaction => transaction.get(ref).then(doc => {
                   const members = doc.data().members;
@@ -150,7 +149,6 @@ export class TeamsModuleComponent implements OnInit {
               });
             })
               .catch(err => {
-                console.log('Error', err);
                 swal({
                   title: `Error`,
                   type: 'error',

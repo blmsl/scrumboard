@@ -11,10 +11,8 @@ export class ProfileGuardService implements CanActivate {
   constructor(private auth: AuthServiceService, private router: Router) { }
 
   canActivate(route, state: RouterStateSnapshot) {
-    console.log('canActivate?? is running');
     return this.auth.user$.map(user => {
       // if the user is signed in
-      console.log({user}, 'freeze');
       if (user) { return true; }
       this.router.navigate(['/login'], {
         queryParams: { returnUrl: state.url }

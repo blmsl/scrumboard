@@ -49,9 +49,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // set the orderBy to default TODO save and retrieve from localStorage
     if (localStorage.orderBy) {
       this.sortBy = localStorage.orderBy;
-      console.log('getting sortBy from localstoreage', this.sortBy);
     }
-    console.log('sending orderBy:', this.sortBy);
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
     this.todoCollection = this.boardDoc
@@ -62,7 +60,6 @@ export class ScrumComponent implements OnInit, OnDestroy {
       .collection<EntryInterface>('done');
 
     this.$todo = this.$orderBy.switchMap(sortBy => {
-      console.log({ sortBy });
       const config = JSON.parse(sortBy);
       return this.toMap(this.boardDoc
         .collection<EntryInterface>('todo', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
@@ -203,7 +200,6 @@ export class ScrumComponent implements OnInit, OnDestroy {
   }
 
   sortChanged() {
-    console.log('sortBy is changed', this.sortBy);
     this.$orderBy.next(this.sortBy);
     localStorage.orderBy = this.sortBy;
   }
