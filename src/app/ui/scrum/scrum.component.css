@@ -46,6 +46,40 @@ section .container {
     position: relative;
 }
 
+#profilePic {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+#profilePic img {
+    width: 100%;
+    height: 100%;
+}
+
+#profilePic mat-icon {
+    position: absolute;
+    font-size: 42px;
+}
+
+.withProfilePic strong {
+    position: absolute;
+    margin-top: 19px;
+    margin-left: 10px;
+    width: calc(100% - 90px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.withProfilePic p {
+    margin-top: 8px;
+}
+
 #backButton {
     cursor: pointer;
     position: absolute;
@@ -70,7 +104,8 @@ section .container {
     background-color: var(--button-accent);
 }
 
-.container>p {
+.container>p,
+.container>strong {
     font-size: 19px;
 }
 

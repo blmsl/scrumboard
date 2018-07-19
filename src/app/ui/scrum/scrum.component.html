@@ -60,10 +60,12 @@
             <span>Delete</span>
           </button>
         </mat-menu>
-        <div class="container">
-          <p>
-            <strong>Developer: {{entry.developer}}</strong>
-          </p>
+        <div class="container withProfilePic">
+          <div id="profilePic">
+            <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <strong>{{entry.developer}}</strong>
           <p>{{entry.txt}}</p>
         </div>
         <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
@@ -91,10 +93,12 @@
             <span>Delete</span>
           </button>
         </mat-menu>
-        <div class="container">
-          <p>
-            <strong>Developer: {{entry.developer}}</strong>
-          </p>
+        <div class="container withProfilePic">
+          <div id="profilePic">
+            <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <strong>{{entry.developer}}</strong>
           <p>{{entry.txt}}</p>
         </div>
       </div>

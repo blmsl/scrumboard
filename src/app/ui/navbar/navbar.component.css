@@ -9,7 +9,7 @@ header {
 
 #logo {
     width: 45px;
-    color: var(--button-color);
+    color: var(--header-title);
 }
 
 header h1 {

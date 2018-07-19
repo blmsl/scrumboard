@@ -129,7 +129,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add it to inProgress
     this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp()
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
+        imgUrl: user.photoURL
       });
     });
   }
@@ -179,7 +180,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add it to inProgress
     this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp()
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
+        imgUrl: user.photoURL
       });
     });
   }
@@ -190,7 +192,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
     // add to done
     this.auth.user$.take(1).subscribe((user) => {
       this.doneCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp()
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
+        imgUrl: user.photoURL
       });
     });
   }
@@ -306,6 +309,7 @@ interface EntryInterface {
   txt: string;
   priority: string;
   time: firestore.FieldValue;
+  imgUrl?: string;
   developer?: string;
   id?: string;
 }
