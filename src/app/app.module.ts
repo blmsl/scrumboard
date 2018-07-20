@@ -34,6 +34,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { AdminComponent } from './ui/admin-components/admin/admin.component';
@@ -63,6 +64,7 @@ import { TeamSettingsComponent } from './ui/team-settings/team-settings.componen
     MatSelectModule,
     MatIconModule,
     MatMenuModule,
+    MatInputModule,
     MatSliderModule,
     MatToolbarModule,
     OverlayModule,
