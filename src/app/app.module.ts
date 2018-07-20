@@ -40,6 +40,10 @@ import { AdminComponent } from './ui/admin-components/admin/admin.component';
 import { AdminSidebarModuleComponent } from './modules/admin-sidebar-module/admin-sidebar-module.component';
 import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-users.component';
 
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
+import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +54,9 @@ import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-use
     TeamsModuleComponent,
     AdminComponent,
     AdminSidebarModuleComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    MapToIterablePipe,
+    TeamSettingsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -66,10 +72,12 @@ import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-use
     AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
     BrowserModule,
+    SweetAlert2Module.forRoot(),
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'admin', component: AdminComponent, canActivate: [ProfileGuardService]},
       { path: 'scrum/:teamId/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
+      { path: 'team/:teamId', component: TeamSettingsComponent, canActivate: [ProfileGuardService] },
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
       // { path: '**', component: NotFoundComponent } // must be last

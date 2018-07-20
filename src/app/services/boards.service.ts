@@ -15,9 +15,6 @@ export class BoardsService {
   teamsCollection: Observable<AngularFirestoreCollection<TeamsInterface>>;
   $teams: Observable<TeamsInterface[]>;
 
-  // id of the selected team
-  $id = new Subject<string>();
-
   constructor(afs: AngularFirestore, auth: AuthServiceService) {
 
     this.teamsCollection = auth.user$.filter(user => user != null)

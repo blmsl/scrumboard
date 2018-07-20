@@ -9,7 +9,8 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="addMember(team.id, team.name)">
+      <button mat-menu-item [routerLink]="['/team', team.id]">
+        <!-- <button mat-menu-item (click)="addMember(team.id, team.name)"> -->
         <mat-icon>add</mat-icon>
         <span>Add member</span>
       </button>

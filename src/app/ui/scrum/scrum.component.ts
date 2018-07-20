@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardsService } from '../../services/boards.service';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
@@ -34,6 +34,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
   sortBy = '{"field": "txt", "direction": "asc"}';
   $orderBy: BehaviorSubject<string>;
 
+  sub: Subscription;
+
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,
     public auth: AuthServiceService,
@@ -42,7 +44,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.teamId = this.route.snapshot.paramMap.get('teamId');
 
     this.boardDoc = afs.doc<Board>('teams/' + this.teamId + '/boards/' + this.id);
-    this.boardDoc.valueChanges().subscribe((board) => {
+    this.sub = this.boardDoc.valueChanges().subscribe((board) => {
       navbarService.title = board.name;
     });
 
@@ -206,6 +208,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.navbarService.backBtn = false;
+    this.sub.unsubscribe();
   }
 
   toMap(observable: Observable<DocumentChangeAction<EntryInterface>[]>): Observable<EntryInterface[]> {

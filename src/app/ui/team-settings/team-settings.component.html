@@ -1,0 +1,22 @@
+<div id="members">
+  <div *ngFor="let member of (team$ | async)?.members | mapToIterable" id="memberWrapper">
+    <div id="profilePic">
+      <img *ngIf="member.val.imgUrl" src="{{member.val.imgUrl}}">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <p>{{ member.val.name }}</p>
+    <mat-menu #memberOptionsMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>add</mat-icon>
+        <span>Set member to admin</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Remove member</span>
+      </button>
+    </mat-menu>
+    <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="memberOptionsMenu" (click)="$event.stopPropagation()">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+</div>
