@@ -11,8 +11,8 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item [routerLink]="['/team', team.id]">
         <!-- <button mat-menu-item (click)="addMember(team.id, team.name)"> -->
-        <mat-icon>add</mat-icon>
-        <span>Add member</span>
+        <mat-icon>people</mat-icon>
+        <span>Manage members</span>
       </button>
       <button mat-menu-item (click)="leaveTeam(team.id)">
         <mat-icon>exit_to_app</mat-icon>
