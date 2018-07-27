@@ -44,6 +44,7 @@ import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-use
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
 import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
+import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/forms';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,10 @@ import { TeamSettingsComponent } from './ui/team-settings/team-settings.componen
     MatMenuModule,
     MatInputModule,
     MatSliderModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     OverlayModule,
+    FormsModule,
     MatButtonModule,
     MatSlideToggleModule,
     AngularFireModule.initializeApp(FirebaseConfig),

@@ -6,11 +6,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
 import { Subscription } from '../../../../node_modules/rxjs';
-import { FormControl, Validators } from '../../../../node_modules/@angular/forms';
+import { FormControl, Validators, FormGroup } from '../../../../node_modules/@angular/forms';
 import swal from 'sweetalert2';
 import { AngularFireFunctions } from 'angularfire2/functions';
-
-
 
 @Component({
   selector: 'app-team-settings',
@@ -22,6 +20,15 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   team$: Observable<TeamsInterface>;
 
   sub: Subscription;
+
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+
+  form = new FormGroup({
+    email: this.emailFormControl
+  });
 
   constructor(public route: ActivatedRoute, public boardsService: BoardsService,
     public afs: AngularFirestore,
@@ -39,6 +46,10 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
     this.navbarService.backBtn = false;
+  }
+
+  onFormSubmit() {
+    console.log(this.form.value.email);
   }
 
   promoteAdmin() {
@@ -103,9 +114,3 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 }
 
-export class InputErrorsExample {
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-}
