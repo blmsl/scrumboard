@@ -102,13 +102,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             type: 'error',
           });
 
-      });
+        });
+    });
   }
-}
-
-export class InputErrorsExample {
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 }
