@@ -1,7 +1,7 @@
 <main>
   <h1>Mangage members of the team</h1>
-  <input matInput placeholder="Favorite food">
-  <button mat-raised-button (click)="addMember(team.id, team.name, inputValue)" >Add user</button>
+  <input #input matInput placeholder="Favorite food">
+  <button mat-raised-button (click)="addMember('massen188@gmail.com')">Add user</button>
   <div id="members">
     <div *ngFor="let member of (team$ | async)?.members | mapToIterable" id="memberWrapper">
       <div id="profilePic">
