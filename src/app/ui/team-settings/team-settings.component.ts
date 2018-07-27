@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
 import { Subscription } from '../../../../node_modules/rxjs';
+import { FormControl, Validators } from '../../../../node_modules/@angular/forms';
 import swal from 'sweetalert2';
 import { AngularFireFunctions } from 'angularfire2/functions';
 
@@ -101,7 +102,13 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             type: 'error',
           });
 
-        });
-    });
+      });
   }
+}
+
+export class InputErrorsExample {
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
 }
