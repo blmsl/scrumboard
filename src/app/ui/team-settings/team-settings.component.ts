@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
 import { Subscription } from '../../../../node_modules/rxjs';
+import { FormControl, Validators } from '../../../../node_modules/@angular/forms';
 
 @Component({
   selector: 'app-team-settings',
@@ -34,4 +35,11 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     this.navbarService.backBtn = false;
   }
 
+}
+
+export class InputErrorsExample {
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
 }
