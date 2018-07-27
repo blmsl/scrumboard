@@ -113,7 +113,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             type: 'error',
           });
 
-      });
+        });
+    });
   }
 }
-
