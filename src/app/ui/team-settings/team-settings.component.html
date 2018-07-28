@@ -23,14 +23,18 @@
         <mat-icon>account_circle</mat-icon>
       </div>
       <strong id="nameTxt">{{ member.val.name }}
-        <span id="memberTypeTxt">Admin</span>
+        <span *ngIf="member.val.isAdmin" id="memberTypeTxt">Admin</span>
       </strong>
       <mat-menu #memberOptionsMenu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item *ngIf="!member.val.isAdmin" (click)="promoteAdmin(member.key)">
           <mat-icon>promote</mat-icon>
           <span>Set member to admin</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item *ngIf="member.val.isAdmin" (click)="removeAdmin(member.key)">
+          <mat-icon>promote</mat-icon>
+          <span>Remove admin priveliges</span>
+        </button>
+        <button mat-menu-item (click)="deleteMember(member.key)">
           <mat-icon>exit_to_app</mat-icon>
           <span>Remove member</span>
         </button>

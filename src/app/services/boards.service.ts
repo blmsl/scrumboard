@@ -6,7 +6,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/shareReplay';
 import { TeamsInterface } from '../extra/TeamsInterface';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class BoardsService {
