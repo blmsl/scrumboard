@@ -1,3 +1,4 @@
+import { AuthServiceService } from './../../services/auth-service.service';
 import { NavbarService } from './../../services/navbar.service';
 import { TeamsInterface } from './../../extra/TeamsInterface';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -5,7 +6,7 @@ import { BoardsService } from './../../services/boards.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
-import { Subscription } from '../../../../node_modules/rxjs';
+import { Subscription, combineLatest } from '../../../../node_modules/rxjs';
 import { FormControl, Validators, FormGroup } from '../../../../node_modules/@angular/forms';
 import swal from 'sweetalert2';
 import { AngularFireFunctions } from 'angularfire2/functions';
@@ -21,6 +22,8 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   teamId: string;
   teamRef;
 
+  isAdmin: Observable<boolean>;
+
   sub: Subscription;
 
   emailFormControl = new FormControl('', [
@@ -35,7 +38,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   constructor(public route: ActivatedRoute, public boardsService: BoardsService,
     public afs: AngularFirestore,
     public navbarService: NavbarService,
-    public afFunctions: AngularFireFunctions) {
+    public afFunctions: AngularFireFunctions, public auth: AuthServiceService) {
   }
 
   ngOnInit() {
@@ -45,6 +48,12 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     this.sub = this.team$.subscribe(team => this.navbarService.title = team.name);
     this.team$.subscribe(team => console.log(team));
     this.teamRef = this.afs.firestore.doc('teams/' + this.teamId);
+
+    this.isAdmin = combineLatest(this.auth.user$, this.team$,  (user, team) => {
+      return team.members[user.uid].isAdmin;
+    });
+
+    this.isAdmin.subscribe(val => console.log(val));
   }
 
   ngOnDestroy() {
@@ -67,7 +76,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   removeAdmin(uid: string) {
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
-      members[uid].isAdmin = true;
+      delete members[uid].isAdmin;
       return transaction.update(this.teamRef, { members });
     }));
   }
@@ -86,6 +95,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
     getUserByMail({ mail: input }).toPromise()
       .then(function (data) {
+        console.log(data);
         const uid = data.userData.uid;
         const imageUrl = data.userData.photoURL;
         const displayName = data.userData.displayName;
@@ -140,4 +150,6 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
         type: 'error'
       }));
   }
+
+
 }
