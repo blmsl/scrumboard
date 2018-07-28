@@ -27,7 +27,6 @@ export class BoardsComponent implements OnInit {
 
   ngOnInit() {
     this.navbarService.title = null;
-
     this.boardCollection = this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
       const teamId = paramMap.get('teamId');
       this.teamId = teamId;
@@ -69,6 +68,26 @@ export class BoardsComponent implements OnInit {
     if (name) {
       this.boardCollection.take(1).subscribe(collection => collection.add({ name }));
     }
+  }
+
+  archive() {
+    swal({
+      title: 'Are you sure?',
+      text: 'This will archive your project. You can of course unarchive it later',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Archive!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        // Archive method here
+        swal(
+          'Archived!',
+          'Your project has been archived. You can find it in the archive section below',
+          'success'
+        );
+      }
+    });
   }
 
   delete(board: Board) {
