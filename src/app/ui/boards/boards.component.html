@@ -14,6 +14,10 @@
               <mat-icon>edit</mat-icon>
               <span>Rename</span>
             </button>
+            <button mat-menu-item (click)="archive(board)">
+              <mat-icon>move_to_inbox</mat-icon>
+              <span>Archive</span>
+            </button>
             <button mat-menu-item (click)="delete(board)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
