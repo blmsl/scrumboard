@@ -38,10 +38,11 @@
           <span>Remove member</span>
         </button>
       </mat-menu>
-      <button *ngIf="!(member.key == (auth.user$ | async)?.uid) && isAdmin | async" class="menuBtn" mat-icon-button [matMenuTriggerFor]="memberOptionsMenu"
+      <button *ngIf="!(member.key == (auth.user$ | async)?.uid) && isAdmin" class="menuBtn" mat-icon-button [matMenuTriggerFor]="memberOptionsMenu"
         (click)="$event.stopPropagation()">
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
   </div>
 </main>
+

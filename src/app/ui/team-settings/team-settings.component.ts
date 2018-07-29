@@ -22,7 +22,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   teamId: string;
   teamRef;
 
-  isAdmin: Observable<boolean>;
+  isAdmin = false;
 
   sub: Subscription;
 
@@ -49,11 +49,12 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     this.team$.subscribe(team => console.log(team));
     this.teamRef = this.afs.firestore.doc('teams/' + this.teamId);
 
-    this.isAdmin = combineLatest(this.auth.user$, this.team$,  (user, team) => {
-      return team.members[user.uid].isAdmin;
+    combineLatest(this.auth.user$, this.team$).subscribe(([user, team]) => {
+      console.log('isAdmin:', this.isAdmin);
+      console.log(team.members[user.uid].isAdmin);
+      this.isAdmin = team.members[user.uid].isAdmin;
     });
 
-    this.isAdmin.subscribe(val => console.log(val));
   }
 
   ngOnDestroy() {
