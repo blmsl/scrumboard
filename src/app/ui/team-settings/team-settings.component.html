@@ -8,16 +8,15 @@
         Please enter a valid email address
       </mat-error>
       <mat-error *ngIf="emailFormControl.hasError('required')">
-        Email is <strong>required</strong>
+        Email is
+        <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <button type="submit" mat-raised-button>Add user</button>
   </form>
 
-  <!-- <input matInput placeholder="Favorite food">
-  <button mat-raised-button (click)="addMember(team.id, team.name, inputValue)" >Add user</button> -->
   <div id="members">
-    <div *ngFor="let member of (team$ | async)?.members | mapToIterable" id="memberWrapper">
+    <div *ngFor="let member of (team$ | async)?.members | mapToIterable; let members" id="memberWrapper">
       <div id="profilePic">
         <img *ngIf="member.val.imgUrl" src="{{member.val.imgUrl}}">
         <mat-icon>account_circle</mat-icon>
@@ -26,12 +25,12 @@
         <span *ngIf="member.val.isAdmin" id="memberTypeTxt">Admin</span>
       </strong>
       <mat-menu #memberOptionsMenu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item *ngIf="!member.val.isAdmin" (click)="promoteAdmin(member.key)">
           <mat-icon>how_to_reg</mat-icon>
           <span>Promote to admin</span>
         </button>
         <button mat-menu-item *ngIf="member.val.isAdmin" (click)="removeAdmin(member.key)">
-          <mat-icon>promote</mat-icon>
+          <mat-icon>keyboard_arrow_down</mat-icon>
           <span>Remove admin priveliges</span>
         </button>
         <button mat-menu-item (click)="deleteMember(member.key)">
@@ -39,7 +38,8 @@
           <span>Remove member</span>
         </button>
       </mat-menu>
-      <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="memberOptionsMenu" (click)="$event.stopPropagation()">
+      <button *ngIf="!(member.key == (auth.user$ | async)?.uid) && isAdmin | async" class="menuBtn" mat-icon-button [matMenuTriggerFor]="memberOptionsMenu"
+        (click)="$event.stopPropagation()">
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
