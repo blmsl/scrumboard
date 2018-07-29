@@ -70,7 +70,7 @@ export class BoardsComponent implements OnInit {
     }
   }
 
-  archive() {
+  archive(board: string) {
     swal({
       title: 'Are you sure?',
       text: 'This will archive your project. You can of course unarchive it later',
