@@ -91,68 +91,87 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   addMember(input: string) {
-    console.log(input);
-    const that = this;
-    const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
-    return getUserByMail({ mail: input }).toPromise()
-      .then(function (data) {
-        console.log(data);
-        const uid = data.userData.uid;
-        const imageUrl = data.userData.photoURL;
-        const displayName = data.userData.displayName;
+    if (this.form.valid) {
+      const that = this;
+      const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
+      return getUserByMail({ mail: input }).toPromise()
+        .then(function (data) {
+          console.log(data);
+          const uid = data.userData.uid;
+          const imageUrl = data.userData.photoURL;
+          const displayName = data.userData.displayName;
 
-        swal.queue([{
-          text: `Are you sure you want to add ${displayName} to ${that.navbarService.title}?`,
-          imageUrl: imageUrl,
-          imageWidth: 100,
-          imageHeight: 100,
-          imageAlt: 'Scrumboard user profile',
-          confirmButtonText: 'Add',
-          showCancelButton: true,
-          reverseButtons: true,
-          showLoaderOnConfirm: true,
-          preConfirm: () => {
-            // add to team
-            const ref = that.afs.firestore.doc('teams/' + this.teamId);
-            that.afs.firestore.runTransaction(transaction => transaction.get(ref).then(doc => {
-              const members = doc.data().members;
-              members[uid] = {
-                isMember: 'mail',
-                imgUrl: imageUrl,
-                name: displayName
-              };
-              return transaction.update(ref, { members });
-            }).then(() => {
-              swal({
-                title: `Success`,
-                type: 'success',
-                text: `You have successfully invited ${displayName} to your team!`,
-              });
-            })
-              .catch(err => {
+          swal.queue([{
+            text: `Are you sure you want to add ${displayName} to ${that.navbarService.title}?`,
+            imageUrl: imageUrl,
+            imageWidth: 100,
+            imageHeight: 100,
+            imageAlt: 'Scrumboard user profile',
+            confirmButtonText: 'Add',
+            showCancelButton: true,
+            reverseButtons: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+              // add to team
+              const ref = that.afs.firestore.doc('teams/' + that.teamId);
+              that.afs.firestore.runTransaction(transaction => transaction.get(ref).then(doc => {
+                const members = doc.data().members;
+                members[uid] = {
+                  isMember: 'mail',
+                  imgUrl: imageUrl,
+                  name: displayName
+                };
+                return transaction.update(ref, { members });
+              }).then(() => {
                 swal({
-                  title: 'Error',
-                  text: err.message,
-                  type: 'error'
+                  title: `Success`,
+                  type: 'success',
+                  text: `You have successfully invited ${displayName} to your team!`,
                 });
-              }));
-          }
-        }]);
-      }).catch(function (error) {
-        swal({
-          title: 'Could not find user',
-          text: 'We could not find any user by this email. Please try another email, or send an invitation.',
-          type: 'error',
-          // tslint:disable-next-line:max-line-length
-         // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
-        });
+              })
+                .catch(err => {
+                  swal({
+                    title: 'Error',
+                    text: err.message,
+                    type: 'error'
+                  });
+                }));
+            }
+          }]);
+        }).catch(function (error) {
+          swal({
+            title: 'Could not find user',
+            text: 'We could not find any user by this email. Please try another email, or send an invitation.',
+            type: 'error',
+            // tslint:disable-next-line:max-line-length
+            // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
+          });
 
-      }).catch(err => swal({
-        title: 'Error',
-        text: err.message,
-        type: 'error'
-      }));
+        }).catch(err => swal({
+          title: 'Error',
+          text: err.message,
+          type: 'error'
+        }));
+    }
   }
 
+  deleteTeam() {
+    swal({
+      title: 'Are you sure?',
+      text: 'Are you sure you want to delete this team?!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete team',
+      confirmButtonColor: 'red',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.afs.doc('teams/' + this.teamId).delete().then(() => swal({
+          title: 'Team is deleted',
+          text: 'Your team is now successfully deleted.',
+        }));
+      }
+    });
+  }
 
 }
