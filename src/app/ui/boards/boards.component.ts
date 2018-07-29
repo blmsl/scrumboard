@@ -70,10 +70,10 @@ export class BoardsComponent implements OnInit {
     }
   }
 
-  archive() {
+  archive(board: string) {
     swal({
       title: 'Are you sure?',
-      text: 'This will archive your project. You can of course unarchive it later',
+      text: 'This will archive your project. Shared public links wont work anymore. You can of course unarchive it later',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Archive!',
@@ -84,6 +84,26 @@ export class BoardsComponent implements OnInit {
         swal(
           'Archived!',
           'Your project has been archived. You can find it in the archive section below',
+          'success'
+        );
+      }
+    });
+  }
+
+  activate(board: string) {
+    swal({
+      title: 'Are you sure?',
+      text: 'This will reactivate your project.',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Activate!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        // Activate method here
+        swal(
+          'Archived!',
+          'Your project has been reactivated.',
           'success'
         );
       }

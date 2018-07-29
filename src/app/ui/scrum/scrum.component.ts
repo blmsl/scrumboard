@@ -138,14 +138,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
     const { value: post } = await swal({
       title: 'Edit the post',
       html:
-        `<input id="swal-input1" type="text" value="${entry.txt}" class="swal2-input">` +
+        `<input id="swal-input1" type="text" value='${entry.txt}' class="swal2-input">` +
         this.getRadio(entry.priority),
       showCancelButton: true,
       reverseButtons: true,
-      onOpen: function () {
-        const input = (<HTMLInputElement>swal.getInput());
-        input.setSelectionRange(0, input.value.length);
-      },
       preConfirm: () => {
         let priority: string;
 

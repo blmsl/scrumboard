@@ -2,9 +2,9 @@
   <div id="sortBy">
     <mat-icon>sort</mat-icon>
     <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+      <mat-option value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
       <mat-option value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
       <mat-option value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
-      <mat-option value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
       <mat-option value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
     </mat-select>
   </div>

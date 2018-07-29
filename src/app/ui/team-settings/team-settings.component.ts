@@ -94,7 +94,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     console.log(input);
     const that = this;
     const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
-    getUserByMail({ mail: input }).toPromise()
+    return getUserByMail({ mail: input }).toPromise()
       .then(function (data) {
         console.log(data);
         const uid = data.userData.uid;
@@ -132,22 +132,24 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
               .catch(err => {
                 swal({
                   title: 'Error',
-                  text: err,
+                  text: err.message,
                   type: 'error'
                 });
               }));
           }
         }]);
       }).catch(function (error) {
-        swal.insertQueueStep({
+        swal({
           title: 'Could not find user',
-          text: error.message,
+          text: 'We could not find any user by this email. Please try another email, or send an invitation.',
           type: 'error',
+          // tslint:disable-next-line:max-line-length
+         // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
         });
 
       }).catch(err => swal({
         title: 'Error',
-        text: err,
+        text: err.message,
         type: 'error'
       }));
   }
