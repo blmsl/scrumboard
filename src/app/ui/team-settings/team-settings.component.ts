@@ -168,6 +168,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.afs.doc('teams/' + this.teamId).delete().then(() => swal({
           title: 'Team is deleted',
+          type: 'success',
           text: 'Your team is now successfully deleted.',
         }));
       }

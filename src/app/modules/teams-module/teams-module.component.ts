@@ -62,7 +62,7 @@ export class TeamsModuleComponent implements OnInit {
     // update members
     swal({
       title: 'Are you sure?',
-      text: 'Are you sure you want to leave this team??!',
+      text: 'Are you sure you want to leave this team?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Leave',
