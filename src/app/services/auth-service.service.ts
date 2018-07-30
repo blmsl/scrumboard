@@ -15,18 +15,40 @@ export class AuthServiceService {
   }
 
   signInWithGoogle() {
+    // Google analytics event
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Auth',
+      eventLabel: 'Signed in with Google',
+      eventAction: 'Sign in',
+    });
     return this.afAuth.auth.signInWithRedirect(new auth.GoogleAuthProvider());
   }
 
   signInWithFacebook() {
+    // Google analytics event
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Auth',
+      eventLabel: 'Signed in with Facebook',
+      eventAction: 'Sign in',
+    });
     return this.afAuth.auth.signInWithRedirect(new auth.FacebookAuthProvider());
   }
 
   resetPassword(email: string) {
+    // Google analytics event
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Auth',
+      eventAction: 'Requested password reset',
+    });
     return this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
   logOut() {
+    // Google analytics event
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Auth',
+      eventAction: 'Signed out',
+    });
     this.afAuth.auth.signOut().then(() => this.router.navigate(['login']));
   }
 

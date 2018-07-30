@@ -67,6 +67,11 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   promoteAdmin(uid: string) {
+    // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Team management',
+        eventAction: 'Promote admin',
+      });
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
       members[uid].isAdmin = true;
@@ -75,6 +80,11 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   removeAdmin(uid: string) {
+    // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Team management',
+        eventAction: 'Demote admin',
+      });
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
       delete members[uid].isAdmin;
@@ -83,6 +93,11 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   deleteMember(uid: string) {
+    // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Team management',
+        eventAction: 'Delete member',
+      });
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
       delete members[uid];
@@ -123,6 +138,12 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
                 };
                 return transaction.update(ref, { members });
               }).then(() => {
+                // Google analytics event
+                (<any>window).ga('send', 'event', {
+                  eventCategory: 'Team management',
+                  eventLabel: 'Member added to team',
+                  eventAction: 'addedMember',
+                });
                 swal({
                   title: `Success`,
                   type: 'success',
@@ -166,6 +187,11 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'Team management',
+          eventAction: 'Delete team',
+        });
         this.afs.doc('teams/' + this.teamId).delete().then(() => swal({
           title: 'Team is deleted',
           type: 'success',

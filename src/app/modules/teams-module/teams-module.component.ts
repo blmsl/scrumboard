@@ -54,6 +54,11 @@ export class TeamsModuleComponent implements OnInit {
           } }
         };
         this.afs.collection<TeamsInterface>('teams').add(team);
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'Team management',
+          eventAction: 'New team',
+        });
       }
     });
   }
@@ -83,6 +88,11 @@ export class TeamsModuleComponent implements OnInit {
                 title: `Success`,
                 type: 'success',
                 text: 'You have successfully left this team',
+              });
+              // Google analytics event
+              (<any>window).ga('send', 'event', {
+                eventCategory: 'Team management',
+                eventAction: 'Leave team',
               });
             })
               .catch(err => {

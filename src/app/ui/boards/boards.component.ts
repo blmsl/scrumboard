@@ -82,13 +82,18 @@ export class BoardsComponent implements OnInit {
     });
     if (name) {
       this.boardCollection.take(1).subscribe(collection => collection.add({ name }));
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Project management',
+        eventAction: 'New project',
+      });
     }
   }
 
   archive(board: Board) {
     swal({
       title: 'Are you sure?',
-      text: 'This will archive your project. Shared public links wont work anymore. You can of course unarchive it later',
+      text: 'This will archive your project. Shared public links wont work anymore. You can of reactivate at any time.',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Archive!',
@@ -103,11 +108,16 @@ export class BoardsComponent implements OnInit {
           'Your project has been archived. You can find it in the archived section',
           'success'
         );
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'Project management',
+          eventAction: 'Archive project',
+        });
       }
     });
   }
 
-  activate(board: string) {
+  activate(board: Board) {
     swal({
       title: 'Are you sure?',
       text: 'This will reactivate your project.',
@@ -118,11 +128,18 @@ export class BoardsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // TODO Activate method here
+        this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
+        this.boardCollection.take(1).subscribe(collection => collection.add({ name: board.name }));
         swal(
           'Archived!',
           'Your project has been reactivated.',
           'success'
         );
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'Project management',
+          eventAction: 'Reactivate project',
+        });
       }
     });
   }
@@ -147,6 +164,11 @@ export class BoardsComponent implements OnInit {
           'Your project has been deleted.',
           'success'
         );
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'Project management',
+          eventAction: 'Delete project',
+        });
       } else if (
         result.dismiss === swal.DismissReason.cancel
       ) {

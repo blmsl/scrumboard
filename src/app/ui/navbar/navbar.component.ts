@@ -71,8 +71,20 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   setTheme() {
     if (this.darkThemeActivated) {
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'User settings',
+        eventLabel: 'Theme set to dark',
+        eventAction: 'Toggle theme',
+      });
       this.changeCssVariables(this.darkTheme);
     } else {
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'User settings',
+        eventLabel: 'Team set to light',
+        eventAction: 'Toggle theme',
+      });
       this.changeCssVariables(this.defaultTheme);
     }
   }
@@ -93,25 +105,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     }).then(txt => {
       if (txt.value) {
-      this.auth.user$.take(1).subscribe(user => {
-        this.afs.collection('feedback').add({
-          txt: txt.value,
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email
-        }).then(() => {
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'User action',
+          eventAction: 'Sent feedback',
+        });
+
+        this.auth.user$.take(1).subscribe(user => {
+          this.afs.collection('feedback').add({
+            txt: txt.value,
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email
+          }).then(() => {
             swal(
               'Thank you!',
               'We have recieved your feedback.',
               'success'
             );
-        }).catch(() => swal(
-          'Error',
-          'Your feedback was not sent, please try again',
-          'error'
-        ));
-      });
-    }
+          }).catch(() => swal(
+            'Error',
+            'Your feedback was not sent, please try again',
+            'error'
+          ));
+        });
+      }
     });
   }
 

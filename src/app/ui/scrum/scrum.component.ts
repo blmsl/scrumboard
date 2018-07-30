@@ -100,6 +100,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
             'The task has been deleted.',
             'success'
           );
+          // Google analytics event
+          (<any>window).ga('send', 'event', {
+            eventCategory: 'Scrumboard interaction',
+            eventAction: 'Delete task',
+          });
         });
       } else if (
         result.dismiss === swal.DismissReason.cancel
@@ -242,7 +247,12 @@ export class ScrumComponent implements OnInit, OnDestroy {
       },
     });
     if (post) {
-        this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
+      this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Scrumboard interaction',
+        eventAction: 'New todo',
+      });
     }
 
   }
@@ -298,6 +308,15 @@ export class ScrumComponent implements OnInit, OnDestroy {
     return null;
   }
 
+  sendEvent = (filter: String) => {
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'User settings',
+      eventLabel: filter,
+      eventAction: 'Change filter',
+      eventValue: 10
+    });
+  }
+
 }
 
 interface EntryInterface {
@@ -308,5 +327,3 @@ interface EntryInterface {
   developer?: string;
   id?: string;
 }
-
-
