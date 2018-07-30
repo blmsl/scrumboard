@@ -23,7 +23,6 @@ export class BoardsComponent implements OnInit {
   $archived: Observable<Board[]>;
   archiveCollection: Observable<AngularFirestoreCollection<Board>>;
 
-
   teamId: string;
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
@@ -57,8 +56,17 @@ export class BoardsComponent implements OnInit {
           return data;
         });
       }));
-    this.archiveCollection = this.afs.collection<Board>('teams/' + this.teamId + '/archived');
-    this.$archived = this.archiveCollection.valueChanges();
+
+    this.archiveCollection = this.route.paramMap.map(paramMap =>
+      this.afs.collection<Board>('teams/' + paramMap.get('teamId') + '/archived'));
+    this.$archived = this.archiveCollection.filter(collection => collection !== undefined)
+      .switchMap(collection => collection.snapshotChanges().map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Board;
+          data.id = a.payload.doc.id;
+          return data;
+        });
+      }));
   }
 
   async addBoard() {

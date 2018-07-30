@@ -26,25 +26,28 @@
         </div>
       </div>
     </section>
-    <br>
-    <h2>Archived projects</h2>
-    <section id="archived" *ngFor="let archivedBoard of $archived | async">
-      <div class="card">
-        <div class="container">
-          <h3>{{archivedBoard.name}}</h3>
-          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="activate(archivedBoard)">
-              <mat-icon>undo</mat-icon>
-              <span>Reactivate</span>
+    <div id="archivedWrapper" *ngIf="($archived | async)?.length > 0">
+      <br>
+      <h2>Archived projects</h2>
+      <section id="archived" *ngFor="let archivedBoard of $archived | async">
+        <div class="card">
+          <div class="container">
+            <h3>{{archivedBoard.name}}</h3>
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+              <mat-icon>more_vert</mat-icon>
             </button>
-          </mat-menu>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="activate(archivedBoard)">
+                <mat-icon>undo</mat-icon>
+                <span>Reactivate</span>
+              </button>
+            </mat-menu>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
+
 </main>
 
 <button mat-fab id="addButton" (click)="addBoard()" (click)="$event.stopPropagation()">
