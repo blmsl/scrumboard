@@ -16,8 +16,13 @@ import 'rxjs/add/operator/take';
 export class BoardsComponent implements OnInit {
 
   // boards of the selected team
+
   $boards: Observable<Board[]>;
   boardCollection: Observable<AngularFirestoreCollection<Board>>;
+
+  $archived: Observable<Board[]>;
+  archiveCollection: Observable<AngularFirestoreCollection<Board>>;
+
 
   teamId: string;
 
@@ -32,7 +37,7 @@ export class BoardsComponent implements OnInit {
       this.teamId = teamId;
       if (!this.teamId) { // if no team is selected => select previous one
         this.teamId = localStorage.previousSelectedTeam;
-        if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre memeber of
+        if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre member of
           this.boardsService.$teams.take(1).subscribe(teams => {
             this.selectTeam(teams[0].id);
           });
@@ -52,6 +57,8 @@ export class BoardsComponent implements OnInit {
           return data;
         });
       }));
+    this.archiveCollection = this.afs.collection<Board>('teams/' + this.teamId + '/archived');
+    this.$archived = this.archiveCollection.valueChanges();
   }
 
   async addBoard() {
@@ -70,7 +77,7 @@ export class BoardsComponent implements OnInit {
     }
   }
 
-  archive(board: string) {
+  archive(board: Board) {
     swal({
       title: 'Are you sure?',
       text: 'This will archive your project. Shared public links wont work anymore. You can of course unarchive it later',
@@ -81,9 +88,11 @@ export class BoardsComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // Archive method here
+        this.archiveCollection.take(1).subscribe(collection => collection.add({ name: board.name }));
+        this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
         swal(
           'Archived!',
-          'Your project has been archived. You can find it in the archive section below',
+          'Your project has been archived. You can find it in the archived section',
           'success'
         );
       }

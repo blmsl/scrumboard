@@ -101,8 +101,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
           email: user.email
         }).then(() => {
             swal(
-              'Sent!',
-              'Your feedback has been sent.',
+              'Thank you!',
+              'We have recieved your feedback.',
               'success'
             );
         }).catch(() => swal(
