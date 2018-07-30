@@ -46,7 +46,12 @@ export class TeamsModuleComponent implements OnInit {
         const uid = currentUser.uid;
         const team = {
           name,
-          members: { [uid]: true }
+          members: { [uid]: {
+            name: user.displayName,
+            isMember: true,
+            isAdmin: true,
+            imgUrl: user.photoURL,
+          } }
         };
         this.afs.collection<TeamsInterface>('teams').add(team);
       }

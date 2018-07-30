@@ -109,7 +109,7 @@ export class BoardsComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        // Activate method here
+        // TODO Activate method here
         swal(
           'Archived!',
           'Your project has been reactivated.',
@@ -131,7 +131,7 @@ export class BoardsComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        // Delete method here
+        // Delete method
         this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
 
         swal(

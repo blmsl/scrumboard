@@ -1,7 +1,7 @@
 <main>
   <app-teams-module></app-teams-module>
   <div class="boardsWrapper">
-    <h2>Active projects</h2>
+    <h2>Active scrumboards</h2>
     <section id="boards" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
       <div class="card">
         <div class="container">
@@ -21,6 +21,24 @@
             <button mat-menu-item (click)="delete(board)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </section>
+    <br>
+    <h2>Archived scrumboards</h2>
+    <section id="archived" *ngFor="let archivedBoard of $boards | async">
+      <div class="card">
+        <div class="container">
+          <h3>{{archivedBoard.name}}</h3>
+          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="activate(archivedBoard)">
+              <mat-icon>undo</mat-icon>
+              <span>Reactivate</span>
             </button>
           </mat-menu>
         </div>
