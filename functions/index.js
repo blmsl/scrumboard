@@ -9,8 +9,24 @@ const MAX_CONCURRENT = 3;
 
 admin.initializeApp();
 
-const mailTransport = nodemailer.createTransport(
-  `smtps://${"magson.dev@gmail.com"}:${"m@gs0n123"}@smtp.gmail.com`);
+const mailTransport = nodemailer.createTransport(`smtps://${"magson.dev@gmail.com"}:${"m@gs0n123"}@smtp.gmail.com`);
+
+// link preview
+const LinkPreview = require('node-link-preview');
+exports.linkPreview = functions.https.onRequest((req, res) => {
+  const url = getParameterByName('url', req.url);
+  return LinkPreview.search(url, (data) => {
+    res.html(`
+    
+      <img src="${data.img}">
+      title: ${data.title}
+      <br>
+      desc: ${data.description}
+    
+    `);
+  });
+});
+
 
 exports.newRequest = functions.firestore
   .document('teams/{teamId}')
@@ -43,7 +59,7 @@ exports.newRequest = functions.firestore
         })
       }).then(function () {
         return sendInvite(userEmail, uid, teamName, teamId, firstName)
-      }).then(function () {}).catch(err => console.log('Error:', err));
+      }).then(function () { }).catch(err => console.log('Error:', err));
     }
   });
 
@@ -89,15 +105,15 @@ exports.addMember = functions.https.onRequest((req, res) => {
   var Members;
 
   return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
-      Members = doc.data().members;
-      Members[UID] = true; // setting user to true in member object
+    Members = doc.data().members;
+    Members[UID] = true; // setting user to true in member object
 
-      return admin.firestore().doc(`teams/${teamId}`).update({
-        members: Members
-      });
-    }).then(() => {
-      res.send(
-        `
+    return admin.firestore().doc(`teams/${teamId}`).update({
+      members: Members
+    });
+  }).then(() => {
+    res.send(
+      `
         <body style="margin: 0;background-color: white;">
     <header style="background-color: #4285f4;padding: 75px 50px;">
         <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Welcome to ${teamName}</h1>
@@ -117,8 +133,8 @@ exports.addMember = functions.https.onRequest((req, res) => {
         </div>
     </main>
 </body>`
-      )
-    })
+    )
+  })
     .catch(err =>
       console.error('Error:', err));
 
@@ -185,7 +201,7 @@ exports.createAdmin = functions.https.onCall((data, context) => {
 
 exports.listAllUsers = functions.https.onCall((data, context) => {
   // List all users
-  
+
   return listAllUsers();
 });
 
@@ -202,14 +218,14 @@ function listAllUsers(nextPageToken) {
       });
       if (listUsersResult.pageToken) {
         // List next batch of users.
-        
-        
+
+
         return listAllUsers(listUsersResult.pageToken)
       }
       else {
         // All users have been fetched
         console.log('All users have been fetched');
-        
+
         return allUsers
       }
     })
