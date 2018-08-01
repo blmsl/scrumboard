@@ -1,9 +1,11 @@
 #tabNav {
   width: 100%;
   border-bottom: 2px solid #B2B0B0;
+  position: relative;
 }
 
 #tabNav ul {
+    position: relative;
   display: table;
   margin: 0 auto;
   padding-top: 28px;
@@ -25,6 +27,7 @@
 #tabNav li.active {
   color: var(--txt-color);
   border-bottom: 5px solid var(--button-color);
+  margin-bottom: -2px;
 }
 
 #todoContainer {
