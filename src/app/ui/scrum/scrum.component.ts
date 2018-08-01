@@ -35,6 +35,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
   $orderBy: BehaviorSubject<string>;
 
   sub: Subscription;
+  navTab = 'todo';
 
   constructor(public route: ActivatedRoute,
     public boardsService: BoardsService,

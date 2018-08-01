@@ -2,56 +2,57 @@
 /* You can add global styles to this file, and also import other style files */
 
 body {
-    --header: white;
-    --cards: white;
-    --txt-color: #484848;
-    --bg-color: white;
-    --button-color: #4285f4;
-    --header-title: #4285f4;
+  --header: white;
+  --cards: white;
+  --txt-color: #484848;
+  --txt-color-light: #B2B0B0;
+  --bg-color: white;
+  --button-color: #4285f4;
+  --header-title: #4285f4;
 }
 
 html,
 body {
-    margin: 0;
-    font-family: roboto;
-    color: var(--txt-color);
-    background: var(--bg-color);
-    transition: background-color .4s, color .4s;
+  margin: 0;
+  font-family: roboto;
+  color: var(--txt-color);
+  background: var(--bg-color);
+  transition: background-color .4s, color .4s;
 }
 
 main {
-    max-width: 1600px;
-    display: table;
-    padding: 20px;
-    width: calc(100% - 40px);
+  max-width: 1600px;
+  display: table;
+  padding: 20px;
+  width: calc(100% - 40px);
 }
 
 #addButton {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    color: white;
-    background-color: var(--button-color);
-    cursor: pointer;
-    outline: 0;
-    z-index: 9;
-    transition: all 0.2s;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  color: white;
+  background-color: var(--button-color);
+  cursor: pointer;
+  outline: 0;
+  z-index: 9;
+  transition: all 0.2s;
 }
 
 #addButton:hover {
-    background-color: var(--button-accent);
+  background-color: var(--button-accent);
 }
 
 /* didnt work in scrum component :( */
 
 .mat-select-value {
-    color: var(--txt-color) !important;
+  color: var(--txt-color) !important;
 }
 
 .mat-select-placeholder {
-    color: var(--txt-color) !important;
+  color: var(--txt-color) !important;
 }
 
 .mat-select-arrow {
-    color: var(--txt-color) !important;
+  color: var(--txt-color) !important;
 }

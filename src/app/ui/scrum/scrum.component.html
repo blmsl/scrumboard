@@ -1,4 +1,16 @@
-<main>
+<header>
+<div id="tabNav">
+  <ul>
+    <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">To-do</li>
+    <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
+    <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
+    <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Beta</li>
+  </ul>
+</div>
+</header>
+
+<main [ngSwitch]='navTab'>
+<div *ngSwitchCase="'todo'" id="todoContainer">
   <div id="sortBy">
     <mat-icon>sort</mat-icon>
     <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
@@ -105,4 +117,14 @@
       </div>
     </div>
   </section>
+  </div>
+<div *ngSwitchCase="'notes'" id="profileContainer">
+  Notes
+</div>
+<div *ngSwitchCase="'ideas'" id="profileContainer">
+  Ideas
+</div>
+<div *ngSwitchCase="'beta'" id="profileContainer">
+  Beta
+</div>
 </main>
