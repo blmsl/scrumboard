@@ -138,6 +138,7 @@ section .container {
 
 .container>p,
 .container>strong {
+<<<<<<< HEAD
   font-size: 19px;
   -ms-word-break: break-all;
   word-break: break-all;
@@ -147,6 +148,16 @@ section .container {
   -moz-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
+=======
+    font-size: 19px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+>>>>>>> 8929c3b48923439168994736e6cb7f6b87326c9f
 }
 
 .container>p:first-letter {

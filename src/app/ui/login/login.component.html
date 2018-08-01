@@ -1,21 +1,8 @@
-<head>
-  <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-</head>
+<div *ngIf="loading" id="spinnerWrapper">
+  <mat-spinner></mat-spinner>
+</div>
 
-<header>
-  <div id="progressbar" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
-    <div class="mdc-linear-progress__buffering-dots"></div>
-    <div class="mdc-linear-progress__buffer"></div>
-    <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-      <span class="mdc-linear-progress__bar-inner"></span>
-    </div>
-    <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-      <span class="mdc-linear-progress__bar-inner"></span>
-    </div>
-  </div>
-</header>
-
-<main>
+<main *ngIf="!loading">
 
   <h1>Sign in to Magson Scrum</h1>
   <br>

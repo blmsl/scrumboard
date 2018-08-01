@@ -35,6 +35,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { AdminComponent } from './ui/admin-components/admin/admin.component';
@@ -67,6 +68,7 @@ import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/fo
     MatMenuModule,
     MatInputModule,
     MatSliderModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatToolbarModule,
     OverlayModule,

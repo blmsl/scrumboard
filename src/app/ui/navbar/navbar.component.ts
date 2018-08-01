@@ -63,6 +63,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  shareWithLink() {
+    swal('feel free to make this Magnus :)');
+  }
+
   toggleTheme(event) {
     this.darkThemeActivated = event.checked;
     this.setTheme();

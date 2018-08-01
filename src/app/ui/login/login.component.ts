@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
+  loading = true;
 
   constructor(public auth: AuthServiceService, public router: Router, public navbarService: NavbarService) {
     navbarService.hidden = true;
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.auth.user$.subscribe((user) => {
+      this.loading = false;
       if (user) {
         this.router.navigate(['/']);
       }
@@ -33,12 +35,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   signInWithFacebook() {
-    document.getElementById('progressbar').style.display = 'block';
+    this.loading = true;
     this.auth.signInWithFacebook();
   }
 
   signInWithGoogle() {
-    document.getElementById('progressbar').style.display = 'block';
+    this.loading = true;
     this.auth.signInWithGoogle();
   }
 
