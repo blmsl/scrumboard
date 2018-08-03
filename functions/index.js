@@ -11,23 +11,6 @@ admin.initializeApp();
 
 const mailTransport = nodemailer.createTransport(`smtps://${"magson.dev@gmail.com"}:${"m@gs0n123"}@smtp.gmail.com`);
 
-// link preview
-const LinkPreview = require('node-link-preview');
-exports.linkPreview = functions.https.onRequest((req, res) => {
-  const url = getParameterByName('url', req.url);
-  return LinkPreview.search(url, (data) => {
-    res.html(`
-    
-      <img src="${data.img}">
-      title: ${data.title}
-      <br>
-      desc: ${data.description}
-    
-    `);
-  });
-});
-
-
 exports.newRequest = functions.firestore
   .document('teams/{teamId}')
   .onUpdate((change, context) => {

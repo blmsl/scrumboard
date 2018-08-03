@@ -12,7 +12,6 @@
     "es6-promise-pool": "^2.4.4",
     "firebase-admin": "^5.13.1",
     "firebase-functions": "^2.0.2",
-    "node-link-preview": "0.0.2",
     "nodemailer": "^4.6.4",
     "secure-compare": "^3.0.1"
   },
