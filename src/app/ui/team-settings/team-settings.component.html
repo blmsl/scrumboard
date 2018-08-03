@@ -1,9 +1,26 @@
+<head>
+<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+</head>
+<div *ngIf="loading" id="progressbar" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
+  <div class="mdc-linear-progress__buffering-dots"></div>
+  <div class="mdc-linear-progress__buffer"></div>
+  <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+    <span class="mdc-linear-progress__bar-inner"></span>
+  </div>
+  <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+    <span class="mdc-linear-progress__bar-inner"></span>
+  </div>
+</div>
+<div *ngIf="buffring" id="spinnerWrapper">
+  <mat-spinner></mat-spinner>
+</div>
+
 <main>
   <h1>Mangage members of the team</h1>
 
   <form id="addMemberForm" [formGroup]="form" (ngSubmit)="onFormSubmit()">
     <mat-form-field id="addMemberInp">
-      <input matInput placeholder="Email" [formControl]="emailFormControl">
+      <input id="addUserInput" matInput placeholder="Email" [formControl]="emailFormControl">
       <mat-error *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">
         Please enter a valid email address
       </mat-error>
@@ -24,6 +41,7 @@
       <strong id="nameTxt">{{ member.val.name }}
         <span *ngIf="member.val.isAdmin" id="memberTypeTxt">Admin</span>
         <span *ngIf="member.val.isMember == 'mail'" id="memberTypeTxt">Pending</span>
+        <span *ngIf="member.val.isMember && !member.val.isAdmin" id="memberTypeTxt">Member</span>
       </strong>
       <mat-menu #memberOptionsMenu="matMenu">
         <button mat-menu-item *ngIf="!member.val.isAdmin" (click)="promoteAdmin(member.key)">
@@ -32,7 +50,7 @@
         </button>
         <button mat-menu-item *ngIf="member.val.isAdmin" (click)="removeAdmin(member.key)">
           <mat-icon>keyboard_arrow_down</mat-icon>
-          <span>Remove admin priveliges</span>
+          <span>Demote user</span>
         </button>
         <button mat-menu-item (click)="deleteMember(member.key)">
           <mat-icon>exit_to_app</mat-icon>
@@ -51,7 +69,7 @@
   <br>
   <div id="deleteTeamWrapper" *ngIf="isAdmin">
     <h2 id="dangerTxt">Danger zone</h2>
-    <p>This will delete the team and all of its data for you and all the members.</p>
-    <button mat-raised-button (click)="deleteTeam()" id="deleteTeamBtn">Delete {{(team$ | async)?.name}} team</button>
+    <p>This will delete the team and all of its data for you and all the members. This action cannot be undone</p>
+    <button mat-raised-button (click)="deleteTeam()" id="deleteTeamBtn">Delete team</button>
   </div>
 </main>

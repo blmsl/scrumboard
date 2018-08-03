@@ -78,3 +78,7 @@ main {
     background: red;
     color: white;
 }
+
+.mdc-linear-progress .mdc-linear-progress__bar-inner {
+  background-color: var(--button-color);
+}

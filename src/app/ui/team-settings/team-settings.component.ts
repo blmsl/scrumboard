@@ -23,6 +23,8 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   teamRef;
 
   isAdmin = false;
+  buffring = true;
+
 
   sub: Subscription;
 
@@ -42,6 +44,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.buffring = false;
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.team$ = this.afs.doc<TeamsInterface>('teams/' + this.teamId).valueChanges();
     this.navbarService.backBtn = true;
@@ -108,6 +111,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   addMember(input: string) {
     if (this.form.valid) {
       const that = this;
+      that.loading = true;
       const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
       return getUserByMail({ mail: input }).toPromise()
         .then(function (data) {
@@ -115,7 +119,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
           const uid = data.userData.uid;
           const imageUrl = data.userData.photoURL;
           const displayName = data.userData.displayName;
-
+          that.loading = false;
           swal.queue([{
             text: `Are you sure you want to add ${displayName} to ${that.navbarService.title}?`,
             imageUrl: imageUrl,
@@ -149,6 +153,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
                   type: 'success',
                   text: `You have successfully invited ${displayName} to your team!`,
                 });
+                (<HTMLInputElement>document.getElementById('addUserInput')).value = '';
               })
                 .catch(err => {
                   swal({

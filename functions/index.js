@@ -25,7 +25,7 @@ exports.newRequest = functions.firestore
     const members = newData.members;
     let mail = false;
     Object.keys(members).forEach(function (key, idx) {
-      if (members[key] === 'mail') { // if send mail
+      if (members[key].isMember === 'mail') { // if send mail
         mail = true;
         uid = key;
       }
@@ -35,10 +35,15 @@ exports.newRequest = functions.firestore
     } else {
       return admin.auth().getUser(uid).then(function (userRecord) {
         userEmail = userRecord.toJSON().email;
-        members[uid] = false;
         firstName = userRecord.toJSON().displayName.substr(0, userRecord.toJSON().displayName.indexOf(' '));
-        return admin.firestore().doc(`teams/${teamId}`).update({
-          members
+        return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
+          Members = doc.data().members;
+          Members[uid].isMember = 'mail';
+          return admin.firestore().doc(`teams/${teamId}`).update({
+            members: Members
+          });
+          console.log('send invite');
+          
         })
       }).then(function () {
         return sendInvite(userEmail, uid, teamName, teamId, firstName)
@@ -90,16 +95,16 @@ exports.addMember = functions.https.onRequest((req, res) => {
 
   var Members;
 
-  return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
-      Members = doc.data().members;
-      Members[UID] = true; // setting user to true in member object
-
-      return admin.firestore().doc(`teams/${teamId}`).update({
-        members: Members
-      });
-    }).then(() => {
-      res.send(
-        `
+  return admin.auth().getUser(UID).then(function (userRecord) {
+    admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
+        Members = doc.data().members;
+        Members[UID].isMember = true;
+        return admin.firestore().doc(`teams/${teamId}`).update({
+          members: Members
+        });
+      }).then(() => {
+        res.send(
+          `
       <head>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
       </head>
@@ -122,10 +127,11 @@ exports.addMember = functions.https.onRequest((req, res) => {
         </div>
     </main>
 </body>`
-      )
-    })
-    .catch(err =>
-      console.error('Error:', err));
+        )
+      })
+      .catch(err =>
+        console.error('Error:', err));
+  });
 
 });
 
@@ -243,7 +249,7 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
   mailOptions.subject = `Welcome to Magson Scrum`;
   mailOptions.html = `
         <head>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=roboto:100,300" rel="stylesheet">
       </head>
         <body style = "margin: 0; background-color: white;">
           <header style="background-color: #4285f4; padding: 75px 50px;">
