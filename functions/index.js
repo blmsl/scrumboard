@@ -6,7 +6,6 @@ const promisePool = require('es6-promise-pool');
 const PromisePool = promisePool.PromisePool;
 const secureCompare = require('secure-compare');
 const MAX_CONCURRENT = 3;
-const LinkPreview = require('node-link-preview');
 
 admin.initializeApp();
 
