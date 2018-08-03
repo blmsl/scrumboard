@@ -1,4 +1,4 @@
-<main>
+<main *ngIf="(boardsService.$teams | async)?.length > 0">
   <app-teams-module></app-teams-module>
   <div class="boardsWrapper">
     <h2>Active projects</h2>
@@ -49,6 +49,12 @@
   </div>
 
 </main>
+
+<div id="noTeam" *ngIf="(boardsService.$teams | async)?.length === 0">
+  <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>
+  <p>You are currently not a member of any team. Click the add button in the right corner to create a new one.</p>
+</div>
+
 
 <button mat-fab id="addButton" (click)="addBoard()" (click)="$event.stopPropagation()">
   <mat-icon>add</mat-icon>

@@ -1,3 +1,4 @@
+import { AuthServiceService } from './../../services/auth-service.service';
 import { NavbarService } from './../../services/navbar.service';
 import { Board } from './../../extra/BoardInterface';
 import { Component, OnInit } from '@angular/core';
@@ -26,7 +27,8 @@ export class BoardsComponent implements OnInit {
   teamId: string;
 
   constructor(public boardsService: BoardsService, public navbarService: NavbarService,
-    public route: ActivatedRoute, public afs: AngularFirestore, public router: Router) {
+    public route: ActivatedRoute, public afs: AngularFirestore, public router: Router,
+    public auth: AuthServiceService) {
   }
 
   ngOnInit() {
