@@ -17,7 +17,6 @@ import 'rxjs/add/operator/take';
 export class BoardsComponent implements OnInit {
 
   // boards of the selected team
-
   $boards: Observable<Board[]>;
   boardCollection: Observable<AngularFirestoreCollection<Board>>;
 
@@ -95,7 +94,7 @@ export class BoardsComponent implements OnInit {
   archive(board: Board) {
     swal({
       title: 'Are you sure?',
-      text: 'This will archive your project. Shared public links wont work anymore. You can of reactivate at any time.',
+      text: 'This will archive your project. Shared public links wont work anymore. You can of course reactivate at any time.',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Archive!',
@@ -107,7 +106,7 @@ export class BoardsComponent implements OnInit {
         this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
         swal(
           'Archived!',
-          'Your project has been archived. You can find it in the archived section',
+          'Your project has been archived. You can find it in the archived section below.',
           'success'
         );
         // Google analytics event
@@ -170,6 +169,42 @@ export class BoardsComponent implements OnInit {
         (<any>window).ga('send', 'event', {
           eventCategory: 'Project management',
           eventAction: 'Delete project',
+        });
+      } else if (
+        result.dismiss === swal.DismissReason.cancel
+      ) {
+        swal(
+          'Cancelled',
+          'Your project is safe',
+          'error'
+        );
+      }
+    });
+  }
+  deleteArchived(board: Board) {
+    swal({
+      title: 'Are you sure?',
+      text: 'This will delete your project permanently!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#e95d4f',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        // Delete method
+        this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
+
+        swal(
+          'Deleted!',
+          'Your project has been deleted.',
+          'success'
+        );
+        // Google analytics event
+        (<any>window).ga('send', 'event', {
+          eventCategory: 'Project management',
+          eventAction: 'Delete archived project',
         });
       } else if (
         result.dismiss === swal.DismissReason.cancel
