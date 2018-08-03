@@ -26,7 +26,7 @@
       <mat-icon>add</mat-icon>
     </button>
     <section id="todoSection">
-      <h3>TODO</h3>
+      <h3>TODO ({{($todo | async)?.length}})</h3>
       <div id="todoElements">
         <div class="card" *ngFor="let entry of $todo | async">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
@@ -54,7 +54,7 @@
 
     </section>
     <section id="inprogressSection">
-      <h3>In progress</h3>
+      <h3>In progress ({{($inProgress | async)?.length}})</h3>
       <div id="inprogressElements">
         <div class="card" *ngFor="let entry of $inProgress | async">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
@@ -87,7 +87,7 @@
       </div>
     </section>
     <section id="finishedSection">
-      <h3>Done</h3>
+      <h3>Done ({{($done | async)?.length}})</h3>
       <div id="finishedElements">
         <div class="card" *ngFor="let entry of $done | async">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
