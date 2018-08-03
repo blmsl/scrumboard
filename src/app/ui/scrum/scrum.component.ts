@@ -247,15 +247,20 @@ export class ScrumComponent implements OnInit, OnDestroy {
         ];
       },
     });
-    if (post) {
+    if (post[0] !== '') {
       this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
       // Google analytics event
       (<any>window).ga('send', 'event', {
         eventCategory: 'Scrumboard interaction',
         eventAction: 'New todo',
       });
+    } else if (post[0] === '') {
+      swal({
+        title: 'Invalid task.',
+        type: 'error',
+        text: 'Please fill in a task description!'
+      });
     }
-
   }
 
   getRadio(priority: string) {
