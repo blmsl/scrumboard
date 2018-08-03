@@ -121,26 +121,23 @@
   </div>
   <div *ngSwitchCase="'bugs'" id="profileContainer">
     Bugs
-    <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+    <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
   <div *ngSwitchCase="'ideas'" id="profileContainer">
     Ideas
-    <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+    <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
   <div *ngSwitchCase="'notes'" id="profileContainer">
     Notes
-    <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+    <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
   <div *ngSwitchCase="'beta'" id="profileContainer">
     Beta
-    <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
-      <mat-icon>add</mat-icon>
-    </button>
   </div>
 </main>

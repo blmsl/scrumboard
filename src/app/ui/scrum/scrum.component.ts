@@ -318,6 +318,22 @@ export class ScrumComponent implements OnInit, OnDestroy {
     });
   }
 
+  async addBug() {
+    const { value: post } = await swal({
+      title: 'Describe the bug',
+      input: 'text',
+      reverseButtons: true,
+      showCancelButton: true,
+    });
+    if (post) {
+      // add to firebase
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Scrumboard interaction',
+        eventAction: 'New bug reported',
+      });
+    }
+  }
 }
 
 interface EntryInterface {
