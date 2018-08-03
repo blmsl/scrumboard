@@ -2,8 +2,8 @@
   <a [routerLink]="['/']">
     <mat-icon *ngIf="navbarService.backBtn" id="backBtn">arrow_back</mat-icon>
   </a>
-  <svg *ngIf="!navbarService.title" id="logo" version="1.1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="512" height="522" viewBox="0 0 512 522" overflow="visible"
-    enable-background="new 0 0 512 522" xml:space="preserve">
+  <svg *ngIf="!navbarService.title" id="logo" version="1.1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="512" height="522"
+    viewBox="0 0 512 522" overflow="visible" enable-background="new 0 0 512 522" xml:space="preserve">
     <g id="Layer_2">
       <circle fill="none" stroke="currentcolor" stroke-width="44" cx="255" cy="130" r="85" />
       <circle fill="none" stroke="currentcolor" stroke-width="44" cx="108" cy="385" r="85" />
@@ -44,13 +44,13 @@
       <p>Dark mode:</p>
       <mat-slide-toggle [checked]="darkThemeActivated" (change)="toggleTheme($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
     </div>
-    <button mat-menu-item (click)="auth.logOut()">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
-    </button>
     <button mat-menu-item (click)="sendFeedback()">
       <mat-icon>feedback</mat-icon>
       <span>Send feedback</span>
+    </button>
+    <button mat-menu-item (click)="auth.logOut()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
     </button>
   </mat-menu>
 </header>

@@ -6,13 +6,13 @@ const promisePool = require('es6-promise-pool');
 const PromisePool = promisePool.PromisePool;
 const secureCompare = require('secure-compare');
 const MAX_CONCURRENT = 3;
+const LinkPreview = require('node-link-preview');
 
 admin.initializeApp();
 
 const mailTransport = nodemailer.createTransport(`smtps://${"magson.dev@gmail.com"}:${"m@gs0n123"}@smtp.gmail.com`);
 
 // link preview
-const LinkPreview = require('node-link-preview');
 exports.linkPreview = functions.https.onRequest((req, res) => {
   const url = getParameterByName('url', req.url);
   return LinkPreview.search(url, (data) => {
@@ -59,7 +59,7 @@ exports.newRequest = functions.firestore
         })
       }).then(function () {
         return sendInvite(userEmail, uid, teamName, teamId, firstName)
-      }).then(function () { }).catch(err => console.log('Error:', err));
+      }).then(function () {}).catch(err => console.log('Error:', err));
     }
   });
 
@@ -71,6 +71,9 @@ function sendInvite(email, uid, teamName, teamId, firstName) {
 
   mailOptions.subject = `Invitation to join ${teamName}`;
   mailOptions.html = `
+  <head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
+  </head>
        <body style="margin: 0; background-color: white;">
     <header style="background-color: #4285f4; padding: 75px 50px;">
         <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Hello ${firstName}</h1>
@@ -105,15 +108,18 @@ exports.addMember = functions.https.onRequest((req, res) => {
   var Members;
 
   return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
-    Members = doc.data().members;
-    Members[UID] = true; // setting user to true in member object
+      Members = doc.data().members;
+      Members[UID] = true; // setting user to true in member object
 
-    return admin.firestore().doc(`teams/${teamId}`).update({
-      members: Members
-    });
-  }).then(() => {
-    res.send(
-      `
+      return admin.firestore().doc(`teams/${teamId}`).update({
+        members: Members
+      });
+    }).then(() => {
+      res.send(
+        `
+      <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
+      </head>
         <body style="margin: 0;background-color: white;">
     <header style="background-color: #4285f4;padding: 75px 50px;">
         <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Welcome to ${teamName}</h1>
@@ -133,8 +139,8 @@ exports.addMember = functions.https.onRequest((req, res) => {
         </div>
     </main>
 </body>`
-    )
-  })
+      )
+    })
     .catch(err =>
       console.error('Error:', err));
 
@@ -221,8 +227,7 @@ function listAllUsers(nextPageToken) {
 
 
         return listAllUsers(listUsersResult.pageToken)
-      }
-      else {
+      } else {
         // All users have been fetched
         console.log('All users have been fetched');
 
@@ -254,6 +259,9 @@ exports.sendWelcomeEmail = functions.auth.user().onCreate((user) => {
 
   mailOptions.subject = `Welcome to Magson Scrum`;
   mailOptions.html = `
+        <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
+      </head>
         <body style = "margin: 0; background-color: white;">
           <header style="background-color: #4285f4; padding: 75px 50px;">
             <h1 style="font-family:roboto;font-weight:500;text-align:center;color:white;margin:0;">Hello ${firstName}</h1>
