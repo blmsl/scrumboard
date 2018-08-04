@@ -27,11 +27,17 @@ export class ScrumComponent implements OnInit, OnDestroy {
     public auth: AuthServiceService, public scrumService: ScrumService,
     public navbarService: NavbarService, public afs: AngularFirestore) {
 
-    this.sub = this.scrumService.boardDoc$.switchMap(boardDoc => boardDoc.valueChanges()).subscribe((board) => {
-      console.log(board);
+    this.sub = this.scrumService.boardDoc$.subscribe((board) => {
       this.navbarService.title = board.name;
     });
 
+  }
+
+  uploadBoardVisibility(val) {
+    console.log(this.scrumService.isPublic, val);
+    this.scrumService.boardDocref$.take(1).subscribe(boardDocref => boardDocref.update({
+      isPublic: val.checked
+    }));
   }
 
   delete(entry: EntryInterface, collection$: Observable<AngularFirestoreCollection<EntryInterface>>) {
@@ -153,13 +159,11 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.navbarService.backBtn = true;
-    this.navbarService.shareLink = true;
   }
 
 
   ngOnDestroy() {
     this.navbarService.backBtn = false;
-    this.navbarService.shareLink = false;
 
     this.sub.unsubscribe();
   }

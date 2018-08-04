@@ -1,3 +1,4 @@
+import { NavbarService } from './navbar.service';
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestoreDocument,
   DocumentChangeAction, AngularFirestore } from '../../../node_modules/angularfire2/firestore';
@@ -15,7 +16,10 @@ export class ScrumService {
   scrumId$: Observable<string>;
   teamId$: Observable<string>;
 
-  boardDoc$: Observable<AngularFirestoreDocument<Board>>;
+  boardDocref$: Observable<AngularFirestoreDocument<Board>>;
+  boardDoc$: Observable<Board>;
+
+  isPublic = false; // used for the make public link swal popup
 
   $orderBy: BehaviorSubject<string>;
   sortBy = '{"field": "txt", "direction": "asc"}';
@@ -28,12 +32,17 @@ export class ScrumService {
   $inProgress: Observable<EntryInterface[]>;
   $done: Observable<EntryInterface[]>;
 
-  constructor(public route: ActivatedRoute, public afs: AngularFirestore) {
+  constructor(public route: ActivatedRoute, public afs: AngularFirestore, public navbarService: NavbarService) {
     this.scrumId$ = this.route.firstChild.params.map(paramMap => paramMap.id);
     this.teamId$ = this.route.firstChild.params.map(paramMap => paramMap.teamId);
 
-    this.boardDoc$ = combineLatest(this.scrumId$, this.teamId$).map(([scrumId, teamId]) => {
+    this.boardDocref$ = combineLatest(this.scrumId$, this.teamId$).map(([scrumId, teamId]) => {
       return afs.doc<Board>('teams/' + teamId + '/boards/' + scrumId);
+    });
+    this.boardDoc$ = this.boardDocref$.switchMap(boardDoc => boardDoc.valueChanges());
+    this.boardDoc$.subscribe(board => {
+      console.log(board, board.isPublic);
+      this.isPublic = board.isPublic;
     });
 
     // set the orderBy to default TODO save and retrieve from localStorage
@@ -42,23 +51,23 @@ export class ScrumService {
     }
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
-    this.todoCollection$ = this.boardDoc$.map(boardDoc => boardDoc.collection<EntryInterface>('todo'));
-    this.inProgressCollection$ = this.boardDoc$.map(boardDoc => boardDoc.collection<EntryInterface>('inProgress'));
-    this.doneCollection$ = this.boardDoc$.map(boardDoc => boardDoc.collection<EntryInterface>('done'));
+    this.todoCollection$ = this.boardDocref$.map(boardDoc => boardDoc.collection<EntryInterface>('todo'));
+    this.inProgressCollection$ = this.boardDocref$.map(boardDoc => boardDoc.collection<EntryInterface>('inProgress'));
+    this.doneCollection$ = this.boardDocref$.map(boardDoc => boardDoc.collection<EntryInterface>('done'));
 
-    this.$todo = combineLatest(this.$orderBy, this.boardDoc$).switchMap(([sortBy, boardDoc]) => {
+    this.$todo = combineLatest(this.$orderBy, this.boardDocref$).switchMap(([sortBy, boardDoc]) => {
       const config = JSON.parse(sortBy);
       return this.toMap(boardDoc
         .collection<EntryInterface>('todo', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
     });
 
-    this.$inProgress = combineLatest(this.$orderBy, this.boardDoc$).switchMap(([sortBy, boardDoc]) => {
+    this.$inProgress = combineLatest(this.$orderBy, this.boardDocref$).switchMap(([sortBy, boardDoc]) => {
       const config = JSON.parse(sortBy);
       return this.toMap(boardDoc
         .collection<EntryInterface>('inProgress', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
     });
 
-    this.$done = combineLatest(this.$orderBy, this.boardDoc$).switchMap(([sortBy, boardDoc]) => {
+    this.$done = combineLatest(this.$orderBy, this.boardDocref$).switchMap(([sortBy, boardDoc]) => {
       const config = JSON.parse(sortBy);
       return this.toMap(boardDoc
         .collection<EntryInterface>('done', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
@@ -82,5 +91,3 @@ export class ScrumService {
 
 
 }
-
-
