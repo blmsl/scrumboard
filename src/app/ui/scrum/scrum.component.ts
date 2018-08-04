@@ -219,10 +219,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
 
   uploadBoardVisibility(val) {
-    console.log(isPublic, val);
-    this.scrumService.boardDocref$.take(1).subscribe(boardDocref => boardDocref.update({
+    console.log(this.isPublic, val);
+    this.boardDoc.update({
       isPublic: val.checked
-    }));
+    });
   }
 
   toMap(observable: Observable<DocumentChangeAction<EntryInterface>[]>): Observable<EntryInterface[]> {
