@@ -1,4 +1,3 @@
-import { TeamsInterface } from './../../extra/TeamsInterface';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { BoardsService } from './../../services/boards.service';
 import { AuthServiceService } from './../../services/auth-service.service';
@@ -27,40 +26,6 @@ export class TeamsModuleComponent implements OnInit {
   selectTeam(teamId: string) {
     localStorage.previousSelectedTeam = teamId;
     this.router.navigate(['/', teamId]);
-  }
-
-  async createNewTeam() {
-    this.auth.user$.take(1).subscribe(async user => {
-      const currentUser = user;
-      const { value: name } = await swal({
-        title: 'What is the name of the team?',
-        input: 'text',
-        inputPlaceholder: 'Teamname',
-        showCancelButton: true,
-        reverseButtons: true,
-        inputValidator: (value) => {
-          return !value && 'You need to create a teamname!';
-        }
-      });
-      if (name) {
-        const uid = currentUser.uid;
-        const team = {
-          name,
-          members: { [uid]: {
-            name: user.displayName,
-            isMember: true,
-            isAdmin: true,
-            imgUrl: user.photoURL,
-          } }
-        };
-        this.afs.collection<TeamsInterface>('teams').add(team);
-        // Google analytics event
-        (<any>window).ga('send', 'event', {
-          eventCategory: 'Team management',
-          eventAction: 'New team',
-        });
-      }
-    });
   }
 
   leaveTeam(teamId: string, ) {
@@ -106,5 +71,5 @@ export class TeamsModuleComponent implements OnInit {
         });
       }
     });
-    }
   }
+}
