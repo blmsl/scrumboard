@@ -16,6 +16,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   profileName: string;
   profileEmail: string;
 
+  linkShare = false;
+
   sub: Subscription;
 
   darkThemeActivated = false;
@@ -61,10 +63,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  shareWithLink() {
-    swal('feel free to make this Magnus :)');
   }
 
   toggleTheme(event) {

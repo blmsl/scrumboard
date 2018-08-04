@@ -1,5 +1,5 @@
 import { AngularFirestore } from 'angularfire2/firestore';
-import { BoardsService } from './../../services/boards.service';
+import { TeamsService } from '../../services/teams.service';
 import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -13,7 +13,7 @@ import swal from 'sweetalert2';
 export class TeamsModuleComponent implements OnInit {
 
   constructor(
-    public boardsService: BoardsService,
+    public teamsService: TeamsService,
     public router: Router,
     public afs: AngularFirestore,
     public auth: AuthServiceService,

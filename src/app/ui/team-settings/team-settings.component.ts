@@ -2,7 +2,7 @@ import { AuthServiceService } from './../../services/auth-service.service';
 import { NavbarService } from './../../services/navbar.service';
 import { TeamsInterface } from './../../extra/TeamsInterface';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { BoardsService } from './../../services/boards.service';
+import { TeamsService } from '../../services/teams.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
@@ -36,7 +36,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     email: this.emailFormControl
   });
 
-  constructor(public route: ActivatedRoute, public boardsService: BoardsService,
+  constructor(public route: ActivatedRoute, public boardsService: TeamsService,
     public afs: AngularFirestore,
     public navbarService: NavbarService,
     public afFunctions: AngularFireFunctions, public auth: AuthServiceService) {

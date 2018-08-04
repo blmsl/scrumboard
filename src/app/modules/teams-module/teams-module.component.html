@@ -2,7 +2,7 @@
   <strong>Teams</strong>
 </h4>
 <div id="teamsWrapper">
-  <div *ngFor="let team of boardsService.$teams | async" class="teamButtonDiv" [ngClass]="{'selected': (route.paramMap | async).get('teamId') === team.id}">
+  <div *ngFor="let team of teamsService.$teams | async" class="teamButtonDiv" [ngClass]="{'selected': (route.paramMap | async).get('teamId') === team.id}">
     <button class="teamSelectBtn" mat-button (click)="selectTeam(team.id)">{{team.name}}</button>
     <button class="menuBtn" *ngIf="(route.paramMap | async).get('teamId') === team.id" mat-icon-button [matMenuTriggerFor]="menu"
       (click)="$event.stopPropagation()">
@@ -21,6 +21,6 @@
     </mat-menu>
   </div>
   <div class="teamButtonDiv">
-    <button class="teamSelectBtn" mat-button (click)="boardsService.createNewTeam()">+ Create a team</button>
+    <button class="teamSelectBtn" mat-button (click)="teamsService.createNewTeam()">+ Create a team</button>
   </div>
 </div>

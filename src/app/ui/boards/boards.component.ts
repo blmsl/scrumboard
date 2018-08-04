@@ -2,7 +2,7 @@ import { AuthServiceService } from './../../services/auth-service.service';
 import { NavbarService } from './../../services/navbar.service';
 import { Board } from './../../extra/BoardInterface';
 import { Component, OnInit } from '@angular/core';
-import { BoardsService } from '../../services/boards.service';
+import { TeamsService } from '../../services/teams.service';
 import swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
@@ -25,7 +25,7 @@ export class BoardsComponent implements OnInit {
 
   teamId: string;
 
-  constructor(public boardsService: BoardsService, public navbarService: NavbarService,
+  constructor(public boardsService: TeamsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore, public router: Router,
     public auth: AuthServiceService) {
   }

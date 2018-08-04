@@ -14,7 +14,7 @@
   <div *ngSwitchCase="'todo'" id="todoContainer">
     <div id="sortBy">
       <mat-icon>sort</mat-icon>
-      <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+      <mat-select placeholder="Sort by" [(value)]="scrumService.sortBy" (selectionChange)="scrumService.sortChanged()">
 
         <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
         <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
@@ -26,18 +26,18 @@
       <mat-icon>add</mat-icon>
     </button>
     <section id="todoSection">
-      <h3>TODO ({{($todo | async)?.length}})</h3>
+      <h3>TODO ({{(scrumService.$todo | async)?.length}})</h3>
       <div id="todoElements">
-        <div class="card" *ngFor="let entry of $todo | async">
+        <div class="card" *ngFor="let entry of scrumService.$todo | async">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, todoCollection)">
+            <button mat-menu-item (click)="edit(entry, scrumService.todoCollection$)">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
-            <button mat-menu-item (click)="delete(entry, todoCollection)">
+            <button mat-menu-item (click)="delete(entry, scrumService.todoCollection$)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>
@@ -54,14 +54,14 @@
 
     </section>
     <section id="inprogressSection">
-      <h3>In progress ({{($inProgress | async)?.length}})</h3>
+      <h3>In progress ({{(scrumService.$inProgress | async)?.length}})</h3>
       <div id="inprogressElements">
-        <div class="card" *ngFor="let entry of $inProgress | async">
+        <div class="card" *ngFor="let entry of scrumService.$inProgress | async">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, inProgressCollection)">
+            <button mat-menu-item (click)="edit(entry, scrumService.inProgressCollection$)">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
@@ -69,7 +69,7 @@
               <mat-icon>replay</mat-icon>
               <span>Rollback</span>
             </button>
-            <button mat-menu-item (click)="delete(entry, inProgressCollection)">
+            <button mat-menu-item (click)="delete(entry, scrumService.inProgressCollection$)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>
@@ -87,14 +87,14 @@
       </div>
     </section>
     <section id="finishedSection">
-      <h3>Done ({{($done | async)?.length}})</h3>
+      <h3>Done ({{(scrumService.$done | async)?.length}})</h3>
       <div id="finishedElements">
-        <div class="card" *ngFor="let entry of $done | async">
+        <div class="card" *ngFor="let entry of scrumService.$done | async">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, doneCollection)">
+            <button mat-menu-item (click)="edit(entry)">
               <mat-icon>edit</mat-icon>
               <span>Edit</span>
             </button>
@@ -102,7 +102,7 @@
               <mat-icon>replay</mat-icon>
               <span>Rollback</span>
             </button>
-            <button mat-menu-item (click)="delete(entry, doneCollection)">
+            <button mat-menu-item (click)="delete(entry, scrumService.doneCollection$)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>

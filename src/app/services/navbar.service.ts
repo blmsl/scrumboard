@@ -5,7 +5,7 @@ export class NavbarService {
 
   hidden = false;
   backBtn = false;
-  title: String;
+  title: string;
 
   constructor() { }
 }
