@@ -1,3 +1,6 @@
+<button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
+  <mat-icon>link</mat-icon>Share</button>
+
 <header>
   <div id="tabNav">
     <ul>
@@ -141,3 +144,12 @@
     Beta
   </div>
 </main>
+
+<swal #linkShareSwal title="Share with people outside the team">
+  <div *swalPartial>
+    <p>You can send the link to other users</p>
+    <mat-slide-toggle (change)="uploadBoardVisibility($event)" [(checked)]="scrumService.isPublic">
+      Slide me!
+    </mat-slide-toggle>
+  </div>
+</swal>

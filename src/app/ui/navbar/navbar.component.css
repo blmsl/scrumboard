@@ -44,16 +44,6 @@ header h1 {
     font-size: 42px;
 }
 
-#shareBtn {
-    position: absolute;
-    right: 88px;
-}
-
-#shareBtn mat-icon {
-    margin-right: 3px;
-    font-size: 21px;
-}
-
 #infoWrapper,
 #darkModeSettings {
     display: flex;

@@ -26,8 +26,6 @@
     </g>
   </svg>
   <h1 *ngIf="navbarService.title">{{navbarService.title}}</h1>
-  <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
-    <mat-icon>link</mat-icon>Share</button>
   <div id="profilePic" [matMenuTriggerFor]="menu">
     <img [src]="profileUrl" alt="">
     <mat-icon>account_circle</mat-icon>
@@ -54,12 +52,3 @@
     </button>
   </mat-menu>
 </header>
-
-<swal #linkShareSwal title="Share with people outside the team">
-  <div *swalPartial>
-    <p>You can send the link to other users</p>
-    <mat-slide-toggle class="example-margin" [(checked)]="linkShare">
-      Slide me!
-    </mat-slide-toggle>
-  </div>
-</swal>

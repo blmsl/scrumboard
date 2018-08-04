@@ -152,6 +152,17 @@ section .container {
   text-transform: uppercase;
 }
 
+#shareBtn {
+  position: absolute;
+  right: 88px;
+  top: 14px;
+}
+
+#shareBtn mat-icon {
+  margin-right: 3px;
+  font-size: 21px;
+}
+
 @media only screen and (max-width: 800px) {
   #todoContainer {
     display: block;

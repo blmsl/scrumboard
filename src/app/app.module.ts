@@ -85,7 +85,7 @@ import { ScrumService } from './services/scrum.service';
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'admin', component: AdminComponent, canActivate: [ProfileGuardService]},
-      { path: 'scrum/:teamId/:id', component: ScrumComponent, canActivate: [ProfileGuardService] },
+      { path: 'scrum/:teamId/:id', component: ScrumComponent },
       { path: 'team/:teamId', component: TeamSettingsComponent, canActivate: [ProfileGuardService] },
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
       { path: ':teamId', component: BoardsComponent, canActivate: [ProfileGuardService] },
