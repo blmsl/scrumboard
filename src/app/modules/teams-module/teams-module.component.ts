@@ -53,7 +53,7 @@ export class TeamsModuleComponent implements OnInit {
                 title: `Success`,
                 type: 'success',
                 text: 'You have successfully left this team',
-              });
+              }).then(() => this.router.navigate(['/']));
               // Google analytics event
               (<any>window).ga('send', 'event', {
                 eventCategory: 'Team management',
