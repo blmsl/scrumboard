@@ -98,27 +98,38 @@ export class NavbarComponent implements OnInit, OnDestroy {
     document.querySelector('body').style.cssText = theme;
   }
 
-  sendFeedback() {
-    swal({
+  async sendFeedback() {
+    const { value: post } = await swal({
       title: 'Send feedback',
-      input: 'textarea',
+      text: 'Please tell us what you are missing with this application and/or what you like about it.',
+      html: `
+      <select id="feedbackSelect" class="swal2-select" style="outline:0;">
+        <option value="general">General</option>
+        <option value="bug">Bug</option>
+        <option value="improvements">Improvements</option>
+        <option value="feature-request">Feature request</option>
+      </select>
+      <textarea id="feedbackTxt" class="swal2-textarea"></textarea>`,
       confirmButtonText: 'Send',
       showCancelButton: true,
       reverseButtons: true,
-      inputValidator: (txt) => {
-        return !txt && 'You need to write something!';
+      preConfirm: () => {
+        return[
+          (<HTMLInputElement>document.getElementById('feedbackSelect')).value,
+          (<HTMLInputElement>document.getElementById('feedbackTxt')).value,
+        ];
       }
-    }).then(txt => {
-      if (txt.value) {
+    });
+    if (post[1] !== '') {
         // Google analytics event
         (<any>window).ga('send', 'event', {
           eventCategory: 'User action',
           eventAction: 'Sent feedback',
         });
-
         this.auth.user$.take(1).subscribe(user => {
           this.afs.collection('feedback').add({
-            txt: txt.value,
+            category: post[0],
+            txt: post[1],
             uid: user.uid,
             name: user.displayName,
             email: user.email
@@ -134,8 +145,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
             'error'
           ));
         });
-      }
-    });
+    } else if (post[1] === '') {
+      swal({
+        title: 'Invalid.',
+        type: 'error',
+        text: 'Please fill in something!'
+      });
+    }
   }
 
 }

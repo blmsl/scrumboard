@@ -134,6 +134,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             showLoaderOnConfirm: true,
             preConfirm: () => {
               // add to team
+              that.loading = true;
               const ref = that.afs.firestore.doc('teams/' + that.teamId);
               that.afs.firestore.runTransaction(transaction => transaction.get(ref).then(doc => {
                 const members = doc.data().members;
@@ -155,9 +156,11 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
                   type: 'success',
                   text: `You have successfully invited ${displayName} to your team!`,
                 });
+                that.loading = false;
                 (<HTMLInputElement>document.getElementById('addUserInput')).value = '';
               })
                 .catch(err => {
+                  that.loading = false;
                   swal({
                     title: 'Error',
                     text: err.message,
@@ -174,12 +177,15 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             // tslint:disable-next-line:max-line-length
             // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
           });
-
-        }).catch(err => swal({
+          that.loading = false;
+        }).catch(err => {
+          that.loading = false;
+          swal({
           title: 'Error',
           text: err.message,
           type: 'error'
-        }));
+        });
+      });
     }
   }
 
