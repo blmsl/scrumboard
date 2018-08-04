@@ -46,7 +46,6 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
 import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
 import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/forms';
-import { ScrumService } from './services/scrum.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +91,7 @@ import { ScrumService } from './services/scrum.service';
       // { path: '**', component: NotFoundComponent } // must be last
     ]),
   ],
-  providers: [AngularFireAuth, TeamsService, ScrumService, AuthServiceService, AngularFirestore,
+  providers: [AngularFireAuth, TeamsService, AuthServiceService, AngularFirestore,
     ProfileGuardService, NavbarService, AngularFireFunctions],
   bootstrap: [AppComponent]
 })
