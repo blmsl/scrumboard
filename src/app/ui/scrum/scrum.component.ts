@@ -213,6 +213,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.navbarService.backBtn = false;
+
     this.sub.unsubscribe();
   }
 

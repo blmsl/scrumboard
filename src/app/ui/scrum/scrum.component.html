@@ -122,25 +122,25 @@
       </div>
     </section>
   </div>
-  <div *ngSwitchCase="'bugs'" id="profileContainer">
+  <div *ngSwitchCase="'bugs'">
     Bugs
     <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div *ngSwitchCase="'ideas'" id="profileContainer">
+  <div *ngSwitchCase="'ideas'">
     Ideas
     <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div *ngSwitchCase="'notes'" id="profileContainer">
+  <div *ngSwitchCase="'notes'">
     Notes
     <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div *ngSwitchCase="'beta'" id="profileContainer">
+  <div *ngSwitchCase="'beta'">
     Beta
   </div>
 </main>

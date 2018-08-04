@@ -37,9 +37,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
-import { AdminComponent } from './ui/admin-components/admin/admin.component';
-import { AdminSidebarModuleComponent } from './modules/admin-sidebar-module/admin-sidebar-module.component';
-import { AdminUsersComponent } from './ui/admin-components/admin-users/admin-users.component';
+import { AdminComponent } from './ui/admin/admin.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
@@ -56,8 +54,6 @@ import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/fo
     ScrumComponent,
     TeamsModuleComponent,
     AdminComponent,
-    AdminSidebarModuleComponent,
-    AdminUsersComponent,
     MapToIterablePipe,
     TeamSettingsComponent
   ],

@@ -1,0 +1,117 @@
+<div class="nav">
+  <span class="navBtn navHeader">Admin</span>
+  <i [class.active]="navTab == 'users'" (click)="navTab = 'users'" class="navBtn">
+    <div>
+      <mat-icon>person</mat-icon>
+      <span class="navTxt">Users</span>
+    </div>
+  </i>
+  <i [class.active]="navTab == 'teams'" (click)="navTab = 'teams'" class="navBtn">
+    <div>
+      <mat-icon>group</mat-icon>
+      <span class="navTxt">Teams</span>
+    </div>
+  </i>
+  <i [class.active]="navTab == 'feedback'" (click)="navTab = 'feedback'" class="navBtn">
+    <div>
+      <mat-icon>build</mat-icon>
+      <span class="navTxt">Feedback</span>
+    </div>
+  </i>
+  <i [class.active]="navTab == 'maintenance'" (click)="navTab = 'maintenance'" class="navBtn">
+    <div>
+      <mat-icon>feedback</mat-icon>
+      <span class="navTxt">Maintenance</span>
+    </div>
+  </i>
+</div>
+
+<main [ngSwitch]='navTab'>
+  <div *ngSwitchCase="'users'">
+    <div class="tableDiv">
+      <div class="tableHead">
+        <div>
+          <div class="reloadBtn">
+            <mat-icon>refresh</mat-icon>
+          </div>
+        </div>
+      </div>
+      <table class="table" cellspacing="0">
+        <tr>
+          <th>UID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+        <!--<tr *ngFor="let user of adminService.allUsers; let i=index ">
+          <td>{{user[i].email}}</td>
+          <td>{{user[i].displayName}}</td>
+          <td>{{user[i].email}}</td>
+          <td>{{user[i].email}}</td>
+          <td>{{user[i].role}}</td>
+        </tr> -->
+
+        <tr>
+          <td>XD6EkNokYXV3XTtW2UZys2FtcXI3</td>
+          <td>Magnus Trandokken</td>
+          <td>magnus@trandokken.com</td>
+          <td>Admin</td>
+        </tr>
+        <tr>
+          <td>XJKAJkSJ7s4NKS2noKFJOJLKJSLKb</td>
+          <td>Sondre sørbye</td>
+          <td>sondre@sorbye.no</td>
+          <td>Admin</td>
+        </tr>
+        <tr>
+          <td>XD6EkNXTtW2UssZys2FtJLcXI2SG</td>
+          <td>Ola Nordmann</td>
+          <td>ola@nordmann.no</td>
+          <td>User</td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+  <div *ngSwitchCase="'feedback'">
+    <div class="tableDiv">
+      <div class="tableHead">
+        <div>
+          <div class="reloadBtn">
+            <mat-icon>refresh</mat-icon>
+          </div>
+        </div>
+      </div>
+      <table class="table" cellspacing="0">
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Message</th>
+        </tr>
+        <!-- Sørbye fix TODO -->
+        <tr *ngFor="let message of adminService.allUsers; let i=index ">
+          <td>{{message[i].name}}</td>
+          <td>{{message[i].category}}</td>
+          <td>{{message[i].txt}}</td>
+        </tr>
+
+        <tr>
+          <td>Magnus Trandokken</td>
+          <td>magnus@trandokken.com</td>
+          <td>Admin</td>
+        </tr>
+        <tr>
+          <td>Sondre sørbye</td>
+          <td>sondre@sorbye.no</td>
+          <td>Admin</td>
+        </tr>
+        <tr>
+          <td>Ola Nordmann</td>
+          <td>ola@nordmann.no</td>
+          <td>User</td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</main>

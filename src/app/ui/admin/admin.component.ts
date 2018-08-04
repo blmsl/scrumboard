@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireFunctions } from 'angularfire2/functions';
-import { AuthServiceService } from './../../../services/auth-service.service';
+import { AuthServiceService } from './../../services/auth-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,10 +13,13 @@ import swal from 'sweetalert2';
 })
 export class AdminComponent implements OnInit {
 
+  navTab = 'users';
+
   constructor(
     public router: Router,
     public afs: AngularFirestore,
     public auth: AuthServiceService,
+    public adminService: AdminService,
     public route: ActivatedRoute,
     public afFunctions: AngularFireFunctions) {
   }

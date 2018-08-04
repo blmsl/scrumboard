@@ -16,8 +16,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   profileName: string;
   profileEmail: string;
 
-  linkShare = false;
-
   sub: Subscription;
 
   darkThemeActivated = false;
