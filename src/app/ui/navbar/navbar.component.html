@@ -26,7 +26,7 @@
     </g>
   </svg>
   <h1 *ngIf="navbarService.title">{{navbarService.title}}</h1>
-  <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
+  <button *ngIf="navbarService.shareLink" (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
     <mat-icon>link</mat-icon>Share</button>
   <div id="profilePic" [matMenuTriggerFor]="menu">
     <img [src]="profileUrl" alt="">

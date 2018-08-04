@@ -6,6 +6,7 @@ export class NavbarService {
   hidden = false;
   backBtn = false;
   title: string;
+  shareLink = false;
 
   constructor() { }
 }
