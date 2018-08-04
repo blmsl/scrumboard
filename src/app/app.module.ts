@@ -1,4 +1,3 @@
-import { environment } from './../environments/environment.prod';
 import { NavbarService } from './services/navbar.service';
 import { FirebaseConfig } from './../environments/FirebaseConfig';
 
@@ -18,7 +17,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './ui/login/login.component';
 import { NavbarComponent } from './ui/navbar/navbar.component';
 import { BoardsComponent } from './ui/boards/boards.component';
-import { BoardsService } from './services/boards.service';
+import { TeamsService } from './services/teams.service';
 import { AuthServiceService } from './services/auth-service.service';
 import { AngularFirestore, AngularFirestoreModule } from 'angularfire2/firestore';
 import { ProfileGuardService } from './services/profile-guard.service';
@@ -47,6 +46,7 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
 import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
 import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/forms';
+import { ScrumService } from './services/scrum.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +92,7 @@ import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/fo
       // { path: '**', component: NotFoundComponent } // must be last
     ]),
   ],
-  providers: [AngularFireAuth, BoardsService, AuthServiceService, AngularFirestore,
+  providers: [AngularFireAuth, TeamsService, ScrumService, AuthServiceService, AngularFirestore,
     ProfileGuardService, NavbarService, AngularFireFunctions],
   bootstrap: [AppComponent]
 })

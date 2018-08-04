@@ -11,7 +11,7 @@ import { Router } from '../../../node_modules/@angular/router';
 
 
 @Injectable()
-export class BoardsService {
+export class TeamsService {
 
   // all teams user is a member of
   teamsCollection: Observable<AngularFirestoreCollection<TeamsInterface>>;
