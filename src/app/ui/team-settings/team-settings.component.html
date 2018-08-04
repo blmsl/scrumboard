@@ -1,19 +1,4 @@
-<head>
-<link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-</head>
-<div *ngIf="loading" id="progressbar" role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
-  <div class="mdc-linear-progress__buffering-dots"></div>
-  <div class="mdc-linear-progress__buffer"></div>
-  <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-    <span class="mdc-linear-progress__bar-inner"></span>
-  </div>
-  <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-    <span class="mdc-linear-progress__bar-inner"></span>
-  </div>
-</div>
-<div *ngIf="buffring" id="spinnerWrapper">
-  <mat-spinner></mat-spinner>
-</div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>  
 
 <main>
   <h1>Mangage members of the team</h1>

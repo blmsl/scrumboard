@@ -23,8 +23,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   teamRef;
 
   isAdmin = false;
-  buffring = true;
-
+  loading = false;
 
   sub: Subscription;
 
@@ -44,7 +43,6 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.buffring = false;
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.team$ = this.afs.doc<TeamsInterface>('teams/' + this.teamId).valueChanges();
     this.navbarService.backBtn = true;
@@ -71,41 +69,45 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
 
   promoteAdmin(uid: string) {
     // Google analytics event
-      (<any>window).ga('send', 'event', {
-        eventCategory: 'Team management',
-        eventAction: 'Promote admin',
-      });
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Team management',
+      eventAction: 'Promote admin',
+    });
+
+    this.loading = true;
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
       members[uid].isAdmin = true;
       return transaction.update(this.teamRef, { members });
-    }));
+    })).then(() => this.loading = false);
   }
 
   removeAdmin(uid: string) {
     // Google analytics event
-      (<any>window).ga('send', 'event', {
-        eventCategory: 'Team management',
-        eventAction: 'Demote admin',
-      });
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Team management',
+      eventAction: 'Demote admin',
+    });
+    this.loading = true;
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
       delete members[uid].isAdmin;
       return transaction.update(this.teamRef, { members });
-    }));
+    })).then(() => this.loading = false);
   }
 
   deleteMember(uid: string) {
     // Google analytics event
-      (<any>window).ga('send', 'event', {
-        eventCategory: 'Team management',
-        eventAction: 'Delete member',
-      });
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Team management',
+      eventAction: 'Delete member',
+    });
+    this.loading = true;
     this.afs.firestore.runTransaction(transaction => transaction.get(this.teamRef).then(doc => {
       const members = doc.data().members;
       delete members[uid];
       return transaction.update(this.teamRef, { members });
-    }));
+    })).then(() => this.loading = false);
   }
 
   addMember(input: string) {
