@@ -24,6 +24,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
   boardDoc: AngularFirestoreDocument<Board>;
 
   isPublic = false; // used for the make public link swal popup
+  shareableLink: string;
 
   todoCollection: AngularFirestoreCollection<EntryInterface>;
   inProgressCollection: AngularFirestoreCollection<EntryInterface>;
@@ -45,6 +46,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     public navbarService: NavbarService, public afs: AngularFirestore) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.teamId = this.route.snapshot.paramMap.get('teamId');
+    this.shareableLink = 'https://scrum.magson.no/scrum/' + this.teamId + '/' + this.id;
 
     this.boardDoc = afs.doc<Board>('teams/' + this.teamId + '/boards/' + this.id);
     this.sub = this.boardDoc.valueChanges().subscribe((board) => {
@@ -273,6 +275,12 @@ export class ScrumComponent implements OnInit, OnDestroy {
         text: 'Please fill in a task description!'
       });
     }
+  }
+
+  copyLinkTxt() {
+    const copyText = <HTMLInputElement>document.getElementById('shareableLinkInp');
+    copyText.select();
+    document.execCommand('copy');
   }
 
   getRadio(priority: string) {

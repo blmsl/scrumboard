@@ -163,6 +163,14 @@ section .container {
   font-size: 21px;
 }
 
+#copyLinkBtn {
+  float: right;
+}
+
+#shareableLink {
+  width: 100%;
+}
+
 @media only screen and (max-width: 800px) {
   #todoContainer {
     display: block;

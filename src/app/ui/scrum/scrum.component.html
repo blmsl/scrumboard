@@ -147,9 +147,14 @@
 
 <swal #linkShareSwal title="Share with people outside the team">
   <div *swalPartial>
-    <p>You can send the link to other users</p>
+    <p>You can send the link to other users so they can view the progress of your team.</p>
     <mat-slide-toggle (change)="uploadBoardVisibility($event)" [(checked)]="isPublic">
-      Slide me!
+      Enable shareable link
     </mat-slide-toggle>
+    <button mat-raised-button (click)="copyLinkTxt()" id="copyLinkBtn">Copy link</button>
+    <br>
+    <mat-form-field id="shareableLink">
+      <input matInput id="shareableLinkInp" [value]="shareableLink" (click)="copyLinkTxt()" type="text" readonly>
+    </mat-form-field>
   </div>
 </swal>
