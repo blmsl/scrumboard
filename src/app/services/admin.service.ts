@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from 'angularfire2/functions';
+import { AngularFirestoreCollection, AngularFirestore } from '../../../node_modules/angularfire2/firestore';
+import { Observable } from '../../../node_modules/rxjs';
 
 
 @Injectable({
@@ -9,10 +11,17 @@ export class AdminService {
 
   allUsers: Array<string>;
 
-  constructor(
-    public afFunctions: AngularFireFunctions
+  feedbackCollection: AngularFirestoreCollection<FeedbackInterface>;
+  feedback$: Observable<FeedbackInterface[]>;
 
+  constructor(
+    public afFunctions: AngularFireFunctions,
+    public afs: AngularFirestore
   ) {
+
+    this.feedbackCollection = this.afs.collection<FeedbackInterface>('feedback');
+    this.feedback$ = this.feedbackCollection.valueChanges();
+
 
     const listAllUsers = this.afFunctions.httpsCallable('listAllUsers');
     listAllUsers({}).toPromise()
@@ -21,3 +30,10 @@ export class AdminService {
       });
   }
 }
+
+interface FeedbackInterface {
+  name: string;
+  category: string;
+  txt: string;
+}
+
