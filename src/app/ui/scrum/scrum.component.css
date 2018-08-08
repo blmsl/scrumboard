@@ -171,6 +171,11 @@ section .container {
   width: 100%;
 }
 
+#noEntries {
+  margin-top: 30%;
+  text-align: center;
+}
+
 @media only screen and (max-width: 800px) {
   #todoContainer {
     display: block;

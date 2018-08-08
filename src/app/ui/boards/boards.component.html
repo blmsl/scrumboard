@@ -54,6 +54,13 @@
 
 </main>
 
+<div *ngIf="($boards | async)?.length == 0 && ($archived | async)?.length == 0" id="noEntries">
+    <div>
+      <p>No scrumboards</p>
+      <h5>¯\_(ツ)_/¯</h5>
+    </div>
+  </div>
+
 <div id="noTeam" *ngIf="(boardsService.$teams | async)?.length === 0">
   <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>
   <p>You are currently not a member of any team. You can join a team by being invited. You can also create your own team with the button below.</p>
