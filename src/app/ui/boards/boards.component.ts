@@ -75,8 +75,6 @@ export class BoardsComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         html: '<p>This website is still in <strong>Beta</strong>! You may therefore find it incomplete and/or "buggy". We would love to get some feedback from you of some of your thoughts on improvement.<br><br>Please send in feedback by clicking on your profile picture and then "Send feedback"<br><br><strong>Thanks!</strong></p>',
         type: 'info',
-        showCancelButton: true,
-        reverseButtons: true
       }).then((result) => {
         if (result.value || result.dismiss === swal.DismissReason.cancel) {
            localStorage.firstTime = false;
