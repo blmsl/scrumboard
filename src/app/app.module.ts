@@ -43,6 +43,7 @@ import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
 import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
 import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/forms';
 import { AbTestsModule } from 'angular-ab-tests';
+import { PrivacyComponent } from './ui/privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { AbTestsModule } from 'angular-ab-tests';
     AdminComponent,
     MapToIterablePipe,
     TeamSettingsComponent,
+    PrivacyComponent,
   ],
   imports: [
     AbTestsModule.forRoot([
@@ -86,6 +88,7 @@ import { AbTestsModule } from 'angular-ab-tests';
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'admin', component: AdminComponent, canActivate: [ProfileGuardService] },
+      { path: 'privacy', component: PrivacyComponent },
       { path: 'scrum/:teamId/:id', component: ScrumComponent },
       { path: 'team/:teamId', component: TeamSettingsComponent, canActivate: [ProfileGuardService] },
       { path: '', component: BoardsComponent, canActivate: [ProfileGuardService] },
