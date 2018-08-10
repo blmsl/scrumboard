@@ -57,7 +57,7 @@
             <p>
               <strong>Priority: {{entry.priority}}</strong>
             </p>
-            <p>{{entry.txt}}</p>
+            <p [innerHTML]="entry.txt | linky"></p>
           </div>
           <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
         </div>
@@ -91,7 +91,7 @@
               <mat-icon>account_circle</mat-icon>
             </div>
             <strong>{{entry.developer}}</strong>
-            <p>{{entry.txt}}</p>
+            <p [innerHTML]="entry.txt | linky"></p>
           </div>
           <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
         </div>
@@ -124,7 +124,7 @@
               <mat-icon>account_circle</mat-icon>
             </div>
             <strong>{{entry.developer}}</strong>
-            <p>{{entry.txt}}</p>
+            <p [innerHTML]="entry.txt | linky"></p>
           </div>
         </div>
       </div>
@@ -153,8 +153,8 @@
 </div> -->
 
 <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
-    <mat-icon>add</mat-icon>
-  </button>
+  <mat-icon>add</mat-icon>
+</button>
 
 <swal #linkShareSwal title="Share with people outside the team">
   <div *swalPartial>

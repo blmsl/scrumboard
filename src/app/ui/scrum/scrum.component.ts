@@ -43,7 +43,8 @@ export class ScrumComponent implements OnInit, OnDestroy {
   constructor(public route: ActivatedRoute,
     public teamsService: TeamsService,
     public auth: AuthServiceService,
-    public navbarService: NavbarService, public afs: AngularFirestore) {
+    public navbarService: NavbarService,
+    public afs: AngularFirestore) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.shareableLink = 'https://scrum.magson.no/scrum/' + this.teamId + '/' + this.id;

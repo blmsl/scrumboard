@@ -13,7 +13,7 @@ import { AdminService } from '../../services/admin.service';
 })
 export class AdminComponent implements OnInit {
 
-  navTab = 'users';
+  navTab = 'feedback';
 
   constructor(
     public router: Router,

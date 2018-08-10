@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { AngularFirestoreCollection, AngularFirestore } from '../../../node_modules/angularfire2/firestore';
 import { Observable } from '../../../node_modules/rxjs';
+import { FeedbackInterface } from '../extra/feedbackInterface';
 
 
 @Injectable({
@@ -31,9 +32,5 @@ export class AdminService {
   }
 }
 
-interface FeedbackInterface {
-  name: string;
-  category: string;
-  txt: string;
-}
+
 

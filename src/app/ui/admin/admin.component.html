@@ -14,13 +14,13 @@
   </i>
   <i [class.active]="navTab == 'feedback'" (click)="navTab = 'feedback'" class="navBtn">
     <div>
-      <mat-icon>build</mat-icon>
+      <mat-icon>feedback</mat-icon>
       <span class="navTxt">Feedback</span>
     </div>
   </i>
   <i [class.active]="navTab == 'maintenance'" (click)="navTab = 'maintenance'" class="navBtn">
     <div>
-      <mat-icon>feedback</mat-icon>
+      <mat-icon>build</mat-icon>
       <span class="navTxt">Maintenance</span>
     </div>
   </i>
@@ -84,15 +84,15 @@
       </div>
       <table class="table" cellspacing="0">
         <tr>
-          <th>Name</th>
+          <th>UID</th>
           <th>Category</th>
-          <th>Message</th>
+          <th>Date</th>
         </tr>
 
         <tr *ngFor="let feedbackMessage of adminService.feedback$ | async">
-            <td>{{ feedbackMessage.name }}</td>
-            <td>{{ feedbackMessage.category }}</td>
-            <td>{{ feedbackMessage.txt }}</td>
+          <td>{{ feedbackMessage.uid }}</td>
+          <td>{{ feedbackMessage.category }}</td>
+          <td>{{ feedbackMessage.date }}</td>
         </tr>
       </table>
 

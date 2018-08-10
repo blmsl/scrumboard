@@ -4,6 +4,8 @@ import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Subscription } from 'rxjs';
 import swal from 'sweetalert2';
+import { firestore } from '../../../../node_modules/firebase';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -100,10 +102,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
       text: 'Please tell us what you are missing with this application and/or what you like about it.',
       html: `
       <select id="feedbackSelect" class="swal2-select" style="outline:0;">
-        <option value="general">General</option>
-        <option value="bug">Bug</option>
-        <option value="improvements">Improvements</option>
-        <option value="feature-request">Feature request</option>
+        <option value="General">General</option>
+        <option value="Bug">Bug</option>
+        <option value="Improvements">Improvements</option>
+        <option value="Feature request">Feature request</option>
       </select>
       <textarea id="feedbackTxt" class="swal2-textarea"></textarea>`,
       confirmButtonText: 'Send',
@@ -126,6 +128,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           this.afs.collection('feedback').add({
             category: post[0],
             txt: post[1],
+            date: firestore.FieldValue.serverTimestamp(),
             uid: user.uid,
             name: user.displayName,
             email: user.email

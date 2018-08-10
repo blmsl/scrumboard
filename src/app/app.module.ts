@@ -44,6 +44,7 @@ import { TeamSettingsComponent } from './ui/team-settings/team-settings.componen
 import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/forms';
 import { AbTestsModule } from 'angular-ab-tests';
 import { PrivacyComponent } from './ui/privacy/privacy.component';
+import { LinkyModule } from 'angular-linky';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { PrivacyComponent } from './ui/privacy/privacy.component';
         expiration: 45,
       },
     ]),
+    LinkyModule,
     BrowserAnimationsModule,
     MatSelectModule,
     MatIconModule,

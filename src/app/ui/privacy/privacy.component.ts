@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NavbarService } from './../../services/navbar.service';
+
 
 @Component({
   selector: 'app-privacy',
   templateUrl: './privacy.component.html',
   styleUrls: ['./privacy.component.css']
 })
-export class PrivacyComponent implements OnInit {
+export class PrivacyComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  constructor(
+    public navbarService: NavbarService
+  ) { }
 
   ngOnInit() {
+    this.navbarService.backBtn = true;
+  }
+
+  ngOnDestroy() {
+    this.navbarService.backBtn = false;
+
   }
 
 }
