@@ -1,6 +1,7 @@
 <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
   <mat-icon>link</mat-icon>Share</button>
 
+<!-- commented out till you make it homie
 <header>
   <div id="tabNav">
     <ul>
@@ -11,10 +12,17 @@
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Beta</li>
     </ul>
   </div>
-</header>
+</header> -->
 
-<main [ngSwitch]='navTab'>
-  <div *ngSwitchCase="'todo'" id="todoContainer">
+<div *ngIf="($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0" id="noEntries">
+  <div>
+    <p>No entries</p>
+    <h5>¯\_(ツ)_/¯</h5>
+  </div>
+</div>
+
+<main *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)" [ngSwitch]='navTab'>
+  <div id="todoContainer">
     <div id="sortBy">
       <mat-icon>sort</mat-icon>
       <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
@@ -105,7 +113,7 @@
               <mat-icon>replay</mat-icon>
               <span>Rollback</span>
             </button>
-            <button mat-menu-item (click)="delete(entry, doneCollection$)">
+            <button mat-menu-item (click)="delete(entry, doneCollection)">
               <mat-icon>delete</mat-icon>
               <span>Delete</span>
             </button>
@@ -122,28 +130,31 @@
       </div>
     </section>
   </div>
-  <div *ngSwitchCase="'bugs'">
-    Bugs
-    <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <div *ngSwitchCase="'ideas'">
-    Ideas
-    <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <div *ngSwitchCase="'notes'">
-    Notes
-    <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <div *ngSwitchCase="'beta'">
-    Beta
-  </div>
 </main>
+
+<!-- <div *ngSwitchCase="'bugs'">
+  Bugs
+  <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<div *ngSwitchCase="'ideas'">
+  Ideas
+  <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<div *ngSwitchCase="'notes'">
+  Notes
+  
+</div>
+<div *ngSwitchCase="'beta'">
+  Beta
+</div> -->
+
+<button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+    <mat-icon>add</mat-icon>
+  </button>
 
 <swal #linkShareSwal title="Share with people outside the team">
   <div *swalPartial>
