@@ -31,6 +31,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --button-color: #4285f4;
     --button-accent: #5491f5;
     --header-title: ;
+    --link-color: #0000EE;
   `;
 
   private darkTheme = `
@@ -41,6 +42,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --button-color: #e91e63;
     --header-title: #e91e63;
     --button-accent: #eb3472;
+    --link-color: white;
   `;
 
   constructor(public auth: AuthServiceService, public navbarService: NavbarService, public afs: AngularFirestore) {

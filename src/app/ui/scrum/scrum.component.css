@@ -1,3 +1,8 @@
+main {
+  display: table;
+  margin: 0 auto;
+}
+
 #tabNav {
   width: 100%;
   border-bottom: 2px solid #B2B0B0;
@@ -174,6 +179,10 @@ section .container {
 #noEntries {
   margin-top: 30%;
   text-align: center;
+}
+
+a:link {
+  color: red;
 }
 
 @media only screen and (max-width: 800px) {

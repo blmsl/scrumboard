@@ -71,3 +71,11 @@
 <button *ngIf="(boardsService.$teams | async)?.length > 0" mat-fab id="addButton" (click)="addBoard()" (click)="$event.stopPropagation()">
   <mat-icon>add</mat-icon>
 </button>
+
+<footer>
+    <div>
+      <a [routerLink]="['/privacy']">
+        Privacy policy
+      </a>
+    </div>
+  </footer>
