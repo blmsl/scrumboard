@@ -1,20 +1,21 @@
 import { AuthServiceService } from './../../services/auth-service.service';
 import { NavbarService } from './../../services/navbar.service';
 import { Board } from './../../extra/BoardInterface';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TeamsService } from '../../services/teams.service';
 import swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
+import { Subscription } from '../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-boards',
   templateUrl: './boards.component.html',
   styleUrls: ['./boards.component.css']
 })
-export class BoardsComponent implements OnInit {
+export class BoardsComponent implements OnInit, OnDestroy {
 
   // boards of the selected team
   $boards: Observable<Board[]>;
@@ -24,6 +25,9 @@ export class BoardsComponent implements OnInit {
   archiveCollection: Observable<AngularFirestoreCollection<Board>>;
 
   teamId: string;
+
+  loading = true;
+  sub: Subscription;
 
   constructor(public boardsService: TeamsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore, public router: Router,
@@ -81,6 +85,7 @@ export class BoardsComponent implements OnInit {
         }
       });
     }
+    this.sub = this.$boards.take(1).subscribe(() => this.loading = false);
   }
 
   async addBoard() {
@@ -255,6 +260,10 @@ export class BoardsComponent implements OnInit {
   selectTeam(teamId: string) {
     localStorage.previousSelectedTeam = teamId;
     this.router.navigate(['/', teamId]);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }

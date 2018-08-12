@@ -1,3 +1,5 @@
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>  
+
 <main *ngIf="(boardsService.$teams | async)?.length > 0">
   <app-teams-module></app-teams-module>
   <div class="boardsWrapper">
