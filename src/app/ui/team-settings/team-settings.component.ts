@@ -161,6 +161,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
               })
                 .catch(err => {
                   that.loading = false;
+                  console.log(err);
                   swal({
                     title: 'Error',
                     text: err.message,

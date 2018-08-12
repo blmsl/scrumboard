@@ -1,10 +1,16 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Users can only see the boards they are member of
-    match /teams/{teamID}/boards/{boardID} {
-      allow read, write: if get(/databases/$(database)/documents/teams/$(teamID)).data.members[request.auth.uid] == true;
+  
+  match /{document=**} {
+      allow read, write: if request.auth.uid != null;
     }
+
+    // Users can only access their team
+    // Neds to be updated when sharing link
+    // match /teams/{teamID} {
+    //   allow read, write: if get(/databases/$(database)/documents/teams/$(teamID)).data.members[request.auth.uid].isMember == true;
+    // }
+
 
     // Members can only be added if they do not exist first
    // match /teams/{teamID} {
@@ -15,7 +21,10 @@ service cloud.firestore {
     // match /{document=**)}  {
     //   allow read, write: if request.auth.uid != null;
     // }
-
+		
+    // function isMember(teamId) {
+    // return get(/databases/$(database)/documents/teams/teamID).data.members[request.auth.uid].isMember;
+    // }
   }
 }
 // /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
