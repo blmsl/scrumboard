@@ -92,100 +92,100 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.loadingSub = combineLatest(this.$todo, this.$inProgress, this.$done)
       .subscribe(([_1, _2, _3]) => this.loading = false);
 
-}
+  }
 
-delete (entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
-  swal({
-    title: 'Are you sure?',
-    text: 'This will delete this task permanently!',
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    confirmButtonColor: '#e95d4f',
-    cancelButtonText: 'No, cancel!',
-    reverseButtons: true
-  }).then((result) => {
-    if (result.value) {
-      // Delete method here
-      collection.doc(entry.id).delete().then(() => {
-        swal(
-          'Deleted!',
-          'The task has been deleted.',
-          'success'
-        );
-        // Google analytics event
-        (<any>window).ga('send', 'event', {
-          eventCategory: 'Scrumboard interaction',
-          eventAction: 'Delete task',
+  delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+    swal({
+      title: 'Are you sure?',
+      text: 'This will delete this task permanently!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#e95d4f',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        // Delete method here
+        collection.doc(entry.id).delete().then(() => {
+          swal(
+            'Deleted!',
+            'The task has been deleted.',
+            'success'
+          );
+          // Google analytics event
+          (<any>window).ga('send', 'event', {
+            eventCategory: 'Scrumboard interaction',
+            eventAction: 'Delete task',
+          });
         });
-      });
-    } else if (
-      result.dismiss === swal.DismissReason.cancel
-    ) {
-      swal(
-        'Cancelled',
-        'This task is safe',
-        'error'
-      );
-    }
-  });
-}
-
-rollback_from_inprogress(entry: EntryInterface) {
-  // Delete from in-progress
-  this.inProgressCollection.doc(entry.id).delete();
-  // Add to To-do
-  this.todoCollection.add({
-    txt: entry.txt, priority: entry.priority, time: firestore.FieldValue.serverTimestamp()
-  });
-}
-
-rollback_from_finished(entry: EntryInterface) {
-  // Delete from finished
-  this.doneCollection.doc(entry.id).delete();
-  // add it to inProgress
-  this.auth.user$.take(1).subscribe((user) => {
-    this.inProgressCollection.add({
-      txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
-      imgUrl: user.photoURL
-    });
-  });
-}
-
-async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
-  const { value: post } = await swal({
-    title: 'Edit the post',
-    html:
-      `<input id="swal-input1" type="text" value='${entry.txt}' class="swal2-input">` +
-      this.getRadio(entry.priority),
-    showCancelButton: true,
-    reverseButtons: true,
-    preConfirm: () => {
-      let priority: string;
-
-      if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-        priority = '!';
-      } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-        priority = '!!';
-      } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-        priority = '!!!';
+      } else if (
+        result.dismiss === swal.DismissReason.cancel
+      ) {
+        swal(
+          'Cancelled',
+          'This task is safe',
+          'error'
+        );
       }
-      return [
-        (<HTMLInputElement>document.getElementById('swal-input1')).value,
-        priority
-      ];
-    },
-    inputValidator: (value) => {
-      return !value && 'You need to write something!';
-    }
-  });
-  if(post) {
-    collection.doc(entry.id).update({
-      txt: post[0],
-      priority: post[1]
     });
   }
-}
+
+  rollback_from_inprogress(entry: EntryInterface) {
+    // Delete from in-progress
+    this.inProgressCollection.doc(entry.id).delete();
+    // Add to To-do
+    this.todoCollection.add({
+      txt: entry.txt, priority: entry.priority, time: firestore.FieldValue.serverTimestamp()
+    });
+  }
+
+  rollback_from_finished(entry: EntryInterface) {
+    // Delete from finished
+    this.doneCollection.doc(entry.id).delete();
+    // add it to inProgress
+    this.auth.user$.take(1).subscribe((user) => {
+      this.inProgressCollection.add({
+        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
+        imgUrl: user.photoURL
+      });
+    });
+  }
+
+  async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+    const { value: post } = await swal({
+      title: 'Edit the post',
+      html:
+        `<input id="swal-input1" type="text" value='${entry.txt}' class="swal2-input">` +
+        this.getRadio(entry.priority),
+      showCancelButton: true,
+      reverseButtons: true,
+      preConfirm: () => {
+        let priority: string;
+
+        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
+          priority = '!';
+        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
+          priority = '!!';
+        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
+          priority = '!!!';
+        }
+        return [
+          (<HTMLInputElement>document.getElementById('swal-input1')).value,
+          priority
+        ];
+      },
+      inputValidator: (value) => {
+        return !value && 'You need to write something!';
+      }
+    });
+    if (post) {
+      collection.doc(entry.id).update({
+        txt: post[0],
+        priority: post[1]
+      });
+    }
+  }
 
   moveToProgress(entry: EntryInterface) {
     // delete from todo
@@ -235,7 +235,7 @@ async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryIn
     });
   }
 
-  toMap(observable: Observable<DocumentChangeAction<EntryInterface>[]>): Observable < EntryInterface[] > {
+  toMap(observable: Observable<DocumentChangeAction<EntryInterface>[]>): Observable<EntryInterface[]> {
     return observable.map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as EntryInterface;
@@ -246,53 +246,53 @@ async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryIn
   }
 
   async add() {
-      const { value: post } = await swal({
-        title: 'What is the name of the task?',
-        html:
-          '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
-          this.getRadio('!'),
-        reverseButtons: true,
-        showCancelButton: true,
-        preConfirm: () => {
-          let priority: string;
+    const { value: post } = await swal({
+      title: 'What is the name of the task?',
+      html:
+        '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
+        this.getRadio('!'),
+      reverseButtons: true,
+      showCancelButton: true,
+      preConfirm: () => {
+        let priority: string;
 
-          if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-            priority = '!';
-          } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-            priority = '!!';
-          } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-            priority = '!!!';
-          }
-          return [
-            (<HTMLInputElement>document.getElementById('swal-input1')).value,
-            priority
-          ];
-        },
-      });
-      if(post[0] !== '') {
-        this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
+        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
+          priority = '!';
+        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
+          priority = '!!';
+        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
+          priority = '!!!';
+        }
+        return [
+          (<HTMLInputElement>document.getElementById('swal-input1')).value,
+          priority
+        ];
+      },
+    });
+    if (post[0] !== '') {
+      this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
       // Google analytics event
       (<any>window).ga('send', 'event', {
-      eventCategory: 'Scrumboard interaction',
-      eventAction: 'New todo',
-    });
+        eventCategory: 'Scrumboard interaction',
+        eventAction: 'New todo',
+      });
     } else if (post[0] === '') {
-  swal({
-    title: 'Invalid task.',
-    type: 'error',
-    text: 'Please fill in a task description!'
-  });
-}
+      swal({
+        title: 'Invalid task.',
+        type: 'error',
+        text: 'Please fill in a task description!'
+      });
+    }
   }
 
-copyLinkTxt() {
-  const copyText = <HTMLInputElement>document.getElementById('shareableLinkInp');
-  copyText.select();
-  document.execCommand('copy');
-}
+  copyLinkTxt() {
+    const copyText = <HTMLInputElement>document.getElementById('shareableLinkInp');
+    copyText.select();
+    document.execCommand('copy');
+  }
 
-getRadio(priority: string) {
-  return `
+  getRadio(priority: string) {
+    return `
   <style>
   .swalRadioBtns {
     position: absolute;
@@ -335,38 +335,38 @@ getRadio(priority: string) {
   <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!" ${this.checkIfChecked(priority, '!!!')}>
   <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
   </div>`;
-}
+  }
 
-checkIfChecked(priority: string, x: string) {
-  if (priority === x) { return 'checked'; }
-  return null;
-}
+  checkIfChecked(priority: string, x: string) {
+    if (priority === x) { return 'checked'; }
+    return null;
+  }
 
-sendEvent = (filter: String) => {
-  (<any>window).ga('send', 'event', {
-    eventCategory: 'User settings',
-    eventLabel: filter,
-    eventAction: 'Change filter',
-    eventValue: 10
-  });
-}
-
-async addBug() {
-  const { value: post } = await swal({
-    title: 'Describe the bug',
-    input: 'text',
-    reverseButtons: true,
-    showCancelButton: true,
-  });
-  if (post) {
-    // add to firebase
-    // Google analytics event
+  sendEvent = (filter: String) => {
     (<any>window).ga('send', 'event', {
-      eventCategory: 'Scrumboard interaction',
-      eventAction: 'New bug reported',
+      eventCategory: 'User settings',
+      eventLabel: filter,
+      eventAction: 'Change filter',
+      eventValue: 10
     });
   }
-}
+
+  async addBug() {
+    const { value: post } = await swal({
+      title: 'Describe the bug',
+      input: 'text',
+      reverseButtons: true,
+      showCancelButton: true,
+    });
+    if (post) {
+      // add to firebase
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Scrumboard interaction',
+        eventAction: 'New bug reported',
+      });
+    }
+  }
 }
 
 interface EntryInterface {
