@@ -181,9 +181,7 @@ section .container {
   text-align: center;
 }
 
-a:link {
-  color: red;
-}
+
 
 @media only screen and (max-width: 800px) {
   #todoContainer {

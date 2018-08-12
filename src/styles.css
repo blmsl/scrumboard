@@ -44,6 +44,9 @@ main {
   background-color: var(--button-accent);
 }
 
+a {
+  color: var(--link-color);
+}
 
 #spinnerWrapper {
     width: 100%;
