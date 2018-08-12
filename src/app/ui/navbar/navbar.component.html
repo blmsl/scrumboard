@@ -42,13 +42,18 @@
       <p>Dark mode:</p>
       <mat-slide-toggle [checked]="darkThemeActivated" (change)="toggleTheme($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
     </div>
+    <button mat-menu-item (click)="auth.logOut()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Logout</span>
+    </button>
+    <div id="hr"></div>
     <button mat-menu-item (click)="sendFeedback()">
       <mat-icon>feedback</mat-icon>
       <span>Send feedback</span>
     </button>
-    <button mat-menu-item (click)="auth.logOut()">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
+    <button mat-menu-item [routerLink]="['/privacy']">
+      <mat-icon>book</mat-icon>
+      <span>Privacy policy</span>
     </button>
   </mat-menu>
 </header>

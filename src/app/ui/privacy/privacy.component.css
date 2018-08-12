@@ -1,24 +1,13 @@
-html {
-  font-family: sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%
-}
-
-body {
-  margin: 0
-}
-
-html {
-  font-size: 10px;
-  -webkit-tap-highlight-color: transparent
-}
-
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.42857143;
+.policy, #header-container {
+  margin: 0;
   color: #333;
-  background-color: #fff
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 20px;
+}
+
+#header-container {
+  color: white;
 }
 
 .col-md-12 {
@@ -28,15 +17,6 @@ body {
   padding-right: 15px
 }
 
-
-@media (min-width:992px) {
-  .col-md-12 {
-    float: left
-  }
-  .col-md-12 {
-    width: 100%
-  }
-}
 .view-pages {
   background: #FFF;
   font-family: Arial, sans-serif;
@@ -46,7 +26,7 @@ body {
 
 .view-pages .header {
   margin: 0;
-  padding: 40px 0;
+  padding: 10px 0;
   background: #3c3c3c;
   color: #FFF
 }
@@ -111,12 +91,4 @@ body {
   color: #999;
   font-size: 12px;
   line-height: 18px
-}
-
-.view-pages .credits p {
-  margin: 0
-}
-
-.view-pages .credits a {
-  color: #333
 }
