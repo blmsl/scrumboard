@@ -88,6 +88,7 @@ function sendInvite(email, uid, teamName, teamId, firstName) {
   return mailTransport.sendMail(mailOptions)
 }
 
+
 exports.addMember = functions.https.onRequest((req, res) => {
   const UID = getParameterByName('uid', req.url);
   const teamId = getParameterByName('teamId', req.url);
@@ -96,8 +97,9 @@ exports.addMember = functions.https.onRequest((req, res) => {
   var Members;
 
   return admin.auth().getUser(UID).then(function (userRecord) {
-    admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
+    return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
         Members = doc.data().members;
+        if (Members[UID] === "mail") return false; // make sure the user has been invited
         Members[UID].isMember = true;
         return admin.firestore().doc(`teams/${teamId}`).update({
           members: Members
@@ -137,9 +139,18 @@ exports.addMember = functions.https.onRequest((req, res) => {
 
 exports.getUserByMail = functions.https.onCall((data, context) => {
   const mail = data.mail;
-  return admin.auth().getUserByEmail(mail)
-    .then(function (userRecord) {
+  const teamId = data.teamId;
+  // get the user info and teamInfo
+  return Promise.all([
+    admin.auth().getUserByEmail(mail),
+    admin.firestore().doc(`teams/${teamId}`).get()
+  ]).then(function (data) {
+      const userRecord = data[0];
+      const team = data[1];
       const userData = userRecord.toJSON();
+      if (team.members[userData.uid].isMember) { // user is already member of the team
+        throw new functions.https.HttpsError('not-found', 'This user is already member of the team');
+      }
       return {
         userData: userData
       }
