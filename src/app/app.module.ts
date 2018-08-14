@@ -83,7 +83,7 @@ import { LinkyModule } from 'angular-linky';
     MatButtonModule,
     MatSlideToggleModule,
     AngularFireModule.initializeApp(FirebaseConfig),
-    AngularFirestoreModule.enablePersistence(),
+    // AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
     BrowserModule,
     SweetAlert2Module.forRoot(),
