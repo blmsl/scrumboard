@@ -115,7 +115,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
       const that = this;
       that.loading = true;
       const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
-      return getUserByMail({ mail: input }).toPromise()
+      return getUserByMail({ mail: input, teamId: that.teamId }).toPromise()
         .then(function (data) {
           console.log(data);
           const uid = data.userData.uid;

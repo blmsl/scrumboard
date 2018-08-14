@@ -2,6 +2,42 @@ service cloud.firestore {
   match /databases/{database}/documents {
   
 
+    // // only admins can change team settings
+    // match /teams/{teamID} {
+    // 	allow read: if isMemberOfTeam(teamId);
+    // 	allow write: if isAdmin();
+    // }
+    
+    // // public if 
+    // match /teams/{teamID}/boards/{boardID} {
+  	// 	allow read: if isMemberOfTeam(teamId) || boardIsPublic();
+    //   allow write: if isMemberOfTeam(teamId);
+    // }
+    
+    function isMemberOfTeam(teamId) {
+    	return get(/databases/{database}/documents/teams/$(teamId)).data.members[request.auth.uid].isMember;
+    }
+    
+    function isAdmin() {
+    	return existingData().members[request.auth.uid].isAdmin;
+    }
+    
+    function boardIsPublic() {
+    	return existingData().isPublic;
+    }
+    
+  	function isSignedIn() {
+    	return request.auth.uid != null;
+    }
+    
+    function existingData() {
+    	return resource.data;
+    }
+    
+    function incomingData() {
+    	return request.resource.data;
+    }
+
     // Users can only access their team
     // Neds to be updated when sharing link
       //Works, but throws error in console

@@ -90,31 +90,6 @@ h2 {
   text-align: center;
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-footer div {
-  display: table;
-  margin: 20px auto;
-  margin-bottom: 40px;
-  cursor: pointer;
-}
-
-footer a {
-  text-decoration: none;
-  color: #ccc;
-  font-size: 14px;
-  transition: all .2s;
-}
-
-footer a:hover {
-  color: #ddd;
-}
-
 @media only screen and (max-width: 800px) {
   main {
     display: block;

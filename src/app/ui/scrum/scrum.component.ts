@@ -4,7 +4,7 @@ import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
@@ -40,6 +40,9 @@ export class ScrumComponent implements OnInit, OnDestroy {
   sub: Subscription;
   navTab = 'todo';
 
+  loading = true;
+  loadingSub: Subscription;
+
   constructor(public route: ActivatedRoute,
     public teamsService: TeamsService,
     public auth: AuthServiceService,
@@ -50,7 +53,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.shareableLink = 'https://scrum.magson.no/scrum/' + this.teamId + '/' + this.id;
 
     this.boardDoc = afs.doc<Board>('teams/' + this.teamId + '/boards/' + this.id);
-    this.sub = this.boardDoc.valueChanges().subscribe((board) => {
+    this.sub = this.boardDoc.valueChanges().subscribe(board => {
       this.isPublic = board.isPublic;
       navbarService.title = board.name;
     });
@@ -85,6 +88,9 @@ export class ScrumComponent implements OnInit, OnDestroy {
       return this.toMap(this.boardDoc
         .collection<EntryInterface>('done', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
     });
+
+    this.loadingSub = combineLatest(this.$todo, this.$inProgress, this.$done)
+      .subscribe(([_1, _2, _3]) => this.loading = false);
 
   }
 
@@ -218,6 +224,7 @@ export class ScrumComponent implements OnInit, OnDestroy {
     this.navbarService.backBtn = false;
 
     this.sub.unsubscribe();
+    this.loadingSub.unsubscribe();
   }
 
 
