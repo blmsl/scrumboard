@@ -5,7 +5,7 @@ service cloud.firestore {
     // Users can only access their team
     // Needs to be updated when sharing link
 
-    match /teams/{teamId} {
+     match /teams/{teamId} {
       match /boards/{boardID} {
        allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
        allow write: if memberOfTeam(teamId);
@@ -16,14 +16,15 @@ service cloud.firestore {
       }
 
       match /boards/{document=**} {
-       allow write: if memberOfTeam(teamId);
        allow read: if memberOfTeam(teamId);
       }
-      allow read: if memberOfTeam(teamId);
       // TODO allow quit team
       // allow write: if isAdmin(teamId);
-      allow write: if memberOfTeam(teamId);
-    }
+
+       allow read: if memberOfTeam(teamId);
+       allow write: if memberOfTeam(teamId);
+
+     }
    
     match /feedback {
       allow write: if isSignedIn();
