@@ -43,11 +43,11 @@ exports.newRequest = functions.firestore
             members: Members
           });
           console.log('send invite');
-          
+
         })
       }).then(function () {
         return sendInvite(userEmail, uid, teamName, teamId, firstName)
-      }).then(function () {}).catch(err => console.log('Error:', err));
+      }).then(function () { }).catch(err => console.log('Error:', err));
     }
   });
 
@@ -98,15 +98,15 @@ exports.addMember = functions.https.onRequest((req, res) => {
 
   return admin.auth().getUser(UID).then(function (userRecord) {
     return admin.firestore().doc(`teams/${teamId}`).get().then(doc => {
-        Members = doc.data().members;
-        if (Members[UID] === "mail") return false; // make sure the user has been invited
-        Members[UID].isMember = true;
-        return admin.firestore().doc(`teams/${teamId}`).update({
-          members: Members
-        });
-      }).then(() => {
-        res.send(
-          `
+      Members = doc.data().members;
+      if (Members[UID] === "mail") return false; // make sure the user has been invited
+      Members[UID].isMember = true;
+      return admin.firestore().doc(`teams/${teamId}`).update({
+        members: Members
+      });
+    }).then(() => {
+      res.send(
+        `
       <head>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet">
       </head>
@@ -129,8 +129,8 @@ exports.addMember = functions.https.onRequest((req, res) => {
         </div>
     </main>
 </body>`
-        )
-      })
+      )
+    })
       .catch(err =>
         console.error('Error:', err));
   });
@@ -145,26 +145,29 @@ exports.getUserByMail = functions.https.onCall((data, context) => {
     admin.auth().getUserByEmail(mail),
     admin.firestore().doc(`teams/${teamId}`).get()
   ]).then(function (data) {
-      const userRecord = data[0];
-      const team = data[1];
-      const userData = userRecord.toJSON();
-      if (team.members[userData.uid].isMember) { // user is already member of the team
-        throw new functions.https.HttpsError('not-found', 'This user is already member of the team');
-      }
-      return {
-        userData: userData
-      }
-    }).catch(err => {
-      switch (err.code) {
-        case 'auth/user-not-found':
-          throw new functions.https.HttpsError('not-found', 'We could not find any user with this email');
-          break;
-        default:
-          throw new functions.https.HttpsError('aborted', 'An error has occured, please try again later');
-          break;
-      }
+    const userRecord = data[0];
+    const team = data[1].data();
+    const userData = userRecord.toJSON();
+    console.log("user is already apart of team:", team.members[userData.uid].isMember);
+    if (team.members[userData.uid].isMember) { // user is already member of the team
+      console.log('User is already member', userData);
+      throw new functions.https.HttpsError('already-member', 'This user is already member of the team');
+    }
+    console.log('user is not already memebr');
+    return {
+      userData: userData
+    }
+  }).catch(err => {
+    switch (err.code) {
+      case 'auth/user-not-found':
+        throw new functions.https.HttpsError('not-found', 'We could not find any user with this email');
+        break;
+      default:
+        throw new functions.https.HttpsError('aborted', 'An error has occured, please try again later');
+        break;
+    }
 
-    });
+  });
 });
 
 exports.deleteEmptyTeams = functions.firestore

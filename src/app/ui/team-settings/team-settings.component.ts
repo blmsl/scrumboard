@@ -114,6 +114,8 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       const that = this;
       that.loading = true;
+      console.log('finiding user', input);
+      this.form.reset(); // clear the form
       const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
       return getUserByMail({ mail: input, teamId: that.teamId }).toPromise()
         .then(function (data) {
@@ -171,6 +173,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             }
           }]);
         }).catch(function (error) {
+          console.log(error);
           swal({
             title: 'Could not find user',
             text: 'We could not find any user by this email. Please try another email, or send an invitation.',
