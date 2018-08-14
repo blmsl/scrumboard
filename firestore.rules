@@ -2,28 +2,43 @@ service cloud.firestore {
   match /databases/{database}/documents {
   
 
-    // // only admins can change team settings
-    // match /teams/{teamID} {
-    // 	allow read: if isMemberOfTeam(teamId);
-    // 	allow write: if isAdmin();
-    // }
-    
-    // // public if 
-    // match /teams/{teamID}/boards/{boardID} {
-  	// 	allow read: if isMemberOfTeam(teamId) || boardIsPublic();
-    //   allow write: if isMemberOfTeam(teamId);
-    // }
-    
-    function isMemberOfTeam(teamId) {
-    	return get(/databases/{database}/documents/teams/$(teamId)).data.members[request.auth.uid].isMember;
+    // Users can only access their team
+    // Needs to be updated when sharing link
+
+    match /teams/{teamId} {
+      match /boards/{boardID} {
+       allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
+       allow write: if memberOfTeam(teamId);
+
+        match /beta {
+          allow write: if memberOfTeam(teamId) || boardIsPublic(teamId);
+        }
+      }
+
+      match /boards/{document=**} {
+       allow write: if memberOfTeam(teamId);
+       allow read: if memberOfTeam(teamId);
+      }
+      allow read: if memberOfTeam(teamId);
+      // TODO allow quit team
+      // allow write: if isAdmin(teamId);
+      allow write: if memberOfTeam(teamId);
+    }
+   
+    match /feedback {
+      allow write: if isSignedIn();
     }
     
-    function isAdmin() {
-    	return existingData().members[request.auth.uid].isAdmin;
+    function memberOfTeam(teamId) {
+    	return  get(/databases/$(database)/documents/teams/$(teamId)).data.members[request.auth.uid].isMember;
     }
     
-    function boardIsPublic() {
-    	return existingData().isPublic;
+    function isAdmin(teamId) {
+    	return get(/databases/$(database)/documents/teams/$(teamId)).data.members[request.auth.uid].isAdmin;
+    }
+    
+    function boardIsPublic(teamId) {
+    	return get(/databases/$(database)/documents/teams/$(teamId)).data.isPublic;
     }
     
   	function isSignedIn() {
@@ -37,29 +52,24 @@ service cloud.firestore {
     function incomingData() {
     	return request.resource.data;
     }
-
-    // Users can only access their team
-    // Neds to be updated when sharing link
-      //Works, but throws error in console
-      match /teams/{teamID} {
-         allow read, write: if get(/databases/$(database)/documents/teams/$(teamID)).data.members[request.auth.uid].isMember == true;
-       }
-       match /teams/{teamID}/{document=**} {
-         allow read, write: if get(/databases/$(database)/documents/teams/$(teamID)).data.members[request.auth.uid].isMember == true;
-       }
-
-
-    // Members can only be added if they do not exist first
-   // match /teams/{teamID} {
-   //   allow read, write: if 
-   // }
-
-    // All users must be authenticated
-    // match /{document=**)}  {
-    //   allow read, write: if request.auth.uid != null;
-    // }
 		
   }
 }
 // /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
 // XD6EkNokYXV3XTtW2UZys2FtcXI3
+
+
+
+
+
+    // // only admins can change team settings
+    // match /teams/{teamId} {
+    // 	allow read: if memberOfTeam(teamId);
+    // 	
+    // }
+    
+    // // public if 
+    // match /teams/{teamId}/boards/{boardID} {
+  	// 	allow read: if memberOfTeam(teamId) || boardIsPublic();
+    //   allow write: if memberOfTeam(teamId);
+    // }
