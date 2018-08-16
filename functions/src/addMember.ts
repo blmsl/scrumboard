@@ -1,15 +1,15 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+// Confirm adding the user to the team by confirmation link 
+
 export const addMember = functions.https.onRequest(async (req, res) => {
     const uid = getParameterByName('uid', req.url);
     const teamId = getParameterByName('teamId', req.url);
     const teamName = getParameterByName('teamName', req.url);
 
-    let members;
-
     const doc = await admin.firestore().doc(`teams/${teamId}`).get();
-    members = doc.data().members;
+    const members = doc.data().members;
     if (members[uid] === false) { // make sure the user has been invited
         return false;
     }

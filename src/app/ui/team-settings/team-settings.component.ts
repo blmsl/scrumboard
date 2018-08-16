@@ -172,24 +172,17 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
                 }));
             }
           }]);
-        }).catch(function (error) {
-          console.log(error);
+        }).catch((error) => {
+          console.log(error.code);
           swal({
-            title: 'Could not find user',
-            text: 'We could not find any user by this email. Please try another email, or send an invitation.',
+            title: 'Error',
+            text: error.message,
             type: 'error',
             // tslint:disable-next-line:max-line-length
             // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
           });
           that.loading = false;
-        }).catch(err => {
-          that.loading = false;
-          swal({
-          title: 'Error',
-          text: err.message,
-          type: 'error'
         });
-      });
     }
   }
 

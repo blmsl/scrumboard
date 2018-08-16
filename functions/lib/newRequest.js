@@ -4,7 +4,7 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 const mailTransport = nodemailer.createTransport(`smtps://${'magson.dev@gmail.com'}:${'m@gs0n123'}@smtp.gmail.com`);
-// when a new user is added to the team
+// when a new user is added to the team => send them an invitation email with an confirmation link 
 exports.newRequest = functions.firestore
     .document('teams/{teamId}')
     .onUpdate((change, context) => {
