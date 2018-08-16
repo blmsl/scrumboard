@@ -5,33 +5,55 @@ service cloud.firestore {
     // Users can only access their team
     // Needs to be updated when sharing link
 
-     match /teams/{teamId} {
-      match /boards/{boardID} {
-       allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
-       allow write: if memberOfTeam(teamId);
+    // -teams
+    //   -{teamId}        --
+    //      -members
+    //        -{uid}
+    //      -archived
+    //        -{boardId}
+    //      -boards
+    //        -{boardId}  --
+    //          -todo
+    //          -inprogress
+    //          -done
 
-        match /beta {
-          allow write: if memberOfTeam(teamId) || boardIsPublic(teamId);
-        }
-      }
+    //  match /teams/{teamId} {
+    //    allow read: if isMemberOfTeam(teamId);
+    //    allow write: if true; // memberOfTeam(teamId);
 
-      match /boards/{document=**} {
-       allow read: if memberOfTeam(teamId);
-      }
+    //   match /boards/{boardID} {
+    //    allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
+    //    allow write: if memberOfTeam(teamId);
+
+    //     match /beta {
+    //       allow write: if memberOfTeam(teamId) || boardIsPublic(teamId);
+    //     }
+    //     match /{document=**} {
+    //       allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
+    //       allow write: if memberOfTeam(teamId);
+    //      }
+    //   }
+    //   match /{document=**} {
+    //    allow read: if isMemberOfTeam(teamId); // memberOfTeam(teamId);
+    //    allow write: if true; // memberOfTeam(teamId);
+    //   }
+
+    //  }
+
       // TODO allow quit team
       // allow write: if isAdmin(teamId);
+     
 
-       allow read: if memberOfTeam(teamId);
-       allow write: if memberOfTeam(teamId);
-
-     }
+    match /{document=**} {
+      allow read, write: if true;
+    }
    
     match /feedback {
       allow write: if isSignedIn();
     }
     
-    function memberOfTeam(teamId) {
-    	return  get(/databases/$(database)/documents/teams/$(teamId)).data.members[request.auth.uid].isMember;
+    function isMemberOfTeam(teamId) {
+    	return  get(/databases/$(database)/documents/teams/$(teamId)).members[request.auth.uid].isMember;
     }
     
     function isAdmin(teamId) {
