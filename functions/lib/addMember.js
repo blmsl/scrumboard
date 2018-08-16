@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+// Confirm adding the user to the team by confirmation link 
 exports.addMember = functions.https.onRequest((req, res) => __awaiter(this, void 0, void 0, function* () {
     const uid = getParameterByName('uid', req.url);
     const teamId = getParameterByName('teamId', req.url);
     const teamName = getParameterByName('teamName', req.url);
-    let members;
     const doc = yield admin.firestore().doc(`teams/${teamId}`).get();
-    members = doc.data().members;
+    const members = doc.data().members;
     if (members[uid] === false) { // make sure the user has been invited
         return false;
     }
