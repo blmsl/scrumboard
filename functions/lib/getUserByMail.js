@@ -35,7 +35,7 @@ exports.getUserByMail = functions.https.onCall((data, context) => __awaiter(this
     catch (err) { // If the user is not found or another error has occured
         switch (err.code) {
             case 'auth/user-not-found':
-                throw new functions.https.HttpsError('not-found', 'We could not find any user with this email');
+                throw new functions.https.HttpsError('not-found', 'We could not find any user by this email. Please try another email, or send an invitation.');
             case 'already-exists':
                 throw new functions.https.HttpsError('already-exists', 'This user is already member of the team');
             default:
