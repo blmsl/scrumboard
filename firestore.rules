@@ -17,6 +17,11 @@ service cloud.firestore {
     //          -inprogress
     //          -done
 
+    // Enable to enable all read and write ops
+    match /{document=**} {
+      allow read, write;
+    }
+
     match /teams/{teamId} {
       allow read: if isMemberOfTeam(existingData());
       allow write: if isMemberOfTeam(existingData()); // memberOfTeam(teamId);

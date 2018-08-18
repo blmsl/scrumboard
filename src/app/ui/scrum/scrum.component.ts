@@ -1,7 +1,8 @@
+import { EntryInterface } from './../../extra/EntryInterface';
 import { TeamsService } from './../../services/teams.service';
 import { Board } from './../../extra/BoardInterface';
 import { NavbarService } from './../../services/navbar.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
@@ -9,14 +10,38 @@ import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
 import { firestore } from 'firebase/app';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-scrum',
   templateUrl: './scrum.component.html',
-  styleUrls: ['./scrum.component.css']
+  styleUrls: ['./scrum.component.css'],
+  animations: [
+
+    trigger('entriesAnim', [
+
+      transition(':enter', [
+        style({ transform: 'scale(0.5)', opacity: 0 }),  // initial
+        animate('1s cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          style({ transform: 'scale(1)', opacity: 1 }))  // final
+      ]),
+
+      transition(':leave', [
+        style({ transform: 'scale(1)', opacity: 1, height: '*' }),
+        animate('1s cubic-bezier(.8, -0.6, 0.2, 1.5)',
+          style({
+            transform: 'scale(0.5)', opacity: 0,
+            height: '0px', margin: '0px'
+          }))
+      ])
+
+    ]),
+  ]
+
 })
 
-export class ScrumComponent implements OnInit, OnDestroy {
+
+export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   id: string;
   teamId: string;
@@ -43,9 +68,16 @@ export class ScrumComponent implements OnInit, OnDestroy {
   loading = true;
   loadingSub: Subscription;
 
+  disableAnimations: boolean;
+
+  ngAfterViewInit(): void {
+    this.disableAnimations = true;
+  }
+
   constructor(public route: ActivatedRoute,
     public teamsService: TeamsService,
     public auth: AuthServiceService,
+    public snackBar: MatSnackBar,
     public navbarService: NavbarService,
     public afs: AngularFirestore) {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -108,11 +140,14 @@ export class ScrumComponent implements OnInit, OnDestroy {
       if (result.value) {
         // Delete method here
         collection.doc(entry.id).delete().then(() => {
-          swal(
-            'Deleted!',
-            'The task has been deleted.',
-            'success'
-          );
+          const snack = this.snackBar.open('Entry was deleted', 'Undo', {
+            duration: 2500
+          });
+          snack.onAction().subscribe(() => {
+            // Add to database again
+            collection.add(entry);
+          });
+
           // Google analytics event
           (<any>window).ga('send', 'event', {
             eventCategory: 'Scrumboard interaction',
@@ -285,6 +320,10 @@ export class ScrumComponent implements OnInit, OnDestroy {
     }
   }
 
+  identify(idx, item: EntryInterface) {
+    return item.id;
+  }
+
   copyLinkTxt() {
     const copyText = <HTMLInputElement>document.getElementById('shareableLinkInp');
     copyText.select();
@@ -369,11 +408,3 @@ export class ScrumComponent implements OnInit, OnDestroy {
   }
 }
 
-interface EntryInterface {
-  txt: string;
-  priority: string;
-  time: firestore.FieldValue;
-  imgUrl?: string;
-  developer?: string;
-  id?: string;
-}

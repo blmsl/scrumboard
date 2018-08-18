@@ -32,6 +32,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
@@ -78,12 +79,13 @@ import { LinkyModule } from 'angular-linky';
     ReactiveFormsModule,
     MatToolbarModule,
     OverlayModule,
+    MatSnackBarModule,
     FormsModule,
     MatProgressBarModule,
     MatButtonModule,
     MatSlideToggleModule,
     AngularFireModule.initializeApp(FirebaseConfig),
-    // AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule.enablePersistence(),
     AngularFireDatabaseModule,
     BrowserModule,
     SweetAlert2Module.forRoot(),
