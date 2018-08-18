@@ -17,51 +17,122 @@ service cloud.firestore {
     //          -inprogress
     //          -done
 
-    //  match /teams/{teamId} {
-    //    allow read: if isMemberOfTeam(teamId);
-    //    allow write: if true; // memberOfTeam(teamId);
+    match /teams/{teamId} {
+      allow read: if isMemberOfTeam(existingData());
+      allow write: if isMemberOfTeam(existingData()); // memberOfTeam(teamId);
 
-    //   match /boards/{boardID} {
-    //    allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
-    //    allow write: if memberOfTeam(teamId);
+      match /archived/{boardID} {
+        allow read: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
+              || boardIsPublic(existingData());
+        allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
+      }
 
-    //     match /beta {
-    //       allow write: if memberOfTeam(teamId) || boardIsPublic(teamId);
-    //     }
-    //     match /{document=**} {
-    //       allow read: if memberOfTeam(teamId) || boardIsPublic(teamId);
-    //       allow write: if memberOfTeam(teamId);
-    //      }
-    //   }
-    //   match /{document=**} {
-    //    allow read: if isMemberOfTeam(teamId); // memberOfTeam(teamId);
-    //    allow write: if true; // memberOfTeam(teamId);
-    //   }
+      match /boards/{boardID} {
+        allow read: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
+              || boardIsPublic(existingData());
+        allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
 
-    //  }
+        // match /beta {
+        //   allow write: if memberOfTeam(teamId) || boardIsPublic(teamId);
+        // }
+
+        // All subcollection
+        match /{document=**} {
+          allow read: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
+                || boardIsPublic(get(/databases/$(database)/documents/teams/$(teamId)).data);
+          allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
+         }
+      }
+
+     }
 
       // TODO allow quit team
       // allow write: if isAdmin(teamId);
      
 
-    match /{document=**} {
-      allow read, write: if true;
-    }
+    // match /{document=**} {
+    //   allow read, write: if true;
+    // }
    
+    // SØRBYE TESTER OG ORDNER RULES :) ########
+
+    // Prøver å få board.component til å funke
+
+    // Test 1 :)
+    // match /teams/{document=**} {
+    //   allow read: if isSignedIn();
+    // } 
+
+    // test 2 :(
+    // match /teams/{teamId=**} {
+    //   allow read: if isMemberOfTeam(teamId);
+    // }
+
+    // test 3 :(
+    // match /teams/{teamId} {
+    //   match /{document=**} {
+    //     allow read: if isMemberOfTeam(teamId);
+    //   }
+    // }
+
+    // test 4 :(
+    // match /teams/{teamId} {
+    //   allow read: if isMemberOfTeam(teamId);
+    //   match /{document=**} {
+    //     allow read: if isMemberOfTeam(teamId);
+    //   }
+    // }
+
+    // test 5 :) her funker team module på siden, men boards kommer fortsatt ikke opp :(
+    // match /teams/{teamId} {
+    //   allow read;
+    // }
+
+    // test 6 :( ingenting fungerer
+    // match /teams/{teamId} {
+    //   allow read: if isMemberOfTeam(teamId);
+    // }
+
+    // test 7 :) teams module fungerer igjen
+    // match /teams/{teamId} {
+    //   allow read: if existingData().members[request.auth.uid].isMember;
+    // }
+
+    // test 8 :( ingenting fungerer
+    // match /teams/{teamId} {
+    //   allow read: if isMemberOfTeam(teamId);
+    // }
+
+    // test 9 :( teams module fungerer, men ikke boards
+    // match /teams/{teamId} {
+    //   allow read: if existingData().members[request.auth.uid].isMember;
+    //   match /{document=**} {
+    //     allow read: if existingData().members[request.auth.uid].isMember;
+    //   }
+    // }
+
+    // test 10 
+    match /teams/{teamId} {
+      allow read: if isMemberOfTeam(teamId);
+    }
+
+
+    // ----############----
+
     match /feedback {
       allow write: if isSignedIn();
     }
     
-    function isMemberOfTeam(teamId) {
-    	return  get(/databases/$(database)/documents/teams/$(teamId)).members[request.auth.uid].isMember;
+    function isMemberOfTeam(teamDoc) {
+    	return teamDoc.members[request.auth.uid].isMember;
     }
     
-    function isAdmin(teamId) {
-    	return get(/databases/$(database)/documents/teams/$(teamId)).data.members[request.auth.uid].isAdmin;
+    function isAdmin(teamDoc) {
+    	return teamDoc.members[request.auth.uid].isAdmin;
     }
     
-    function boardIsPublic(teamId) {
-    	return get(/databases/$(database)/documents/teams/$(teamId)).data.isPublic;
+    function boardIsPublic(boardDoc) {
+    	return boardDoc.isPublic;
     }
     
   	function isSignedIn() {
@@ -79,7 +150,8 @@ service cloud.firestore {
   }
 }
 // /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
-// XD6EkNokYXV3XTtW2UZys2FtcXI3
+// mugg: XD6EkNokYXV3XTtW2UZys2FtcXI3
+// Sørbye: mt8bo6uGQTXwJbYAyFIo2sJVQJJ2
 
 
 
