@@ -18,9 +18,9 @@ service cloud.firestore {
     //          -done
 
     // Enable to enable all read and write ops
-    match /{document=**} {
-      allow read, write;
-    }
+    // match /{document=**} {
+    //   allow read, write;
+    // }
 
     match /teams/{teamId} {
       allow read: if isMemberOfTeam(existingData());
@@ -117,9 +117,9 @@ service cloud.firestore {
     // }
 
     // test 10 
-    match /teams/{teamId} {
-      allow read: if isMemberOfTeam(teamId);
-    }
+    // match /teams/{teamId} {
+    //   allow read: if isMemberOfTeam(teamId);
+    // }
 
 
     // ----############----
