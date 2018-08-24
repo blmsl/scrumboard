@@ -18,9 +18,9 @@ service cloud.firestore {
     //          -done
 
     // Enable to enable all read and write ops
-    // match /{document=**} {
-    //   allow read, write;
-    // }
+    match /{document=**} {
+      allow read, write;
+    }
 
     match /teams/{teamId} {
       allow read: if isMemberOfTeam(existingData());
@@ -55,6 +55,59 @@ service cloud.firestore {
       // TODO allow quit team
       // allow write: if isAdmin(teamId);
      
+         
+    match /feedback {
+      allow write: if isSignedIn();
+    }
+    
+    function isMemberOfTeam(teamDoc) {
+    	return teamDoc.members[request.auth.uid].isMember;
+    }
+    
+    function isAdmin(teamDoc) {
+    	return teamDoc.members[request.auth.uid].isAdmin;
+    }
+    
+    function boardIsPublic(boardDoc) {
+    	return boardDoc.isPublic;
+    }
+    
+  	function isSignedIn() {
+    	return request.auth.uid != null;
+    }
+    
+    function existingData() {
+    	return resource.data;
+    }
+    
+    function incomingData() {
+    	return request.resource.data;
+    }
+		
+  }
+}
+// /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
+// mugg: XD6EkNokYXV3XTtW2UZys2FtcXI3
+// Sørbye: mt8bo6uGQTXwJbYAyFIo2sJVQJJ2
+
+
+    // // only admins can change team settings
+    // match /teams/{teamId} {
+    // 	allow read: if memberOfTeam(teamId);
+    // 	
+    // }
+    
+    // // public if 
+    // match /teams/{teamId}/boards/{boardID} {
+  	// 	allow read: if memberOfTeam(teamId) || boardIsPublic();
+    //   allow write: if memberOfTeam(teamId);
+    // }
+
+
+
+
+
+    // --------------------------------------
 
     // match /{document=**} {
     //   allow read, write: if true;
@@ -124,53 +177,3 @@ service cloud.firestore {
 
 
     // ----############----
-
-    match /feedback {
-      allow write: if isSignedIn();
-    }
-    
-    function isMemberOfTeam(teamDoc) {
-    	return teamDoc.members[request.auth.uid].isMember;
-    }
-    
-    function isAdmin(teamDoc) {
-    	return teamDoc.members[request.auth.uid].isAdmin;
-    }
-    
-    function boardIsPublic(boardDoc) {
-    	return boardDoc.isPublic;
-    }
-    
-  	function isSignedIn() {
-    	return request.auth.uid != null;
-    }
-    
-    function existingData() {
-    	return resource.data;
-    }
-    
-    function incomingData() {
-    	return request.resource.data;
-    }
-		
-  }
-}
-// /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
-// mugg: XD6EkNokYXV3XTtW2UZys2FtcXI3
-// Sørbye: mt8bo6uGQTXwJbYAyFIo2sJVQJJ2
-
-
-
-
-
-    // // only admins can change team settings
-    // match /teams/{teamId} {
-    // 	allow read: if memberOfTeam(teamId);
-    // 	
-    // }
-    
-    // // public if 
-    // match /teams/{teamId}/boards/{boardID} {
-  	// 	allow read: if memberOfTeam(teamId) || boardIsPublic();
-    //   allow write: if memberOfTeam(teamId);
-    // }
