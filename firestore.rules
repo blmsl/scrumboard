@@ -27,15 +27,15 @@ service cloud.firestore {
       allow write: if isMemberOfTeam(existingData()); // memberOfTeam(teamId);
 
       match /archived/{boardID} {
-        allow read: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
+        allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
               || boardIsPublic(existingData());
-        allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
+        allow write: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
       }
 
       match /boards/{boardID} {
-        allow read: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
+        allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
               || boardIsPublic(existingData());
-        allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
+        allow write: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
 
         // match /beta {
         //   allow write: if memberOfTeam(teamId) || boardIsPublic(teamId);
@@ -43,7 +43,7 @@ service cloud.firestore {
 
         // All subcollection
         match /{document=**} {
-          allow read: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
+          allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
                 || boardIsPublic(get(/databases/$(database)/documents/teams/$(teamId)).data);
           allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
          }
