@@ -24,7 +24,8 @@ service cloud.firestore {
 
     match /teams/{teamId} {
       allow read: if isMemberOfTeam(existingData());
-      allow write: if isMemberOfTeam(existingData()); // memberOfTeam(teamId);
+      allow update: if isMemberOfTeam(existingData()); // memberOfTeam(teamId);
+      allow create: if isSignedIn();
 
       match /archived/{boardID} {
         allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
@@ -45,7 +46,7 @@ service cloud.firestore {
         match /{document=**} {
           allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
                 || boardIsPublic(get(/databases/$(database)/documents/teams/$(teamId)).data);
-          allow write: if memberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
+          allow write: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data);
          }
       }
 
