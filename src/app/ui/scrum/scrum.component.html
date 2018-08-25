@@ -41,7 +41,7 @@
     <section id="todoSection">
       <h3>TODO ({{($todo | async)?.length}})</h3>
       <div id="todoElements">
-        <div @entriesAnim class="card" *ngFor="let entry of $todo | async; trackBy: identify">
+        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -69,7 +69,7 @@
     <section id="inprogressSection">
       <h3>In progress ({{($inProgress | async)?.length}})</h3>
       <div id="inprogressElements">
-        <div @entriesAnim class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
+        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -102,7 +102,7 @@
     <section id="finishedSection">
       <h3>Done ({{($done | async)?.length}})</h3>
       <div id="finishedElements">
-        <div @entriesAnim class="card" *ngFor="let entry of $done | async; trackBy: identify">
+        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
