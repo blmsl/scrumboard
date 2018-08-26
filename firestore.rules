@@ -26,6 +26,7 @@ service cloud.firestore {
       allow read: if isMemberOfTeam(existingData());
       allow update: if isMemberOfTeam(existingData()); // memberOfTeam(teamId);
       allow create: if isSignedIn();
+      allow delete: if isAdmin(existingData());
 
       match /archived/{boardID} {
         allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
