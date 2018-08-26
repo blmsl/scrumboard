@@ -28,6 +28,10 @@ service cloud.firestore {
       allow create: if isSignedIn();
       allow delete: if isAdmin(existingData());
 
+      match /codes/{codeId} {
+        allow create: if isAdmin(get(/databases/$(database)/documents/teams/$(teamId)).data);
+      }
+
       match /archived/{boardID} {
         allow read: if isMemberOfTeam(get(/databases/$(database)/documents/teams/$(teamId)).data) 
               || boardIsPublic(existingData());

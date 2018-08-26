@@ -1,3 +1,4 @@
+import { sendInviteToNonExistentUsers } from './sendInviteToNonExistentUsers';
 import { sendWelcomeEmail } from './sendWelcomeEmail';
 import { newRequest } from './newRequest';
 import { listAllUsers } from './listAllUsers';
@@ -20,3 +21,4 @@ export { getUserByMail }
 export {listAllUsers}
 export {newRequest}
 export {sendWelcomeEmail}
+export { sendInviteToNonExistentUsers }

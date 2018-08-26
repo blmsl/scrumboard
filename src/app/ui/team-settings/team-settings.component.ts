@@ -44,10 +44,9 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('teamId');
-    this.team$ = this.afs.doc<TeamsInterface>('teams/' + this.teamId).valueChanges();
+    this.team$ = this.afs.doc<TeamsInterface>('teams/' + this.teamId).valueChanges().shareReplay(1);
     this.navbarService.backBtn = true;
     this.sub = this.team$.subscribe(team => this.navbarService.title = team.name);
-    this.team$.subscribe(team => console.log(team));
     this.teamRef = this.afs.firestore.doc('teams/' + this.teamId);
 
     combineLatest(this.auth.user$, this.team$).subscribe(([user, team]) => {
@@ -163,7 +162,8 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
               })
                 .catch(err => {
                   that.loading = false;
-                  console.log(err);
+                  console.log(err.code);
+
                   swal({
                     title: 'Error',
                     text: err.message,
@@ -174,13 +174,44 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
           }]);
         }).catch((error) => {
           console.log(error.code);
-          swal({
-            title: 'Error',
-            text: error.message,
-            type: 'error',
-            // tslint:disable-next-line:max-line-length
-            // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
-          });
+
+          if (error.code === 'not-found') {
+            // TODO add code to /teams/{teamId}/codes/{codeId}
+            swal({
+              text: 'This email is not associated with any account. Do you want to send them an invite anyway?',
+              confirmButtonText: 'Send invite',
+              showCancelButton: true,
+              reverseButtons: true,
+            }).then(() => {
+              function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                  .toString(16)
+                  .substring(1);
+              }
+              // add a code to the database
+              const code = s4() + s4() + s4() + s4();
+              console.log('Secret code is:', code);
+
+              this.team$.subscribe(team => {
+                console.log(team);
+                this.afs.collection('teams/' + this.teamId + '/codes').add({
+                  mail: input,
+                  teamName: team.name,
+                  code: code
+                });
+              });
+
+            });
+
+          } else {
+            swal({
+              title: 'Error',
+              text: error.message,
+              type: 'error',
+              // tslint:disable-next-line:max-line-length
+              // footer: `<a href="mailto:${input}?subject="Invitation%20to%20join%20Scrum?body=${invitationMail_body}">Invite user to join Scrum</a>`
+            });
+          }
           that.loading = false;
         });
     }
