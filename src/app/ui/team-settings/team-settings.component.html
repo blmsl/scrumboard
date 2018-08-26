@@ -1,9 +1,10 @@
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>  
 
 <main>
-  <h1>Mangage members of the team</h1>
+  <h1 *ngIf="isAdmin">Mangage members of the team</h1>
+  <h1 *ngIf="!isAdmin">Team members</h1>
 
-  <form id="addMemberForm" [formGroup]="form" (ngSubmit)="onFormSubmit()">
+  <form *ngIf="isAdmin" id="addMemberForm" [formGroup]="form" (ngSubmit)="onFormSubmit()">
     <mat-form-field id="addMemberInp">
       <input id="addUserInput" matInput placeholder="Email" [formControl]="emailFormControl">
       <mat-error *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">
@@ -25,7 +26,7 @@
       </div>
       <strong id="nameTxt">{{ member.val.name }}
         <span *ngIf="member.val.isAdmin" id="memberTypeTxt">Admin</span>
-        <span *ngIf="member.val.isMember == 'mail'" id="memberTypeTxt">Pending</span>
+        <span *ngIf="member.val.isMember == false" id="memberTypeTxt">Pending</span>
         <span *ngIf="member.val.isMember && !member.val.isAdmin" id="memberTypeTxt">Member</span>
       </strong>
       <mat-menu #memberOptionsMenu="matMenu">
@@ -39,7 +40,7 @@
         </button>
         <button mat-menu-item (click)="deleteMember(member.key)">
           <mat-icon>exit_to_app</mat-icon>
-          <span *ngIf="member.val.isMember == 'mail'; else removeMemberTxt">Cancel invitation</span>
+          <span *ngIf="member.val.isMember == false; else removeMemberTxt">Cancel invitation</span>
           <ng-template #removeMemberTxt>
             <span>Remove member</span>
           </ng-template>
