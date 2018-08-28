@@ -4,6 +4,7 @@ import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { TeamsInterface } from '../../extra/TeamsInterface';
 
 @Component({
   selector: 'app-teams-module',
@@ -23,12 +24,7 @@ export class TeamsModuleComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectTeam(teamId: string) {
-    localStorage.previousSelectedTeam = teamId;
-    this.router.navigate(['/', teamId]);
-  }
-
-  leaveTeam(teamId: string, ) {
+  leaveTeam(team: TeamsInterface) {
     // update members
     swal({
       title: 'Are you sure?',
@@ -42,33 +38,41 @@ export class TeamsModuleComponent implements OnInit {
       if (result.value) {
         // Delete method here
         this.auth.user$.take(1).subscribe(user => {
-          const ref = this.afs.firestore.doc(`teams/${teamId}`);
-          this.afs.firestore.runTransaction(transaction =>
-            transaction.get(ref).then(doc => {
-              const members = doc.data().members;
-              delete members[user.uid];
-              return transaction.update(ref, { members });
-            }).then(() => {
-              swal({
-                title: `Success`,
-                type: 'success',
-                text: 'You have successfully left this team',
-              }).then(() => this.router.navigate(['/']));
-              // Google analytics event
-              (<any>window).ga('send', 'event', {
-                eventCategory: 'Team management',
-                eventAction: 'Leave team',
-              });
-            })
-              .catch(err => {
-                swal({
-                  title: `Error`,
-                  type: 'error',
-                  text: err.message,
+          this.teamsService.$teams.take(1).subscribe(teams => {
+            const ref = this.afs.firestore.doc(`teams/${team.id}`);
+            this.afs.firestore.runTransaction(transaction =>
+              transaction.get(ref).then(doc => {
+                const members = doc.data().members;
+                delete members[user.uid];
+                return transaction.update(ref, { members });
+              }).then(() => {
+                console.log({teams});
+                teams.splice(teams.indexOf(team), 1);
+                console.log({teams});
+                if (teams.length > 0) {
+                  this.teamsService.selectTeam(teams[0].id);
+                } else {
+                  console.log('You just left youre last team');
+                  localStorage.setItem('previousSelectedTeam', 'no-team');
+                  this.router.navigate(['/']);
+                }
+                // Google analytics event
+                (<any>window).ga('send', 'event', {
+                  eventCategory: 'Team management',
+                  eventAction: 'Leave team',
                 });
               })
-          );
+                .catch(err => {
+                  swal({
+                    title: `Error`,
+                    type: 'error',
+                    text: err.message,
+                  });
+                })
+            );
+          });
         });
+
       }
     });
   }

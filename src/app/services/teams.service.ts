@@ -32,17 +32,23 @@ export class TeamsService {
 
   }
 
-  async createNewTeam() {
+  selectTeam(teamId: string) {
+    localStorage.setItem('previousSelectedTeam', teamId);
+    this.router.navigate(['/', teamId]);
+  }
+
+  createNewTeam() {
+    console.log('Creating a new team');
     this.auth.user$.take(1).subscribe(async user => {
       const currentUser = user;
       const { value: name } = await swal({
         title: 'What is the name of the team?',
         input: 'text',
-        inputPlaceholder: 'Teamname',
+        inputPlaceholder: 'Team name',
         showCancelButton: true,
         reverseButtons: true,
         inputValidator: (value) => {
-          return !value && 'You need to create a teamname!';
+          return !value && 'You need to create a team name!';
         }
       });
       if (name) {
@@ -58,7 +64,12 @@ export class TeamsService {
             }
           }
         };
-        this.afs.collection<TeamsInterface>('teams').add(team).then((val) => this.router.navigate(['/', val.id]));
+
+        const val = await this.afs.collection<TeamsInterface>('teams').add(team);
+        val.get().then(doc => {
+          console.log(doc.data);
+          this.selectTeam(doc.id);
+        });
         // Google analytics event
         (<any>window).ga('send', 'event', {
           eventCategory: 'Team management',

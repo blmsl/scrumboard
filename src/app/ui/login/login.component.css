@@ -2,12 +2,11 @@ main {
   text-align: center;
   display: table;
   margin: 50px 0;
-  min-width: 100%;
 }
 
 #logo {
   width: 90px;
-  height: 100px;
+  height: 200px;
 }
 
 ul {
