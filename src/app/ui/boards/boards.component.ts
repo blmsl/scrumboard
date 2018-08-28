@@ -9,6 +9,7 @@ import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/fires
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import { Subscription } from '../../../../node_modules/rxjs';
+import 'rxjs/add/operator/share';
 
 @Component({
   selector: 'app-boards',
@@ -29,26 +30,42 @@ export class BoardsComponent implements OnInit, OnDestroy {
   loading = true;
   sub: Subscription;
 
-  constructor(public boardsService: TeamsService, public navbarService: NavbarService,
+  constructor(public teamsService: TeamsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore, public router: Router,
     public auth: AuthServiceService) {
   }
 
   ngOnInit() {
     this.navbarService.title = null;
-    this.boardCollection = this.route.paramMap.map(paramMap => { // subscribing to the teamId parameter
-      const teamId = paramMap.get('teamId');
-      this.teamId = teamId;
+
+    // SELECT TEAM LOGIC
+    this.boardCollection = this.route.paramMap.shareReplay(1).map(paramMap => { // subscribing to the teamId parameter
+      console.log('router params has been updated', paramMap.get('teamId'));
+      this.teamId = paramMap.get('teamId');
       if (!this.teamId) { // if no team is selected => select previous one
-        this.teamId = localStorage.previousSelectedTeam;
+        this.teamId = localStorage.getItem('previousSelectedTeam');
         if (!this.teamId) { // if there is no saved team in localStorage => select the first team youre member of
-          this.boardsService.$teams.take(1).subscribe(teams => {
-            this.selectTeam(teams[0].id);
+          this.teamsService.$teams.take(1).subscribe(teams => {
+            if (teams[0]) {
+              console.log('Selecting the first team youre apart of');
+              this.teamsService.selectTeam(teams[0].id);
+            } else {
+              this.loading = false;
+              console.log('You are not member of any team');
+            }
           });
         } else {
-          this.selectTeam(this.teamId);
+          // You are not member of any team (used to prevent selecting a cached team you just left)
+          if (this.teamId !== 'no-team') {
+            console.log('Selecting team from localstorage');
+            this.teamsService.selectTeam(this.teamId);
+          } else {
+            console.log('You are not member of any team, no-team was saved in localstorage');
+            this.loading = false;
+          }
         }
       } else {
+        console.log('Team in url is selected', this.teamId);
         return this.afs.collection<Board>('teams/' + this.teamId + '/boards');
       }
     });
@@ -73,7 +90,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
         });
       }));
 
-    if (!localStorage.firstTime) {
+    if (!localStorage.getItem('firstTime')) {
       swal({
         title: 'Dear user!',
         // tslint:disable-next-line:max-line-length
@@ -81,7 +98,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
         type: 'info',
       }).then((result) => {
         if (result.value || result.dismiss === swal.DismissReason.cancel) {
-           localStorage.firstTime = false;
+          localStorage.setItem('firstTime', 'false');
         }
       });
     }
@@ -89,6 +106,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
   }
 
   async addBoard() {
+    console.log('Creating a new board');
     const { value: name } = await swal({
       title: 'What is the name of your project?',
       input: 'text',
@@ -100,7 +118,12 @@ export class BoardsComponent implements OnInit, OnDestroy {
       }
     });
     if (name) {
-      this.boardCollection.take(1).subscribe(collection => collection.add({ name }));
+      console.log('Adding a new board with name', name);
+      console.log(this.boardCollection);
+      this.boardCollection.take(1).subscribe(collection => {
+        console.log({ collection });
+        collection.add({ name });
+      });
       // Google analytics event
       (<any>window).ga('send', 'event', {
         eventCategory: 'Project management',
@@ -255,11 +278,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
         name: updatedName
       }));
     }
-  }
-
-  selectTeam(teamId: string) {
-    localStorage.previousSelectedTeam = teamId;
-    this.router.navigate(['/', teamId]);
   }
 
   ngOnDestroy() {

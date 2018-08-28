@@ -91,8 +91,8 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     // set the orderBy to default TODO save and retrieve from localStorage
-    if (localStorage.orderBy) {
-      this.sortBy = localStorage.orderBy;
+    if (localStorage.getItem('orderBy')) {
+      this.sortBy = localStorage.getItem('orderBy');
     }
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
@@ -252,7 +252,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   sortChanged() {
     this.$orderBy.next(this.sortBy);
-    localStorage.orderBy = this.sortBy;
+    localStorage.setItem('orderBy', this.sortBy);
   }
 
   ngOnDestroy() {
