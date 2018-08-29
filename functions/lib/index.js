@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const admin = require("firebase-admin");
+admin.initializeApp();
 const addNonExistentUsers_1 = require("./addNonExistentUsers");
 exports.addNonExistentUsers = addNonExistentUsers_1.addNonExistentUsers;
 const sendInviteToNonExistentUsers_1 = require("./sendInviteToNonExistentUsers");
@@ -20,6 +22,4 @@ const addMember_1 = require("./addMember");
 exports.addMember = addMember_1.addMember;
 const accountcleanup_1 = require("./accountcleanup");
 exports.accountcleanup = accountcleanup_1.accountcleanup;
-const admin = require("firebase-admin");
-admin.initializeApp();
 //# sourceMappingURL=index.js.map
