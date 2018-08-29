@@ -9,6 +9,7 @@ import { createAdmin } from './createAdmin';
 import { addMember } from './addMember';
 import { accountcleanup } from './accountcleanup';
 
+import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 admin.initializeApp();
