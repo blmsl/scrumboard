@@ -29,7 +29,7 @@
       <mat-icon>sort</mat-icon>
       <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
 
-        <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
+        <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alphabetical</mat-option>
         <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
         <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
         <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
