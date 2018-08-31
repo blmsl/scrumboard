@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-// Firebase
+// Angularfire
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 // Components and services
 import { AppComponent } from './app.component';
@@ -46,6 +46,7 @@ import { ReactiveFormsModule, FormsModule } from '../../node_modules/@angular/fo
 import { AbTestsModule } from 'angular-ab-tests';
 import { PrivacyComponent } from './ui/privacy/privacy.component';
 import { LinkyModule } from 'angular-linky';
+import { DropZoneDirective } from './extra/drop-zone.directive';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { LinkyModule } from 'angular-linky';
     MapToIterablePipe,
     TeamSettingsComponent,
     PrivacyComponent,
+    DropZoneDirective,
   ],
   imports: [
     AbTestsModule.forRoot([
@@ -78,6 +80,7 @@ import { LinkyModule } from 'angular-linky';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatToolbarModule,
+    AngularFireStorageModule,
     OverlayModule,
     MatSnackBarModule,
     FormsModule,

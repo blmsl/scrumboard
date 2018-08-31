@@ -10,7 +10,8 @@ import { Subscription, combineLatest } from '../../../../node_modules/rxjs';
 import { FormControl, Validators, FormGroup } from '../../../../node_modules/@angular/forms';
 import swal from 'sweetalert2';
 import { AngularFireFunctions } from 'angularfire2/functions';
-
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-team-settings',
   templateUrl: './team-settings.component.html',
@@ -36,9 +37,16 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     email: this.emailFormControl
   });
 
+  // Img upload
+  task: AngularFireUploadTask;
+  percentage: Observable<number>;
+  snapshot: Observable<any>;
+  downloadURL: Observable<string>;
+  isHovering: boolean;
+
   constructor(public route: ActivatedRoute, public boardsService: TeamsService,
     public afs: AngularFirestore, public router: Router,
-    public navbarService: NavbarService,
+    public navbarService: NavbarService, private storage: AngularFireStorage,
     public afFunctions: AngularFireFunctions, public auth: AuthServiceService) {
   }
 
@@ -60,6 +68,42 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
     this.navbarService.backBtn = false;
+  }
+
+  toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+
+  startUpload(event: FileList) {
+    // The File object
+    const file = event.item(0);
+
+    // Client-side validation example
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type :(');
+      return;
+    }
+
+    // The storage path
+    const path = `test/${new Date().getTime()}_${file.name}`;
+
+    // The main task
+    this.task = this.storage.upload(path, file);
+    this.task.snapshotChanges().pipe(
+      finalize(() => {
+        console.log('Upload task is done');
+        this.downloadURL = this.storage.ref(path).getDownloadURL();
+      })
+    ).subscribe();
+
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+    this.snapshot = this.task.snapshotChanges();
+
+  }
+  // Determines if the upload task is active
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes;
   }
 
   onFormSubmit() {
