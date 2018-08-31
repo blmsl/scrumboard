@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 
 import * as Storage from '@google-cloud/storage';
-const gcs = Storage();
+const gcs = new Storage();
 
 import { tmpdir } from 'os';
 import { join, dirname } from 'path';
@@ -45,9 +45,11 @@ export const generateThumbs = functions.storage
             .toFile(thumbPath);
 
         // Upload to GCS
-        await bucket.upload(thumbPath, {
+        const data = await bucket.upload(thumbPath, {
             destination: join(bucketDir, thumbName)
         });
+
+        console.log(await data[0].getSignedUrl);
 
         // 5. Cleanup remove the tmp/thumbs from the filesystem
         return fs.remove(workingDir);
