@@ -13,14 +13,16 @@ import { deleteEmptyTeams } from './deleteEmptyTeams';
 import { createAdmin } from './createAdmin';
 import { addMember } from './addMember';
 import { accountcleanup } from './accountcleanup';
+import { teamImageResizer } from './teamImageResizer';
 
 export { accountcleanup };
 export { addMember }
-export {createAdmin}
+export { createAdmin }
 export { deleteEmptyTeams}
 export { getUserByMail }
-export {listAllUsers}
-export {newRequest}
-export {sendWelcomeEmail}
+export { listAllUsers }
+export { newRequest }
+export { sendWelcomeEmail }
 export { sendInviteToNonExistentUsers }
 export { addNonExistentUsers }
+export { teamImageResizer }

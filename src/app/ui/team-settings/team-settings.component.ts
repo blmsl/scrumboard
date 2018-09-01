@@ -85,7 +85,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     }
 
     // The storage path
-    const path = `test/${new Date().getTime()}_${file.name}`;
+    const path = this.teamId + '.' + file.name.split('.').pop();
 
     // The main task
     this.task = this.storage.upload(path, file);
