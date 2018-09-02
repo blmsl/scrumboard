@@ -9,11 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
-const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 const mailTransport = nodemailer.createTransport(`smtps://${'magson.dev@gmail.com'}:${'m@gs0n123'}@smtp.gmail.com`);
 exports.sendInviteToNonExistentUsers = functions.firestore.document('teams/{teamId}/codes/{codeId}').onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () {
-    const fs = admin.firestore();
     const data = snap.data();
     const mail = data.mail;
     const teamId = context.params.teamId;

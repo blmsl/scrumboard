@@ -7,7 +7,6 @@ export const sendWelcomeEmail = functions.auth.user().onCreate((user) => {
 
     const email = user.email;
     const name = user.displayName;
-    const photoURL = user.photoURL;
     const firstName = name.substr(0, name.indexOf(' '));
 
     const mailOptions = {

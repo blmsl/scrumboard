@@ -1,14 +1,10 @@
 import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
 import * as nodemailer from 'nodemailer';
 
 const mailTransport = nodemailer.createTransport(`smtps://${'magson.dev@gmail.com'}:${'m@gs0n123'}@smtp.gmail.com`);
 
 
 export const sendInviteToNonExistentUsers = functions.firestore.document('teams/{teamId}/codes/{codeId}').onCreate(async (snap, context) => {
-
-    const fs = admin.firestore();
-
     const data = snap.data()
 
     const mail: string = data.mail;

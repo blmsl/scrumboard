@@ -1,7 +1,8 @@
-import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
-admin.initializeApp();
+admin.initializeApp({
+    storageBucket: 'magson-developer.appspot.com',
+});
 
 import { addNonExistentUsers } from './addNonExistentUsers';
 import { sendInviteToNonExistentUsers } from './sendInviteToNonExistentUsers';
@@ -18,7 +19,7 @@ import { teamImageResizer } from './teamImageResizer';
 export { accountcleanup };
 export { addMember }
 export { createAdmin }
-export { deleteEmptyTeams}
+export { deleteEmptyTeams }
 export { getUserByMail }
 export { listAllUsers }
 export { newRequest }

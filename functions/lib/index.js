@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const admin = require("firebase-admin");
-admin.initializeApp();
+admin.initializeApp({
+    storageBucket: 'magson-developer.appspot.com',
+});
 const addNonExistentUsers_1 = require("./addNonExistentUsers");
 exports.addNonExistentUsers = addNonExistentUsers_1.addNonExistentUsers;
 const sendInviteToNonExistentUsers_1 = require("./sendInviteToNonExistentUsers");

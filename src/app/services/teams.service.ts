@@ -8,7 +8,9 @@ import 'rxjs/add/operator/shareReplay';
 import { TeamsInterface } from '../extra/TeamsInterface';
 import swal from 'sweetalert2';
 import { Router } from '../../../node_modules/@angular/router';
-
+import { AngularFireStorage } from 'angularfire2/storage';
+import { startWith } from 'rxjs/operators';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable()
 export class TeamsService {
@@ -17,7 +19,8 @@ export class TeamsService {
   teamsCollection: Observable<AngularFirestoreCollection<TeamsInterface>>;
   $teams: Observable<TeamsInterface[]>;
 
-  constructor(public afs: AngularFirestore, public auth: AuthServiceService, public router: Router) {
+  constructor(public afs: AngularFirestore, public auth: AuthServiceService, public router: Router,
+    private storage: AngularFireStorage) {
 
     this.teamsCollection = this.auth.user$.filter(user => user != null)
       .map(user => this.afs.collection<TeamsInterface>('teams', ref => ref.where('members.' + user.uid + '.isMember', '==', true)))
@@ -26,6 +29,13 @@ export class TeamsService {
       return actions.map(a => {
         const data = a.payload.doc.data() as TeamsInterface;
         data.id = a.payload.doc.id;
+        if (data.imgRef) { // If the team has img
+          data.imgURL = this.storage.ref(data.imgRef).getDownloadURL().pipe(
+            // Cache the url for blazing fast load time ;)
+            tap(user => localStorage.setItem('img-' + data.id, JSON.stringify(user))),
+            startWith(JSON.parse(localStorage.getItem('img-' + data.id)))
+          );
+        }
         return data;
       });
     }));

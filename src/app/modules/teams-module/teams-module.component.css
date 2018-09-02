@@ -3,6 +3,12 @@ h4 {
     font-size: 15px;
 }
 
+img {
+    width: 28px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
 .teamSelectBtn {
     text-align: left;
     width: 100%;
