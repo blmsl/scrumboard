@@ -1,7 +1,7 @@
 import { AuthServiceService } from './../../services/auth-service.service';
 import { NavbarService } from './../../services/navbar.service';
 import { TeamsInterface } from './../../extra/TeamsInterface';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, DocumentReference } from 'angularfire2/firestore';
 import { TeamsService } from '../../services/teams.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,7 +21,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
 
   team$: Observable<TeamsInterface>;
   teamId: string;
-  teamRef;
+  teamRef: DocumentReference;
 
   isAdmin = false;
   loading = false;
@@ -33,8 +33,17 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     Validators.email,
   ]);
 
+  changeNameFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+
   form = new FormGroup({
     email: this.emailFormControl
+  });
+
+  nameForm = new FormGroup({
+    name: this.changeNameFormControl
   });
 
   // Img upload
@@ -72,6 +81,16 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
 
   toggleHover(event: boolean) {
     this.isHovering = event;
+  }
+
+  onNameFormSubmit() {
+    const input = this.nameForm.value.name;
+    console.log('Changing name to:', input);
+    // Change name of team
+    this.teamRef.update({
+      name: input
+    });
+    this.nameForm.reset();
   }
 
   startUpload(event: FileList) {

@@ -1,22 +1,39 @@
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 <main>
-  <h1 *ngIf="isAdmin">Mangage members of the team</h1>
+  <h1 *ngIf="isAdmin">Team setting</h1>
   <h1 *ngIf="!isAdmin">Team members</h1>
 
-  <form *ngIf="isAdmin" id="addMemberForm" [formGroup]="form" (ngSubmit)="onFormSubmit()">
-    <mat-form-field id="addMemberInp">
-      <input id="addUserInput" matInput placeholder="Email" [formControl]="emailFormControl">
-      <mat-error *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">
-        Please enter a valid email address
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
-        Email is
-        <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-    <button type="submit" mat-raised-button>Add to team</button>
-  </form>
+  <!-- Change name of team -->
+  <div *ngIf="isAdmin">
+    <h2>Change team name</h2>
+    <form [formGroup]="nameForm" (ngSubmit)="onNameFormSubmit()">
+      <mat-form-field class="inp">
+        <input matInput placeholder="Name" [formControl]="changeNameFormControl">
+        <mat-error *ngIf="changeNameFormControl.hasError('required')">
+          Name is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button type="submit" mat-raised-button>Change team name</button>
+    </form>
+
+    <h2>Manage team members</h2>
+    <form *ngIf="isAdmin" [formGroup]="form" (ngSubmit)="onFormSubmit()">
+      <mat-form-field class="inp">
+        <input matInput placeholder="Email" [formControl]="emailFormControl">
+        <mat-error *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button type="submit" mat-raised-button>Add to team</button>
+    </form>
+  </div>
+
 
   <div id="members">
     <div *ngFor="let member of (team$ | async)?.members | mapToIterable; let members" id="memberWrapper">
@@ -46,22 +63,21 @@
           </ng-template>
         </button>
       </mat-menu>
-      <button *ngIf="!(member.key == (auth.user$ | async)?.uid) && isAdmin" class="menuBtn" mat-icon-button [matMenuTriggerFor]="memberOptionsMenu"
-        (click)="$event.stopPropagation()">
+      <button *ngIf="!(member.key == (auth.user$ | async)?.uid) && isAdmin" class="menuBtn" mat-icon-button
+        [matMenuTriggerFor]="memberOptionsMenu" (click)="$event.stopPropagation()">
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
   </div>
+
   <br>
+
   <div id="uploadImg" *ngIf="isAdmin">
     <h2>Upload team image</h2>
 
     <img [src]="(team$ | async)?.imgURL" alt="">
 
     <div class="dropzone" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)" [class.hovering]="isHovering">
-
-
-
       <h3>AngularFire Drop Zone</h3>
 
       <div class="file">
@@ -84,14 +100,12 @@
     </div>
     <div *ngIf="percentage | async as pct">
 
-      <progress class="progress is-info" [value]="pct" max="100">
+      <progress class="prog ress is-info" [value]="pct" max="100">
       </progress>
 
       {{ pct | number }}%
 
     </div>
-
-
     <div *ngIf="snapshot | async as snap">
       {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
 
@@ -102,7 +116,9 @@
       </div>
     </div>
   </div>
+
   <br>
+
   <div id="deleteTeamWrapper" *ngIf="isAdmin">
     <h2 id="dangerTxt">Danger zone</h2>
     <p>This will delete the team and all of its data for you and all the members. This action cannot be undone</p>

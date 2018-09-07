@@ -4,6 +4,9 @@ const admin = require("firebase-admin");
 admin.initializeApp({
     storageBucket: 'magson-developer.appspot.com',
 });
+const firestore = admin.firestore();
+const settings = { timestampsInSnapshots: true };
+firestore.settings(settings);
 const addNonExistentUsers_1 = require("./addNonExistentUsers");
 exports.addNonExistentUsers = addNonExistentUsers_1.addNonExistentUsers;
 const sendInviteToNonExistentUsers_1 = require("./sendInviteToNonExistentUsers");

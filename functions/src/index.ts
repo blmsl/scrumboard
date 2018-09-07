@@ -4,6 +4,10 @@ admin.initializeApp({
     storageBucket: 'magson-developer.appspot.com',
 });
 
+const firestore = admin.firestore();
+const settings = { timestampsInSnapshots: true };
+firestore.settings(settings);
+
 import { addNonExistentUsers } from './addNonExistentUsers';
 import { sendInviteToNonExistentUsers } from './sendInviteToNonExistentUsers';
 import { sendWelcomeEmail } from './sendWelcomeEmail';

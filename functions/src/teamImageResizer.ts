@@ -65,7 +65,6 @@ export const teamImageResizer = functions.storage
             await bucket.file(filePath).delete();
             console.log('Deleted old img');
 
-
             // uploading the location of the file to the team doc      
             console.log('teams/' + fileName.split('.')[0]);
             await firestore.doc('teams/' + fileName.split('.')[0]).update({
@@ -73,8 +72,8 @@ export const teamImageResizer = functions.storage
             });
 
             // 5. Cleanup remove the tmp/thumbs from the filesystem
-            console.log('Trying to delete img', {workingDir, tmpFilePath})
-            return fs.remove(workingDir);
+            console.log('Trying to delete img', { workingDir, tmpFilePath })
+            return fs.remove(tmpFilePath);
 
         } catch (err) {
             console.error(err);
