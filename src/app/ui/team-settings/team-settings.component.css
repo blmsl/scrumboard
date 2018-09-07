@@ -1,16 +1,26 @@
+#container {
+    margin: 0 auto;
+    display: table;
+}
+
+#wrapper {
+    display: flex;
+}
+
 main {
-    max-width: 750px;
+    max-width: 550px;
     width: calc(100% - 40px);
     padding: 20px;
-    margin: 0 auto;
 }
 
 .inp {
-    width: auto;
+    width: calc(100% - 190px);
 }
 
 form button {
     float: right;
+    width: 175px;
+    margin-top: 7px;
 }
 
 #memberWrapper {
@@ -86,18 +96,20 @@ form button {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 300px;
-    border: 2px dashed #f16624;
-    border-radius: 5px;
-    background: white;
+    height: 200px;
+    width: 150px;
     margin: 10px 0;
+    position: relative;
 }
 
-.hovering {
-    border: 2px solid #f16624;
-    color: #dadada !important;
+.dropzone button {
+    margin-top: 10px;
 }
 
-progress::-webkit-progress-value {
-    transition: width 0.1s ease;
+.dropzone p {
+    font-size: 12px;
+}
+
+#teamImgSpinner {
+    position: absolute;
 }

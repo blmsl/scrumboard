@@ -12,6 +12,7 @@ import swal from 'sweetalert2';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
+import { getImgUrlFromRef } from '../../extra/shared';
 @Component({
   selector: 'app-team-settings',
   templateUrl: './team-settings.component.html',
@@ -22,6 +23,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   team$: Observable<TeamsInterface>;
   teamId: string;
   teamRef: DocumentReference;
+  imgURL: Observable<string>;
 
   isAdmin = false;
   loading = false;
@@ -50,22 +52,26 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   task: AngularFireUploadTask;
   percentage: Observable<number>;
   snapshot: Observable<any>;
-  downloadURL: Observable<string>;
   isHovering: boolean;
+  imgUploadSpinnerMode = 'determinate';
 
   constructor(public route: ActivatedRoute, public boardsService: TeamsService,
     public afs: AngularFirestore, public router: Router,
     public navbarService: NavbarService, private storage: AngularFireStorage,
     public afFunctions: AngularFireFunctions, public auth: AuthServiceService) {
-  }
-
-  ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.team$ = this.afs.doc<TeamsInterface>('teams/' + this.teamId).valueChanges().shareReplay(1);
     this.navbarService.backBtn = true;
     this.sub = this.team$.subscribe(team => this.navbarService.title = team.name);
     this.teamRef = this.afs.firestore.doc('teams/' + this.teamId);
+    this.imgURL = this.team$.switchMap(team => {
+      getImgUrlFromRef(team, this.storage);
+      this.percentage = null; // Removing progress spinner when new img is initialized
+      return team.imgURL;
+    });
+  }
 
+  ngOnInit() {
     combineLatest(this.auth.user$, this.team$).subscribe(([user, team]) => {
       console.log('isAdmin:', this.isAdmin);
       console.log(team.members[user.uid].isAdmin);
@@ -94,6 +100,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
   }
 
   startUpload(event: FileList) {
+    this.imgUploadSpinnerMode = 'determinate';
     // The File object
     const file = event.item(0);
 
@@ -111,7 +118,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     this.task.snapshotChanges().pipe(
       finalize(() => {
         console.log('Upload task is done');
-        this.downloadURL = this.storage.ref(path).getDownloadURL();
+        this.imgUploadSpinnerMode = 'indeterminate';
       })
     ).subscribe();
 

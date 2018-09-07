@@ -11,6 +11,7 @@ import { Router } from '../../../node_modules/@angular/router';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { startWith } from 'rxjs/operators';
 import { tap } from 'rxjs/internal/operators/tap';
+import { getImgUrlFromRef } from '../extra/shared';
 
 @Injectable()
 export class TeamsService {
@@ -29,13 +30,7 @@ export class TeamsService {
       return actions.map(a => {
         const data = a.payload.doc.data() as TeamsInterface;
         data.id = a.payload.doc.id;
-        if (data.imgRef) { // If the team has img
-          data.imgURL = this.storage.ref(data.imgRef).getDownloadURL().pipe(
-            // Cache the url for blazing fast load time ;)
-            tap(user => localStorage.setItem('img-' + data.id, JSON.stringify(user))),
-            startWith(JSON.parse(localStorage.getItem('img-' + data.id)))
-          );
-        }
+        getImgUrlFromRef(data, storage);
         return data;
       });
     }));
