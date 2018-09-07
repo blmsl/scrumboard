@@ -126,6 +126,10 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  dropped(evt) {
+    console.log(evt);
+  }
+
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
     swal({
       title: 'Are you sure?',

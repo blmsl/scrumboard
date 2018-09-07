@@ -1,7 +1,8 @@
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>  
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-<!-- <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
-  <mat-icon>link</mat-icon>Share</button> -->
+<button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
+  <mat-icon>link</mat-icon>Share
+</button>
 
 <!-- commented out till you make it homie
 <header>
@@ -23,7 +24,8 @@
   </div>
 </div>
 
-<main *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)" [ngSwitch]='navTab'>
+<main *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)"
+  [ngSwitch]='navTab'>
   <div id="todoContainer">
     <div id="sortBy">
       <mat-icon>sort</mat-icon>
@@ -38,10 +40,10 @@
     <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
-    <section id="todoSection">
+    <cdk-drop #todo [connectedTo]="[inprogress, done]" (dropped)="dropped($event)" [data]="$todo | async" id="todoSection" class="list-sorted">
       <h3>TODO ({{($todo | async)?.length}})</h3>
       <div id="todoElements">
-        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
+        <div cdkDrag [@entriesAnim]="loading ? null : 'in'" class="card list-sorted__item" *ngFor="let entry of $todo | async; trackBy: identify">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -64,12 +66,11 @@
           <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
         </div>
       </div>
-
-    </section>
-    <section id="inprogressSection">
+    </cdk-drop>
+    <cdk-drop #inprogress [connectedTo]="[todo, done]" (dropped)="dropped($event)" [data]="$inProgress | async" id="inprogressSection" class="list-sorted">
       <h3>In progress ({{($inProgress | async)?.length}})</h3>
       <div id="inprogressElements">
-        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
+        <div cdkDrag [@entriesAnim]="loading ? null : 'in'" class="card list-sorted__item" *ngFor="let entry of $inProgress | async; trackBy: identify">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -98,11 +99,11 @@
           <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
         </div>
       </div>
-    </section>
-    <section id="finishedSection">
+    </cdk-drop>
+    <cdk-drop #done [connectedTo]="[todo, inprogress]" (dropped)="dropped($event)" [data]="$done | async" id="finishedSection" class="list-sorted">
       <h3>Done ({{($done | async)?.length}})</h3>
       <div id="finishedElements">
-        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
+        <div cdkDrag [@entriesAnim]="loading ? null : 'in'" class="card list-sorted__item" *ngFor="let entry of $done | async; trackBy: identify">
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -130,7 +131,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </cdk-drop>
   </div>
 </main>
 

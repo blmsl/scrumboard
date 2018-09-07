@@ -39,6 +39,7 @@ import { AngularFireFunctions } from 'angularfire2/functions';
 import { AdminComponent } from './ui/admin/admin.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
 import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
@@ -83,6 +84,7 @@ import { DropZoneDirective } from './extra/drop-zone.directive';
     AngularFireStorageModule,
     OverlayModule,
     MatSnackBarModule,
+    DragDropModule,
     FormsModule,
     MatProgressBarModule,
     MatButtonModule,

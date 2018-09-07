@@ -62,13 +62,13 @@ mat-select {
     right: 0;
 }
 
-#todoContainer>section {
+#todoContainer>cdk-drop {
     flex-grow: 1;
     margin: 0 10px;
     max-width: calc(33.33% - 20px);
 }
 
-section .container {
+cdk-drop .container {
     margin: 0 10px;
 }
 
@@ -187,7 +187,7 @@ section .container {
         margin: 0 auto;
         padding-top: 5px;
     }
-    #todoContainer>section {
+    #todoContainer>cdk-drop {
         max-width: unset;
         margin: 0;
     }
