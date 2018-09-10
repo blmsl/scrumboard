@@ -11,6 +11,7 @@ main {
     max-width: 550px;
     width: calc(100% - 40px);
     padding: 20px;
+    min-width: 500px;
 }
 
 .inp {
