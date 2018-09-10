@@ -2,13 +2,18 @@
   <strong>Teams</strong>
 </h4>
 <div id="teamsWrapper">
-  <div *ngFor="let team of teamsService.$teams | async" (click)="teamsService.selectTeam(team.id)" class="teamButtonDiv" [ngClass]="{'selected': (route.paramMap | async).get('teamId') === team.id}">
-    <button class="teamSelectBtn" mat-button >
+  <button id="newTeamBtn" class="teamSelectBtn" mat-button (click)="teamsService.createNewTeam()"><mat-icon>add</mat-icon><span id="newTeamTxt">New team</span></button>
+  <div *ngFor="let team of teamsService.$teams | async" (click)="teamsService.selectTeam(team.id)" class="teamButtonDiv"
+    [ngClass]="{'selected': (route.paramMap | async).get('teamId') === team.id}">
+    <button class="teamSelectBtn" mat-button>
       <img *ngIf="team.imgRef" [src]="team.imgURL | async">
-      <span>{{team.name}}</span>
+      <div class="txtWrapper">
+        <p class="teamName">{{team.name}}</p>
+        <p class="amountMembers">{{(team.members | mapToIterable).length}} members</p>
+      </div>
     </button>
-    <button class="menuBtn" *ngIf="(route.paramMap | async).get('teamId') === team.id" mat-icon-button [matMenuTriggerFor]="menu"
-      (click)="$event.stopPropagation()">
+    <button class="menuBtn" *ngIf="(route.paramMap | async).get('teamId') === team.id" mat-icon-button
+      [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
@@ -22,8 +27,5 @@
         <span>Leave</span>
       </button>
     </mat-menu>
-  </div>
-  <div class="teamButtonDiv">
-    <button class="teamSelectBtn" mat-button (click)="teamsService.createNewTeam()">+ Create a team</button>
   </div>
 </div>

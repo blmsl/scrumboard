@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   darkThemeActivated = false;
 
+  // IMPORTANT: The theme must also be changed in styles.css
   private defaultTheme = `
     --header: white;
     --cards: white;
@@ -30,19 +31,22 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --bg-color: white;
     --button-color: #4285f4;
     --button-accent: #5491f5;
-    --header-title: ;
+    --header-title: #484848;
     --link-color: #0000EE;
+    --accent-light: #e8f0fe;
   `;
 
   private darkTheme = `
     --header: #1D2A32;
-    --txt-color: white;
     --cards: #2B3942;
+    --txt-color: white;
+    --txt-color-light: white;
     --bg-color: #203139;
     --button-color: #e91e63;
-    --header-title: #e91e63;
     --button-accent: #eb3472;
+    --header-title: #e91e63;
     --link-color: white;
+    --accent-light: #392031;
   `;
 
   constructor(public auth: AuthServiceService, public navbarService: NavbarService, public afs: AngularFirestore) {
@@ -114,38 +118,38 @@ export class NavbarComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       reverseButtons: true,
       preConfirm: () => {
-        return[
+        return [
           (<HTMLInputElement>document.getElementById('feedbackSelect')).value,
           (<HTMLInputElement>document.getElementById('feedbackTxt')).value,
         ];
       }
     });
     if (post[1] !== '') {
-        // Google analytics event
-        (<any>window).ga('send', 'event', {
-          eventCategory: 'User action',
-          eventAction: 'Sent feedback',
-        });
-        this.auth.user$.take(1).subscribe(user => {
-          this.afs.collection('feedback').add({
-            category: post[0],
-            txt: post[1],
-            date: firestore.FieldValue.serverTimestamp(),
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email
-          }).then(() => {
-            swal(
-              'Thank you!',
-              'We have recieved your feedback.',
-              'success'
-            );
-          }).catch(() => swal(
-            'Error',
-            'Your feedback was not sent, please try again',
-            'error'
-          ));
-        });
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'User action',
+        eventAction: 'Sent feedback',
+      });
+      this.auth.user$.take(1).subscribe(user => {
+        this.afs.collection('feedback').add({
+          category: post[0],
+          txt: post[1],
+          date: firestore.FieldValue.serverTimestamp(),
+          uid: user.uid,
+          name: user.displayName,
+          email: user.email
+        }).then(() => {
+          swal(
+            'Thank you!',
+            'We have recieved your feedback.',
+            'success'
+          );
+        }).catch(() => swal(
+          'Error',
+          'Your feedback was not sent, please try again',
+          'error'
+        ));
+      });
     } else if (post[1] === '') {
       swal({
         title: 'Invalid.',

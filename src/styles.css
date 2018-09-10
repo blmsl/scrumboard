@@ -1,6 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 /* You can add global styles to this file, and also import other style files */
 
+/* IMPORTANT: Theme must also be changed in navbar.css */
 body {
   --header: white;
   --cards: white;
@@ -8,7 +9,11 @@ body {
   --txt-color-light: #B2B0B0;
   --bg-color: white;
   --button-color: #4285f4;
-  --header-title: #4285f4;
+  --button-accent: #5491f5;
+  --header-title: #484848;
+  --link-color: #0000EE;
+  --accent-light: #e8f0fe;
+  --accent-light: #e8f0fe;
 }
 
 html,
