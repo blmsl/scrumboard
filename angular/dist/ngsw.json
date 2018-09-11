@@ -8,10 +8,10 @@
       "updateMode": "prefetch",
       "urls": [
         "/index.html",
-        "/main.d3bf404214c533fb7efb.js",
+        "/main.49f2e365b8763772faea.js",
         "/polyfills.b3c222fcf23faa332b85.js",
         "/runtime.06daa30a2963fa413676.js",
-        "/styles.bdf107d85ae9c78ab07a.css"
+        "/styles.03b6122f17de08b76fac.css"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Audiowide|Roboto:100,300|Material\\+Icons"
@@ -52,11 +52,11 @@
     "/assets/favicons/safari-pinned-tab.svg": "861658a994b9d1a79d474b388c7720022bbaff82",
     "/assets/google.svg": "b44b8c7fbe94f80c3c6e43309a603c5055fcbf0e",
     "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
-    "/index.html": "765d79af7f7e45c1f000c95f128d5a135fd4876f",
-    "/main.d3bf404214c533fb7efb.js": "1a190deab9e4f5248defebeadf7ae3593562118b",
+    "/index.html": "29088ebd3005bbbbd33bc04b5622497bf740297b",
+    "/main.49f2e365b8763772faea.js": "f1d06e8f0ae489fc2bcafd532b7d218c7f369847",
     "/polyfills.b3c222fcf23faa332b85.js": "e60923e74ccf41aa4f99019946df747c382b4bec",
     "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "/styles.bdf107d85ae9c78ab07a.css": "26aae6ab744e3d6a9ea97ac0125c5da5a3eefe87"
+    "/styles.03b6122f17de08b76fac.css": "a9182d1fdf9fe91a6d31e3c7f31bde40c9dd5a08"
   },
   "navigationUrls": [
     {
