@@ -1,7 +1,8 @@
 {
   "hosting": {
-    "predeploy": "ng build --prod",
-    "public": "dist",
+    "predeploy": "npm --prefix \"%RESOURCE_DIR%\" ng build --prod",
+    "source": "angular",
+    "public": "angular/dist",
     "ignore": [
       "firebase.json",
       "**/.*",

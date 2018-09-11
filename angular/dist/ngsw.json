@@ -1,0 +1,79 @@
+{
+  "configVersion": 1,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/index.html",
+        "/main.d3bf404214c533fb7efb.js",
+        "/polyfills.b3c222fcf23faa332b85.js",
+        "/runtime.06daa30a2963fa413676.js",
+        "/styles.bdf107d85ae9c78ab07a.css"
+      ],
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Audiowide|Roboto:100,300|Material\\+Icons"
+      ]
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/facebook.svg",
+        "/assets/favicons/android-chrome-192x192.png",
+        "/assets/favicons/android-chrome-512x512.png",
+        "/assets/favicons/apple-touch-icon.png",
+        "/assets/favicons/browserconfig.xml",
+        "/assets/favicons/favicon-16x16.png",
+        "/assets/favicons/favicon-32x32.png",
+        "/assets/favicons/favicon.ico",
+        "/assets/favicons/mstile-150x150.png",
+        "/assets/favicons/safari-pinned-tab.svg",
+        "/assets/google.svg",
+        "/assets/logo@1024x1024.jpg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/facebook.svg": "8cde78c9a37f98492604f2080c8b20bb4e2e05a6",
+    "/assets/favicons/android-chrome-192x192.png": "5aadf6271900c3a2f1ddb97a05904a09ecd713a8",
+    "/assets/favicons/android-chrome-512x512.png": "0a8cbb985501eb42117ffa9ed1515904fbcf612d",
+    "/assets/favicons/apple-touch-icon.png": "6bb25d65e79b8b46c765cad0ba1fc2c8bb4c41bc",
+    "/assets/favicons/browserconfig.xml": "2537cc5630b6706bbabe458538c8a1500aadfd24",
+    "/assets/favicons/favicon-16x16.png": "9b13910ee11b3a34ca06080017068a6b13e6470f",
+    "/assets/favicons/favicon-32x32.png": "64e0b2bb64bc99c67a56b7abb9e8760c22b229a2",
+    "/assets/favicons/favicon.ico": "7ab7a4956270bdcd456bcdd054dddeaf8873fb44",
+    "/assets/favicons/mstile-150x150.png": "cbaf8cac8c8efa923f3d8ce210c94a87ff6f8185",
+    "/assets/favicons/safari-pinned-tab.svg": "861658a994b9d1a79d474b388c7720022bbaff82",
+    "/assets/google.svg": "b44b8c7fbe94f80c3c6e43309a603c5055fcbf0e",
+    "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
+    "/index.html": "765d79af7f7e45c1f000c95f128d5a135fd4876f",
+    "/main.d3bf404214c533fb7efb.js": "1a190deab9e4f5248defebeadf7ae3593562118b",
+    "/polyfills.b3c222fcf23faa332b85.js": "e60923e74ccf41aa4f99019946df747c382b4bec",
+    "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "/styles.bdf107d85ae9c78ab07a.css": "26aae6ab744e3d6a9ea97ac0125c5da5a3eefe87"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
