@@ -57,7 +57,7 @@ service cloud.firestore {
       // allow write: if isAdmin(teamId);
 
 
-    match /feedback {
+    match /feedback/{feedBackId} {
       allow write: if isSignedIn();
     }
     
@@ -106,75 +106,3 @@ service cloud.firestore {
 
 
 
-
-
-    // --------------------------------------
-
-    // match /{document=**} {
-    //   allow read, write: if true;
-    // }
-   
-    // SØRBYE TESTER OG ORDNER RULES :) ########
-
-    // Prøver å få board.component til å funke
-
-    // Test 1 :)
-    // match /teams/{document=**} {
-    //   allow read: if isSignedIn();
-    // } 
-
-    // test 2 :(
-    // match /teams/{teamId=**} {
-    //   allow read: if isMemberOfTeam(teamId);
-    // }
-
-    // test 3 :(
-    // match /teams/{teamId} {
-    //   match /{document=**} {
-    //     allow read: if isMemberOfTeam(teamId);
-    //   }
-    // }
-
-    // test 4 :(
-    // match /teams/{teamId} {
-    //   allow read: if isMemberOfTeam(teamId);
-    //   match /{document=**} {
-    //     allow read: if isMemberOfTeam(teamId);
-    //   }
-    // }
-
-    // test 5 :) her funker team module på siden, men boards kommer fortsatt ikke opp :(
-    // match /teams/{teamId} {
-    //   allow read;
-    // }
-
-    // test 6 :( ingenting fungerer
-    // match /teams/{teamId} {
-    //   allow read: if isMemberOfTeam(teamId);
-    // }
-
-    // test 7 :) teams module fungerer igjen
-    // match /teams/{teamId} {
-    //   allow read: if existingData().members[request.auth.uid].isMember;
-    // }
-
-    // test 8 :( ingenting fungerer
-    // match /teams/{teamId} {
-    //   allow read: if isMemberOfTeam(teamId);
-    // }
-
-    // test 9 :( teams module fungerer, men ikke boards
-    // match /teams/{teamId} {
-    //   allow read: if existingData().members[request.auth.uid].isMember;
-    //   match /{document=**} {
-    //     allow read: if existingData().members[request.auth.uid].isMember;
-    //   }
-    // }
-
-    // test 10 
-    // match /teams/{teamId} {
-    //   allow read: if isMemberOfTeam(teamId);
-    // }
-
-
-    // ----############----

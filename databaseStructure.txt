@@ -17,9 +17,18 @@
             priority: string
             time: timeStamp
             txt: string
+            threadId: string
         }
         /inprogress/{entryId} {
-             --||--
+            priority: string
+            time: timeStamp
+            txt: string
+            threadId: string
+            developer: string
+            imgUrl: string
+            priority: string
+            time: timeStamp
+            txt: string
         }
         /done/{entryId} {
              --||--
@@ -35,8 +44,18 @@
     }            
 }
 /feedback/{feedbackId} {
-
+    category: string
+    date: timeStamp
+    email: string
+    name: string
+    txt: string
+    uid: string
 }
-/threads/{entryId} {
-    TODO: 
+/threads/{threadId} {
+    /comments/{commentId} {
+        userName: string
+        txt: string
+        imgUrl: string
+        time: timeStamp
+    }
 }
