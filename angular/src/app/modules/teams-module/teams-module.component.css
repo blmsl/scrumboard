@@ -81,6 +81,11 @@ img {
 }
 
 @media only screen and (max-width: 800px) {
+    #newTeamBtn {
+        width: unset;
+        margin-right: 20px;
+    }
+
     h4 {
         margin: 0;
         font-size: 11px;

@@ -261,13 +261,13 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
               const code = s4() + s4() + s4() + s4();
               console.log('Secret code is:', code);
 
-              this.team$.subscribe(team => {
-                console.log(team);
-                this.afs.collection('teams/' + this.teamId + '/codes').add({
+              this.team$.take(1).subscribe(async team => {
+                await this.afs.collection('teams/' + this.teamId + '/codes').add({
                   mail: input,
                   teamName: team.name,
                   code: code
                 });
+                console.log(code, 'is added as code to database');
               });
 
             });

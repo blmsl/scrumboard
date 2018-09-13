@@ -16,10 +16,12 @@ exports.getUserByMail = functions.https.onCall((data, context) => __awaiter(this
     console.log('retrieving user with mail:', mail, teamId);
     // get the user info and teamInfo
     try {
+        console.time('time');
         const combinedData = yield Promise.all([
             admin.auth().getUserByEmail(mail),
             admin.firestore().doc(`teams/${teamId}`).get()
         ]);
+        console.timeEnd('time');
         const userData = combinedData[0];
         const team = combinedData[1].data();
         console.log({ team });
