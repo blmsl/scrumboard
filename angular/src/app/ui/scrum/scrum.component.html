@@ -160,7 +160,7 @@
           <button (click)="addBug()" (click)="$event.stopPropagation()">Report bug</button>
         </div>
       </div>
-      <section *ngIf="!($bugs | async)?.length == 0">
+      <section *ngIf="!(($bugs | async)?.length == 0)">
         <h3>Bugs ({{($bugs | async)?.length}})</h3>
         <div class="gridWrapper">
           <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let bug of $bugs | async; trackBy: identify">
@@ -207,7 +207,7 @@
           <button (click)="addIdea()" (click)="$event.stopPropagation()">Add idea</button>
         </div>
       </div>
-      <section *ngIf="!($ideas | async)?.length == 0">
+      <section *ngIf="!(($ideas | async)?.length == 0)">
         <h3>Ideas ({{($ideas | async)?.length}})</h3>
         <div class="gridWrapper">
           <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let idea of $ideas | async; trackBy: identify">
@@ -255,7 +255,7 @@
           <button (click)="addNote()" (click)="$event.stopPropagation()">Add note</button>
         </div>
       </div>
-      <section *ngIf="!($notes | async)?.length == 0">
+      <section *ngIf="!(($notes | async)?.length == 0)">
         <h3>Notes ({{($notes | async)?.length}})</h3>
         <div class="gridWrapper">
           <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let note of $notes | async; trackBy: identify">
