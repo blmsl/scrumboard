@@ -1,20 +1,20 @@
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>  
-
 <!-- <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
   <mat-icon>link</mat-icon>Share</button> -->
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-<!-- commented out till you make it homie
+
+<!-- commented out till you make it homie -->
 <header>
-  <div id="tabNav">
+  <div id="tabNav" *ngIf="isSignedIn">
     <ul>
-      <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">To-do</li>
+      <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">Tasks</li>
       <li [class.active]="navTab == 'bugs'" class="selected" (click)="navTab = 'bugs'">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
-      <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Beta</li>
+      <!-- <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li> -->
     </ul>
   </div>
-</header> -->
+</header>
 
 <div *ngIf="($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0" id="noEntries">
   <div>
@@ -23,140 +23,365 @@
   </div>
 </div>
 
-<main *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)" [ngSwitch]='navTab'>
-  <div id="todoContainer">
-    <div id="sortBy">
-      <mat-icon>sort</mat-icon>
-      <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+<main [ngSwitch]='navTab'>
+  <div *ngIf="isSignedIn">
+    <div *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)">
+      <div class="todoContainer" *ngSwitchCase="'todo'">
+        <div id="sortBy">
+          <mat-icon>sort</mat-icon>
+          <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
 
-        <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alphabetical</mat-option>
-        <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
-        <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
-        <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
-      </mat-select>
+            <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
+            <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
+            <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
+            <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
+          </mat-select>
+        </div>
+        <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <section id="todoSection">
+          <h3>TODO ({{($todo | async)?.length}})</h3>
+          <div id="todoElements">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
+              <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit(entry, todoCollection)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="openThread(entry.id, 'todo')">
+                  <mat-icon>chat</mat-icon>
+                  <span>Start thread</span>
+                </button>
+                <button mat-menu-item (click)="delete(entry, todoCollection)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <div class="container">
+                <p>
+                  <strong>Priority: {{entry.priority}}</strong>
+                </p>
+                <p [innerHTML]="entry.txt | linky"></p>
+              </div>
+              <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
+            </div>
+          </div>
+
+        </section>
+        <section id="inprogressSection">
+          <h3>In progress ({{($inProgress | async)?.length}})</h3>
+          <div id="inprogressElements">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
+              <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit(entry, inProgressCollection)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="openThread(entry.id, 'inProgress')">
+                  <mat-icon>chat</mat-icon>
+                  <span>Start thread</span>
+                </button>
+                <button mat-menu-item (click)="rollback_from_inprogress(entry)">
+                  <mat-icon>replay</mat-icon>
+                  <span>Rollback</span>
+                </button>
+                <button mat-menu-item (click)="delete(entry, inProgressCollection)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <div class="container withProfilePic">
+                <div id="profilePic">
+                  <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <strong>{{entry.developer}}</strong>
+                <p [innerHTML]="entry.txt | linky"></p>
+              </div>
+              <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
+            </div>
+          </div>
+        </section>
+        <section id="finishedSection">
+          <h3>Done ({{($done | async)?.length}})</h3>
+          <div id="finishedElements">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
+              <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit(entry, doneCollection)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="openThread(entry.id, 'done')">
+                  <mat-icon>chat</mat-icon>
+                  <span>Start thread</span>
+                </button>
+                <button mat-menu-item (click)="rollback_from_finished(entry)">
+                  <mat-icon>replay</mat-icon>
+                  <span>Rollback</span>
+                </button>
+                <button mat-menu-item (click)="delete(entry, doneCollection)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <div class="container withProfilePic">
+                <div id="profilePic">
+                  <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <strong>{{entry.developer}}</strong>
+                <p [innerHTML]="entry.txt | linky"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-    <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
-      <mat-icon>add</mat-icon>
-    </button>
-    <section id="todoSection">
-      <h3>TODO ({{($todo | async)?.length}})</h3>
-      <div id="todoElements">
-        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
-          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, todoCollection)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="delete(entry, todoCollection)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
-          <div class="container">
-            <p>
-              <strong>Priority: {{entry.priority}}</strong>
-            </p>
-            <p [innerHTML]="entry.txt | linky"></p>
-          </div>
-          <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
-        </div>
-      </div>
 
-    </section>
-    <section id="inprogressSection">
-      <h3>In progress ({{($inProgress | async)?.length}})</h3>
-      <div id="inprogressElements">
-        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
-          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry, inProgressCollection)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
+
+    <div *ngSwitchCase="'bugs'">
+      <section *ngIf="($bugs | async)?.length != 0">
+        <h3>Bugs ({{($bugs | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let bug of $bugs | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
             </button>
-            <button mat-menu-item (click)="rollback_from_inprogress(entry)">
-              <mat-icon>replay</mat-icon>
-              <span>Rollback</span>
-            </button>
-            <button mat-menu-item (click)="delete(entry, inProgressCollection)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
-          <div class="container withProfilePic">
-            <div id="profilePic">
-              <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
-              <mat-icon>account_circle</mat-icon>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editBug(bug, bugCollection)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(bug.id, 'bugs')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteBug(bug, bugCollection)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container">
+              <p>
+                <strong>Priority: {{bug.priority}}</strong>
+              </p>
+              <p [innerHTML]="bug.txt | linky"></p>
             </div>
-            <strong>{{entry.developer}}</strong>
-            <p [innerHTML]="entry.txt | linky"></p>
-          </div>
-          <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
-        </div>
-      </div>
-    </section>
-    <section id="finishedSection">
-      <h3>Done ({{($done | async)?.length}})</h3>
-      <div id="finishedElements">
-        <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
-          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="edit(entry)">
-              <mat-icon>edit</mat-icon>
-              <span>Edit</span>
-            </button>
-            <button mat-menu-item (click)="rollback_from_finished(entry)">
-              <mat-icon>replay</mat-icon>
-              <span>Rollback</span>
-            </button>
-            <button mat-menu-item (click)="delete(entry, doneCollection)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
-            </button>
-          </mat-menu>
-          <div class="container withProfilePic">
-            <div id="profilePic">
-              <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
-              <mat-icon>account_circle</mat-icon>
-            </div>
-            <strong>{{entry.developer}}</strong>
-            <p [innerHTML]="entry.txt | linky"></p>
+            <button class="setButton" (click)="move_bug_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
           </div>
         </div>
-      </div>
-    </section>
+
+      </section>
+
+      <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+
+    <div *ngSwitchCase="'ideas'">
+      <section *ngIf="($ideas | async)?.length != 0">
+        <h3>Ideas ({{($ideas | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let idea of $ideas | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editIdea(idea)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(idea.id, 'ideas')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteIdea(idea)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container withProfilePic">
+              <div id="profilePic">
+                <img *ngIf="idea.imgUrl" src="{{idea.imgUrl}}">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <strong>{{idea.developer}}</strong>
+              <p [innerHTML]="idea.txt | linky"></p>
+            </div>
+            <!--  <button class="setButton" (click)="add_to_todo(idea)">MOVE TO TASKS</button> -->
+          </div>
+        </div>
+      </section>
+
+      <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div *ngSwitchCase="'notes'">
+      <section *ngIf="($notes | async)?.length != 0">
+        <h3>Notes ({{($notes | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let note of $notes | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editNote(note, noteCollection)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(note.id, 'notes')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteNote(note, noteCollection)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container withProfilePic">
+              <div id="profilePic">
+                <img *ngIf="note.imgUrl" src="{{note.imgUrl}}">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <strong>{{note.developer}}</strong>
+              <p [innerHTML]="note.txt | linky"></p>
+            </div>
+            <!--  <button class="setButton" (click)="add_to_todo(note)">MOVE TO TASKS</button> -->
+          </div>
+        </div>
+      </section>
+
+      <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
+        <mat-icon>add</mat-icon>
+      </button>
+
+    </div>
+  </div>
+
+
+  <div *ngIf="!(($c_bugs | async)?.length == 0 && ($c_feature | async)?.length == 0 && ($c_notes | async)?.length == 0)">
+    <div class="todoContainer" *ngSwitchCase="'beta'">
+      <!-- <div id="sortBy">
+        <mat-icon>sort</mat-icon>
+        <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+
+          <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
+          <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
+          <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
+          <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
+        </mat-select>
+      </div> -->
+      <section>
+        <h3>Bugs ({{($client_bugs | async)?.length}})</h3>
+        <div>
+          <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let c_bug of $client_bugs | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editBug(c_bug, client_bugs_collection)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(c_bug.id, 'client_bugs')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteBug(c_bug, client_bugs_collection)" *ngIf="isSignedIn">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container">
+              <p>
+                <strong>Priority: {{c_bug.priority}}</strong>
+              </p>
+              <p [innerHTML]="c_bug.txt | linky"></p>
+            </div>
+            <button class="setButton" (click)="moveToBugs(c_bug)" *ngIf="isSignedIn">MOVE TO BUGS</button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3>Feature requests ({{($c_features | async)?.length}})</h3>
+        <div>
+          <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let c_feature of $c_features | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="edit_feature_request(c_feature)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(c_feature.id, 'client_feature_request')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="delete_feature_request(c_feature)" *ngIf="isSignedIn">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container">
+              <p>
+                <strong>Priority: {{c_feature.priority}}</strong>
+              </p>
+              <p [innerHTML]="c_feature.txt | linky"></p>
+            </div>
+            <button class="setButton" (click)="move_bug_to_inprogress(c_feature, client_feature_collection)" *ngIf="isSignedIn">SET
+              INPROGRESS</button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3>Notes ({{($c_notes | async)?.length}})</h3>
+        <div>
+          <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let c_note of $c_notes | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editNote(c_note, client_notes_collection)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(c_note.id, 'client_notes')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteNote(c_note, client_notes_collection)" *ngIf="isSignedIn">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container">
+              <p [innerHTML]="c_note.txt | linky"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <button mat-fab id="addButton" (click)="add_feedback()" (click)="$event.stopPropagation()" *ngIf="!isSignedIn && isPublic">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
 </main>
-
-<!-- <div *ngSwitchCase="'bugs'">
-  Bugs
-  <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
-<div *ngSwitchCase="'ideas'">
-  Ideas
-  <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
-<div *ngSwitchCase="'notes'">
-  Notes
-  
-</div>
-<div *ngSwitchCase="'beta'">
-  Beta
-</div> -->
-
-<button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
-  <mat-icon>add</mat-icon>
-</button>
 
 <swal #linkShareSwal title="Share with people outside the team">
   <div *swalPartial>
