@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const deleteSubcollections_1 = require("./shared/deleteSubcollections");
 const fs = admin.firestore();
 exports.deleteEmptyTeams = functions.firestore
     .document('teams/{teamId}')
@@ -22,14 +23,11 @@ exports.deleteEmptyTeams = functions.firestore
         const boardsRef = teamRef.collection('boards');
         // Delete all boards with subcollections: todo, inprogress, done
         const boards = yield boardsRef.get();
-        yield boards.forEach(doc => {
-            return Promise.all([
-                deleteCollection(boardsRef.doc(doc.id).collection('todo'), 50),
-                deleteCollection(boardsRef.doc(doc.id).collection('inProgress'), 50),
-                deleteCollection(boardsRef.doc(doc.id).collection('done'), 50),
-                boardsRef.doc(doc.id).delete(),
-            ]);
-        });
+        yield boards.forEach((doc) => __awaiter(this, void 0, void 0, function* () {
+            yield deleteSubcollections_1.deleteSubcollections(boardsRef.doc(doc.id), ['todo', 'inProgress', 'done']);
+            // Delte scrum document
+            return boardsRef.doc(doc.id).delete();
+        }));
         // Delete team doc 
         return teamRef.delete();
     }
@@ -37,38 +35,4 @@ exports.deleteEmptyTeams = functions.firestore
         return null;
     }
 }));
-function deleteCollection(collectionRef, batchSize) {
-    const query = collectionRef.limit(batchSize);
-    return new Promise((resolve, reject) => {
-        deleteQueryBatch(fs, query, batchSize, resolve, reject);
-    });
-}
-function deleteQueryBatch(db, query, batchSize, resolve, reject) {
-    query.get()
-        .then((snapshot) => {
-        // When there are no documents left, we are done
-        if (snapshot.size === 0) {
-            return 0;
-        }
-        // Delete documents in a batch
-        const batch = db.batch();
-        snapshot.docs.forEach((doc) => {
-            batch.delete(doc.ref);
-        });
-        return batch.commit().then(() => {
-            return snapshot.size;
-        });
-    }).then((numDeleted) => {
-        if (numDeleted === 0) {
-            resolve();
-            return;
-        }
-        // Recurse on the next process tick, to avoid
-        // exploding the stack.
-        process.nextTick(() => {
-            deleteQueryBatch(db, query, batchSize, resolve, reject);
-        });
-    })
-        .catch(reject);
-}
 //# sourceMappingURL=deleteEmptyTeams.js.map
