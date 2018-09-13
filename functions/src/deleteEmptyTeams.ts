@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { deleteSubcollections } from './shared/deleteSubcollections';
 
 const fs = admin.firestore();
 
@@ -18,13 +19,10 @@ export const deleteEmptyTeams = functions.firestore
 
             // Delete all boards with subcollections: todo, inprogress, done
             const boards = await boardsRef.get()
-            await boards.forEach(doc => {
-                return Promise.all([
-                    deleteCollection(boardsRef.doc(doc.id).collection('todo'), 50),
-                    deleteCollection(boardsRef.doc(doc.id).collection('inProgress'), 50),
-                    deleteCollection(boardsRef.doc(doc.id).collection('done'), 50),
-                    boardsRef.doc(doc.id).delete(),
-                ]);
+            await boards.forEach(async doc => {
+                await deleteSubcollections(boardsRef.doc(doc.id), ['todo', 'inProgress', 'done']);
+                // Delte scrum document
+                return boardsRef.doc(doc.id).delete();
             })
 
             // Delete team doc 
@@ -34,43 +32,5 @@ export const deleteEmptyTeams = functions.firestore
         }
     });
 
-function deleteCollection(collectionRef: FirebaseFirestore.CollectionReference, batchSize: number) {
-    const query = collectionRef.limit(batchSize);
 
-    return new Promise((resolve, reject) => {
-        deleteQueryBatch(fs, query, batchSize, resolve, reject);
-    });
-}
-
-function deleteQueryBatch(db, query, batchSize, resolve, reject) {
-    query.get()
-        .then((snapshot) => {
-            // When there are no documents left, we are done
-            if (snapshot.size === 0) {
-                return 0;
-            }
-
-            // Delete documents in a batch
-            const batch = db.batch();
-            snapshot.docs.forEach((doc) => {
-                batch.delete(doc.ref);
-            });
-
-            return batch.commit().then(() => {
-                return snapshot.size;
-            });
-        }).then((numDeleted) => {
-            if (numDeleted === 0) {
-                resolve();
-                return;
-            }
-
-            // Recurse on the next process tick, to avoid
-            // exploding the stack.
-            process.nextTick(() => {
-                deleteQueryBatch(db, query, batchSize, resolve, reject);
-            });
-        })
-        .catch(reject);
-}
 

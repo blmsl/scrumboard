@@ -19,6 +19,7 @@ import { createAdmin } from './createAdmin';
 import { addMember } from './addMember';
 import { accountcleanup } from './accountcleanup';
 import { teamImageResizer } from './teamImageResizer';
+import { deleteScrum } from './deleteScrum';
 
 export { accountcleanup };
 export { addMember }
@@ -27,6 +28,7 @@ export { deleteEmptyTeams }
 export { getUserByMail }
 export { listAllUsers }
 export { newRequest }
+export { deleteScrum }
 export { sendWelcomeEmail }
 export { sendInviteToNonExistentUsers }
 export { addNonExistentUsers }

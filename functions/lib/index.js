@@ -29,4 +29,6 @@ const accountcleanup_1 = require("./accountcleanup");
 exports.accountcleanup = accountcleanup_1.accountcleanup;
 const teamImageResizer_1 = require("./teamImageResizer");
 exports.teamImageResizer = teamImageResizer_1.teamImageResizer;
+const deleteScrum_1 = require("./deleteScrum");
+exports.deleteScrum = deleteScrum_1.deleteScrum;
 //# sourceMappingURL=index.js.map
