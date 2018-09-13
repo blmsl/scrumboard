@@ -79,13 +79,12 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   client_notes_collection: AngularFirestoreCollection<EntryInterface>;
   $c_notes: Observable<EntryInterface[]>;
 
-  sortBy = '{"field": "txt", "direction": "asc"}';
+  sortBy = '{"field": "time", "direction": "desc"}';
   $orderBy: BehaviorSubject<string>;
 
   sub: Subscription;
   navTab = 'todo';
-  /* TODO: true */
-  loading = false;
+  loading = true;
   loadingSub: Subscription;
 
   disableAnimations: boolean;
@@ -231,7 +230,10 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     // add it to inProgress
     this.auth.user$.take(1).subscribe((user) => {
       this.inProgressCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
+        txt: entry.txt,
+        priority: entry.priority,
+        developer: user.displayName,
+        time: firestore.FieldValue.serverTimestamp(),
         imgUrl: user.photoURL
       });
     });
