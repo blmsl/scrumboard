@@ -1,23 +1,42 @@
 /teams/{teamId} {
     name: string
+    imgRef: string
     members[
             uid: string
             isMember: boolean
             isAdmin: boolean
+            name: string
+            imgUrl: string
         ]
 
     /boards/{boardId} {
+        isPublic: boolean
+        name: string
+
         /todo/{entryId} {
-
+            priority: string
+            time: timeStamp
+            txt: string
         }
-        /inprogress {
-
+        /inprogress/{entryId} {
+             --||--
         }
-        /done {
-
+        /done/{entryId} {
+             --||--
         }    
     }
     /archived/{boardId} {
         --||--
+    }
+    /codes/{codeId} {
+        code: string
+        mail: string
+        teamName: string
     }            
+}
+/feedback/{feedbackId} {
+
+}
+/threads/{entryId} {
+    TODO: 
 }
