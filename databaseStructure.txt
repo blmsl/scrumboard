@@ -1,0 +1,23 @@
+/teams/{teamId} {
+    name: string
+    members[
+            uid: string
+            isMember: boolean
+            isAdmin: boolean
+        ]
+
+    /boards/{boardId} {
+        /todo/{entryId} {
+
+        }
+        /inprogress {
+
+        }
+        /done {
+
+        }    
+    }
+    /archived/{boardId} {
+        --||--
+    }            
+}
