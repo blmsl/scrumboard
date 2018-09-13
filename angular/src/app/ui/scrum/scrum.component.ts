@@ -12,7 +12,6 @@ import swal from 'sweetalert2';
 import { firestore } from 'firebase/app';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { ThreadInterface } from './../../extra/ThreadInterface';
 
 @Component({
   selector: 'app-scrum',
@@ -79,9 +78,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   client_notes_collection: AngularFirestoreCollection<EntryInterface>;
   $c_notes: Observable<EntryInterface[]>;
-
-  threadCollection: AngularFirestoreCollection<ThreadInterface>;
-  $thread: Observable<ThreadInterface[]>;
 
   sortBy = '{"field": "txt", "direction": "asc"}';
   $orderBy: BehaviorSubject<string>;
