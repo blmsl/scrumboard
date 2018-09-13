@@ -186,7 +186,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
       console.log('finiding user', input);
       this.form.reset(); // clear the form
       const getUserByMail = this.afFunctions.httpsCallable('getUserByMail');
-      return getUserByMail({ mail: input, teamId: that.teamId }).toPromise()
+      getUserByMail({ mail: input, teamId: that.teamId }).toPromise()
         .then(function (data) {
           console.log(data);
           const uid = data.userData.uid;
@@ -246,7 +246,6 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
           console.log(error.code);
 
           if (error.code === 'not-found') {
-            // TODO add code to /teams/{teamId}/codes/{codeId}
             swal({
               text: 'This email is not associated with any account. Do you want to send them an invite anyway?',
               confirmButtonText: 'Send invite',
