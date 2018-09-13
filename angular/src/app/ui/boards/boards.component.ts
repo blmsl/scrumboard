@@ -106,7 +106,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
   }
 
   async addBoard() {
-    console.log('Creating a new board');
     const { value: name } = await swal({
       title: 'What is the name of your project?',
       input: 'text',
@@ -118,11 +117,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
       }
     });
     if (name) {
-      console.log('Adding a new board with name', name);
-      console.log(this.boardCollection);
       this.boardCollection.take(1).subscribe(collection => {
-        console.log({ collection });
-        collection.add({ name });
+        collection.add({name});
       });
       // Google analytics event
       (<any>window).ga('send', 'event', {

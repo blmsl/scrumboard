@@ -96,14 +96,14 @@ mat-icon {
   transition: all 0.3s;
 }
 
+.reloadBtn:hover {
+  background-color: #1c93cf;
+}
+
 main mat-icon {
   padding: 8px 20px;
   color: white;
   font-weight: 100;
-}
-
-.reloadBtn:hover {
-  background-color: #1c93cf;
 }
 
 .table {

@@ -197,6 +197,47 @@ section .container {
   text-align: center;
 }
 
+.no_content_div{
+  height: 20%;
+  max-height: 155px;
+  width: 40%;
+  max-width: 655px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0 solid;
+  border-radius: 10px;
+  padding: 40px 0 10px 0;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+  background-color: var(--header);
+}
+
+.no_content_div button {
+  background-color: var(--button-color);
+  border: 0 solid;
+  border-radius: 7px;
+  font-size: 20px;
+  transition: all 0.3s;
+  display: block;
+  cursor: pointer;
+  outline: 0;
+  margin: 30px auto 0 auto;
+  padding: 10px 20px;
+  color: white;
+}
+
+.no_content_div button:hover {
+  background-color: var(--button-accent);
+}
+
+.no_content_div h1 {
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 22px;
+}
+
 @media only screen and (max-width: 800px) {
   .todoContainer {
     display: block;
