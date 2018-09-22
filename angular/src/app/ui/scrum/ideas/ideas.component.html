@@ -1,0 +1,49 @@
+
+
+    <div *ngSwitchCase="'ideas'">
+      <!-- No ideas -->
+      <!-- TODO: Why is it slow? -->
+
+      <div *ngIf="($ideas | async)?.length == 0 && navTab == 'ideas'">
+        <div class="no_content_div">
+          <h1>Dribble down your idea and share it with the team before it slips away</h1>
+          <button (click)="addIdea()" (click)="$event.stopPropagation()">Add idea</button>
+        </div>
+      </div>
+      <section *ngIf="!(($ideas | async)?.length == 0)">
+        <h3>Ideas ({{($ideas | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let idea of $ideas | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editIdea(idea)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(idea.id, 'ideas')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteIdea(idea)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container withProfilePic">
+              <div id="profilePic">
+                <img *ngIf="idea.imgUrl" src="{{idea.imgUrl}}">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <strong>{{idea.developer}}</strong>
+              <p [innerHTML]="idea.txt | linky"></p>
+            </div>
+             <button class="setButton setButton2" (click)="add_to_todo(idea)">MOVE TO TASKS</button>
+          </div>
+        </div>
+        <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </section>
+    </div>
