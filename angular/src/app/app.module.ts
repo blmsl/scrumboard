@@ -47,6 +47,7 @@ import { AbTestsModule } from 'angular-ab-tests';
 import { PrivacyComponent } from './ui/privacy/privacy.component';
 import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
+import { TaskComponent } from './ui/scrum/task/task.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { DropZoneDirective } from './extra/drop-zone.directive';
     TeamSettingsComponent,
     PrivacyComponent,
     DropZoneDirective,
+    TaskComponent,
   ],
   imports: [
     AbTestsModule.forRoot([

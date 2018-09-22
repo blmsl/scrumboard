@@ -11,7 +11,7 @@
       <li [class.active]="navTab == 'bugs'" class="selected" (click)="navTab = 'bugs'">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
-      <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
+ <!--      <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li> -->
     </ul>
   </div>
 </header>
@@ -187,7 +187,7 @@
               </p>
               <p [innerHTML]="bug.txt | linky"></p>
             </div>
-            <button class="setButton" (click)="move_bug_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
+            <button class="setButton setButton2" (click)="move_bug_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
           </div>
         </div>
         <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
@@ -236,7 +236,7 @@
               <strong>{{idea.developer}}</strong>
               <p [innerHTML]="idea.txt | linky"></p>
             </div>
-            <!--  <button class="setButton" (click)="add_to_todo(idea)">MOVE TO TASKS</button> -->
+            <!--  <button class="setButton setButton2" (click)="add_to_todo(idea)">MOVE TO TASKS</button> -->
           </div>
         </div>
         <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
@@ -260,6 +260,7 @@
         <div class="gridWrapper">
           <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let note of $notes | async; trackBy: identify">
             <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
@@ -284,7 +285,7 @@
               <strong>{{note.developer}}</strong>
               <p [innerHTML]="note.txt | linky"></p>
             </div>
-            <!--  <button class="setButton" (click)="add_to_todo(note)">MOVE TO TASKS</button> -->
+            <!--  <button class="setButton setButton2" (click)="add_to_todo(note)">MOVE TO TASKS</button> -->
           </div>
         </div>
         <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
