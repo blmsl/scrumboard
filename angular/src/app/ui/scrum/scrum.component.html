@@ -11,7 +11,7 @@
       <li [class.active]="navTab == 'bugs'" class="selected" (click)="navTab = 'bugs'">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
- <!--      <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li> -->
+      <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
     </ul>
   </div>
 </header>
@@ -27,10 +27,269 @@
       </div>
     </div>
 
+    <div *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)">
+      <div class="todoContainer" *ngSwitchCase="'todo'">
+        <div id="sortBy">
+          <mat-icon>sort</mat-icon>
+          <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+
+            <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
+            <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
+            <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
+            <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
+          </mat-select>
+        </div>
+        <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <section id="todoSection">
+          <h3>TODO ({{($todo | async)?.length}})</h3>
+          <div id="todoElements">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
+              <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit(entry, todoCollection)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="openThread(entry.id, 'todo')">
+                  <mat-icon>chat</mat-icon>
+                  <span>Start thread</span>
+                </button>
+                <button mat-menu-item (click)="delete(entry, todoCollection)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <div class="container">
+                <p>
+                  <strong>Priority: {{entry.priority}}</strong>
+                </p>
+                <p [innerHTML]="entry.txt | linky"></p>
+              </div>
+              <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
+            </div>
+          </div>
+
+        </section>
+        <section id="inprogressSection">
+          <h3>In progress ({{($inProgress | async)?.length}})</h3>
+          <div id="inprogressElements">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
+              <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit(entry, inProgressCollection)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="openThread(entry.id, 'inProgress')">
+                  <mat-icon>chat</mat-icon>
+                  <span>Start thread</span>
+                </button>
+                <button mat-menu-item (click)="rollback_from_inprogress(entry)">
+                  <mat-icon>replay</mat-icon>
+                  <span>Rollback</span>
+                </button>
+                <button mat-menu-item (click)="delete(entry, inProgressCollection)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <div class="container withProfilePic">
+                <div id="profilePic">
+                  <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <strong>{{entry.developer}}</strong>
+                <p [innerHTML]="entry.txt | linky"></p>
+              </div>
+              <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
+            </div>
+          </div>
+        </section>
+        <section id="finishedSection">
+          <h3>Done ({{($done | async)?.length}})</h3>
+          <div id="finishedElements">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
+              <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="edit(entry, doneCollection)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="openThread(entry.id, 'done')">
+                  <mat-icon>chat</mat-icon>
+                  <span>Start thread</span>
+                </button>
+                <button mat-menu-item (click)="rollback_from_finished(entry)">
+                  <mat-icon>replay</mat-icon>
+                  <span>Rollback</span>
+                </button>
+                <button mat-menu-item (click)="delete(entry, doneCollection)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              <div class="container withProfilePic">
+                <div id="profilePic">
+                  <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <strong>{{entry.developer}}</strong>
+                <p [innerHTML]="entry.txt | linky"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+
+    <div *ngSwitchCase="'bugs'">
+      <!-- No bugs -->
+      <!-- TODO: Why is it slow? -->
+      <div *ngIf="($bugs | async)?.length == 0 && navTab == 'bugs'">
+        <div class="no_content_div">
+          <h1>Report and keep the bugs in one place to make bugfixing easier for everyone </h1>
+          <button (click)="addBug()" (click)="$event.stopPropagation()">Report bug</button>
+        </div>
+      </div>
+      <section *ngIf="!(($bugs | async)?.length == 0)">
+        <h3>Bugs ({{($bugs | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let bug of $bugs | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editBug(bug, bugCollection)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(bug.id, 'bugs')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteBug(bug, bugCollection)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container">
+              <p>
+                <strong>Priority: {{bug.priority}}</strong>
+              </p>
+              <p [innerHTML]="bug.txt | linky"></p>
+            </div>
+            <button class="setButton" (click)="move_bug_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
+          </div>
+        </div>
+        <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </section>
+    </div>
+
+
+    <div *ngSwitchCase="'ideas'">
+      <!-- No ideas -->
+      <!-- TODO: Why is it slow? -->
+
+      <div *ngIf="($ideas | async)?.length == 0 && navTab == 'ideas'">
+        <div class="no_content_div">
+          <h1>Dribble down your idea and share it with the team before it slips away</h1>
+          <button (click)="addIdea()" (click)="$event.stopPropagation()">Add idea</button>
+        </div>
+      </div>
+      <section *ngIf="!(($ideas | async)?.length == 0)">
+        <h3>Ideas ({{($ideas | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let idea of $ideas | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editIdea(idea)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(idea.id, 'ideas')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteIdea(idea)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container withProfilePic">
+              <div id="profilePic">
+                <img *ngIf="idea.imgUrl" src="{{idea.imgUrl}}">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <strong>{{idea.developer}}</strong>
+              <p [innerHTML]="idea.txt | linky"></p>
+            </div>
+            <!--  <button class="setButton" (click)="add_to_todo(idea)">MOVE TO TASKS</button> -->
+          </div>
+        </div>
+        <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </section>
+    </div>
+
+
+      <div *ngIf="($notes | async)?.length == 0 && navTab == 'notes'">
+        <div class="no_content_div">
+          <h1>Write down the little important things about the project</h1>
+          <button (click)="addNote()" (click)="$event.stopPropagation()">Add note</button>
+        </div>
+      </div>
+      <section *ngIf="!(($notes | async)?.length == 0)">
+        <h3>Notes ({{($notes | async)?.length}})</h3>
+        <div class="gridWrapper">
+          <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let note of $notes | async; trackBy: identify">
+            <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editNote(note, noteCollection)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="openThread(note.id, 'notes')">
+                <mat-icon>chat</mat-icon>
+                <span>Start thread</span>
+              </button>
+              <button mat-menu-item (click)="deleteNote(note, noteCollection)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <div class="container withProfilePic">
+              <div id="profilePic">
+                <img *ngIf="note.imgUrl" src="{{note.imgUrl}}">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <strong>{{note.developer}}</strong>
+              <p [innerHTML]="note.txt | linky"></p>
+            </div>
+            <!--  <button class="setButton" (click)="add_to_todo(note)">MOVE TO TASKS</button> -->
+          </div>
+        </div>
+        <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </section>
+    </div>
     
-
-
-  </div>
   <!-- No betatester reports -->
   <!-- TODO: Why is it slow? -->
   <div *ngIf="(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'">

@@ -47,10 +47,6 @@ import { AbTestsModule } from 'angular-ab-tests';
 import { PrivacyComponent } from './ui/privacy/privacy.component';
 import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
-import { TaskComponent } from './ui/scrum/task/task.component';
-import { BugsComponent } from './ui/scrum/bugs/bugs.component';
-import { IdeasComponent } from './ui/scrum/ideas/ideas.component';
-import { NotesComponent } from './ui/scrum/notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -65,10 +61,6 @@ import { NotesComponent } from './ui/scrum/notes/notes.component';
     TeamSettingsComponent,
     PrivacyComponent,
     DropZoneDirective,
-    TaskComponent,
-    BugsComponent,
-    IdeasComponent,
-    NotesComponent,
   ],
   imports: [
     AbTestsModule.forRoot([
