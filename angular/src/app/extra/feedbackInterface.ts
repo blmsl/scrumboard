@@ -1,11 +1,10 @@
-import { firestore } from '../../../node_modules/firebase';
-
-
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 export interface FeedbackInterface {
   name: string;
   category: string;
   txt: string;
   email: String;
   uid: String;
-  date: firestore.FieldValue;
+  date: firebase.firestore.FieldValue;
 }

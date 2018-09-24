@@ -1,9 +1,9 @@
-import { firestore } from '../../../node_modules/firebase';
-
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 export interface EntryInterface {
     txt: string;
     priority?: string;
-    time: firestore.FieldValue;
+    time: firebase.firestore.FieldValue;
     imgUrl?: string;
     developer?: string;
     id?: string;

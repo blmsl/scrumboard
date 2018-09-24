@@ -4,7 +4,8 @@ import { AuthServiceService } from './../../services/auth-service.service';
 import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Subscription } from 'rxjs';
 import swal from 'sweetalert2';
-import { firestore } from '../../../../node_modules/firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
 
 @Component({
   selector: 'app-navbar',
@@ -134,7 +135,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.afs.collection('feedback').add({
           category: post[0],
           txt: post[1],
-          date: firestore.FieldValue.serverTimestamp(),
+          date: firebase.firestore.FieldValue.serverTimestamp(),
           uid: user.uid,
           name: user.displayName,
           email: user.email
