@@ -53,13 +53,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   isSignedIn = false;
   shareableLink: string;
 
-  todoCollection: AngularFirestoreCollection<EntryInterface>;
-  inProgressCollection: AngularFirestoreCollection<EntryInterface>;
-  doneCollection: AngularFirestoreCollection<EntryInterface>;
 
-  $todo: Observable<EntryInterface[]>;
-  $inProgress: Observable<EntryInterface[]>;
-  $done: Observable<EntryInterface[]>;
 
   bugCollection: AngularFirestoreCollection<EntryInterface>;
   $bugs: Observable<EntryInterface[]>;
@@ -115,31 +109,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
-    this.todoCollection = this.boardDoc
-      .collection<EntryInterface>('todo');
-    this.inProgressCollection = this.boardDoc
-      .collection<EntryInterface>('inProgress');
-    this.doneCollection = this.boardDoc
-      .collection<EntryInterface>('done');
-
-    this.$todo = this.$orderBy.switchMap(sortBy => {
-      const config = JSON.parse(sortBy);
-      return this.toMap(this.boardDoc
-        .collection<EntryInterface>('todo', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
-    });
-
-    this.$inProgress = this.$orderBy.switchMap(sortBy => {
-      const config = JSON.parse(sortBy);
-      return this.toMap(this.boardDoc
-        .collection<EntryInterface>('inProgress', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
-    });
-
-    this.$done = this.$orderBy.switchMap(sortBy => {
-      const config = JSON.parse(sortBy);
-      return this.toMap(this.boardDoc
-        .collection<EntryInterface>('done', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
-    });
-
+    
 
     this.bugCollection = this.boardDoc.collection<EntryInterface>('bugs');
     this.$bugs = this.toMap(this.bugCollection.snapshotChanges());

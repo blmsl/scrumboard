@@ -245,9 +245,6 @@
       </section>
     </div>
 
-    <div *ngSwitchCase="'notes'">
-      <!-- No notes -->
-      <!-- TODO: Why is it slow? -->
 
       <div *ngIf="($notes | async)?.length == 0 && navTab == 'notes'">
         <div class="no_content_div">
@@ -293,7 +290,6 @@
       </section>
     </div>
     
-  </div>
   <!-- No betatester reports -->
   <!-- TODO: Why is it slow? -->
   <div *ngIf="(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'">
