@@ -12,6 +12,8 @@ import swal from 'sweetalert2';
 import { firestore } from 'firebase/app';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { ThreadComponent } from '../../modules/thread/thread.component';
 
 @Component({
   selector: 'app-scrum',
@@ -53,7 +55,13 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   isSignedIn = false;
   shareableLink: string;
 
+  todoCollection: AngularFirestoreCollection<EntryInterface>;
+  inProgressCollection: AngularFirestoreCollection<EntryInterface>;
+  doneCollection: AngularFirestoreCollection<EntryInterface>;
 
+  $todo: Observable<EntryInterface[]>;
+  $inProgress: Observable<EntryInterface[]>;
+  $done: Observable<EntryInterface[]>;
 
   bugCollection: AngularFirestoreCollection<EntryInterface>;
   $bugs: Observable<EntryInterface[]>;
@@ -92,6 +100,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     public auth: AuthServiceService,
     public snackBar: MatSnackBar,
     public navbarService: NavbarService,
+    public dialog: MatDialog,
     public afs: AngularFirestore) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.teamId = this.route.snapshot.paramMap.get('teamId');
@@ -109,7 +118,31 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
-    
+    this.todoCollection = this.boardDoc
+      .collection<EntryInterface>('todo');
+    this.inProgressCollection = this.boardDoc
+      .collection<EntryInterface>('inProgress');
+    this.doneCollection = this.boardDoc
+      .collection<EntryInterface>('done');
+
+    this.$todo = this.$orderBy.switchMap(sortBy => {
+      const config = JSON.parse(sortBy);
+      return this.toMap(this.boardDoc
+        .collection<EntryInterface>('todo', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
+    });
+
+    this.$inProgress = this.$orderBy.switchMap(sortBy => {
+      const config = JSON.parse(sortBy);
+      return this.toMap(this.boardDoc
+        .collection<EntryInterface>('inProgress', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
+    });
+
+    this.$done = this.$orderBy.switchMap(sortBy => {
+      const config = JSON.parse(sortBy);
+      return this.toMap(this.boardDoc
+        .collection<EntryInterface>('done', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
+    });
+
 
     this.bugCollection = this.boardDoc.collection<EntryInterface>('bugs');
     this.$bugs = this.toMap(this.bugCollection.snapshotChanges());
@@ -835,10 +868,13 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   /* COMMENTS METHODS */
 
 
-  openThread(child_id, path: String) {
-    console.log(child_id);
-    console.log(path);
-
+  openThread(entry: EntryInterface) {
+    const dialogRef = this.dialog.open(ThreadComponent, {
+      data: entry,
+      position: {
+        bottom: '0px'
+      }
+    });
   }
 
 

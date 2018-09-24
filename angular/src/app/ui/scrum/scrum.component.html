@@ -54,7 +54,7 @@
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
-                <button mat-menu-item (click)="openThread(entry.id, 'todo')">
+                <button mat-menu-item (click)="openThread(entry)">
                   <mat-icon>chat</mat-icon>
                   <span>Start thread</span>
                 </button>
@@ -86,7 +86,7 @@
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
-                <button mat-menu-item (click)="openThread(entry.id, 'inProgress')">
+                <button mat-menu-item (click)="openThread(entry)">
                   <mat-icon>chat</mat-icon>
                   <span>Start thread</span>
                 </button>
@@ -123,7 +123,7 @@
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
-                <button mat-menu-item (click)="openThread(entry.id, 'done')">
+                <button mat-menu-item (click)="openThread(entry)">
                   <mat-icon>chat</mat-icon>
                   <span>Start thread</span>
                 </button>
@@ -172,7 +172,7 @@
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
-              <button mat-menu-item (click)="openThread(bug.id, 'bugs')">
+              <button mat-menu-item (click)="openThread(bug)">
                 <mat-icon>chat</mat-icon>
                 <span>Start thread</span>
               </button>
@@ -219,7 +219,7 @@
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
-              <button mat-menu-item (click)="openThread(idea.id, 'ideas')">
+              <button mat-menu-item (click)="openThread(idea)">
                 <mat-icon>chat</mat-icon>
                 <span>Start thread</span>
               </button>
@@ -245,6 +245,9 @@
       </section>
     </div>
 
+    <div *ngSwitchCase="'notes'">
+      <!-- No notes -->
+      <!-- TODO: Why is it slow? -->
 
       <div *ngIf="($notes | async)?.length == 0 && navTab == 'notes'">
         <div class="no_content_div">
@@ -264,7 +267,7 @@
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
-              <button mat-menu-item (click)="openThread(note.id, 'notes')">
+              <button mat-menu-item (click)="openThread(note)">
                 <mat-icon>chat</mat-icon>
                 <span>Start thread</span>
               </button>
@@ -289,7 +292,8 @@
         </button>
       </section>
     </div>
-    
+
+  </div>
   <!-- No betatester reports -->
   <!-- TODO: Why is it slow? -->
   <div *ngIf="(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'">
