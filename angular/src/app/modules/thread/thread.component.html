@@ -20,7 +20,10 @@
 
   <div id="commentsContainer">
 
-    <div class="comment" style="height: 2000px;">
+    <div *ngFor="let comment of page.data | async">
+      <p>{{comment.txt}}</p>
     </div>
+    <p *ngIf="page.done | async">No more comments</p>
+    <mat-spinner *ngIf="page.loading | async"></mat-spinner>
   </div>
 </mat-dialog-content>

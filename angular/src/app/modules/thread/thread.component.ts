@@ -33,17 +33,28 @@ export class ThreadComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ThreadComponent>,
     @Inject(MAT_DIALOG_DATA) public entry: EntryInterface,
     public auth: AuthServiceService,
+    public page: PaginationService,
     public afs: AngularFirestore) {
     this.threadDoc = this.afs.doc('threads/' + entry.threadId);
     this.commentsCollection = this.threadDoc.collection('comments');
   }
 
-  scrollHandler(e) {
-    console.log(e);
+  ngOnInit() {
+    this.page.init('threads/' + this.entry.threadId + '/comments', 'time');
+    // DELETE
+    // this.page.data.subscribe(data => console.log(data));
+    // this.page.loading.subscribe(x => console.log(x));
+    // this.page.done.subscribe(x => console.log(x));
   }
 
-  ngOnInit() {
+  scrollHandler(e) {
+    console.log(e);
+    if (e === 'bottom') {
+      this.page.more();
+    }
   }
+
+
 
   onFormSubmit() {
     const input = this.commentForm.value.comment;

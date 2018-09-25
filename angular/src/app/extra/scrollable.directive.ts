@@ -23,7 +23,9 @@ export class ScrollableDirective {
         this.scrollPosition.emit('top');
       }
 
-    } catch (err) { }
+    } catch (err) {
+      alert('Your browser does not support this');
+    }
   }
 
 }
