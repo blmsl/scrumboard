@@ -1,0 +1,11 @@
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.close:hover {
+    color: #484848;
+}

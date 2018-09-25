@@ -56,6 +56,13 @@ service cloud.firestore {
       // TODO allow quit team
       // allow write: if isAdmin(teamId);
 
+    match /threads/{threadId} {
+      allow read, write;
+      match /{document=**} {
+        allow read, write;
+      }
+    }
+
 
     match /feedback/{feedBackId} {
       allow write: if isSignedIn();

@@ -29,10 +29,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TeamsModuleComponent } from './modules/teams-module/teams-module.component';
 import { AngularFireFunctions } from 'angularfire2/functions';
@@ -47,6 +48,8 @@ import { AbTestsModule } from 'angular-ab-tests';
 import { PrivacyComponent } from './ui/privacy/privacy.component';
 import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
+import { ThreadComponent } from './modules/thread/thread.component';
+import { ScrollableDirective } from './extra/scrollable.directive';
 
 @NgModule({
   declarations: [
@@ -61,6 +64,11 @@ import { DropZoneDirective } from './extra/drop-zone.directive';
     TeamSettingsComponent,
     PrivacyComponent,
     DropZoneDirective,
+    ThreadComponent,
+    ScrollableDirective,
+  ],
+  entryComponents: [
+    ThreadComponent
   ],
   imports: [
     AbTestsModule.forRoot([
@@ -77,6 +85,7 @@ import { DropZoneDirective } from './extra/drop-zone.directive';
     MatMenuModule,
     MatInputModule,
     MatSliderModule,
+    MatDialogModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatToolbarModule,

@@ -1,0 +1,30 @@
+<mat-dialog-content appScrollable (scrollPosition)="scrollHandler($event)">
+  <mat-icon (click)="this.close()" class="close">close</mat-icon>
+  <div class="content">
+    <h1>{{entry.txt}}</h1>
+
+  </div>
+
+
+
+  <form [formGroup]="commentForm" (ngSubmit)="onFormSubmit()">
+    <mat-form-field class="inp">
+      <input matInput placeholder="Write your comment" [formControl]="commentFormControl">
+      <mat-error *ngIf="commentFormControl.hasError('required')">
+        Name is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button type="submit" mat-stroked-button>Comment</button>
+  </form>
+
+  <div id="commentsContainer">
+
+    <div *ngFor="let comment of page.data | async">
+      <p>{{comment.txt}}</p>
+    </div>
+    <p><strong>{{comment.imgUrl}}</strong></p>
+    <p *ngIf="page.done | async">No more comments</p>
+    <mat-spinner *ngIf="page.loading | async"></mat-spinner>
+  </div>
+</mat-dialog-content>
