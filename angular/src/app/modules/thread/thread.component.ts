@@ -40,11 +40,11 @@ export class ThreadComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.page.init('threads/' + this.entry.threadId + '/comments', 'time');
+    this.page.init('threads/' + this.entry.threadId + '/comments', 'time', { reverse: true });
     // DELETE
-    // this.page.data.subscribe(data => console.log(data));
-    // this.page.loading.subscribe(x => console.log(x));
-    // this.page.done.subscribe(x => console.log(x));
+    this.page.data.subscribe(data => console.log(data));
+    this.page.loading.subscribe(x => console.log(x));
+    this.page.done.subscribe(x => console.log(x));
   }
 
   scrollHandler(e) {

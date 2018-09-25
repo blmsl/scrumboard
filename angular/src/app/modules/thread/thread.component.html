@@ -23,6 +23,7 @@
     <div *ngFor="let comment of page.data | async">
       <p>{{comment.txt}}</p>
     </div>
+    <p><strong>{{comment.imgUrl}}</strong></p>
     <p *ngIf="page.done | async">No more comments</p>
     <mat-spinner *ngIf="page.loading | async"></mat-spinner>
   </div>
