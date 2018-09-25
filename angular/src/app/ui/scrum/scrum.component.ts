@@ -109,8 +109,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
-    
-
     this.bugCollection = this.boardDoc.collection<EntryInterface>('bugs');
     this.$bugs = this.toMap(this.bugCollection.snapshotChanges());
 
