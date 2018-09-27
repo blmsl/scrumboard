@@ -9,3 +9,34 @@
 .close:hover {
     color: #484848;
 }
+
+.comment {
+  display: flex;
+  position: relative;
+}
+
+.menuBtn {
+  position: absolute;
+  right: 0;
+}
+
+.profilePic {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  margin-top: 15px;;
+}
+
+.usernameTxt {
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.commentTxt {
+  margin: 0;
+}
+
+.txtWrapper {
+  margin: 21px 0 15px 15px;
+}

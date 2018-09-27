@@ -52,6 +52,24 @@ export class PaginationService {
 
   }
 
+  restart() {
+    this._data.next([]);
+    
+    const first = this.afs.collection(this.query.path, ref => {
+      return ref
+        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+        .limit(this.query.limit);
+    });
+
+    this.mapAndUpdate(first);
+
+    // Create the observable array for consumption in components
+    this.data = this._data.asObservable()
+      .scan((acc, val) => {
+        return this.query.prepend ? val.concat(acc) : acc.concat(val);
+      });
+  }
+
   // Retrieves additional data from firestore
   more() {
     const cursor = this.getCursor();

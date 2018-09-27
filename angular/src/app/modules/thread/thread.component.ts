@@ -54,7 +54,19 @@ export class ThreadComponent implements OnInit {
     }
   }
 
+  editComment(comment) {
+    const newTxt = prompt('New txt', comment.txt);
+    if (newTxt) {
+      this.commentsCollection.doc(comment.doc.id).update({
+        txt: newTxt
+      }).then(() => this.page.restart());
+    }
+  }
 
+  deleteComment(comment) {
+    console.log(comment);
+    this.commentsCollection.doc(comment.doc.id).delete().then(() => this.page.restart());
+  }
 
   onFormSubmit() {
     const input = this.commentForm.value.comment;
@@ -65,7 +77,7 @@ export class ThreadComponent implements OnInit {
         txt: input,
         imgUrl: user.photoURL,
         time: firebase.firestore.FieldValue.serverTimestamp()
-      } as CommentInterface);
+      } as CommentInterface).then(() => this.page.restart());
     });
   }
 
