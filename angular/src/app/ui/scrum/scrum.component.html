@@ -187,7 +187,7 @@
               </p>
               <p [innerHTML]="bug.txt | linky"></p>
             </div>
-            <button class="setButton" (click)="move_bug_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
+            <button class="setButton" (click)="move_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
           </div>
         </div>
         <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
@@ -236,7 +236,7 @@
               <strong>{{idea.developer}}</strong>
               <p [innerHTML]="idea.txt | linky"></p>
             </div>
-            <!--  <button class="setButton" (click)="add_to_todo(idea)">MOVE TO TASKS</button> -->
+             <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO TASKS</button>
           </div>
         </div>
         <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
@@ -380,7 +380,7 @@
               </p>
               <p [innerHTML]="c_feature.txt | linky"></p>
             </div>
-            <button class="setButton" (click)="move_bug_to_inprogress(c_feature, client_feature_collection)" *ngIf="isSignedIn">SET
+            <button class="setButton" (click)="move_to_inprogress(c_feature, client_feature_collection)" *ngIf="isSignedIn">SET
               INPROGRESS</button>
           </div>
         </div>

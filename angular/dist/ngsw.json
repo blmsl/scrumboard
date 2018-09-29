@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/index.html",
+        "/main.js",
+        "/polyfills.js",
+        "/runtime.js",
+        "/styles.js",
+        "/vendor.js"
+      ],
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Audiowide|Roboto:100,300|Material\\+Icons"
+      ]
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/facebook.svg",
+        "/assets/favicons/android-chrome-192x192.png",
+        "/assets/favicons/android-chrome-512x512.png",
+        "/assets/favicons/apple-touch-icon.png",
+        "/assets/favicons/browserconfig.xml",
+        "/assets/favicons/favicon-16x16.png",
+        "/assets/favicons/favicon-32x32.png",
+        "/assets/favicons/favicon.ico",
+        "/assets/favicons/mstile-150x150.png",
+        "/assets/favicons/safari-pinned-tab.svg",
+        "/assets/google.svg",
+        "/assets/logo@1024x1024.jpg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/facebook.svg": "b3b918c5cdedeaabcc3cdae17cab8e5c9d97ff7f",
+    "/assets/favicons/android-chrome-192x192.png": "5aadf6271900c3a2f1ddb97a05904a09ecd713a8",
+    "/assets/favicons/android-chrome-512x512.png": "0a8cbb985501eb42117ffa9ed1515904fbcf612d",
+    "/assets/favicons/apple-touch-icon.png": "6bb25d65e79b8b46c765cad0ba1fc2c8bb4c41bc",
+    "/assets/favicons/browserconfig.xml": "2537cc5630b6706bbabe458538c8a1500aadfd24",
+    "/assets/favicons/favicon-16x16.png": "9b13910ee11b3a34ca06080017068a6b13e6470f",
+    "/assets/favicons/favicon-32x32.png": "64e0b2bb64bc99c67a56b7abb9e8760c22b229a2",
+    "/assets/favicons/favicon.ico": "7ab7a4956270bdcd456bcdd054dddeaf8873fb44",
+    "/assets/favicons/mstile-150x150.png": "cbaf8cac8c8efa923f3d8ce210c94a87ff6f8185",
+    "/assets/favicons/safari-pinned-tab.svg": "861658a994b9d1a79d474b388c7720022bbaff82",
+    "/assets/google.svg": "93d457e741af6373c8408fd91743cfd716b7339e",
+    "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
+    "/index.html": "d7f5fd0cecc03a10cb04346cab2fab6fb94bd4a9",
+    "/main.js": "783dbf9033a39e42c1ec1694e97efa1f034b5096",
+    "/polyfills.js": "84d9528b0443b6b41555ff5858c298de9eaeb222",
+    "/runtime.js": "b06ddc772732e66d43856386415cd4d1b89a50b1",
+    "/styles.js": "6b0d91537b320e0566415129cd7f9fb314482c03",
+    "/vendor.js": "18d92335c9a67a9b80a6abbf6f5462d9824cd698"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

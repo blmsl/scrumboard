@@ -524,7 +524,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  move_bug_to_inprogress(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+  move_to_inprogress(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
     swal({
       title: 'Move to in progress?',
       type: 'question',
@@ -533,12 +533,16 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
+        if (!entry.priority) {
+          entry.priority = '!!!';
+        }
         // Add to todo
         this.auth.user$.take(1).subscribe((user) => {
           this.inProgressCollection.add({
             txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
             imgUrl: user.photoURL
           });
+
         });
         // Delete from collection
         collection.doc(entry.id).delete().then(() => {
