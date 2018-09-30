@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --cards: white;
     --txt-color: #484848;
     --txt-color-light: #B2B0B0;
-    --bg-color: white;
+    --bg-color: #F1F3F4;
     --button-color: #4285f4;
     --button-accent: #5491f5;
     --header-title: #484848;

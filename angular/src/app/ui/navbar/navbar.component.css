@@ -8,17 +8,34 @@ header {
 }
 
 #logo {
-    width: 45px;
-    color: var(--header-title);
+    width: 29px;
+    color: white;
+    border-radius: 50%;
+    height: 29px;
+    margin-top: 7px;
+    padding: 10px;
+    background-color: var(--header-title);
 }
 
-header h1 {
-    margin: 0;
+#logoWrapper {
+    display: flex;
+}
+
+#logoTxt {
+    line-height: 64px;
+    margin-left: 13px;
+}
+
+h1 {
     color: var(--header-title);
     font-size: 30px;
     font-family: audiowide;
-    text-overflow: ellipsis;
     text-align: center;
+    margin: 0;
+}
+
+#navbarTitle {
+    text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     width: calc(100% - 160px);
