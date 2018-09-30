@@ -50,6 +50,10 @@ import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
 import { ThreadComponent } from './modules/thread/thread.component';
 import { ScrollableDirective } from './extra/scrollable.directive';
+import { TasksComponent } from './ui/scrum/tasks/tasks.component';
+import { BugsComponent } from './ui/scrum/bugs/bugs.component';
+import { IdeasComponent } from './ui/scrum/ideas/ideas.component';
+import { NotesComponent } from './ui/scrum/notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +70,10 @@ import { ScrollableDirective } from './extra/scrollable.directive';
     DropZoneDirective,
     ThreadComponent,
     ScrollableDirective,
+    TasksComponent,
+    BugsComponent,
+    IdeasComponent,
+    NotesComponent,
   ],
   entryComponents: [
     ThreadComponent

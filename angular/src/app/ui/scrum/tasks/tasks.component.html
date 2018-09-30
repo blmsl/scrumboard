@@ -1,0 +1,130 @@
+<div *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)">
+  <div id="sortBy">
+    <mat-icon>sort</mat-icon>
+    <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
+
+      <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
+      <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
+      <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
+      <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
+    </mat-select>
+  </div>
+  <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <section id="todoSection">
+    <h3>TODO ({{($todo | async)?.length}})</h3>
+    <div id="todoElements">
+      <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(entry, todoCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="openThread(entry)">
+            <mat-icon>chat</mat-icon>
+            <span>Start thread</span>
+          </button>
+          <button mat-menu-item (click)="delete(entry, todoCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+        <div class="container">
+          <p>
+            <strong>Priority: {{entry.priority}}</strong>
+          </p>
+          <p [innerHTML]="entry.txt | linky"></p>
+        </div>
+        <button class="setButton" (click)="moveToProgress(entry)">SET TO INPROGRESS</button>
+      </div>
+    </div>
+
+  </section>
+  <section id="inprogressSection">
+    <h3>In progress ({{($inProgress | async)?.length}})</h3>
+    <div id="inprogressElements">
+      <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(entry, inProgressCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="openThread(entry)">
+            <mat-icon>chat</mat-icon>
+            <span>Start thread</span>
+          </button>
+          <button mat-menu-item (click)="rollback_from_inprogress(entry)">
+            <mat-icon>replay</mat-icon>
+            <span>Rollback</span>
+          </button>
+          <button mat-menu-item (click)="delete(entry, inProgressCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+        <div class="container withProfilePic">
+          <div id="profilePic">
+            <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <strong>{{entry.developer}}</strong>
+          <p [innerHTML]="entry.txt | linky"></p>
+        </div>
+        <button class="setButton" (click)="moveToFinished(entry)">SET TO FINISHED</button>
+      </div>
+    </div>
+  </section>
+  <section id="finishedSection">
+    <h3>Done ({{($done | async)?.length}})</h3>
+    <div id="finishedElements">
+      <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(entry, doneCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="openThread(entry)">
+            <mat-icon>chat</mat-icon>
+            <span>Start thread</span>
+          </button>
+          <button mat-menu-item (click)="rollback_from_finished(entry)">
+            <mat-icon>replay</mat-icon>
+            <span>Rollback</span>
+          </button>
+          <button mat-menu-item (click)="delete(entry, doneCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+        <div class="container withProfilePic">
+          <div id="profilePic">
+            <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <strong>{{entry.developer}}</strong>
+          <p [innerHTML]="entry.txt | linky"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- No tasks -->
+<div *ngIf="(scrumService.$todo | async)?.length == 0 
+   && (scrumService.$inProgress | async)?.length == 0 
+   && (scrumService.$done | async)?.length == 0">
+  <div class="no_content_div">
+    <h1>Keep your project´s tasks organized and availible for the whole team</h1>
+    <button (click)="add()" (click)="$event.stopPropagation()">Create task</button>
+  </div>
+</div>

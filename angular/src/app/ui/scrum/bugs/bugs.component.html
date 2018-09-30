@@ -1,0 +1,44 @@
+<div *ngSwitchCase="'bugs'">
+  <!-- No bugs -->
+  <!-- TODO: Why is it slow? -->
+  <div *ngIf="($bugs | async)?.length == 0 && navTab == 'bugs'">
+    <div class="no_content_div">
+      <h1>Report and keep the bugs in one place to make bugfixing easier for everyone </h1>
+      <button (click)="addBug()" (click)="$event.stopPropagation()">Report bug</button>
+    </div>
+  </div>
+  <section *ngIf="!(($bugs | async)?.length == 0)">
+    <h3>Bugs ({{($bugs | async)?.length}})</h3>
+    <div class="gridWrapper">
+      <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let bug of $bugs | async; trackBy: identify">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editBug(bug, bugCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="openThread(bug)">
+            <mat-icon>chat</mat-icon>
+            <span>Start thread</span>
+          </button>
+          <button mat-menu-item (click)="deleteBug(bug, bugCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+        <div class="container">
+          <p>
+            <strong>Priority: {{bug.priority}}</strong>
+          </p>
+          <p [innerHTML]="bug.txt | linky"></p>
+        </div>
+        <button class="setButton" (click)="move_bug_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
+      </div>
+    </div>
+    <button mat-fab id="addButton" (click)="addBug()" (click)="$event.stopPropagation()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </section>
+</div>

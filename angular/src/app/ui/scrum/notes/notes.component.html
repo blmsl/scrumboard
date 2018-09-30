@@ -1,0 +1,45 @@
+  <!-- No notes -->
+  <!-- TODO: Why is it slow? -->
+
+  <div *ngIf="($notes | async)?.length == 0 && navTab == 'notes'">
+    <div class="no_content_div">
+      <h1>Write down the little important things about the project</h1>
+      <button (click)="addNote()" (click)="$event.stopPropagation()">Add note</button>
+    </div>
+  </div>
+  <section *ngIf="!(($notes | async)?.length == 0)">
+    <h3>Notes ({{($notes | async)?.length}})</h3>
+    <div class="gridWrapper">
+      <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let note of $notes | async; trackBy: identify">
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editNote(note, noteCollection)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="openThread(note)">
+            <mat-icon>chat</mat-icon>
+            <span>Start thread</span>
+          </button>
+          <button mat-menu-item (click)="deleteNote(note, noteCollection)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+        <div class="container withProfilePic">
+          <div id="profilePic">
+            <img *ngIf="note.imgUrl" src="{{note.imgUrl}}">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <strong>{{note.developer}}</strong>
+          <p [innerHTML]="note.txt | linky"></p>
+        </div>
+        <!--  <button class="setButton" (click)="add_to_todo(note)">MOVE TO TASKS</button> -->
+      </div>
+    </div>
+    <button mat-fab id="addButton" (click)="addNote()" (click)="$event.stopPropagation()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </section>
