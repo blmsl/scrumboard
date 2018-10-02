@@ -18,13 +18,14 @@ main {
   display: table;
   margin: 0 auto;
   list-style: none;
+  padding: 0;
 }
 
 #tabNav li {
   line-height: 48px;
   display: inline-block;
   text-align: center;
-  width: 80px;
+  width: 65px;
   margin: 0 30px;
   font-size: 17px;
   color: rgba(255, 255, 255, .7);
@@ -254,5 +255,10 @@ section .container {
 
   #sortBy {
     top: 80px;
+  }
+
+  #tabNav li {
+    font-size: 14px;
+    margin: 0 15px;
   }
 }

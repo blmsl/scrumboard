@@ -8,11 +8,10 @@
       "updateMode": "prefetch",
       "urls": [
         "/index.html",
-        "/main.js",
-        "/polyfills.js",
-        "/runtime.js",
-        "/styles.js",
-        "/vendor.js"
+        "/main.48511a5e1b900042af74.js",
+        "/polyfills.b3c222fcf23faa332b85.js",
+        "/runtime.06daa30a2963fa413676.js",
+        "/styles.334db2a50782ba26f1eb.css"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Audiowide|Roboto:100,300|Material\\+Icons"
@@ -41,7 +40,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/assets/facebook.svg": "b3b918c5cdedeaabcc3cdae17cab8e5c9d97ff7f",
+    "/assets/facebook.svg": "8cde78c9a37f98492604f2080c8b20bb4e2e05a6",
     "/assets/favicons/android-chrome-192x192.png": "5aadf6271900c3a2f1ddb97a05904a09ecd713a8",
     "/assets/favicons/android-chrome-512x512.png": "0a8cbb985501eb42117ffa9ed1515904fbcf612d",
     "/assets/favicons/apple-touch-icon.png": "6bb25d65e79b8b46c765cad0ba1fc2c8bb4c41bc",
@@ -51,14 +50,13 @@
     "/assets/favicons/favicon.ico": "7ab7a4956270bdcd456bcdd054dddeaf8873fb44",
     "/assets/favicons/mstile-150x150.png": "cbaf8cac8c8efa923f3d8ce210c94a87ff6f8185",
     "/assets/favicons/safari-pinned-tab.svg": "861658a994b9d1a79d474b388c7720022bbaff82",
-    "/assets/google.svg": "93d457e741af6373c8408fd91743cfd716b7339e",
+    "/assets/google.svg": "b44b8c7fbe94f80c3c6e43309a603c5055fcbf0e",
     "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
-    "/index.html": "d7f5fd0cecc03a10cb04346cab2fab6fb94bd4a9",
-    "/main.js": "783dbf9033a39e42c1ec1694e97efa1f034b5096",
-    "/polyfills.js": "84d9528b0443b6b41555ff5858c298de9eaeb222",
-    "/runtime.js": "b06ddc772732e66d43856386415cd4d1b89a50b1",
-    "/styles.js": "6b0d91537b320e0566415129cd7f9fb314482c03",
-    "/vendor.js": "18d92335c9a67a9b80a6abbf6f5462d9824cd698"
+    "/index.html": "6de87bb7c04833098dcb2ce3fb41cc9cdc6e2c13",
+    "/main.48511a5e1b900042af74.js": "2df9e7ba40d8f8646ffcd40c83ca24ffa6268794",
+    "/polyfills.b3c222fcf23faa332b85.js": "e60923e74ccf41aa4f99019946df747c382b4bec",
+    "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "/styles.334db2a50782ba26f1eb.css": "cd8618e703dd48a966521cea9dbd6f8162ab01e5"
   },
   "navigationUrls": [
     {

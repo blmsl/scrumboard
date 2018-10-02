@@ -6,7 +6,7 @@ h4 {
 #newTeamBtn {
     color: var(--button-color);
     font-weight: bold;
-    border: 1px solid #e8eaed;
+    border: 1px solid #c0c0c0;
     border-radius: 999px;
     padding: 5px 23px;
     margin: 10px 0;
@@ -74,6 +74,7 @@ img {
 
 .selected .teamSelectBtn {
     background: var(--accent-light);
+    border: 1px solid #c0c0c029;
 }
 
 .selected .teamName {
