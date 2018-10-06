@@ -1,6 +1,5 @@
 h4 {
     margin-bottom: 0;
-    font-size: 15px;
 }
 
 #newTeamBtn {
@@ -89,13 +88,14 @@ img {
 
     h4 {
         margin: 0;
-        font-size: 11px;
     }
+
     #teamsWrapper {
         overflow-x: auto;
         white-space: nowrap;
         overflow-y: hidden;
     }
+
     .teamButtonDiv {
         display: inline-block;
         margin-right: 5px;

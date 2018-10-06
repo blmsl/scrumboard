@@ -2,18 +2,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* IMPORTANT: Theme must also be changed in navbar.ts */
+
 body {
-  --header: white;
-  --cards: white;
-  --txt-color: #484848;
-  --txt-color-light: #B2B0B0;
-  --bg-color: #F1F3F4;
-  --button-color: #4285f4;
-  --button-accent: #5491f5;
-  --header-title: #484848;
-  --link-color: #0000EE;
-  --accent-light: #e8f0fe;
-  --accent-light: #e8f0fe;
+    --header: white;
+    --cards: white;
+    --txt-color: #484848;
+    --txt-color-light: #B2B0B0;
+    --bg-color: #F1F3F4;
+    --button-color: #4285f4;
+    --button-accent: #5491f5;
+    --header-title: #484848;
+    --link-color: #0000EE;
+    --accent-light: #e8f0fe;
+    --accent-light: #e8f0fe;
 }
 
 html,
@@ -27,30 +28,30 @@ body {
 }
 
 main {
-  max-width: 1600px;
-  display: table;
-  padding: 20px;
-  width: calc(100% - 40px);
+    max-width: 1600px;
+    display: table;
+    padding: 20px;
+    width: calc(100% - 40px);
 }
 
 #addButton {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  color: white;
-  background-color: var(--button-color);
-  cursor: pointer;
-  outline: 0;
-  z-index: 9;
-  transition: all 0.2s;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    color: white;
+    background-color: var(--button-color);
+    cursor: pointer;
+    outline: 0;
+    z-index: 9;
+    transition: all 0.2s;
 }
 
 #addButton:hover {
-  background-color: var(--button-accent);
+    background-color: var(--button-accent);
 }
 
 a {
-  color: var(--link-color);
+    color: var(--link-color);
 }
 
 #spinnerWrapper {
@@ -61,17 +62,26 @@ a {
     align-items: center;
 }
 
+h4 {
+    font-size: 15px;
+}
+
 /* didnt work in scrum component :( */
 
 .mat-select-value {
-  color: var(--txt-color) !important;
+    color: var(--txt-color) !important;
 }
 
 .mat-select-placeholder {
-  color: var(--txt-color) !important;
+    color: var(--txt-color) !important;
 }
 
 .mat-select-arrow {
-  color: var(--txt-color) !important;
+    color: var(--txt-color) !important;
 }
 
+@media only screen and (max-width: 800px) {
+    h4 {
+        font-size: 11px;
+    }
+}

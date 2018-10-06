@@ -12,6 +12,11 @@
     /boards/{boardId} {
         isPublic: boolean
         name: string
+        aggregatedData: {
+            todo: number
+            inProgress: number
+            done: number
+        }
 
         /todo/{entryId} {
             priority: string
@@ -19,7 +24,7 @@
             txt: string
             threadId: string
         }
-        /inprogress/{entryId} {
+        /inProgress/{entryId} {
             priority: string
             time: timeStamp
             txt: string

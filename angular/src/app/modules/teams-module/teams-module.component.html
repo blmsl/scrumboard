@@ -6,7 +6,7 @@
   <div *ngFor="let team of teamsService.$teams | async" (click)="teamsService.selectTeam(team.id)" class="teamButtonDiv"
     [ngClass]="{'selected': (route.paramMap | async).get('teamId') === team.id}">
     <button class="teamSelectBtn" mat-button>
-      <img *ngIf="team.imgRef" [src]="team.imgURL | async">
+      <img [src]="(team.imgURL | async) || 'assets/favicons/android-chrome-192x192.png'">
       <div class="txtWrapper">
         <p class="teamName">{{team.name}}</p>
         <p class="amountMembers">{{(team.members | mapToIterable).length}} members</p>

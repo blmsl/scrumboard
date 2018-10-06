@@ -1,9 +1,9 @@
-<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>  
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 <main *ngIf="(teamsService.$teams | async)?.length > 0">
   <app-teams-module></app-teams-module>
-  <div class="boardsWrapper">
-    <h2>Active projects</h2>
+  <div *ngIf="!(($boards | async)?.length == 0 && ($archived | async)?.length == 0)" class="boardsWrapper">
+    <h4><strong>Active projects</strong></h4>
     <section id="boards" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
       <div class="card">
         <div class="container">
@@ -30,7 +30,7 @@
     </section>
     <div id="archivedWrapper" *ngIf="($archived | async)?.length > 0">
       <br>
-      <h2>Archived projects</h2>
+      <h4><strong>Archived projects</strong></h4>
       <section id="archived" *ngFor="let archivedBoard of $archived | async">
         <div class="card">
           <div class="container">
@@ -53,19 +53,19 @@
       </section>
     </div>
   </div>
-
-</main>
-
-<div *ngIf="($boards | async)?.length == 0 && ($archived | async)?.length == 0" id="noEntries">
+  <div *ngIf="($boards | async)?.length == 0 && ($archived | async)?.length == 0" id="noEntries">
     <div>
       <p>No scrumboards</p>
       <h5>¯\_(ツ)_/¯</h5>
     </div>
   </div>
 
+</main>
+
 <div id="noTeam" *ngIf="(teamsService.$teams | async)?.length === 0">
   <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>
-  <p>You are currently not a member of any team. You can join a team by being invited. You can also create your own team with the button below.</p>
+  <p>You are currently not a member of any team. You can join a team by being invited. You can also create your own
+    team with the button below.</p>
   <button mat-raised-button (click)="teamsService.createNewTeam()">Create a new team</button>
 </div>
 
