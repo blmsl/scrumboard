@@ -8,6 +8,11 @@
       <div class="card">
         <div class="container">
           <h3>{{board.name}}</h3>
+          <div id="distributionBar">
+            <div id="todoBar" class="entryBar" [style.width.%]="board.aggregatedData.todo"></div>
+            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedData.inProgress"></div>
+            <div id="doneBar" class="entryBar" [style.width.%]="board.aggregatedData.done"></div>
+          </div>
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
             <mat-icon>more_vert</mat-icon>
           </button>

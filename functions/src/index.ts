@@ -20,6 +20,7 @@ import { addMember } from './addMember';
 import { accountcleanup } from './accountcleanup';
 import { teamImageResizer } from './teamImageResizer';
 import { deleteScrum } from './deleteScrum';
+import { onTodoCreated, onTodoDeleted, onInProgressCreated, onInProgressDeleted, onDoneCreated, onDoneDeleted } from './scrumAggregation';
 
 export { accountcleanup };
 export { addMember }
@@ -33,3 +34,4 @@ export { sendWelcomeEmail }
 export { sendInviteToNonExistentUsers }
 export { addNonExistentUsers }
 export { teamImageResizer }
+export { onTodoCreated, onTodoDeleted, onInProgressCreated, onInProgressDeleted, onDoneCreated, onDoneDeleted }

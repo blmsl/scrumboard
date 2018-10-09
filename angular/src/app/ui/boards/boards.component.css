@@ -53,6 +53,31 @@ h2 {
   cursor: pointer;
   margin-bottom: 10px;
   height: 50px;
+  overflow: hidden;
+}
+
+#distributionBar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+}
+
+.entryBar {
+  height: 7px;
+
+}
+
+#todoBar {
+  background-color: green;
+}
+
+#inProgressBar {
+  background-color: blue;
+}
+
+#doneBar {
+  background-color: red;
 }
 
 #boards, #archived {

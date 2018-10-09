@@ -75,6 +75,13 @@ export class BoardsComponent implements OnInit, OnDestroy {
         return actions.map(a => {
           const data = a.payload.doc.data() as Board;
           data.id = a.payload.doc.id;
+          console.log(data.aggregatedData);
+          if (data.aggregatedData) {
+            const totalEntries = data.aggregatedData.todo + data.aggregatedData.inProgress + data.aggregatedData.done;
+            data.aggregatedData.todo = data.aggregatedData.todo / totalEntries * 100;
+            data.aggregatedData.inProgress = data.aggregatedData.inProgress / totalEntries * 100;
+            data.aggregatedData.done = data.aggregatedData.done / totalEntries * 100;
+          }
           return data;
         });
       }));
@@ -118,7 +125,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     });
     if (name) {
       this.boardCollection.take(1).subscribe(collection => {
-        collection.add({name});
+        collection.add({ name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } });
       });
       // Google analytics event
       (<any>window).ga('send', 'event', {
@@ -139,7 +146,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         // Archive method here
-        this.archiveCollection.take(1).subscribe(collection => collection.add({ name: board.name }));
+        this.archiveCollection.take(1).subscribe(collection => collection
+          .add({ name: board.name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
         this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
         swal(
           'Archived!',
@@ -167,7 +175,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
       if (result.value) {
         // TODO Activate method here
         this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
-        this.boardCollection.take(1).subscribe(collection => collection.add({ name: board.name }));
+        this.boardCollection.take(1).subscribe(collection => collection.add(
+          { name: board.name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
         swal(
           'Archived!',
           'Your project has been reactivated.',
