@@ -75,7 +75,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
         return actions.map(a => {
           const data = a.payload.doc.data() as Board;
           data.id = a.payload.doc.id;
-          console.log(data.aggregatedData);
           if (data.aggregatedData) {
             const totalEntries = data.aggregatedData.todo + data.aggregatedData.inProgress + data.aggregatedData.done;
             data.aggregatedData.todo = data.aggregatedData.todo / totalEntries * 100;

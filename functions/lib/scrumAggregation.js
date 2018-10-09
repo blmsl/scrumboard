@@ -34,16 +34,13 @@ function update(teamId, boardId, subcollection, increment) {
         console.log({ teamId, boardId, subcollection, increment });
         const boardDoc = (yield fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
         let aggregatedData = boardDoc.aggregatedData;
-        if (aggregatedData) {
-            if (increment)
-                aggregatedData[subcollection]++;
-            else
-                aggregatedData[subcollection]--;
-        }
-        else {
+        if (!aggregatedData) {
             aggregatedData = { todo: 0, inProgress: 0, done: 0 };
         }
-        ;
+        if (increment)
+            aggregatedData[subcollection]++;
+        else
+            aggregatedData[subcollection]--;
         return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
     });
 }
