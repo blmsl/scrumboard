@@ -30,15 +30,12 @@ export const onDoneDeleted = functions.firestore
 async function update(teamId: string, boardId: string, subcollection: string, increment: boolean) {
     console.log({ teamId, boardId, subcollection, increment });
 
-    const snap = await fs.doc('teams/' + teamId + '/boards/' + boardId).get();
-    const boardDoc = snap.data();
+    const boardDoc = (await fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
     let aggregatedData = boardDoc.aggregatedData;
-    if (aggregatedData) {
-        if (increment) aggregatedData[subcollection]++;
-        else aggregatedData[subcollection]--;
-        
-    } else {
-        aggregatedData = {todo: 0, inProgress: 0, done: 0};
-    };
-    return fs.doc('teams/' + teamId + '/boards/' + boardId).update({aggregatedData});
+    if (!aggregatedData) {
+        aggregatedData = { todo: 0, inProgress: 0, done: 0 };
+    }
+    if (increment) aggregatedData[subcollection]++;
+    else aggregatedData[subcollection]--;
+    return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
 }

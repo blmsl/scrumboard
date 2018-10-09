@@ -32,18 +32,19 @@ exports.onDoneDeleted = functions.firestore
 function update(teamId, boardId, subcollection, increment) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log({ teamId, boardId, subcollection, increment });
-        const snap = yield fs.doc('teams/' + teamId + '/boards/' + boardId).get();
-        const boardDoc = snap.data();
-        const aggregatedData = boardDoc.aggregatedData;
+        const boardDoc = (yield fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
+        let aggregatedData = boardDoc.aggregatedData;
         if (aggregatedData) {
             if (increment)
                 aggregatedData[subcollection]++;
             else
                 aggregatedData[subcollection]--;
-            return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
         }
-        else
-            return false;
+        else {
+            aggregatedData = { todo: 0, inProgress: 0, done: 0 };
+        }
+        ;
+        return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
     });
 }
 //# sourceMappingURL=scrumAggregation.js.map
