@@ -1,44 +1,46 @@
-<mat-dialog-content appScrollable (scrollPosition)="scrollHandler($event)">
+<mat-dialog-content>
   <mat-icon (click)="this.close()" class="close">close</mat-icon>
-  <div class="content">
-    <h1>{{entry.txt}}</h1>
-  </div>
-
-  <form [formGroup]="commentForm" (ngSubmit)="onFormSubmit()">
-    <mat-form-field class="inp">
-      <input matInput placeholder="Write your comment" [formControl]="commentFormControl">
-      <mat-error *ngIf="commentFormControl.hasError('required')">
-        Name is
-        <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-    <button type="submit" mat-stroked-button>Comment</button>
-  </form>
-
-  <div id="commentsContainer">
-    <div class="comment" *ngFor="let comment of page.data | async">
-
-      <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="editComment(comment)">
-          <mat-icon>edit</mat-icon>
-          <span>Rename</span>
-        </button>
-        <button mat-menu-item (click)="deleteComment(comment)">
-          <mat-icon>delete</mat-icon>
-          <span>Delete</span>
-        </button>
-      </mat-menu>
-
-      <img class="profilePic" [src]="comment.imgUrl">
-      <div class="txtWrapper">
-        <p class="usernameTxt">{{comment.username}}</p>
-        <p class="commentTxt">{{comment.txt}}</p>
-      </div>
+  <div id="dialogContent">
+    <div class="content">
+      <h1>{{entry.txt}}</h1>
     </div>
-    <p *ngIf="page.done | async">No more comments</p>
-    <mat-spinner *ngIf="page.loading | async"></mat-spinner>
+
+    <form [formGroup]="commentForm" (ngSubmit)="onFormSubmit()">
+      <mat-form-field class="inp">
+        <input matInput placeholder="Write your comment" [formControl]="commentFormControl">
+        <mat-error *ngIf="commentFormControl.hasError('required')">
+          Name is
+          <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button id="submitBtn" type="submit" mat-stroked-button>Comment</button>
+    </form>
+
+    <div id="commentsContainer">
+      <div class="comment" *ngFor="let comment of page.data | async">
+
+        <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editComment(comment)">
+            <mat-icon>edit</mat-icon>
+            <span>Rename</span>
+          </button>
+          <button mat-menu-item (click)="deleteComment(comment)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+
+        <img class="profilePic" [src]="comment.imgUrl">
+        <div class="txtWrapper">
+          <p class="usernameTxt">{{comment.username}}</p>
+          <p class="commentTxt">{{comment.txt}}</p>
+        </div>
+      </div>
+      <p *ngIf="page.done | async">No more comments</p>
+      <mat-spinner *ngIf="page.loading | async"></mat-spinner>
+    </div>
   </div>
 </mat-dialog-content>

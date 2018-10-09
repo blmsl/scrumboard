@@ -18,6 +18,7 @@
 .menuBtn {
   position: absolute;
   right: 0;
+  /* line-height: 90px; */
 }
 
 .profilePic {
@@ -39,4 +40,18 @@
 
 .txtWrapper {
   margin: 21px 0 15px 15px;
+}
+
+#dialogContent {
+  width: 90%;
+  display: table;
+  margin: 0 auto;
+}
+
+.inp {
+  width: 85%;
+}
+
+#submitBtn {
+  margin-left: 20px;
 }

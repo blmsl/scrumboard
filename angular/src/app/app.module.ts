@@ -49,7 +49,6 @@ import { PrivacyComponent } from './ui/privacy/privacy.component';
 import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
 import { ThreadComponent } from './modules/thread/thread.component';
-import { ScrollableDirective } from './extra/scrollable.directive';
 
 @NgModule({
   declarations: [
@@ -65,7 +64,6 @@ import { ScrollableDirective } from './extra/scrollable.directive';
     PrivacyComponent,
     DropZoneDirective,
     ThreadComponent,
-    ScrollableDirective,
   ],
   entryComponents: [
     ThreadComponent
