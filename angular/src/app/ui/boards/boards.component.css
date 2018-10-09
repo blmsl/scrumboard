@@ -69,15 +69,15 @@ h2 {
 }
 
 #todoBar {
-  background-color: green;
+  background-color: #1D84D5;
 }
 
 #inProgressBar {
-  background-color: blue;
+  background-color: #EBB206;
 }
 
 #doneBar {
-  background-color: red;
+  background-color: #C0CE36;
 }
 
 #boards, #archived {
