@@ -21,7 +21,7 @@ export const onInProgressDeleted = functions.firestore
 
 export const onDoneCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
-    .onDelete(async (snap, context) => update(context.params.teamId, context.params.boardId, 'done', true));
+    .onCreate(async (snap, context) => update(context.params.teamId, context.params.boardId, 'done', true));
 
 export const onDoneDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
