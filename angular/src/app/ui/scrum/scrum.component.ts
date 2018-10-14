@@ -375,6 +375,36 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  async assign() {
+    // TODO: Get list of members from DB
+    const teamMembers = {
+      'Magnus Trandokken': 'Magnus Trandokken',
+      'Sondre Sørbye': 'Sondre Sørbye'
+    };
+
+    const { value: post } = await swal({
+      title: 'Assign developer',
+      input: 'select',
+      inputOptions: teamMembers,
+      reverseButtons: true,
+      inputPlaceholder: 'Select developer',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === '') {
+            resolve('You need to choose someone');
+          } else {
+            resolve();
+          }
+        });
+      }
+    });
+    if (post !== '') {
+      // TODO: Do something here
+      swal('You selected: ' + post);
+    }
+  }
+
   identify(idx, item: EntryInterface) {
     return item.id;
   }
@@ -444,6 +474,8 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       eventValue: 10
     });
   }
+
+
 
   /* ---------------------------------------------------------------------------------------------------- */
   /* BUGS METHODS */

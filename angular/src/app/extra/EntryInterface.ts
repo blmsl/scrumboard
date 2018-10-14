@@ -8,4 +8,5 @@ export interface EntryInterface {
     developer?: string;
     id?: string;
     threadId?: string;
+    assigned?: string;
 }

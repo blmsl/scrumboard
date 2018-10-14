@@ -48,6 +48,10 @@
                     <mat-icon>edit</mat-icon>
                     <span>Edit</span>
                   </button>
+                  <button mat-menu-item (click)="assign(entry)">
+                    <mat-icon>face</mat-icon>
+                    <span>Assign developer</span>
+                  </button>
                   <button mat-menu-item (click)="openThread(entry)">
                     <mat-icon>chat</mat-icon>
                     <span>Comments</span>
@@ -154,6 +158,7 @@
             <button (click)="addBug()" (click)="$event.stopPropagation()">Report bug</button>
           </div>
         </div>
+
         <section *ngIf="!(($bugs | async)?.length == 0)">
           <h3>Bugs ({{($bugs | async)?.length}})</h3>
           <div class="gridWrapper">
