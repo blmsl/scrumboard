@@ -64,20 +64,20 @@ h2 {
 }
 
 .entryBar {
-  height: 7px;
+  height: 10px;
 
 }
 
 #todoBar {
-  background-color: #1D84D5;
+  background-color: #e74c3c;
 }
 
 #inProgressBar {
-  background-color: #EBB206;
+  background-color: #f1c40f;
 }
 
 #doneBar {
-  background-color: #C0CE36;
+  background-color: #27ae60;
 }
 
 #boards, #archived {

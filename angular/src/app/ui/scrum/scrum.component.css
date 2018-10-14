@@ -97,7 +97,7 @@ section .container {
 .gridCard {
   background: var(--cards);
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 2px;
+  border-radius: 8px;
   overflow: hidden;
   position: relative;
 }

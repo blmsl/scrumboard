@@ -49,6 +49,7 @@ import { PrivacyComponent } from './ui/privacy/privacy.component';
 import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
 import { ThreadComponent } from './modules/thread/thread.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { ThreadComponent } from './modules/thread/thread.component';
         expiration: 45,
       },
     ]),
+    MatTooltipModule,
     LinkyModule,
     BrowserAnimationsModule,
     MatSelectModule,

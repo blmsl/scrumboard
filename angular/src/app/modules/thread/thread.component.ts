@@ -1,5 +1,4 @@
 import { CommentInterface } from './../../extra/CommentInterface';
-import { PaginationService } from './../../services/pagination.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EntryInterface } from '../../extra/EntryInterface';
@@ -19,7 +18,7 @@ export class ThreadComponent implements OnInit {
 
   threadDoc: AngularFirestoreDocument;
   commentsCollection: AngularFirestoreCollection<CommentInterface>;
-  comment$: Observable<CommentInterface>;
+  comments$: Observable<CommentInterface[]>;
 
   commentFormControl = new FormControl('', [
     Validators.required,
@@ -33,12 +32,11 @@ export class ThreadComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ThreadComponent>,
     @Inject(MAT_DIALOG_DATA) public entry: EntryInterface,
     public auth: AuthServiceService,
-    public page: PaginationService,
     public afs: AngularFirestore) {
     this.threadDoc = this.afs.doc('threads/' + entry.threadId);
-    this.commentsCollection = this.threadDoc.collection('comments');
+    this.commentsCollection = this.threadDoc.collection('comments', ref => ref.orderBy('time', 'desc'));
 
-    this.comment$ = this.toMap(this.commentsCollection.snapshotChanges());
+    this.comments$ = this.toMap(this.commentsCollection.snapshotChanges());
   }
 
   ngOnInit() {
@@ -49,13 +47,13 @@ export class ThreadComponent implements OnInit {
     if (newTxt) {
       this.commentsCollection.doc(comment.doc.id).update({
         txt: newTxt
-      }).then(() => this.page.restart());
+      });
     }
   }
 
-  deleteComment(comment) {
+  deleteComment(comment: CommentInterface) {
     console.log(comment);
-    this.commentsCollection.doc(comment.doc.id).delete().then(() => this.page.restart());
+    this.commentsCollection.doc(comment.id).delete();
   }
 
   onFormSubmit() {
@@ -67,7 +65,7 @@ export class ThreadComponent implements OnInit {
         txt: input,
         imgUrl: user.photoURL,
         time: firebase.firestore.FieldValue.serverTimestamp()
-      } as CommentInterface).then(() => this.page.restart());
+      } as CommentInterface);
     });
   }
 

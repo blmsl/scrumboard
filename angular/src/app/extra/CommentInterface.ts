@@ -6,4 +6,5 @@ export interface CommentInterface {
     txt: string;
     imgUrl: string;
     time: firebase.firestore.FieldValue;
+    id?: string;
 }

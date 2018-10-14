@@ -17,7 +17,7 @@
     </form>
 
     <div id="commentsContainer">
-      <div class="comment" *ngFor="let comment of page.data | async">
+      <div class="comment" *ngFor="let comment of comments$ | async">
 
         <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
@@ -25,7 +25,7 @@
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="editComment(comment)">
             <mat-icon>edit</mat-icon>
-            <span>Rename</span>
+            <span>Edit</span>
           </button>
           <button mat-menu-item (click)="deleteComment(comment)">
             <mat-icon>delete</mat-icon>
@@ -39,8 +39,6 @@
           <p class="commentTxt">{{comment.txt}}</p>
         </div>
       </div>
-      <p *ngIf="page.done | async">No more comments</p>
-      <mat-spinner *ngIf="page.loading | async"></mat-spinner>
     </div>
   </div>
 </mat-dialog-content>

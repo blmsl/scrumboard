@@ -52,7 +52,6 @@ export class TeamsModuleComponent implements OnInit {
                 if (teams.length > 0) {
                   this.teamsService.selectTeam(teams[0].id);
                 } else {
-                  console.log('You just left youre last team');
                   localStorage.setItem('previousSelectedTeam', 'no-team');
                   this.router.navigate(['/']);
                 }

@@ -77,9 +77,13 @@ export class BoardsComponent implements OnInit, OnDestroy {
           data.id = a.payload.doc.id;
           if (data.aggregatedData) {
             const totalEntries = data.aggregatedData.todo + data.aggregatedData.inProgress + data.aggregatedData.done;
-            data.aggregatedData.todo = data.aggregatedData.todo / totalEntries * 100;
-            data.aggregatedData.inProgress = data.aggregatedData.inProgress / totalEntries * 100;
-            data.aggregatedData.done = data.aggregatedData.done / totalEntries * 100;
+            data.aggregatedDataPercent = {
+              todo: data.aggregatedData.todo / totalEntries * 100,
+              inProgress: data.aggregatedData.inProgress / totalEntries * 100,
+              done: data.aggregatedData.done / totalEntries * 100,
+              totalEntries
+            };
+
           }
           return data;
         });
