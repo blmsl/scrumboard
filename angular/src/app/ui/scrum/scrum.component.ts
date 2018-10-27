@@ -2,7 +2,7 @@ import { EntryInterface } from './../../extra/EntryInterface';
 import { TeamsService } from './../../services/teams.service';
 import { Board } from './../../extra/BoardInterface';
 import { NavbarService } from './../../services/navbar.service';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
@@ -17,6 +17,7 @@ import { ThreadComponent } from '../../modules/thread/thread.component';
 import { TeamsInterface } from '../../extra/TeamsInterface';
 import { MapToIterablePipe } from '../../extra/map-to-iterable.pipe';
 import { HotkeysService, Hotkey } from 'angular2-hotkeys';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-scrum',
@@ -93,6 +94,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   loadingSub: Subscription;
 
   disableAnimations: boolean;
+
+  @ViewChild('linkShareSwal') private linkShareSwal: SwalComponent;
+
 
   ngAfterViewInit(): void {
     this.disableAnimations = true;
@@ -225,6 +229,10 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }));
     this.hotkeysService.add(new Hotkey('5', (event: KeyboardEvent): boolean => {
       this.navTab = 'beta';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      this.linkShareSwal.show();
       return false;
     }));
   }
