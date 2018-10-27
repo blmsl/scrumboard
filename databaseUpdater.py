@@ -7,8 +7,19 @@ firebase_admin.initialize_app(cred)
 fs = firestore.client()
 
 teamId = 'imtaPFFgbkn5PrLzwzis'
-boardId = '1I3Rm5JTqOqJuY4T2ebm'
+boardId = 'L6tuzaNSOp1aeUHGp2hZ'
 
-todos = fs.collection(u'teams/' + teamId + '/boards/' + boardId + '/todo').get()
-for todo in todos:
-    print(todo.to_dict())
+boardDoc = fs.document(u'teams/' + teamId + '/boards/' + boardId)
+
+entryCollection = boardDoc.collection('entries')
+
+collections = ['todo', 'inProgress', 'done']
+
+for collection in collections:
+    todos = boardDoc.collection(collection).get()
+    for data in todos:
+        id = data.id
+        todo = data.to_dict()
+        todo['state'] = collection
+        print(todo)
+        entryCollection.document(id).set(todo)
