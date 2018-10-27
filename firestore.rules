@@ -5,22 +5,14 @@ service cloud.firestore {
     // Users can only access their team
     // Needs to be updated when sharing link
 
-    // -teams
-    //   -{teamId}        --
-    //      -members
-    //        -{uid}
-    //      -archived
-    //        -{boardId}
-    //      -boards
-    //        -{boardId}  --
-    //          -todo
-    //          -inprogress
-    //          -done
-
-    // Enable to enable all read and write ops
+    // Uncomment to enable all read and write ops
     // match /{document=**} {
     //   allow read, write;
     // }
+
+    // /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
+    // mugg: XD6EkNokYXV3XTtW2UZys2FtcXI3
+    // Sørbye: mt8bo6uGQTXwJbYAyFIo2sJVQJJ2
 
     match /teams/{teamId} {
       allow read: if isMemberOfTeam(existingData());
@@ -53,7 +45,7 @@ service cloud.firestore {
 
      }
 
-      // TODO allow quit team
+      // TODO: allow quit team
       // allow write: if isAdmin(teamId);
 
     match /threads/{threadId} {
@@ -94,9 +86,6 @@ service cloud.firestore {
 		
   }
 }
-// /teams/imtaPFFgbkn5PrLzwzis/boards/ZJNibiSJpipuBxFXUCzz
-// mugg: XD6EkNokYXV3XTtW2UZys2FtcXI3
-// Sørbye: mt8bo6uGQTXwJbYAyFIo2sJVQJJ2
 
 
     // // only admins can change team settings

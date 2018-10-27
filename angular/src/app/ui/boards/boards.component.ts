@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import { Subscription } from '../../../../node_modules/rxjs';
 import 'rxjs/add/operator/share';
+import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-boards',
@@ -32,7 +33,20 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
   constructor(public teamsService: TeamsService, public navbarService: NavbarService,
     public route: ActivatedRoute, public afs: AngularFirestore, public router: Router,
-    public auth: AuthServiceService) {
+    public auth: AuthServiceService,
+    private hotkeysService: HotkeysService) {
+
+    this.hotkeysService.add(new Hotkey('n', (event: KeyboardEvent): boolean => {
+      this.addBoard();
+      return false;
+    }));
+
+    this.hotkeysService.add(new Hotkey('ctr+n', (event: KeyboardEvent): boolean => {
+      this.teamsService.createNewTeam();
+      return false;
+    }));
+
+
   }
 
   ngOnInit() {

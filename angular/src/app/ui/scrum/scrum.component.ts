@@ -2,7 +2,7 @@ import { EntryInterface } from './../../extra/EntryInterface';
 import { TeamsService } from './../../services/teams.service';
 import { Board } from './../../extra/BoardInterface';
 import { NavbarService } from './../../services/navbar.service';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable, BehaviorSubject, Subscription, combineLatest, Subject } from 'rxjs';
@@ -14,6 +14,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { ThreadComponent } from '../../modules/thread/thread.component';
+import { TeamsInterface } from '../../extra/TeamsInterface';
+import { MapToIterablePipe } from '../../extra/map-to-iterable.pipe';
+import { HotkeysService, Hotkey } from 'angular2-hotkeys';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
+
 @Component({
   selector: 'app-scrum',
   templateUrl: './scrum.component.html',
@@ -88,6 +93,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   disableAnimations: boolean;
 
+  @ViewChild('linkShareSwal') private linkShareSwal: SwalComponent;
+
+
   ngAfterViewInit(): void {
     this.disableAnimations = true;
   }
@@ -98,7 +106,8 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     public snackBar: MatSnackBar,
     public navbarService: NavbarService,
     public dialog: MatDialog,
-    public afs: AngularFirestore) {
+    public afs: AngularFirestore,
+    private hotkeysService: HotkeysService) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.shareableLink = 'https://scrum.magson.no/scrum/' + this.teamId + '/' + this.id;
@@ -158,6 +167,61 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSignedIn = true;
       }
     });
+    this.hotkeysService.add(new Hotkey('ctrl+n', (event: KeyboardEvent): boolean => {
+
+
+      switch (this.navTab) {
+        case 'todo':
+          console.log('todo');
+          this.add();
+          break;
+        case 'bugs':
+          console.log('bugs');
+          this.addBug();
+          break;
+        case 'ideas':
+          console.log('ideas');
+          this.addIdea();
+          break;
+        case 'notes':
+          console.log('notes');
+          this.addNote();
+          break;
+        case 'beta':
+          console.log('beta');
+          this.add_feedback();
+          break;
+
+        default:
+          break;
+      }
+
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('1', (event: KeyboardEvent): boolean => {
+      this.navTab = 'todo';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('2', (event: KeyboardEvent): boolean => {
+      this.navTab = 'bugs';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('3', (event: KeyboardEvent): boolean => {
+      this.navTab = 'ideas';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('4', (event: KeyboardEvent): boolean => {
+      this.navTab = 'notes';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('5', (event: KeyboardEvent): boolean => {
+      this.navTab = 'beta';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
+      this.linkShareSwal.show();
+      return false;
+    }));
   }
 
   delete(entry: EntryInterface) {

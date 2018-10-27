@@ -154,7 +154,7 @@
         <!-- TODO: Why is it slow? -->
         <div *ngIf="($bugs | async)?.length == 0 && navTab == 'bugs'">
           <div class="no_content_div">
-            <h1>Report and keep the bugs in one place to make bugfixing easier for everyone </h1>
+            <h1>Structure the bugs and make bugfixing easier for everyone</h1>
             <button (click)="addBug()" (click)="$event.stopPropagation()">Report bug</button>
           </div>
         </div>
