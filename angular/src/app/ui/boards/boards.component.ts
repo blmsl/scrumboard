@@ -40,7 +40,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
     // SELECT TEAM LOGIC
     this.boardCollection = this.route.paramMap.shareReplay(1).map(paramMap => { // subscribing to the teamId parameter
-      console.log('router params has been updated', paramMap.get('teamId'));
       this.teamId = paramMap.get('teamId');
       if (!this.teamId) { // if no team is selected => select previous one
         this.teamId = localStorage.getItem('previousSelectedTeam');

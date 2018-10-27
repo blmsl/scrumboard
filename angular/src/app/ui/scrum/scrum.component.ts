@@ -5,7 +5,7 @@ import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, combineLatest, Subject } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
@@ -14,9 +14,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { ThreadComponent } from '../../modules/thread/thread.component';
-import { TeamsInterface } from '../../extra/TeamsInterface';
-import { MapToIterablePipe } from '../../extra/map-to-iterable.pipe';
-
 @Component({
   selector: 'app-scrum',
   templateUrl: './scrum.component.html',
@@ -57,9 +54,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   isSignedIn = false;
   shareableLink: string;
 
-  todoCollection: AngularFirestoreCollection<EntryInterface>;
-  inProgressCollection: AngularFirestoreCollection<EntryInterface>;
-  doneCollection: AngularFirestoreCollection<EntryInterface>;
+  entryCollection: AngularFirestoreCollection<EntryInterface>;
 
   $todo: Observable<EntryInterface[]>;
   $inProgress: Observable<EntryInterface[]>;
@@ -120,31 +115,20 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.$orderBy = new BehaviorSubject<string>(this.sortBy);
 
-    this.todoCollection = this.boardDoc
-      .collection<EntryInterface>('todo');
-    this.inProgressCollection = this.boardDoc
-      .collection<EntryInterface>('inProgress');
-    this.doneCollection = this.boardDoc
-      .collection<EntryInterface>('done');
+    this.entryCollection = this.boardDoc
+      .collection<EntryInterface>('entries');
 
-    this.$todo = this.$orderBy.switchMap(sortBy => {
+    const $entries = this.$orderBy.switchMap(sortBy => {
       const config = JSON.parse(sortBy);
       return this.toMap(this.boardDoc
-        .collection<EntryInterface>('todo', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
+        .collection<EntryInterface>('entries', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
     });
 
-    this.$inProgress = this.$orderBy.switchMap(sortBy => {
-      const config = JSON.parse(sortBy);
-      return this.toMap(this.boardDoc
-        .collection<EntryInterface>('inProgress', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
-    });
+    $entries.subscribe(c => console.log(c));
 
-    this.$done = this.$orderBy.switchMap(sortBy => {
-      const config = JSON.parse(sortBy);
-      return this.toMap(this.boardDoc
-        .collection<EntryInterface>('done', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
-    });
-
+    this.$todo = $entries.map(entrier => entrier.filter(entry => entry.state === 'todo'));
+    this.$inProgress = $entries.map(entrier => entrier.filter(entry => entry.state === 'inProgress'));
+    this.$done = $entries.map(entrier => entrier.filter(entry => entry.state === 'done'));
 
     this.bugCollection = this.boardDoc.collection<EntryInterface>('bugs');
     this.$bugs = this.toMap(this.bugCollection.snapshotChanges());
@@ -176,7 +160,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+  delete(entry: EntryInterface) {
     swal({
       title: 'Are you sure?',
       text: 'This will delete this task permanently!',
@@ -189,13 +173,13 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }).then((result) => {
       if (result.value) {
         // Delete method here
-        collection.doc(entry.id).delete().then(() => {
+        this.entryCollection.doc(entry.id).delete().then(() => {
           const snack = this.snackBar.open('Entry was deleted', 'Undo', {
             duration: 2500
           });
           snack.onAction().subscribe(() => {
             // Add to database again
-            collection.add(entry);
+            this.entryCollection.add(entry);
           });
 
           // Google analytics event
@@ -216,35 +200,12 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  add_to_todo(entry: EntryInterface) {
-    // TODO
+  updateEntryState(entry: EntryInterface, state: 'todo' | 'inProgress' | 'done') {
+    this.entryCollection.doc(entry.id).update({ state });
   }
 
-  rollback_from_inprogress(entry: EntryInterface) {
-    // Delete from in-progress
-    this.inProgressCollection.doc(entry.id).delete();
-    // Add to To-do
-    this.todoCollection.add({
-      txt: entry.txt, priority: entry.priority, time: firestore.FieldValue.serverTimestamp()
-    });
-  }
 
-  rollback_from_finished(entry: EntryInterface) {
-    // Delete from finished
-    this.doneCollection.doc(entry.id).delete();
-    // add it to inProgress
-    this.auth.user$.take(1).subscribe((user) => {
-      this.inProgressCollection.add({
-        txt: entry.txt,
-        priority: entry.priority,
-        developer: user.displayName,
-        time: firestore.FieldValue.serverTimestamp(),
-        imgUrl: user.photoURL
-      });
-    });
-  }
-
-  async edit(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+  async edit(entry: EntryInterface) {
     const { value: post } = await swal({
       title: 'Edit',
       html:
@@ -272,35 +233,11 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     if (post) {
-      collection.doc(entry.id).update({
+      this.entryCollection.doc(entry.id).update({
         txt: post[0],
         priority: post[1]
       });
     }
-  }
-
-  moveToProgress(entry: EntryInterface) {
-    // delete from todo
-    this.todoCollection.doc(entry.id).delete();
-    // add it to inProgress
-    this.auth.user$.take(1).subscribe((user) => {
-      this.inProgressCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
-        imgUrl: user.photoURL
-      });
-    });
-  }
-
-  moveToFinished(entry: EntryInterface) {
-    // delete from inProgress
-    this.inProgressCollection.doc(entry.id).delete();
-    // add to done
-    this.auth.user$.take(1).subscribe((user) => {
-      this.doneCollection.add({
-        txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
-        imgUrl: user.photoURL
-      });
-    });
   }
 
   ngOnInit() {
@@ -362,7 +299,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       },
     });
     if (post[0] !== '') {
-      this.todoCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
+      this.entryCollection.add({ txt: post[0], state: 'todo', priority: post[1], time: firestore.FieldValue.serverTimestamp() });
       // Google analytics event
       (<any>window).ga('send', 'event', {
         eventCategory: 'Scrumboard interaction',
@@ -378,13 +315,11 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async assign() {
-    const users = new MapToIterablePipe().transform(
-      (await this.afs.doc('teams/' + this.teamId).valueChanges().take(1).toPromise() as TeamsInterface).members);
-
-    const teamMembers = {};
-    for (const user of users) {
-      teamMembers[user.key] = user.val.name;
-    }
+    // TODO: Get list of members from DB
+    const teamMembers = {
+      'Magnus Trandokken': 'Magnus Trandokken',
+      'Sondre Sørbye': 'Sondre Sørbye'
+    };
 
     const { value: post } = await swal({
       title: 'Assign developer',
@@ -574,9 +509,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         // Add to todo
         this.auth.user$.take(1).subscribe((user) => {
-          this.inProgressCollection.add({
+          this.entryCollection.add({
             txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
-            imgUrl: user.photoURL
+            imgUrl: user.photoURL, state: 'inProgress'
           });
 
         });

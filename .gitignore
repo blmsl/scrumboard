@@ -1,6 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 magson-developer-firebase-adminsdk-a71rz-73269059eb.json
+serviceAccountKey.json
 
 # compiled output
 /dist
