@@ -17,30 +17,25 @@
             inProgress: number
             done: number
         }
+        archived?: boolean
 
-        /todo/{entryId} {
+        /entries/{entryId} {
             priority: string
             time: timeStamp
             txt: string
-            threadId: string
+            state: string ('todo', 'inProgress', 'done')
+            developer?: string
+            imgUrl?: string
+
+            /comments/{commentId} {
+                userName: string
+                txt: string
+                imgUrl: string
+                time: timeStamp
+            }
+
         }
-        /inProgress/{entryId} {
-            priority: string
-            time: timeStamp
-            txt: string
-            threadId: string
-            developer: string
-            imgUrl: string
-            priority: string
-            time: timeStamp
-            txt: string
-        }
-        /done/{entryId} {
-             --||--
-        }    
-    }
-    /archived/{boardId} {
-        --||--
+   
     }
     /codes/{codeId} {
         code: string
@@ -55,12 +50,4 @@
     name: string
     txt: string
     uid: string
-}
-/threads/{threadId} {
-    /comments/{commentId} {
-        userName: string
-        txt: string
-        imgUrl: string
-        time: timeStamp
-    }
 }

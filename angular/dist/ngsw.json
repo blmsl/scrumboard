@@ -8,7 +8,7 @@
       "updateMode": "prefetch",
       "urls": [
         "/index.html",
-        "/main.5149542f2da721e69b61.js",
+        "/main.757ee03639df45551892.js",
         "/polyfills.b3c222fcf23faa332b85.js",
         "/runtime.06daa30a2963fa413676.js",
         "/styles.7aed175e2b103ccd8fb5.css"
@@ -52,8 +52,8 @@
     "/assets/favicons/safari-pinned-tab.svg": "861658a994b9d1a79d474b388c7720022bbaff82",
     "/assets/google.svg": "b44b8c7fbe94f80c3c6e43309a603c5055fcbf0e",
     "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
-    "/index.html": "22d2465f48ad44dd74ea361e10b95c01bd4669e7",
-    "/main.5149542f2da721e69b61.js": "c8e7f071a5530c7ca3892028ff7107397b7ef707",
+    "/index.html": "c4bd2488ed4747ba6fd93b0f16ba6465940b0b84",
+    "/main.757ee03639df45551892.js": "28026cd0caecc8c011342559299c6644162bddd2",
     "/polyfills.b3c222fcf23faa332b85.js": "e60923e74ccf41aa4f99019946df747c382b4bec",
     "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
     "/styles.7aed175e2b103ccd8fb5.css": "9cbab02e24916fd150dd779d1d62ed8f136d14c7"

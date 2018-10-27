@@ -16,19 +16,19 @@ exports.onTodoCreated = functions.firestore
     .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'todo', true); }));
 exports.onTodoDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/todo/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'todo', false); }));
+    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'todo', false); }));
 exports.onInProgressCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/inProgress/{entryId}')
     .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'inProgress', true); }));
 exports.onInProgressDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/inProgress/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'inProgress', false); }));
+    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'inProgress', false); }));
 exports.onDoneCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
     .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'done', true); }));
 exports.onDoneDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'done', false); }));
+    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'done', false); }));
 function update(teamId, boardId, subcollection, increment) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log({ teamId, boardId, subcollection, increment });
