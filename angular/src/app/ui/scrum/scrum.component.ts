@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ThreadComponent } from '../../modules/thread/thread.component';
 import { TeamsInterface } from '../../extra/TeamsInterface';
 import { MapToIterablePipe } from '../../extra/map-to-iterable.pipe';
+import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-scrum',
@@ -103,7 +104,8 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     public snackBar: MatSnackBar,
     public navbarService: NavbarService,
     public dialog: MatDialog,
-    public afs: AngularFirestore) {
+    public afs: AngularFirestore,
+    private hotkeysService: HotkeysService) {
     this.id = this.route.snapshot.paramMap.get('id');
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.shareableLink = 'https://scrum.magson.no/scrum/' + this.teamId + '/' + this.id;
@@ -174,6 +176,57 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSignedIn = true;
       }
     });
+    this.hotkeysService.add(new Hotkey('ctrl+n', (event: KeyboardEvent): boolean => {
+
+
+      switch (this.navTab) {
+        case 'todo':
+          console.log('todo');
+          this.add();
+          break;
+        case 'bugs':
+          console.log('bugs');
+          this.addBug();
+          break;
+        case 'ideas':
+          console.log('ideas');
+          this.addIdea();
+          break;
+        case 'notes':
+          console.log('notes');
+          this.addNote();
+          break;
+        case 'beta':
+          console.log('beta');
+          this.add_feedback();
+          break;
+
+        default:
+          break;
+      }
+
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('1', (event: KeyboardEvent): boolean => {
+      this.navTab = 'todo';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('2', (event: KeyboardEvent): boolean => {
+      this.navTab = 'bugs';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('3', (event: KeyboardEvent): boolean => {
+      this.navTab = 'ideas';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('4', (event: KeyboardEvent): boolean => {
+      this.navTab = 'notes';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('5', (event: KeyboardEvent): boolean => {
+      this.navTab = 'beta';
+      return false;
+    }));
   }
 
   delete(entry: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
