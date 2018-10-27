@@ -8,10 +8,11 @@
       "updateMode": "prefetch",
       "urls": [
         "/index.html",
-        "/main.757ee03639df45551892.js",
-        "/polyfills.b3c222fcf23faa332b85.js",
-        "/runtime.06daa30a2963fa413676.js",
-        "/styles.7aed175e2b103ccd8fb5.css"
+        "/main.js",
+        "/polyfills.js",
+        "/runtime.js",
+        "/styles.js",
+        "/vendor.js"
       ],
       "patterns": [
         "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Audiowide|Roboto:100,300|Material\\+Icons"
@@ -40,7 +41,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/assets/facebook.svg": "8cde78c9a37f98492604f2080c8b20bb4e2e05a6",
+    "/assets/facebook.svg": "b3b918c5cdedeaabcc3cdae17cab8e5c9d97ff7f",
     "/assets/favicons/android-chrome-192x192.png": "5aadf6271900c3a2f1ddb97a05904a09ecd713a8",
     "/assets/favicons/android-chrome-512x512.png": "0a8cbb985501eb42117ffa9ed1515904fbcf612d",
     "/assets/favicons/apple-touch-icon.png": "6bb25d65e79b8b46c765cad0ba1fc2c8bb4c41bc",
@@ -50,13 +51,14 @@
     "/assets/favicons/favicon.ico": "7ab7a4956270bdcd456bcdd054dddeaf8873fb44",
     "/assets/favicons/mstile-150x150.png": "cbaf8cac8c8efa923f3d8ce210c94a87ff6f8185",
     "/assets/favicons/safari-pinned-tab.svg": "861658a994b9d1a79d474b388c7720022bbaff82",
-    "/assets/google.svg": "b44b8c7fbe94f80c3c6e43309a603c5055fcbf0e",
+    "/assets/google.svg": "93d457e741af6373c8408fd91743cfd716b7339e",
     "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
-    "/index.html": "c4bd2488ed4747ba6fd93b0f16ba6465940b0b84",
-    "/main.757ee03639df45551892.js": "28026cd0caecc8c011342559299c6644162bddd2",
-    "/polyfills.b3c222fcf23faa332b85.js": "e60923e74ccf41aa4f99019946df747c382b4bec",
-    "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "/styles.7aed175e2b103ccd8fb5.css": "9cbab02e24916fd150dd779d1d62ed8f136d14c7"
+    "/index.html": "d7f5fd0cecc03a10cb04346cab2fab6fb94bd4a9",
+    "/main.js": "bdb44c733e0a5e3c7fffcd6477c8ca29594232fd",
+    "/polyfills.js": "84d9528b0443b6b41555ff5858c298de9eaeb222",
+    "/runtime.js": "b06ddc772732e66d43856386415cd4d1b89a50b1",
+    "/styles.js": "c9c15ca9ebf43e37c57d276e334a1e2969aef3a9",
+    "/vendor.js": "34896fbf41fcb455c1e3a18f83785272849306ca"
   },
   "navigationUrls": [
     {

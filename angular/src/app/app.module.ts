@@ -40,6 +40,7 @@ import { AngularFireFunctions } from 'angularfire2/functions';
 import { AdminComponent } from './ui/admin/admin.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
+// Other
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { MapToIterablePipe } from './extra/map-to-iterable.pipe';
 import { TeamSettingsComponent } from './ui/team-settings/team-settings.component';
@@ -50,6 +51,7 @@ import { LinkyModule } from 'angular-linky';
 import { DropZoneDirective } from './extra/drop-zone.directive';
 import { ThreadComponent } from './modules/thread/thread.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {HotkeyModule} from 'angular2-hotkeys';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         expiration: 45,
       },
     ]),
+    HotkeyModule.forRoot(),
     MatTooltipModule,
     LinkyModule,
     BrowserAnimationsModule,
