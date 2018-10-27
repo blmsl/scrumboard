@@ -486,75 +486,39 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   async addBug() {
     const { value: post } = await swal({
       title: 'Describe the bug',
-      html:
-        '<input id="swal-input2" type="text" placeholder="Task description" class="swal2-input">' +
-        this.getRadio('!'),
+      input: 'text',
       reverseButtons: true,
       showCancelButton: true,
-      preConfirm: () => {
-        let priority: string;
-
-        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-          priority = '!';
-        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-          priority = '!!';
-        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-          priority = '!!!';
-        }
-        return [
-          (<HTMLInputElement>document.getElementById('swal-input2')).value,
-          priority
-        ];
-      },
     });
-    if (post[0] !== '') {
-      this.bugCollection.add({ txt: post[0], priority: post[1], time: firestore.FieldValue.serverTimestamp() });
+    if (post) {
+      // add to firebase
+      this.bugCollection.add({ txt: post, time: firestore.FieldValue.serverTimestamp() });
       // Google analytics event
       (<any>window).ga('send', 'event', {
         eventCategory: 'Scrumboard interaction',
         eventAction: 'New bug reported',
       });
-    } else if (post[0] === '') {
-      swal({
-        title: 'Invalid.',
-        type: 'error',
-        text: 'Please fill in a description of the bug!'
-      });
     }
   }
 
-  async editBug(bug: EntryInterface, collection: AngularFirestoreCollection<EntryInterface>) {
+  async editBug(bug: EntryInterface) {
     const { value: post } = await swal({
       title: 'Edit bug',
-      html:
-        `<input id="swal-input3" type="text" value='${bug.txt}' class="swal2-input">` +
-        this.getRadio(bug.priority),
-      showCancelButton: true,
+      input: 'text',
+      inputValue: bug.txt,
       reverseButtons: true,
-      preConfirm: () => {
-        let priority: string;
-
-        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-          priority = '!';
-        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-          priority = '!!';
-        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-          priority = '!!!';
-        }
-        return [
-          (<HTMLInputElement>document.getElementById('swal-input3')).value,
-          priority
-        ];
-      },
+      showCancelButton: true,
       onOpen: function () {
-        const input = (<HTMLInputElement>document.getElementById('swal-input3'));
+        const input = (<HTMLInputElement>swal.getInput());
         input.setSelectionRange(0, input.value.length);
       },
+      inputValidator: (value) => {
+        return !value && 'You need to write something!';
+      }
     });
     if (post) {
-      collection.doc(bug.id).update({
-        txt: post[0],
-        priority: post[1]
+      this.bugCollection.doc(bug.id).update({
+        txt: post
       });
     }
   }
@@ -571,7 +535,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!entry.priority) {
           entry.priority = '!!!';
         }
-        // Add to todo
+        // Add to inProgress
         this.auth.user$.take(1).subscribe((user) => {
           this.entryCollection.add({
             txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
