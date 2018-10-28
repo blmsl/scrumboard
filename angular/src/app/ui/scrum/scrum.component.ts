@@ -379,11 +379,13 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async assign() {
-    // TODO: Get list of members from DB
-    const teamMembers = {
-      'Magnus Trandokken': 'Magnus Trandokken',
-      'Sondre Sørbye': 'Sondre Sørbye'
-    };
+    const users = new MapToIterablePipe().transform(
+      (await this.afs.doc('teams/' + this.teamId).valueChanges().take(1).toPromise() as TeamsInterface).members);
+
+    const teamMembers = {};
+    for (const user of users) {
+      teamMembers[user.key] = user.val.name;
+    }
 
     const { value: post } = await swal({
       title: 'Assign developer',
