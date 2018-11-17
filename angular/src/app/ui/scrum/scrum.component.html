@@ -10,6 +10,7 @@
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
+      <li [class.active]="navTab == 'info'" (click)="navTab = 'info'">Info</li>
     </ul>
   </div>
   <main [ngSwitch]='navTab'>
@@ -414,8 +415,13 @@
         </button>
       </div>
     </div>
+
+    <div *ngSwitchCase="'info'">
+      <p>Info om prosjektet, countdown til deadline?, kontaktansvarlig vis oppdrag, stats (når prosjektet ble dannet ++, beste developer?), link til github repo</p>
+    </div>
   </main>
 </div>
+
 
 
 <swal #linkShareSwal title="Share with people outside the team">
