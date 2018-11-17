@@ -3,39 +3,47 @@ import * as admin from 'firebase-admin';
 
 const fs = admin.firestore();
 
-export const onTodoCreated = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/todo/{entryId}')
-    .onCreate(async (snap, context) => update(context.params.teamId, context.params.boardId, 'todo', true));
+export const onEntryCreated = functions.firestore
+    .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
+    .onCreate(async (snap, context) => 
+    update(context.params.teamId, context.params.boardId, {add: 'todo', delete: false}));
 
-export const onTodoDeleted = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/todo/{entryId}')
-    .onDelete(async (snap, context) => update(context.params.teamId, context.params.boardId, 'todo', false));
+export const onEntryDeleted = functions.firestore
+    .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
+    .onDelete(async (snap, context) => 
+    update(context.params.teamId, context.params.boardId, {add: false, delete: snap.data().state}));
 
-export const onInProgressCreated = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/inProgress/{entryId}')
-    .onCreate(async (snap, context) => update(context.params.teamId, context.params.boardId, 'inProgress', true));
+export const onEntryUpdated = functions.firestore
+    .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
+    .onUpdate(async (change, context) => {
+        const before = change.before.data()
+        const after = change.after.data();
 
-export const onInProgressDeleted = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/inProgress/{entryId}')
-    .onDelete(async (snap, context) => update(context.params.teamId, context.params.boardId, 'inProgress', false));
+        if (before.state === after.state) return false;
 
-export const onDoneCreated = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
-    .onCreate(async (snap, context) => update(context.params.teamId, context.params.boardId, 'done', true));
+        return update(context.params.teamId, context.params.boardId, 
+            {delete: before.state, add: after.state});
+    });
 
-export const onDoneDeleted = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
-    .onDelete(async (snap, context) => update(context.params.teamId, context.params.boardId, 'done', false));
 
-async function update(teamId: string, boardId: string, subcollection: string, increment: boolean) {
-    console.log({ teamId, boardId, subcollection, increment });
+async function update(teamId: string, boardId: string, stateChange?: stateChangeInterface) {
+    console.log({ teamId, boardId });
 
     const boardDoc = (await fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
     let aggregatedData = boardDoc.aggregatedData;
     if (!aggregatedData) {
         aggregatedData = { todo: 0, inProgress: 0, done: 0 };
     }
-    if (increment) aggregatedData[subcollection]++;
-    else aggregatedData[subcollection]--;
+    if (stateChange.add) {
+        aggregatedData[stateChange.add]++;
+    }
+    if (stateChange.delete) {
+        aggregatedData[stateChange.delete]--;
+    }
     return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
+}
+
+interface stateChangeInterface {
+    add: 'todo' | 'inProgress' | 'done' | false;
+    delete: 'todo' | 'inProgress' | 'done' | false;
 }

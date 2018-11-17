@@ -30,15 +30,13 @@ export class ThreadComponent implements OnInit {
   });
 
   constructor(public dialogRef: MatDialogRef<ThreadComponent>,
-    @Inject(MAT_DIALOG_DATA) public entry: EntryInterface,
+    @Inject(MAT_DIALOG_DATA) public data: {entry: EntryInterface, teamId: string, boardId: string},
     public auth: AuthServiceService,
     public afs: AngularFirestore) {
-    if (!entry.threadId) {
-      this.threadDoc = this.afs.doc('threads/' + entry.threadId);
-      this.commentsCollection = this.threadDoc.collection('comments', ref => ref.orderBy('time', 'desc'));
+    this.threadDoc = this.afs.doc('teams/' + data.teamId + '/boards/' + data.boardId + '/entries/' + data.entry.id);
+    this.commentsCollection = this.threadDoc.collection('comments', ref => ref.orderBy('time', 'desc'));
 
-      this.comments$ = this.toMap(this.commentsCollection.snapshotChanges());
-    }
+    this.comments$ = this.toMap(this.commentsCollection.snapshotChanges());
   }
 
   ngOnInit() {
@@ -63,9 +61,6 @@ export class ThreadComponent implements OnInit {
   }
 
   onFormSubmit() { // Creating new comment
-    if (!this.entry.threadId) {
-
-    }
     const input = this.commentForm.value.comment;
     console.log(input);
     this.auth.user$.take(1).subscribe(user => {

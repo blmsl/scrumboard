@@ -5,7 +5,7 @@ import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable, BehaviorSubject, Subscription, combineLatest, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
@@ -876,7 +876,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   openThread(entry: EntryInterface) {
     const dialogRef = this.dialog.open(ThreadComponent, {
       width: '40%',
-      data: entry,
+      data: {entry, teamId: this.teamId, boardId: this.bo},
       // position: {
       //   bottom: '0px'
       // }

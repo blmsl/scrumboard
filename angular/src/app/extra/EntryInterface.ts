@@ -8,6 +8,5 @@ export interface EntryInterface {
     imgUrl?: string;
     developer?: string;
     id?: string;
-    threadId?: string;
     assigned?: string;
 }
