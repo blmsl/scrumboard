@@ -1,5 +1,6 @@
 <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
-  <mat-icon>link</mat-icon>Share</button>
+  <mat-icon>link</mat-icon>Share
+</button>
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <div>
   <div id="tabNav" *ngIf="isSignedIn">
@@ -180,10 +181,12 @@
                   <span>Delete</span>
                 </button>
               </mat-menu>
-              <div class="container">
-                <p>
-                  <strong>Priority: {{bug.priority}}</strong>
-                </p>
+              <div class="container withProfilePic">
+                <div id="profilePic">
+                  <img *ngIf="bug.imgUrl" src="{{bug.imgUrl}}">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <strong>{{bug.developer}}</strong>
                 <p [innerHTML]="bug.txt | linky"></p>
               </div>
               <button class="setButton" (click)="move_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>

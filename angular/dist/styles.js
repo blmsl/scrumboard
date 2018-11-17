@@ -539,7 +539,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/magnustrandokken/Desktop/Magson/Projects/Web/scrumboard/angular/src/styles.css */"./styles.css");
+module.exports = __webpack_require__(/*! /Users/magnustrandokken/Desktop/Magson/Web/scrumboard/angular/src/styles.css */"./styles.css");
 
 
 /***/ })
