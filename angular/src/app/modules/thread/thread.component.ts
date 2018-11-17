@@ -16,7 +16,8 @@ import 'firebase/firestore';
 })
 export class ThreadComponent implements OnInit {
 
-  threadDoc: AngularFirestoreDocument;
+  entryDoc: AngularFirestoreDocument;
+  entry$: Observable<EntryInterface>;
   commentsCollection: AngularFirestoreCollection<CommentInterface>;
   comments$: Observable<CommentInterface[]>;
 
@@ -33,17 +34,13 @@ export class ThreadComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {entry: EntryInterface, teamId: string, boardId: string},
     public auth: AuthServiceService,
     public afs: AngularFirestore) {
-    this.threadDoc = this.afs.doc('teams/' + data.teamId + '/boards/' + data.boardId + '/entries/' + data.entry.id);
-    this.commentsCollection = this.threadDoc.collection('comments', ref => ref.orderBy('time', 'desc'));
+    this.entryDoc = this.afs.doc<EntryInterface>('teams/' + data.teamId + '/boards/' + data.boardId + '/entries/' + data.entry.id);
+    this.commentsCollection = this.entryDoc.collection('comments', ref => ref.orderBy('time', 'desc'));
 
     this.comments$ = this.toMap(this.commentsCollection.snapshotChanges());
   }
 
   ngOnInit() {
-  }
-
-  async createNewThread() {
-
   }
 
   editComment(comment) {
