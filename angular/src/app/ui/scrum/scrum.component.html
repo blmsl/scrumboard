@@ -1,5 +1,6 @@
 <button (click)="linkShareSwal.show()" id="shareBtn" mat-stroked-button>
-  <mat-icon>link</mat-icon>Share</button>
+  <mat-icon>link</mat-icon>Share
+</button>
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <div>
   <div id="tabNav" *ngIf="isSignedIn">
@@ -9,6 +10,7 @@
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
+      <li [class.active]="navTab == 'info'" (click)="navTab = 'info'">Info</li>
     </ul>
   </div>
   <main [ngSwitch]='navTab'>
@@ -171,6 +173,10 @@
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
+                <button mat-menu-item (click)="assign(bug)">
+                  <mat-icon>face</mat-icon>
+                  <span>Assign developer</span>
+                </button>
                 <button mat-menu-item (click)="openThread(bug)">
                   <mat-icon>chat</mat-icon>
                   <span>Comments</span>
@@ -180,10 +186,12 @@
                   <span>Delete</span>
                 </button>
               </mat-menu>
-              <div class="container">
-                <p>
-                  <strong>Priority: {{bug.priority}}</strong>
-                </p>
+              <div class="container withProfilePic">
+                <div id="profilePic">
+                  <img *ngIf="bug.imgUrl" src="{{bug.imgUrl}}">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <strong>{{bug.developer}}</strong>
                 <p [innerHTML]="bug.txt | linky"></p>
               </div>
               <button class="setButton" (click)="move_to_inprogress(bug, bugCollection)">MOVE TO INPROGRESS</button>
@@ -235,7 +243,7 @@
                 <strong>{{idea.developer}}</strong>
                 <p [innerHTML]="idea.txt | linky"></p>
               </div>
-              <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO TASKS</button>
+              <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO INPROGRESS</button>
             </div>
           </div>
           <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
@@ -310,16 +318,6 @@
 
     <div *ngIf="!(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0)">
       <div class="todoContainer" *ngSwitchCase="'beta'">
-        <!-- <div id="sortBy">
-        <mat-icon>sort</mat-icon>
-        <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
-
-          <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
-          <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
-          <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
-          <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
-        </mat-select>
-      </div> -->
         <section>
           <h3>Bugs ({{($client_bugs | async)?.length}})</h3>
           <div>
@@ -417,8 +415,13 @@
         </button>
       </div>
     </div>
+
+    <div *ngSwitchCase="'info'">
+      <p>Info om prosjektet, countdown til deadline?, kontaktansvarlig vis oppdrag, stats (når prosjektet ble dannet ++, beste developer?), link til github repo</p>
+    </div>
   </main>
 </div>
+
 
 
 <swal #linkShareSwal title="Share with people outside the team">

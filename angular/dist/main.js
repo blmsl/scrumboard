@@ -137,6 +137,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _extra_drop_zone_directive__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./extra/drop-zone.directive */ "./app/extra/drop-zone.directive.ts");
 /* harmony import */ var _modules_thread_thread_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./modules/thread/thread.component */ "./app/modules/thread/thread.component.ts");
 /* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! @angular/material/tooltip */ "../node_modules/@angular/material/esm5/tooltip.es5.js");
+/* harmony import */ var angular2_hotkeys__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! angular2-hotkeys */ "../node_modules/angular2-hotkeys/index.js");
+/* harmony import */ var angular2_hotkeys__WEBPACK_IMPORTED_MODULE_45___default = /*#__PURE__*/__webpack_require__.n(angular2_hotkeys__WEBPACK_IMPORTED_MODULE_45__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -181,6 +183,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+// Other
+
 
 
 
@@ -221,6 +225,7 @@ var AppModule = /** @class */ (function () {
                         expiration: 45,
                     },
                 ]),
+                angular2_hotkeys__WEBPACK_IMPORTED_MODULE_45__["HotkeyModule"].forRoot(),
                 _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_44__["MatTooltipModule"],
                 angular_linky__WEBPACK_IMPORTED_MODULE_41__["LinkyModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_18__["BrowserAnimationsModule"],
@@ -1245,7 +1250,7 @@ module.exports = "html,\nbody {\n  margin: 0;\n  background-color: #F5F6F7;\n  f
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-progress-bar *ngIf=\"loading\" mode=\"indeterminate\"></mat-progress-bar>\n\n<main *ngIf=\"(teamsService.$teams | async)?.length > 0\">\n  <app-teams-module></app-teams-module>\n  <div *ngIf=\"!(($boards | async)?.length == 0 && ($archived | async)?.length == 0)\" class=\"boardsWrapper\">\n    <h4><strong>Active projects</strong></h4>\n    <section id=\"boards\" *ngFor=\"let board of $boards | async\" [routerLink]=\"['/scrum', teamId, board.id]\">\n      <div class=\"card\">\n        <div class=\"container\">\n          <h3>{{board.name}}</h3>\n          <div id=\"distributionBar\">\n            <div id=\"todoBar\" class=\"entryBar\" [style.width.%]=\"board.aggregatedDataPercent.todo\" matTooltip=\"{{(board.aggregatedData.todo | number) + ' tasks'}}\"></div>\n            <div id=\"inProgressBar\" class=\"entryBar\" [style.width.%]=\"board.aggregatedDataPercent.inProgress\" matTooltip=\"{{(board.aggregatedData.inProgress | number) + ' tasks'}}\"></div>\n            <div id=\"doneBar\" class=\"entryBar\" [style.width.%]=\"board.aggregatedDataPercent.done\" matTooltip=\"{{(board.aggregatedData.done | number) + ' tasks'}}\"></div>\n          </div>\n          <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>more_vert</mat-icon>\n          </button>\n          <mat-menu #menu=\"matMenu\">\n            <button mat-menu-item (click)=\"edit(board)\">\n              <mat-icon>edit</mat-icon>\n              <span>Rename</span>\n            </button>\n            <button mat-menu-item (click)=\"archive(board)\">\n              <mat-icon>move_to_inbox</mat-icon>\n              <span>Archive</span>\n            </button>\n            <button mat-menu-item (click)=\"delete(board)\">\n              <mat-icon>delete</mat-icon>\n              <span>Delete</span>\n            </button>\n          </mat-menu>\n        </div>\n      </div>\n    </section>\n    <div id=\"archivedWrapper\" *ngIf=\"($archived | async)?.length > 0\">\n      <br>\n      <h4><strong>Archived projects</strong></h4>\n      <section id=\"archived\" *ngFor=\"let archivedBoard of $archived | async\">\n        <div class=\"card\">\n          <div class=\"container\">\n            <h3>{{archivedBoard.name}}</h3>\n            <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\n              <mat-icon>more_vert</mat-icon>\n            </button>\n            <mat-menu #menu=\"matMenu\">\n              <button mat-menu-item (click)=\"activate(archivedBoard)\">\n                <mat-icon>undo</mat-icon>\n                <span>Reactivate</span>\n              </button>\n              <button mat-menu-item (click)=\"deleteArchived(archivedBoard)\">\n                <mat-icon>delete</mat-icon>\n                <span>Delete</span>\n              </button>\n            </mat-menu>\n          </div>\n        </div>\n      </section>\n    </div>\n  </div>\n  <div *ngIf=\"($boards | async)?.length == 0 && ($archived | async)?.length == 0\" id=\"noEntries\">\n    <div>\n      <p>No scrumboards</p>\n      <h5>¯\\_(ツ)_/¯</h5>\n    </div>\n  </div>\n\n</main>\n\n<div id=\"noTeam\" *ngIf=\"(teamsService.$teams | async)?.length === 0\">\n  <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>\n  <p>You are currently not a member of any team. You can join a team by being invited. You can also create your own\n    team with the button below.</p>\n  <button mat-raised-button (click)=\"teamsService.createNewTeam()\">Create a new team</button>\n</div>\n\n\n<button *ngIf=\"(teamsService.$teams | async)?.length > 0\" mat-fab id=\"addButton\" (click)=\"addBoard()\" (click)=\"$event.stopPropagation()\">\n  <mat-icon>add</mat-icon>\n</button>"
+module.exports = "<mat-progress-bar *ngIf=\"loading\" mode=\"indeterminate\"></mat-progress-bar>\n\n<main *ngIf=\"(teamsService.$teams | async)?.length > 0\">\n  <app-teams-module></app-teams-module>\n  <div *ngIf=\"!(($boards | async)?.length == 0 && ($archived | async)?.length == 0)\" class=\"boardsWrapper\">\n    <h4><strong>Active projects</strong></h4>\n    <section id=\"boards\" *ngFor=\"let board of $boards | async\" [routerLink]=\"['/scrum', teamId, board.id]\">\n      <div class=\"card\">\n        <div class=\"container\">\n          <h3>{{board.name}}</h3>\n          <div id=\"distributionBar\">\n            <div id=\"todoBar\" class=\"entryBar\" [style.width.%]=\"board.aggregatedDataPercent.todo\" matTooltip=\"{{(board.aggregatedData.todo | number) + ' todo'}}\"></div>\n            <div id=\"inProgressBar\" class=\"entryBar\" [style.width.%]=\"board.aggregatedDataPercent.inProgress\" matTooltip=\"{{(board.aggregatedData.inProgress | number) + ' in progress'}}\"></div>\n            <div id=\"doneBar\" class=\"entryBar\" [style.width.%]=\"board.aggregatedDataPercent.done\" matTooltip=\"{{(board.aggregatedData.done | number) + ' finished'}}\"></div>\n          </div>\n          <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>more_vert</mat-icon>\n          </button>\n          <mat-menu #menu=\"matMenu\">\n            <button mat-menu-item (click)=\"edit(board)\">\n              <mat-icon>edit</mat-icon>\n              <span>Rename</span>\n            </button>\n            <button mat-menu-item (click)=\"archive(board)\">\n              <mat-icon>move_to_inbox</mat-icon>\n              <span>Archive</span>\n            </button>\n            <button mat-menu-item (click)=\"delete(board)\">\n              <mat-icon>delete</mat-icon>\n              <span>Delete</span>\n            </button>\n          </mat-menu>\n        </div>\n      </div>\n    </section>\n    <div id=\"archivedWrapper\" *ngIf=\"($archived | async)?.length > 0\">\n      <br>\n      <h4><strong>Archived projects</strong></h4>\n      <section id=\"archived\" *ngFor=\"let archivedBoard of $archived | async\">\n        <div class=\"card\">\n          <div class=\"container\">\n            <h3>{{archivedBoard.name}}</h3>\n            <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\" (click)=\"$event.stopPropagation()\">\n              <mat-icon>more_vert</mat-icon>\n            </button>\n            <mat-menu #menu=\"matMenu\">\n              <button mat-menu-item (click)=\"activate(archivedBoard)\">\n                <mat-icon>undo</mat-icon>\n                <span>Reactivate</span>\n              </button>\n              <button mat-menu-item (click)=\"deleteArchived(archivedBoard)\">\n                <mat-icon>delete</mat-icon>\n                <span>Delete</span>\n              </button>\n            </mat-menu>\n          </div>\n        </div>\n      </section>\n    </div>\n  </div>\n  <div *ngIf=\"($boards | async)?.length == 0 && ($archived | async)?.length == 0\" id=\"noEntries\">\n    <div>\n      <p>No scrumboards</p>\n      <h5>¯\\_(ツ)_/¯</h5>\n    </div>\n  </div>\n\n</main>\n\n<div id=\"noTeam\" *ngIf=\"(teamsService.$teams | async)?.length === 0\">\n  <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>\n  <p>You are currently not a member of any team. You can join a team by accepting an invitation or you can create your own\n    team with the button below.</p>\n  <button mat-raised-button (click)=\"teamsService.createNewTeam()\">Create a new team</button>\n</div>\n\n\n<button *ngIf=\"(teamsService.$teams | async)?.length > 0\" mat-fab id=\"addButton\" (click)=\"addBoard()\" (click)=\"$event.stopPropagation()\">\n  <mat-icon>add</mat-icon>\n</button>"
 
 /***/ }),
 
@@ -1269,6 +1274,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angularfire2/firestore */ "../node_modules/angularfire2/firestore/index.js");
 /* harmony import */ var rxjs_add_operator_take__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/add/operator/take */ "../node_modules/rxjs-compat/_esm5/add/operator/take.js");
 /* harmony import */ var rxjs_add_operator_share__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/add/operator/share */ "../node_modules/rxjs-compat/_esm5/add/operator/share.js");
+/* harmony import */ var angular2_hotkeys__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! angular2-hotkeys */ "../node_modules/angular2-hotkeys/index.js");
+/* harmony import */ var angular2_hotkeys__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(angular2_hotkeys__WEBPACK_IMPORTED_MODULE_9__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1322,22 +1329,32 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
 var BoardsComponent = /** @class */ (function () {
-    function BoardsComponent(teamsService, navbarService, route, afs, router, auth) {
+    function BoardsComponent(teamsService, navbarService, route, afs, router, auth, hotkeysService) {
+        var _this = this;
         this.teamsService = teamsService;
         this.navbarService = navbarService;
         this.route = route;
         this.afs = afs;
         this.router = router;
         this.auth = auth;
+        this.hotkeysService = hotkeysService;
         this.loading = true;
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_9__["Hotkey"]('n', function (event) {
+            _this.addBoard();
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_9__["Hotkey"]('ctr+n', function (event) {
+            _this.teamsService.createNewTeam();
+            return false;
+        }));
     }
     BoardsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.navbarService.title = null;
         // SELECT TEAM LOGIC
         this.boardCollection = this.route.paramMap.shareReplay(1).map(function (paramMap) {
-            console.log('router params has been updated', paramMap.get('teamId'));
             _this.teamId = paramMap.get('teamId');
             if (!_this.teamId) {
                 _this.teamId = localStorage.getItem('previousSelectedTeam');
@@ -1586,7 +1603,8 @@ var BoardsComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [_services_teams_service__WEBPACK_IMPORTED_MODULE_3__["TeamsService"], _services_navbar_service__WEBPACK_IMPORTED_MODULE_1__["NavbarService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"], angularfire2_firestore__WEBPACK_IMPORTED_MODULE_6__["AngularFirestore"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
-            _services_auth_service_service__WEBPACK_IMPORTED_MODULE_0__["AuthServiceService"]])
+            _services_auth_service_service__WEBPACK_IMPORTED_MODULE_0__["AuthServiceService"],
+            angular2_hotkeys__WEBPACK_IMPORTED_MODULE_9__["HotkeysService"]])
     ], BoardsComponent);
     return BoardsComponent;
 }());
@@ -2009,7 +2027,7 @@ var PrivacyComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "main {\n  display: table;\n  margin: 0 auto;\n}\n\n#tabNav {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  left: 0;\n  background-color: var(--button-color);\n  z-index: 10;\n  font-weight: bold;\n  box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 6px rgba(59, 64, 69, 0.1);\n}\n\n#tabNav ul {\n  position: relative;\n  display: table;\n  margin: 0 auto;\n  list-style: none;\n  padding: 0;\n}\n\n#tabNav li {\n  line-height: 48px;\n  display: inline-block;\n  text-align: center;\n  width: 65px;\n  margin: 0 30px;\n  font-size: 17px;\n  color: rgba(255, 255, 255, .7);\n  cursor: pointer;\n}\n\n#tabNav li.active {\n  color: var(--bg-color);\n  border-bottom: 2px solid var(--bg-color);\n}\n\n.todoContainer {\n  margin: 16px auto;\n  display: flex;\n  flex-direction: row;\n  font-family: roboto;\n}\n\n#sortBy {\n  position: absolute;\n  right: 50px;\n  color: var(--txt-color) !important;\n  width: 120px;\n}\n\n#sortBy mat-icon {\n  margin-top: -3px;\n}\n\nmat-select {\n  position: inherit;\n}\n\n.menuBtn {\n  position: absolute;\n  right: 0;\n}\n\n.todoContainer>section {\n  flex-grow: 1;\n  margin: 0 10px;\n  max-width: calc(33.33% - 20px);\n}\n\nsection .container {\n  margin: 0 10px;\n}\n\n.card {\n  width: 100%;\n  background: var(--cards);\n  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);\n  display: table;\n  border-radius: 8px;\n  margin-bottom: 13px;\n  overflow: hidden;\n  position: relative;\n}\n\n.gridWrapper {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: 1fr 1fr 1fr;\n      grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 10px;\n  position: relative;\n  font-family: roboto;\n\n}\n\n.gridCard {\n  background: var(--cards);\n  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n  overflow: hidden;\n  position: relative;\n}\n\n#profilePic {\n  overflow: hidden;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  position: relative;\n  margin-top: 10px;\n  display: inline-block;\n}\n\n#profilePic img {\n  width: 100%;\n  height: 100%;\n}\n\n#profilePic mat-icon {\n  position: absolute;\n  font-size: 42px;\n}\n\n.withProfilePic strong {\n  position: absolute;\n  margin-top: 19px;\n  margin-left: 10px;\n  width: calc(100% - 90px);\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n\n.withProfilePic p {\n  margin-top: 8px;\n}\n\n#backButton {\n  cursor: pointer;\n  position: absolute;\n  left: 30px;\n  font-size: 35px;\n  top: 24px;\n}\n\n.setButton {\n  width: 100%;\n  border-style: none;\n  font-size: 15px;\n  padding: 10px;\n  background-color: var(--button-color);\n  color: white;\n  cursor: pointer;\n  outline: none;\n  transition: all 0.2s;\n}\n\n.setButton:hover {\n  background-color: var(--button-accent);\n}\n\n.container>p,\n.container>strong {\n  font-size: 19px;\n  -ms-word-break: break-all;\n  word-break: break-all;\n  word-break: break-word;\n  -webkit-hyphens: auto;\n  -ms-hyphens: auto;\n  hyphens: auto;\n}\n\n.container>p:first-letter {\n  text-transform: uppercase;\n}\n\n#shareBtn {\n  position: absolute;\n  right: 88px;\n  top: 14px;\n}\n\n#shareBtn mat-icon {\n  margin-right: 3px;\n  font-size: 21px;\n}\n\n#copyLinkBtn {\n  float: right;\n}\n\n#shareableLink {\n  width: 100%;\n}\n\n#noEntries {\n  margin-top: 30%;\n  text-align: center;\n}\n\n.no_content_div{\n  height: 20%;\n  max-height: 155px;\n  width: 40%;\n  max-width: 655px;\n  position: absolute;\n  top: 40%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  border: 0 solid;\n  border-radius: 10px;\n  padding: 40px 0 10px 0;\n  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);\n  background-color: var(--header);\n}\n\n.no_content_div button {\n  background-color: var(--button-color);\n  border: 0 solid;\n  border-radius: 7px;\n  font-size: 20px;\n  transition: all 0.3s;\n  display: block;\n  cursor: pointer;\n  outline: 0;\n  margin: 30px auto 0 auto;\n  padding: 10px 20px;\n  color: white;\n}\n\n.no_content_div button:hover {\n  background-color: var(--button-accent);\n}\n\n.no_content_div h1 {\n  width: 60%;\n  margin: 0 auto;\n  text-align: center;\n  font-size: 22px;\n}\n\n@media only screen and (max-width: 800px) {\n  .todoContainer {\n    display: block;\n    margin: 0 auto;\n    padding-top: 5px;\n  }\n\n  .todoContainer>section {\n    max-width: unset;\n    margin: 0;\n  }\n\n  #sortBy {\n    top: 80px;\n  }\n\n  #tabNav li {\n    font-size: 14px;\n    margin: 0 15px;\n  }\n}\n"
+module.exports = "main {\n  display: table;\n  margin: 0 auto;\n}\n\n#tabNav {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  left: 0;\n  background-color: var(--button-color);\n  z-index: 10;\n  font-weight: bold;\n  box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 6px rgba(59, 64, 69, 0.1);\n}\n\n#tabNav ul {\n  position: relative;\n  display: table;\n  margin: 0 auto;\n  list-style: none;\n  padding: 0;\n}\n\n#tabNav li {\n  line-height: 48px;\n  display: inline-block;\n  text-align: center;\n  width: 65px;\n  margin: 0 30px;\n  font-size: 17px;\n  color: rgba(255, 255, 255, .7);\n  cursor: pointer;\n}\n\n#tabNav li.active {\n  color: var(--bg-color);\n  border-bottom: 2px solid var(--bg-color);\n}\n\n.todoContainer {\n  margin: 16px auto;\n  display: flex;\n  flex-direction: row;\n  font-family: roboto;\n}\n\n#sortBy {\n  position: absolute;\n  right: 50px;\n  color: var(--txt-color) !important;\n  width: 120px;\n}\n\n#sortBy mat-icon {\n  margin-top: -3px;\n}\n\nmat-select {\n  position: inherit;\n}\n\n.menuBtn {\n  position: absolute;\n  right: 0;\n}\n\n.todoContainer>section {\n  flex-grow: 1;\n  margin: 0 10px;\n  max-width: calc(33.33% - 20px);\n}\n\nsection .container {\n  margin: 0 10px;\n}\n\n.card {\n  width: 100%;\n  background: var(--cards);\n  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);\n  display: table;\n  border-radius: 8px;\n  margin-bottom: 13px;\n  overflow: hidden;\n  position: relative;\n}\n\n.gridWrapper {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: 1fr 1fr 1fr;\n      grid-template-columns: 1fr 1fr 1fr;\n  grid-gap: 10px;\n  position: relative;\n  font-family: roboto;\n\n}\n\n.gridCard {\n  background: var(--cards);\n  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n  overflow: hidden;\n  position: relative;\n}\n\n#profilePic {\n  overflow: hidden;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  position: relative;\n  margin-top: 10px;\n  display: inline-block;\n}\n\n#profilePic img {\n  width: 100%;\n  height: 100%;\n}\n\n#profilePic mat-icon {\n  position: absolute;\n  font-size: 42px;\n}\n\n.withProfilePic strong {\n  position: absolute;\n  margin-top: 19px;\n  margin-left: 10px;\n  width: calc(100% - 90px);\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n\n.withProfilePic p {\n  margin-top: 8px;\n}\n\n#backButton {\n  cursor: pointer;\n  position: absolute;\n  left: 30px;\n  font-size: 35px;\n  top: 24px;\n}\n\n.setButton {\n  width: 100%;\n  border-style: none;\n  font-size: 15px;\n  padding: 10px;\n  background-color: var(--button-color);\n  color: white;\n  cursor: pointer;\n  outline: none;\n  transition: all 0.2s;\n}\n\n.setButton:hover {\n  background-color: var(--button-accent);\n}\n\n.container>p,\n.container>strong {\n  font-size: 19px;\n  -ms-word-break: break-all;\n  word-break: break-all;\n  word-break: break-word;\n  -webkit-hyphens: auto;\n  -ms-hyphens: auto;\n  hyphens: auto;\n}\n\n.container>p:first-letter {\n  text-transform: uppercase;\n}\n\n#shareBtn {\n  position: absolute;\n  right: 88px;\n  top: 14px;\n}\n\n#shareBtn mat-icon {\n  margin-right: 3px;\n  font-size: 21px;\n}\n\n#copyLinkBtn {\n  float: right;\n}\n\n#shareableLink {\n  width: 100%;\n}\n\n#noEntries {\n  margin-top: 30%;\n  text-align: center;\n}\n\n.no_content_div{\n  max-height: 155px;\n  width: 40%;\n  max-width: 655px;\n  position: absolute;\n  top: 40%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  border: 0 solid;\n  border-radius: 10px;\n  padding: 40px 0 25px 0;\n  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);\n  background-color: var(--header);\n}\n\n.no_content_div button {\n  background-color: var(--button-color);\n  border: 0 solid;\n  border-radius: 7px;\n  font-size: 20px;\n  transition: all 0.3s;\n  display: block;\n  cursor: pointer;\n  outline: 0;\n  margin: 30px auto 0 auto;\n  padding: 10px 20px;\n  color: white;\n}\n\n.no_content_div button:hover {\n  background-color: var(--button-accent);\n}\n\n.no_content_div h1 {\n  width: 60%;\n  margin: 0 auto;\n  text-align: center;\n  font-size: 22px;\n}\n\n@media only screen and (max-width: 800px) {\n  .todoContainer {\n    display: block;\n    margin: 0 auto;\n    padding-top: 5px;\n  }\n\n  .todoContainer>section {\n    max-width: unset;\n    margin: 0;\n  }\n\n  #sortBy {\n    top: 80px;\n  }\n\n  #tabNav li {\n    font-size: 14px;\n    margin: 0 15px;\n  }\n}\n"
 
 /***/ }),
 
@@ -2020,7 +2038,7 @@ module.exports = "main {\n  display: table;\n  margin: 0 auto;\n}\n\n#tabNav {\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<button (click)=\"linkShareSwal.show()\" id=\"shareBtn\" mat-stroked-button>\n  <mat-icon>link</mat-icon>Share</button>\n<mat-progress-bar *ngIf=\"loading\" mode=\"indeterminate\"></mat-progress-bar>\n<div>\n  <div id=\"tabNav\" *ngIf=\"isSignedIn\">\n    <ul>\n      <li [class.active]=\"navTab == 'todo'\" class=\"selected\" (click)=\"navTab = 'todo'\">Tasks</li>\n      <li [class.active]=\"navTab == 'bugs'\" class=\"selected\" (click)=\"navTab = 'bugs'\">Bugs</li>\n      <li [class.active]=\"navTab == 'ideas'\" (click)=\"navTab = 'ideas'\">Ideas</li>\n      <li [class.active]=\"navTab == 'notes'\" (click)=\"navTab = 'notes'\">Notes</li>\n      <li [class.active]=\"navTab == 'beta'\" (click)=\"navTab = 'beta'\">Feedback</li>\n    </ul>\n  </div>\n  <main [ngSwitch]='navTab'>\n    <div *ngIf=\"isSignedIn\">\n      <!-- No tasks -->\n      <div *ngIf=\"($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0 && navTab == 'todo'\">\n        <div class=\"no_content_div\">\n          <h1>Keep your project´s tasks organized and availible for the whole team</h1>\n          <button (click)=\"add()\" (click)=\"$event.stopPropagation()\">Create task</button>\n        </div>\n      </div>\n\n      <div *ngIf=\"!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)\">\n        <div class=\"todoContainer\" *ngSwitchCase=\"'todo'\">\n          <div id=\"sortBy\">\n            <mat-icon>sort</mat-icon>\n            <mat-select placeholder=\"Sort by\" [(value)]=\"sortBy\" (selectionChange)=\"sortChanged()\">\n\n              <mat-option (click)='sendEvent(\"Newest\")' value='{\"field\": \"time\", \"direction\": \"desc\"}'>Newest</mat-option>\n              <mat-option (click)='sendEvent(\"Oldest\")' value='{\"field\": \"time\", \"direction\": \"asc\"}'>Oldest</mat-option>\n              <mat-option (click)='sendEvent(\"Alphabetical\")' value='{\"field\": \"txt\", \"direction\": \"asc\"}'>Alfabetical</mat-option>\n              <mat-option (click)='sendEvent(\"Priority\")' value='{\"field\": \"priority\", \"direction\": \"desc\"}'>Priority</mat-option>\n            </mat-select>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"add()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n          <section id=\"todoSection\">\n            <h3>TODO ({{($todo | async)?.length}})</h3>\n            <div id=\"todoElements\">\n              <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let entry of $todo | async; trackBy: identify\">\n                <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                  <mat-icon>more_vert</mat-icon>\n                </button>\n                <mat-menu #menu=\"matMenu\">\n                  <button mat-menu-item (click)=\"edit(entry, todoCollection)\">\n                    <mat-icon>edit</mat-icon>\n                    <span>Edit</span>\n                  </button>\n                  <button mat-menu-item (click)=\"assign(entry)\">\n                    <mat-icon>face</mat-icon>\n                    <span>Assign developer</span>\n                  </button>\n                  <button mat-menu-item (click)=\"openThread(entry)\">\n                    <mat-icon>chat</mat-icon>\n                    <span>Comments</span>\n                  </button>\n                  <button mat-menu-item (click)=\"delete(entry, todoCollection)\">\n                    <mat-icon>delete</mat-icon>\n                    <span>Delete</span>\n                  </button>\n                </mat-menu>\n                <div class=\"container\">\n                  <p>\n                    <strong>Priority: {{entry.priority}}</strong>\n                  </p>\n                  <p [innerHTML]=\"entry.txt | linky\"></p>\n                </div>\n                <button class=\"setButton\" (click)=\"moveToProgress(entry)\">SET TO INPROGRESS</button>\n              </div>\n            </div>\n\n          </section>\n          <section id=\"inprogressSection\">\n            <h3>In progress ({{($inProgress | async)?.length}})</h3>\n            <div id=\"inprogressElements\">\n              <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let entry of $inProgress | async; trackBy: identify\">\n                <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                  <mat-icon>more_vert</mat-icon>\n                </button>\n                <mat-menu #menu=\"matMenu\">\n                  <button mat-menu-item (click)=\"edit(entry, inProgressCollection)\">\n                    <mat-icon>edit</mat-icon>\n                    <span>Edit</span>\n                  </button>\n                  <button mat-menu-item (click)=\"openThread(entry)\">\n                    <mat-icon>chat</mat-icon>\n                    <span>Comments</span>\n                  </button>\n                  <button mat-menu-item (click)=\"rollback_from_inprogress(entry)\">\n                    <mat-icon>replay</mat-icon>\n                    <span>Rollback</span>\n                  </button>\n                  <button mat-menu-item (click)=\"delete(entry, inProgressCollection)\">\n                    <mat-icon>delete</mat-icon>\n                    <span>Delete</span>\n                  </button>\n                </mat-menu>\n                <div class=\"container withProfilePic\">\n                  <div id=\"profilePic\">\n                    <img *ngIf=\"entry.imgUrl\" src=\"{{entry.imgUrl}}\">\n                    <mat-icon>account_circle</mat-icon>\n                  </div>\n                  <strong>{{entry.developer}}</strong>\n                  <p [innerHTML]=\"entry.txt | linky\"></p>\n                </div>\n                <button class=\"setButton\" (click)=\"moveToFinished(entry)\">SET TO FINISHED</button>\n              </div>\n            </div>\n          </section>\n          <section id=\"finishedSection\">\n            <h3>Done ({{($done | async)?.length}})</h3>\n            <div id=\"finishedElements\">\n              <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let entry of $done | async; trackBy: identify\">\n                <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                  <mat-icon>more_vert</mat-icon>\n                </button>\n                <mat-menu #menu=\"matMenu\">\n                  <button mat-menu-item (click)=\"edit(entry, doneCollection)\">\n                    <mat-icon>edit</mat-icon>\n                    <span>Edit</span>\n                  </button>\n                  <button mat-menu-item (click)=\"openThread(entry)\">\n                    <mat-icon>chat</mat-icon>\n                    <span>Comments</span>\n                  </button>\n                  <button mat-menu-item (click)=\"rollback_from_finished(entry)\">\n                    <mat-icon>replay</mat-icon>\n                    <span>Rollback</span>\n                  </button>\n                  <button mat-menu-item (click)=\"delete(entry, doneCollection)\">\n                    <mat-icon>delete</mat-icon>\n                    <span>Delete</span>\n                  </button>\n                </mat-menu>\n                <div class=\"container withProfilePic\">\n                  <div id=\"profilePic\">\n                    <img *ngIf=\"entry.imgUrl\" src=\"{{entry.imgUrl}}\">\n                    <mat-icon>account_circle</mat-icon>\n                  </div>\n                  <strong>{{entry.developer}}</strong>\n                  <p [innerHTML]=\"entry.txt | linky\"></p>\n                </div>\n              </div>\n            </div>\n          </section>\n        </div>\n      </div>\n\n\n      <div *ngSwitchCase=\"'bugs'\">\n        <!-- No bugs -->\n        <!-- TODO: Why is it slow? -->\n        <div *ngIf=\"($bugs | async)?.length == 0 && navTab == 'bugs'\">\n          <div class=\"no_content_div\">\n            <h1>Structure the bugs and make bugfixing easier for everyone</h1>\n            <button (click)=\"addBug()\" (click)=\"$event.stopPropagation()\">Report bug</button>\n          </div>\n        </div>\n\n        <section *ngIf=\"!(($bugs | async)?.length == 0)\">\n          <h3>Bugs ({{($bugs | async)?.length}})</h3>\n          <div class=\"gridWrapper\">\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"gridCard\" *ngFor=\"let bug of $bugs | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editBug(bug, bugCollection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(bug)\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteBug(bug, bugCollection)\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p>\n                  <strong>Priority: {{bug.priority}}</strong>\n                </p>\n                <p [innerHTML]=\"bug.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"move_to_inprogress(bug, bugCollection)\">MOVE TO INPROGRESS</button>\n            </div>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"addBug()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n        </section>\n      </div>\n\n\n      <div *ngSwitchCase=\"'ideas'\">\n        <!-- No ideas -->\n        <!-- TODO: Why is it slow? -->\n\n        <div *ngIf=\"($ideas | async)?.length == 0 && navTab == 'ideas'\">\n          <div class=\"no_content_div\">\n            <h1>Dribble down your idea and share it with the team before it slips away</h1>\n            <button (click)=\"addIdea()\" (click)=\"$event.stopPropagation()\">Add idea</button>\n          </div>\n        </div>\n        <section *ngIf=\"!(($ideas | async)?.length == 0)\">\n          <h3>Ideas ({{($ideas | async)?.length}})</h3>\n          <div class=\"gridWrapper\">\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"gridCard\" *ngFor=\"let idea of $ideas | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editIdea(idea)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(idea)\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteIdea(idea)\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container withProfilePic\">\n                <div id=\"profilePic\">\n                  <img *ngIf=\"idea.imgUrl\" src=\"{{idea.imgUrl}}\">\n                  <mat-icon>account_circle</mat-icon>\n                </div>\n                <strong>{{idea.developer}}</strong>\n                <p [innerHTML]=\"idea.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"move_to_inprogress(idea, ideaCollection)\">MOVE TO TASKS</button>\n            </div>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"addIdea()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n        </section>\n      </div>\n\n      <div *ngSwitchCase=\"'notes'\">\n        <!-- No notes -->\n        <!-- TODO: Why is it slow? -->\n\n        <div *ngIf=\"($notes | async)?.length == 0 && navTab == 'notes'\">\n          <div class=\"no_content_div\">\n            <h1>Write down the little important things about the project</h1>\n            <button (click)=\"addNote()\" (click)=\"$event.stopPropagation()\">Add note</button>\n          </div>\n        </div>\n        <section *ngIf=\"!(($notes | async)?.length == 0)\">\n          <h3>Notes ({{($notes | async)?.length}})</h3>\n          <div class=\"gridWrapper\">\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"gridCard\" *ngFor=\"let note of $notes | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editNote(note, noteCollection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(note)\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteNote(note, noteCollection)\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container withProfilePic\">\n                <div id=\"profilePic\">\n                  <img *ngIf=\"note.imgUrl\" src=\"{{note.imgUrl}}\">\n                  <mat-icon>account_circle</mat-icon>\n                </div>\n                <strong>{{note.developer}}</strong>\n                <p [innerHTML]=\"note.txt | linky\"></p>\n              </div>\n              <!--  <button class=\"setButton\" (click)=\"add_to_todo(note)\">MOVE TO TASKS</button> -->\n            </div>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"addNote()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n        </section>\n      </div>\n\n    </div>\n    <!-- No betatester reports -->\n    <!-- TODO: Why is it slow? -->\n    <div *ngIf=\"(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'\">\n      <div class=\"no_content_div\" *ngIf=\"isPublic == false\">\n        <h1>No customer has done anything blablba ispublic: {{isPublic}}. Share link now</h1>\n        <button (click)=\"linkShareSwal.show()\" (click)=\"$event.stopPropagation()\">Make public</button>\n      </div>\n      <div class=\"no_content_div\" *ngIf=\"isPublic == true\">\n        <h1>No data yet but link is public.... share link with others</h1>\n        <!-- TODO: action to share link -->\n        <button (click)=\"$event.stopPropagation()\">Share link</button>\n      </div>\n    </div>\n\n\n    <div *ngIf=\"!(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0)\">\n      <div class=\"todoContainer\" *ngSwitchCase=\"'beta'\">\n        <!-- <div id=\"sortBy\">\n        <mat-icon>sort</mat-icon>\n        <mat-select placeholder=\"Sort by\" [(value)]=\"sortBy\" (selectionChange)=\"sortChanged()\">\n\n          <mat-option (click)='sendEvent(\"Alphabetical\")' value='{\"field\": \"txt\", \"direction\": \"asc\"}'>Alfabetical</mat-option>\n          <mat-option (click)='sendEvent(\"Newest\")' value='{\"field\": \"time\", \"direction\": \"desc\"}'>Newest</mat-option>\n          <mat-option (click)='sendEvent(\"Oldest\")' value='{\"field\": \"time\", \"direction\": \"asc\"}'>Oldest</mat-option>\n          <mat-option (click)='sendEvent(\"Priority\")' value='{\"field\": \"priority\", \"direction\": \"desc\"}'>Priority</mat-option>\n        </mat-select>\n      </div> -->\n        <section>\n          <h3>Bugs ({{($client_bugs | async)?.length}})</h3>\n          <div>\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let c_bug of $client_bugs | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editBug(c_bug, client_bugs_collection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(c_bug.id, 'client_bugs')\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteBug(c_bug, client_bugs_collection)\" *ngIf=\"isSignedIn\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p>\n                  <strong>Priority: {{c_bug.priority}}</strong>\n                </p>\n                <p [innerHTML]=\"c_bug.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"moveToBugs(c_bug)\" *ngIf=\"isSignedIn\">MOVE TO BUGS</button>\n            </div>\n          </div>\n        </section>\n\n        <section>\n          <h3>Feature requests ({{($c_features | async)?.length}})</h3>\n          <div>\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let c_feature of $c_features | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"edit_feature_request(c_feature)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(c_feature.id, 'client_feature_request')\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"delete_feature_request(c_feature)\" *ngIf=\"isSignedIn\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p>\n                  <strong>Priority: {{c_feature.priority}}</strong>\n                </p>\n                <p [innerHTML]=\"c_feature.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"move_to_inprogress(c_feature, client_feature_collection)\" *ngIf=\"isSignedIn\">SET\n                INPROGRESS</button>\n            </div>\n          </div>\n        </section>\n\n        <section>\n          <h3>Notes ({{($c_notes | async)?.length}})</h3>\n          <div>\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let c_note of $c_notes | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editNote(c_note, client_notes_collection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(c_note.id, 'client_notes')\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteNote(c_note, client_notes_collection)\" *ngIf=\"isSignedIn\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p [innerHTML]=\"c_note.txt | linky\"></p>\n              </div>\n            </div>\n          </div>\n        </section>\n        <button mat-fab id=\"addButton\" (click)=\"add_feedback()\" (click)=\"$event.stopPropagation()\" *ngIf=\"!isSignedIn && isPublic\">\n          <mat-icon>add</mat-icon>\n        </button>\n      </div>\n    </div>\n  </main>\n</div>\n\n\n<swal #linkShareSwal title=\"Share with people outside the team\">\n  <div *swalPartial>\n    <p>You can send the link to other users so they can view the progress of your team.</p>\n    <mat-slide-toggle (change)=\"uploadBoardVisibility($event)\" [(checked)]=\"isPublic\">\n      Enable shareable link\n    </mat-slide-toggle>\n    <button mat-raised-button (click)=\"copyLinkTxt()\" id=\"copyLinkBtn\">Copy link</button>\n    <br>\n    <mat-form-field id=\"shareableLink\">\n      <input matInput id=\"shareableLinkInp\" [value]=\"shareableLink\" (click)=\"copyLinkTxt()\" type=\"text\" readonly>\n    </mat-form-field>\n  </div>\n</swal>"
+module.exports = "<button (click)=\"linkShareSwal.show()\" id=\"shareBtn\" mat-stroked-button>\n  <mat-icon>link</mat-icon>Share\n</button>\n<mat-progress-bar *ngIf=\"loading\" mode=\"indeterminate\"></mat-progress-bar>\n<div>\n  <div id=\"tabNav\" *ngIf=\"isSignedIn\">\n    <ul>\n      <li [class.active]=\"navTab == 'todo'\" class=\"selected\" (click)=\"navTab = 'todo'\">Tasks</li>\n      <li [class.active]=\"navTab == 'bugs'\" class=\"selected\" (click)=\"navTab = 'bugs'\">Bugs</li>\n      <li [class.active]=\"navTab == 'ideas'\" (click)=\"navTab = 'ideas'\">Ideas</li>\n      <li [class.active]=\"navTab == 'notes'\" (click)=\"navTab = 'notes'\">Notes</li>\n      <li [class.active]=\"navTab == 'beta'\" (click)=\"navTab = 'beta'\">Feedback</li>\n    </ul>\n  </div>\n  <main [ngSwitch]='navTab'>\n    <div *ngIf=\"isSignedIn\">\n      <!-- No tasks -->\n      <div *ngIf=\"($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0 && navTab == 'todo'\">\n        <div class=\"no_content_div\">\n          <h1>Keep your project´s tasks organized and availible for the whole team</h1>\n          <button (click)=\"add()\" (click)=\"$event.stopPropagation()\">Create task</button>\n        </div>\n      </div>\n\n      <div *ngIf=\"!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)\">\n        <div class=\"todoContainer\" *ngSwitchCase=\"'todo'\">\n          <div id=\"sortBy\">\n            <mat-icon>sort</mat-icon>\n            <mat-select placeholder=\"Sort by\" [(value)]=\"sortBy\" (selectionChange)=\"sortChanged()\">\n\n              <mat-option (click)='sendEvent(\"Newest\")' value='{\"field\": \"time\", \"direction\": \"desc\"}'>Newest</mat-option>\n              <mat-option (click)='sendEvent(\"Oldest\")' value='{\"field\": \"time\", \"direction\": \"asc\"}'>Oldest</mat-option>\n              <mat-option (click)='sendEvent(\"Alphabetical\")' value='{\"field\": \"txt\", \"direction\": \"asc\"}'>Alfabetical</mat-option>\n              <mat-option (click)='sendEvent(\"Priority\")' value='{\"field\": \"priority\", \"direction\": \"desc\"}'>Priority</mat-option>\n            </mat-select>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"add()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n          <section id=\"todoSection\">\n            <h3>TODO ({{($todo | async)?.length}})</h3>\n            <div id=\"todoElements\">\n              <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let entry of $todo | async; trackBy: identify\">\n                <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                  <mat-icon>more_vert</mat-icon>\n                </button>\n                <mat-menu #menu=\"matMenu\">\n                  <button mat-menu-item (click)=\"edit(entry)\">\n                    <mat-icon>edit</mat-icon>\n                    <span>Edit</span>\n                  </button>\n                  <button mat-menu-item (click)=\"assign(entry)\">\n                    <mat-icon>face</mat-icon>\n                    <span>Assign developer</span>\n                  </button>\n                  <button mat-menu-item (click)=\"openThread(entry)\">\n                    <mat-icon>chat</mat-icon>\n                    <span>Comments</span>\n                  </button>\n                  <button mat-menu-item (click)=\"delete(entry)\">\n                    <mat-icon>delete</mat-icon>\n                    <span>Delete</span>\n                  </button>\n                </mat-menu>\n                <div class=\"container\">\n                  <p>\n                    <strong>Priority: {{entry.priority}}</strong>\n                  </p>\n                  <p [innerHTML]=\"entry.txt | linky\"></p>\n                </div>\n                <button class=\"setButton\" (click)=\"updateEntryState(entry, 'inProgress')\">SET TO INPROGRESS</button>\n              </div>\n            </div>\n\n          </section>\n          <section id=\"inprogressSection\">\n            <h3>In progress ({{($inProgress | async)?.length}})</h3>\n            <div id=\"inprogressElements\">\n              <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let entry of $inProgress | async; trackBy: identify\">\n                <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                  <mat-icon>more_vert</mat-icon>\n                </button>\n                <mat-menu #menu=\"matMenu\">\n                  <button mat-menu-item (click)=\"edit(entry)\">\n                    <mat-icon>edit</mat-icon>\n                    <span>Edit</span>\n                  </button>\n                  <button mat-menu-item (click)=\"openThread(entry)\">\n                    <mat-icon>chat</mat-icon>\n                    <span>Comments</span>\n                  </button>\n                  <button mat-menu-item (click)=\"updateEntryState(entry, 'todo')\">\n                    <mat-icon>replay</mat-icon>\n                    <span>Rollback</span>\n                  </button>\n                  <button mat-menu-item (click)=\"delete(entry)\">\n                    <mat-icon>delete</mat-icon>\n                    <span>Delete</span>\n                  </button>\n                </mat-menu>\n                <div class=\"container withProfilePic\">\n                  <div id=\"profilePic\">\n                    <img *ngIf=\"entry.imgUrl\" src=\"{{entry.imgUrl}}\">\n                    <mat-icon>account_circle</mat-icon>\n                  </div>\n                  <strong>{{entry.developer}}</strong>\n                  <p [innerHTML]=\"entry.txt | linky\"></p>\n                </div>\n                <button class=\"setButton\" (click)=\"updateEntryState(entry, 'done')\">SET TO FINISHED</button>\n              </div>\n            </div>\n          </section>\n          <section id=\"finishedSection\">\n            <h3>Done ({{($done | async)?.length}})</h3>\n            <div id=\"finishedElements\">\n              <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let entry of $done | async; trackBy: identify\">\n                <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                  <mat-icon>more_vert</mat-icon>\n                </button>\n                <mat-menu #menu=\"matMenu\">\n                  <button mat-menu-item (click)=\"edit(entry)\">\n                    <mat-icon>edit</mat-icon>\n                    <span>Edit</span>\n                  </button>\n                  <button mat-menu-item (click)=\"openThread(entry)\">\n                    <mat-icon>chat</mat-icon>\n                    <span>Comments</span>\n                  </button>\n                  <button mat-menu-item (click)=\"updateEntryState(entry, 'inProgress')\">\n                    <mat-icon>replay</mat-icon>\n                    <span>Rollback</span>\n                  </button>\n                  <button mat-menu-item (click)=\"delete(entry)\">\n                    <mat-icon>delete</mat-icon>\n                    <span>Delete</span>\n                  </button>\n                </mat-menu>\n                <div class=\"container withProfilePic\">\n                  <div id=\"profilePic\">\n                    <img *ngIf=\"entry.imgUrl\" src=\"{{entry.imgUrl}}\">\n                    <mat-icon>account_circle</mat-icon>\n                  </div>\n                  <strong>{{entry.developer}}</strong>\n                  <p [innerHTML]=\"entry.txt | linky\"></p>\n                </div>\n              </div>\n            </div>\n          </section>\n        </div>\n      </div>\n\n\n      <div *ngSwitchCase=\"'bugs'\">\n        <!-- No bugs -->\n        <!-- TODO: Why is it slow? -->\n        <div *ngIf=\"($bugs | async)?.length == 0 && navTab == 'bugs'\">\n          <div class=\"no_content_div\">\n            <h1>Structure the bugs and make bugfixing easier for everyone</h1>\n            <button (click)=\"addBug()\" (click)=\"$event.stopPropagation()\">Report bug</button>\n          </div>\n        </div>\n\n        <section *ngIf=\"!(($bugs | async)?.length == 0)\">\n          <h3>Bugs ({{($bugs | async)?.length}})</h3>\n          <div class=\"gridWrapper\">\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"gridCard\" *ngFor=\"let bug of $bugs | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editBug(bug)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(bug)\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteBug(bug, bugCollection)\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container withProfilePic\">\n                <div id=\"profilePic\">\n                  <img *ngIf=\"bug.imgUrl\" src=\"{{bug.imgUrl}}\">\n                  <mat-icon>account_circle</mat-icon>\n                </div>\n                <strong>{{bug.developer}}</strong>\n                <p [innerHTML]=\"bug.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"move_to_inprogress(bug, bugCollection)\">MOVE TO INPROGRESS</button>\n            </div>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"addBug()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n        </section>\n      </div>\n\n\n      <div *ngSwitchCase=\"'ideas'\">\n        <!-- No ideas -->\n        <!-- TODO: Why is it slow? -->\n\n        <div *ngIf=\"($ideas | async)?.length == 0 && navTab == 'ideas'\">\n          <div class=\"no_content_div\">\n            <h1>Dribble down your idea and share it with the team before it slips away</h1>\n            <button (click)=\"addIdea()\" (click)=\"$event.stopPropagation()\">Add idea</button>\n          </div>\n        </div>\n        <section *ngIf=\"!(($ideas | async)?.length == 0)\">\n          <h3>Ideas ({{($ideas | async)?.length}})</h3>\n          <div class=\"gridWrapper\">\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"gridCard\" *ngFor=\"let idea of $ideas | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editIdea(idea)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(idea)\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteIdea(idea)\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container withProfilePic\">\n                <div id=\"profilePic\">\n                  <img *ngIf=\"idea.imgUrl\" src=\"{{idea.imgUrl}}\">\n                  <mat-icon>account_circle</mat-icon>\n                </div>\n                <strong>{{idea.developer}}</strong>\n                <p [innerHTML]=\"idea.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"move_to_inprogress(idea, ideaCollection)\">MOVE TO TASKS</button>\n            </div>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"addIdea()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n        </section>\n      </div>\n\n      <div *ngSwitchCase=\"'notes'\">\n        <!-- No notes -->\n        <!-- TODO: Why is it slow? -->\n\n        <div *ngIf=\"($notes | async)?.length == 0 && navTab == 'notes'\">\n          <div class=\"no_content_div\">\n            <h1>Write down the little important things about the project</h1>\n            <button (click)=\"addNote()\" (click)=\"$event.stopPropagation()\">Add note</button>\n          </div>\n        </div>\n        <section *ngIf=\"!(($notes | async)?.length == 0)\">\n          <h3>Notes ({{($notes | async)?.length}})</h3>\n          <div class=\"gridWrapper\">\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"gridCard\" *ngFor=\"let note of $notes | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editNote(note, noteCollection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(note)\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteNote(note, noteCollection)\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container withProfilePic\">\n                <div id=\"profilePic\">\n                  <img *ngIf=\"note.imgUrl\" src=\"{{note.imgUrl}}\">\n                  <mat-icon>account_circle</mat-icon>\n                </div>\n                <strong>{{note.developer}}</strong>\n                <p [innerHTML]=\"note.txt | linky\"></p>\n              </div>\n              <!--  <button class=\"setButton\" (click)=\"add_to_todo(note)\">MOVE TO TASKS</button> -->\n            </div>\n          </div>\n          <button mat-fab id=\"addButton\" (click)=\"addNote()\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>add</mat-icon>\n          </button>\n        </section>\n      </div>\n\n    </div>\n    <!-- No betatester reports -->\n    <!-- TODO: Why is it slow? -->\n    <div *ngIf=\"(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'\">\n      <div class=\"no_content_div\" *ngIf=\"isPublic == false\">\n        <h1>No customer has done anything blablba ispublic: {{isPublic}}. Share link now</h1>\n        <button (click)=\"linkShareSwal.show()\" (click)=\"$event.stopPropagation()\">Make public</button>\n      </div>\n      <div class=\"no_content_div\" *ngIf=\"isPublic == true\">\n        <h1>No data yet but link is public.... share link with others</h1>\n        <!-- TODO: action to share link -->\n        <button (click)=\"$event.stopPropagation()\">Share link</button>\n      </div>\n    </div>\n\n\n    <div *ngIf=\"!(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0)\">\n      <div class=\"todoContainer\" *ngSwitchCase=\"'beta'\">\n        <!-- <div id=\"sortBy\">\n        <mat-icon>sort</mat-icon>\n        <mat-select placeholder=\"Sort by\" [(value)]=\"sortBy\" (selectionChange)=\"sortChanged()\">\n\n          <mat-option (click)='sendEvent(\"Alphabetical\")' value='{\"field\": \"txt\", \"direction\": \"asc\"}'>Alfabetical</mat-option>\n          <mat-option (click)='sendEvent(\"Newest\")' value='{\"field\": \"time\", \"direction\": \"desc\"}'>Newest</mat-option>\n          <mat-option (click)='sendEvent(\"Oldest\")' value='{\"field\": \"time\", \"direction\": \"asc\"}'>Oldest</mat-option>\n          <mat-option (click)='sendEvent(\"Priority\")' value='{\"field\": \"priority\", \"direction\": \"desc\"}'>Priority</mat-option>\n        </mat-select>\n      </div> -->\n        <section>\n          <h3>Bugs ({{($client_bugs | async)?.length}})</h3>\n          <div>\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let c_bug of $client_bugs | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editBug(c_bug, client_bugs_collection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(c_bug.id, 'client_bugs')\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteBug(c_bug, client_bugs_collection)\" *ngIf=\"isSignedIn\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p>\n                  <strong>Priority: {{c_bug.priority}}</strong>\n                </p>\n                <p [innerHTML]=\"c_bug.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"moveToBugs(c_bug)\" *ngIf=\"isSignedIn\">MOVE TO BUGS</button>\n            </div>\n          </div>\n        </section>\n\n        <section>\n          <h3>Feature requests ({{($c_features | async)?.length}})</h3>\n          <div>\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let c_feature of $c_features | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"edit_feature_request(c_feature)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(c_feature.id, 'client_feature_request')\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"delete_feature_request(c_feature)\" *ngIf=\"isSignedIn\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p>\n                  <strong>Priority: {{c_feature.priority}}</strong>\n                </p>\n                <p [innerHTML]=\"c_feature.txt | linky\"></p>\n              </div>\n              <button class=\"setButton\" (click)=\"move_to_inprogress(c_feature, client_feature_collection)\" *ngIf=\"isSignedIn\">SET\n                INPROGRESS</button>\n            </div>\n          </div>\n        </section>\n\n        <section>\n          <h3>Notes ({{($c_notes | async)?.length}})</h3>\n          <div>\n            <div [@entriesAnim]=\"loading ? null : 'in'\" class=\"card\" *ngFor=\"let c_note of $c_notes | async; trackBy: identify\">\n              <button class=\"menuBtn\" mat-icon-button [matMenuTriggerFor]=\"menu\">\n                <mat-icon>more_vert</mat-icon>\n              </button>\n              <mat-menu #menu=\"matMenu\">\n                <button mat-menu-item (click)=\"editNote(c_note, client_notes_collection)\">\n                  <mat-icon>edit</mat-icon>\n                  <span>Edit</span>\n                </button>\n                <button mat-menu-item (click)=\"openThread(c_note.id, 'client_notes')\">\n                  <mat-icon>chat</mat-icon>\n                  <span>Comments</span>\n                </button>\n                <button mat-menu-item (click)=\"deleteNote(c_note, client_notes_collection)\" *ngIf=\"isSignedIn\">\n                  <mat-icon>delete</mat-icon>\n                  <span>Delete</span>\n                </button>\n              </mat-menu>\n              <div class=\"container\">\n                <p [innerHTML]=\"c_note.txt | linky\"></p>\n              </div>\n            </div>\n          </div>\n        </section>\n        <button mat-fab id=\"addButton\" (click)=\"add_feedback()\" (click)=\"$event.stopPropagation()\" *ngIf=\"!isSignedIn && isPublic\">\n          <mat-icon>add</mat-icon>\n        </button>\n      </div>\n    </div>\n  </main>\n</div>\n\n\n<swal #linkShareSwal title=\"Share with people outside the team\">\n  <div *swalPartial>\n    <p>You can send the link to other users so they can view the progress of your team.</p>\n    <mat-slide-toggle (change)=\"uploadBoardVisibility($event)\" [(checked)]=\"isPublic\">\n      Enable shareable link\n    </mat-slide-toggle>\n    <button mat-raised-button (click)=\"copyLinkTxt()\" id=\"copyLinkBtn\">Copy link</button>\n    <br>\n    <mat-form-field id=\"shareableLink\">\n      <input matInput id=\"shareableLinkInp\" [value]=\"shareableLink\" (click)=\"copyLinkTxt()\" type=\"text\" readonly>\n    </mat-form-field>\n  </div>\n</swal>\n"
 
 /***/ }),
 
@@ -2051,6 +2069,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/material/dialog */ "../node_modules/@angular/material/esm5/dialog.es5.js");
 /* harmony import */ var _modules_thread_thread_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../modules/thread/thread.component */ "./app/modules/thread/thread.component.ts");
 /* harmony import */ var _extra_map_to_iterable_pipe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../extra/map-to-iterable.pipe */ "./app/extra/map-to-iterable.pipe.ts");
+/* harmony import */ var angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! angular2-hotkeys */ "../node_modules/angular2-hotkeys/index.js");
+/* harmony import */ var angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _toverux_ngx_sweetalert2__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @toverux/ngx-sweetalert2 */ "../node_modules/@toverux/ngx-sweetalert2/esm5/toverux-ngx-sweetalert2.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2110,8 +2131,10 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
+
+
 var ScrumComponent = /** @class */ (function () {
-    function ScrumComponent(route, teamsService, auth, snackBar, navbarService, dialog, afs) {
+    function ScrumComponent(route, teamsService, auth, snackBar, navbarService, dialog, afs, hotkeysService) {
         var _this = this;
         this.route = route;
         this.teamsService = teamsService;
@@ -2120,6 +2143,7 @@ var ScrumComponent = /** @class */ (function () {
         this.navbarService = navbarService;
         this.dialog = dialog;
         this.afs = afs;
+        this.hotkeysService = hotkeysService;
         this.isPublic = false; // used for the make public link swal popup
         this.isSignedIn = false;
         this.sortBy = '{"field": "time", "direction": "desc"}';
@@ -2146,27 +2170,17 @@ var ScrumComponent = /** @class */ (function () {
             this.sortBy = localStorage.orderBy;
         }
         this.$orderBy = new rxjs__WEBPACK_IMPORTED_MODULE_5__["BehaviorSubject"](this.sortBy);
-        this.todoCollection = this.boardDoc
-            .collection('todo');
-        this.inProgressCollection = this.boardDoc
-            .collection('inProgress');
-        this.doneCollection = this.boardDoc
-            .collection('done');
-        this.$todo = this.$orderBy.switchMap(function (sortBy) {
+        this.entryCollection = this.boardDoc
+            .collection('entries');
+        var $entries = this.$orderBy.switchMap(function (sortBy) {
             var config = JSON.parse(sortBy);
             return _this.toMap(_this.boardDoc
-                .collection('todo', function (ref) { return ref.orderBy(config.field, config.direction); }).snapshotChanges());
+                .collection('entries', function (ref) { return ref.orderBy(config.field, config.direction); }).snapshotChanges());
         });
-        this.$inProgress = this.$orderBy.switchMap(function (sortBy) {
-            var config = JSON.parse(sortBy);
-            return _this.toMap(_this.boardDoc
-                .collection('inProgress', function (ref) { return ref.orderBy(config.field, config.direction); }).snapshotChanges());
-        });
-        this.$done = this.$orderBy.switchMap(function (sortBy) {
-            var config = JSON.parse(sortBy);
-            return _this.toMap(_this.boardDoc
-                .collection('done', function (ref) { return ref.orderBy(config.field, config.direction); }).snapshotChanges());
-        });
+        $entries.subscribe(function (c) { return console.log(c); });
+        this.$todo = $entries.map(function (entrier) { return entrier.filter(function (entry) { return entry.state === 'todo'; }); });
+        this.$inProgress = $entries.map(function (entrier) { return entrier.filter(function (entry) { return entry.state === 'inProgress'; }); });
+        this.$done = $entries.map(function (entrier) { return entrier.filter(function (entry) { return entry.state === 'done'; }); });
         this.bugCollection = this.boardDoc.collection('bugs');
         this.$bugs = this.toMap(this.bugCollection.snapshotChanges());
         this.ideaCollection = this.boardDoc.collection('ideas');
@@ -2189,11 +2203,62 @@ var ScrumComponent = /** @class */ (function () {
                 _this.isSignedIn = true;
             }
         });
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('ctrl+n', function (event) {
+            switch (_this.navTab) {
+                case 'todo':
+                    console.log('todo');
+                    _this.add();
+                    break;
+                case 'bugs':
+                    console.log('bugs');
+                    _this.addBug();
+                    break;
+                case 'ideas':
+                    console.log('ideas');
+                    _this.addIdea();
+                    break;
+                case 'notes':
+                    console.log('notes');
+                    _this.addNote();
+                    break;
+                case 'beta':
+                    console.log('beta');
+                    _this.add_feedback();
+                    break;
+                default:
+                    break;
+            }
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('1', function (event) {
+            _this.navTab = 'todo';
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('2', function (event) {
+            _this.navTab = 'bugs';
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('3', function (event) {
+            _this.navTab = 'ideas';
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('4', function (event) {
+            _this.navTab = 'notes';
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('5', function (event) {
+            _this.navTab = 'beta';
+            return false;
+        }));
+        this.hotkeysService.add(new angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["Hotkey"]('ctrl+s', function (event) {
+            _this.linkShareSwal.show();
+            return false;
+        }));
     }
     ScrumComponent.prototype.ngAfterViewInit = function () {
         this.disableAnimations = true;
     };
-    ScrumComponent.prototype.delete = function (entry, collection) {
+    ScrumComponent.prototype.delete = function (entry) {
         var _this = this;
         sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
             title: 'Are you sure?',
@@ -2207,13 +2272,13 @@ var ScrumComponent = /** @class */ (function () {
         }).then(function (result) {
             if (result.value) {
                 // Delete method here
-                collection.doc(entry.id).delete().then(function () {
+                _this.entryCollection.doc(entry.id).delete().then(function () {
                     var snack = _this.snackBar.open('Entry was deleted', 'Undo', {
                         duration: 2500
                     });
                     snack.onAction().subscribe(function () {
                         // Add to database again
-                        collection.add(entry);
+                        _this.entryCollection.add(entry);
                     });
                     // Google analytics event
                     window.ga('send', 'event', {
@@ -2227,33 +2292,19 @@ var ScrumComponent = /** @class */ (function () {
             }
         });
     };
-    ScrumComponent.prototype.add_to_todo = function (entry) {
-        // TODO
-    };
-    ScrumComponent.prototype.rollback_from_inprogress = function (entry) {
-        // Delete from in-progress
-        this.inProgressCollection.doc(entry.id).delete();
-        // Add to To-do
-        this.todoCollection.add({
-            txt: entry.txt, priority: entry.priority, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp()
-        });
-    };
-    ScrumComponent.prototype.rollback_from_finished = function (entry) {
+    ScrumComponent.prototype.updateEntryState = function (entry, state) {
         var _this = this;
-        // Delete from finished
-        this.doneCollection.doc(entry.id).delete();
-        // add it to inProgress
-        this.auth.user$.take(1).subscribe(function (user) {
-            _this.inProgressCollection.add({
-                txt: entry.txt,
-                priority: entry.priority,
-                developer: user.displayName,
-                time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp(),
-                imgUrl: user.photoURL
+        if (state === 'inProgress') {
+            this.auth.user$.take(1).subscribe(function (user) {
+                // tslint:disable-next-line:max-line-length
+                _this.entryCollection.doc(entry.id).update({ state: state, imgUrl: user.photoURL, developer: user.displayName, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp() });
             });
-        });
+        }
+        else {
+            this.entryCollection.doc(entry.id).update({ state: state, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp() });
+        }
     };
-    ScrumComponent.prototype.edit = function (entry, collection) {
+    ScrumComponent.prototype.edit = function (entry) {
         return __awaiter(this, void 0, void 0, function () {
             var post;
             return __generator(this, function (_a) {
@@ -2287,37 +2338,13 @@ var ScrumComponent = /** @class */ (function () {
                     case 1:
                         post = (_a.sent()).value;
                         if (post) {
-                            collection.doc(entry.id).update({
+                            this.entryCollection.doc(entry.id).update({
                                 txt: post[0],
                                 priority: post[1]
                             });
                         }
                         return [2 /*return*/];
                 }
-            });
-        });
-    };
-    ScrumComponent.prototype.moveToProgress = function (entry) {
-        var _this = this;
-        // delete from todo
-        this.todoCollection.doc(entry.id).delete();
-        // add it to inProgress
-        this.auth.user$.take(1).subscribe(function (user) {
-            _this.inProgressCollection.add({
-                txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp(),
-                imgUrl: user.photoURL
-            });
-        });
-    };
-    ScrumComponent.prototype.moveToFinished = function (entry) {
-        var _this = this;
-        // delete from inProgress
-        this.inProgressCollection.doc(entry.id).delete();
-        // add to done
-        this.auth.user$.take(1).subscribe(function (user) {
-            _this.doneCollection.add({
-                txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp(),
-                imgUrl: user.photoURL
             });
         });
     };
@@ -2379,7 +2406,7 @@ var ScrumComponent = /** @class */ (function () {
                     case 1:
                         post = (_a.sent()).value;
                         if (post[0] !== '') {
-                            this.todoCollection.add({ txt: post[0], priority: post[1], time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp() });
+                            this.entryCollection.add({ txt: post[0], state: 'todo', priority: post[1], time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp() });
                             // Google analytics event
                             window.ga('send', 'event', {
                                 eventCategory: 'Scrumboard interaction',
@@ -2463,47 +2490,30 @@ var ScrumComponent = /** @class */ (function () {
     /* BUGS METHODS */
     ScrumComponent.prototype.addBug = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             var post;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
                             title: 'Describe the bug',
-                            html: '<input id="swal-input2" type="text" placeholder="Task description" class="swal2-input">' +
-                                this.getRadio('!'),
+                            input: 'text',
                             reverseButtons: true,
                             showCancelButton: true,
-                            preConfirm: function () {
-                                var priority;
-                                if (document.getElementById('option-one').checked) {
-                                    priority = '!';
-                                }
-                                else if (document.getElementById('option-two').checked) {
-                                    priority = '!!';
-                                }
-                                else if (document.getElementById('option-three').checked) {
-                                    priority = '!!!';
-                                }
-                                return [
-                                    document.getElementById('swal-input2').value,
-                                    priority
-                                ];
-                            },
                         })];
                     case 1:
                         post = (_a.sent()).value;
-                        if (post[0] !== '') {
-                            this.bugCollection.add({ txt: post[0], priority: post[1], time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp() });
+                        if (post) {
+                            // add to firebase
+                            this.auth.user$.take(1).subscribe(function (user) {
+                                _this.bugCollection.add({
+                                    txt: post, developer: user.displayName, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp(),
+                                    imgUrl: user.photoURL
+                                });
+                            });
                             // Google analytics event
                             window.ga('send', 'event', {
                                 eventCategory: 'Scrumboard interaction',
                                 eventAction: 'New bug reported',
-                            });
-                        }
-                        else if (post[0] === '') {
-                            sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
-                                title: 'Invalid.',
-                                type: 'error',
-                                text: 'Please fill in a description of the bug!'
                             });
                         }
                         return [2 /*return*/];
@@ -2511,44 +2521,30 @@ var ScrumComponent = /** @class */ (function () {
             });
         });
     };
-    ScrumComponent.prototype.editBug = function (bug, collection) {
+    ScrumComponent.prototype.editBug = function (bug) {
         return __awaiter(this, void 0, void 0, function () {
             var post;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
                             title: 'Edit bug',
-                            html: "<input id=\"swal-input3\" type=\"text\" value='" + bug.txt + "' class=\"swal2-input\">" +
-                                this.getRadio(bug.priority),
-                            showCancelButton: true,
+                            input: 'text',
+                            inputValue: bug.txt,
                             reverseButtons: true,
-                            preConfirm: function () {
-                                var priority;
-                                if (document.getElementById('option-one').checked) {
-                                    priority = '!';
-                                }
-                                else if (document.getElementById('option-two').checked) {
-                                    priority = '!!';
-                                }
-                                else if (document.getElementById('option-three').checked) {
-                                    priority = '!!!';
-                                }
-                                return [
-                                    document.getElementById('swal-input3').value,
-                                    priority
-                                ];
-                            },
+                            showCancelButton: true,
                             onOpen: function () {
-                                var input = document.getElementById('swal-input3');
+                                var input = sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.getInput();
                                 input.setSelectionRange(0, input.value.length);
                             },
+                            inputValidator: function (value) {
+                                return !value && 'You need to write something!';
+                            }
                         })];
                     case 1:
                         post = (_a.sent()).value;
                         if (post) {
-                            collection.doc(bug.id).update({
-                                txt: post[0],
-                                priority: post[1]
+                            this.bugCollection.doc(bug.id).update({
+                                txt: post
                             });
                         }
                         return [2 /*return*/];
@@ -2569,11 +2565,11 @@ var ScrumComponent = /** @class */ (function () {
                 if (!entry.priority) {
                     entry.priority = '!!!';
                 }
-                // Add to todo
+                // Add to inProgress
                 _this.auth.user$.take(1).subscribe(function (user) {
-                    _this.inProgressCollection.add({
+                    _this.entryCollection.add({
                         txt: entry.txt, priority: entry.priority, developer: user.displayName, time: firebase_app__WEBPACK_IMPORTED_MODULE_9__["firestore"].FieldValue.serverTimestamp(),
-                        imgUrl: user.photoURL
+                        imgUrl: user.photoURL, state: 'inProgress'
                     });
                 });
                 // Delete from collection
@@ -2947,6 +2943,10 @@ var ScrumComponent = /** @class */ (function () {
             data: entry,
         });
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"])('linkShareSwal'),
+        __metadata("design:type", _toverux_ngx_sweetalert2__WEBPACK_IMPORTED_MODULE_16__["SwalComponent"])
+    ], ScrumComponent.prototype, "linkShareSwal", void 0);
     ScrumComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-scrum',
@@ -2974,7 +2974,8 @@ var ScrumComponent = /** @class */ (function () {
             _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_10__["MatSnackBar"],
             _services_navbar_service__WEBPACK_IMPORTED_MODULE_1__["NavbarService"],
             _angular_material_dialog__WEBPACK_IMPORTED_MODULE_12__["MatDialog"],
-            angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4__["AngularFirestore"]])
+            angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4__["AngularFirestore"],
+            angular2_hotkeys__WEBPACK_IMPORTED_MODULE_15__["HotkeysService"]])
     ], ScrumComponent);
     return ScrumComponent;
 }());
@@ -3001,7 +3002,7 @@ module.exports = "#container {\n    margin: 0 auto;\n    display: table;\n}\n\n#
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-progress-bar *ngIf=\"loading\" mode=\"indeterminate\"></mat-progress-bar>\n\n<div id=container>\n  <div id=\"wrapper\">\n    <main>\n      <h1 *ngIf=\"isAdmin\">Team setting</h1>\n      <h1 *ngIf=\"!isAdmin\">Team members</h1>\n\n      <!-- Change name of team -->\n      <div *ngIf=\"isAdmin\">\n        <h4>Change team name</h4>\n        <form [formGroup]=\"nameForm\" (ngSubmit)=\"onNameFormSubmit()\">\n          <mat-form-field class=\"inp\">\n            <input [value]=\"(team$ | async)?.name\" matInput placeholder=\"Name\" [formControl]=\"changeNameFormControl\">\n            <mat-error *ngIf=\"changeNameFormControl.hasError('required')\">\n              Name is\n              <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <button type=\"submit\" mat-stroked-button>Change team name</button>\n        </form>\n\n        <h4>Manage team members</h4>\n        <form *ngIf=\"isAdmin\" [formGroup]=\"form\" (ngSubmit)=\"onFormSubmit()\">\n          <mat-form-field class=\"inp\">\n            <input matInput placeholder=\"Email\" [formControl]=\"emailFormControl\">\n            <mat-error *ngIf=\"emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')\">\n              Please enter a valid email address\n            </mat-error>\n            <mat-error *ngIf=\"emailFormControl.hasError('required')\">\n              Email is\n              <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <button type=\"submit\" mat-stroked-button>Add to team</button>\n        </form>\n      </div>\n\n\n      <div id=\"members\">\n        <div *ngFor=\"let member of (team$ | async)?.members | mapToIterable; let members\" id=\"memberWrapper\">\n          <div id=\"profilePic\">\n            <img *ngIf=\"member.val.imgUrl\" src=\"{{member.val.imgUrl}}\">\n            <mat-icon>account_circle</mat-icon>\n          </div>\n          <strong id=\"nameTxt\">{{ member.val.name }}\n            <span *ngIf=\"member.val.isAdmin\" id=\"memberTypeTxt\">Admin</span>\n            <span *ngIf=\"member.val.isMember == false\" id=\"memberTypeTxt\">Pending</span>\n            <span *ngIf=\"member.val.isMember && !member.val.isAdmin\" id=\"memberTypeTxt\">Member</span>\n          </strong>\n          <mat-menu #memberOptionsMenu=\"matMenu\">\n            <button mat-menu-item *ngIf=\"!member.val.isAdmin\" (click)=\"promoteAdmin(member.key)\">\n              <mat-icon>how_to_reg</mat-icon>\n              <span>Promote to admin</span>\n            </button>\n            <button mat-menu-item *ngIf=\"member.val.isAdmin\" (click)=\"removeAdmin(member.key)\">\n              <mat-icon>keyboard_arrow_down</mat-icon>\n              <span>Demote user</span>\n            </button>\n            <button mat-menu-item (click)=\"deleteMember(member.key)\">\n              <mat-icon>exit_to_app</mat-icon>\n              <span *ngIf=\"member.val.isMember == false; else removeMemberTxt\">Cancel invitation</span>\n              <ng-template #removeMemberTxt>\n                <span>Remove member</span>\n              </ng-template>\n            </button>\n          </mat-menu>\n          <button *ngIf=\"!(member.key == (auth.user$ | async)?.uid) && isAdmin\" class=\"menuBtn\" mat-icon-button\n            [matMenuTriggerFor]=\"memberOptionsMenu\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>more_vert</mat-icon>\n          </button>\n        </div>\n      </div>\n\n      <br>\n\n      <div id=\"deleteTeamWrapper\" *ngIf=\"isAdmin\">\n        <h4 id=\"dangerTxt\">Danger zone</h4>\n        <p>This will delete the team and all of its data for you and all the members. This action cannot be undone</p>\n        <button mat-raised-button (click)=\"deleteTeam()\" id=\"deleteTeamBtn\">Delete team</button>\n      </div>\n    </main>\n    <div id=\"uploadImg\" *ngIf=\"isAdmin\">\n      <h4>Upload team image</h4>\n      <div class=\"dropzone\" dropZone (hovered)=\"toggleHover($event)\" (dropped)=\"startUpload($event)\" [class.hovering]=\"isHovering\">\n        <mat-progress-spinner *ngIf=\"percentage | async as pct\" id=\"teamImgSpinner\" [mode]=\"imgUploadSpinnerMode\" [value]=\"pct\"></mat-progress-spinner>\n        <img [src]=\"imgURL | async\" alt=\"\">\n        <button mat-stroked-button (click)=\"fileinput.click()\">Choose an image</button>\n        <p>or drop it here</p>\n        <input #fileinput hidden=\"true\" type=\"file\" (change)=\"startUpload($event.target.files)\">\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<mat-progress-bar *ngIf=\"loading\" mode=\"indeterminate\"></mat-progress-bar>\n\n<div id=container>\n  <div id=\"wrapper\">\n    <main>\n      <h1 *ngIf=\"isAdmin\">Team setting</h1>\n      <h1 *ngIf=\"!isAdmin\">Team members</h1>\n\n      <!-- Change name of team -->\n      <div *ngIf=\"isAdmin\">\n        <h4>Change team name</h4>\n        <form [formGroup]=\"nameForm\" (ngSubmit)=\"onNameFormSubmit()\">\n          <mat-form-field class=\"inp\">\n            <input [value]=\"(team$ | async)?.name\" matInput placeholder=\"Name\" [formControl]=\"changeNameFormControl\">\n            <mat-error *ngIf=\"changeNameFormControl.hasError('required')\">\n              Name is\n              <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <button type=\"submit\" mat-stroked-button>Change team name</button>\n        </form>\n\n        <h4>Manage team members</h4>\n        <form *ngIf=\"isAdmin\" [formGroup]=\"form\" (ngSubmit)=\"onFormSubmit()\">\n          <mat-form-field class=\"inp\">\n            <input matInput id=\"addUserInput\" placeholder=\"Email\" [formControl]=\"emailFormControl\">\n            <mat-error *ngIf=\"emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')\">\n              Please enter a valid email address\n            </mat-error>\n            <mat-error *ngIf=\"emailFormControl.hasError('required')\">\n              Email is\n              <strong>required</strong>\n            </mat-error>\n          </mat-form-field>\n          <button type=\"submit\" mat-stroked-button>Add to team</button>\n        </form>\n      </div>\n\n\n      <div id=\"members\">\n        <div *ngFor=\"let member of (team$ | async)?.members | mapToIterable; let members\" id=\"memberWrapper\">\n          <div id=\"profilePic\">\n            <img *ngIf=\"member.val.imgUrl\" src=\"{{member.val.imgUrl}}\">\n            <mat-icon>account_circle</mat-icon>\n          </div>\n          <strong id=\"nameTxt\">{{ member.val.name }}\n            <span *ngIf=\"member.val.isAdmin\" id=\"memberTypeTxt\">Admin</span>\n            <span *ngIf=\"member.val.isMember == false\" id=\"memberTypeTxt\">Pending</span>\n            <span *ngIf=\"member.val.isMember && !member.val.isAdmin\" id=\"memberTypeTxt\">Member</span>\n          </strong>\n          <mat-menu #memberOptionsMenu=\"matMenu\">\n            <button mat-menu-item *ngIf=\"!member.val.isAdmin\" (click)=\"promoteAdmin(member.key)\">\n              <mat-icon>how_to_reg</mat-icon>\n              <span>Promote to admin</span>\n            </button>\n            <button mat-menu-item *ngIf=\"member.val.isAdmin\" (click)=\"removeAdmin(member.key)\">\n              <mat-icon>keyboard_arrow_down</mat-icon>\n              <span>Demote</span>\n            </button>\n            <button mat-menu-item (click)=\"deleteMember(member.key)\">\n              <mat-icon>exit_to_app</mat-icon>\n              <span *ngIf=\"member.val.isMember == false; else removeMemberTxt\">Cancel invitation</span>\n              <ng-template #removeMemberTxt>\n                <span>Remove member</span>\n              </ng-template>\n            </button>\n          </mat-menu>\n          <button *ngIf=\"!(member.key == (auth.user$ | async)?.uid) && isAdmin\" class=\"menuBtn\" mat-icon-button\n            [matMenuTriggerFor]=\"memberOptionsMenu\" (click)=\"$event.stopPropagation()\">\n            <mat-icon>more_vert</mat-icon>\n          </button>\n        </div>\n      </div>\n\n      <br>\n\n      <div id=\"deleteTeamWrapper\" *ngIf=\"isAdmin\">\n        <h4 id=\"dangerTxt\">Danger zone</h4>\n        <p>This will delete the team and all of its data for you and all the members. This action cannot be undone</p>\n        <button mat-raised-button (click)=\"deleteTeam()\" id=\"deleteTeamBtn\">Delete team</button>\n      </div>\n    </main>\n    <div id=\"uploadImg\" *ngIf=\"isAdmin\">\n      <h4>Upload team image</h4>\n      <div class=\"dropzone\" dropZone (hovered)=\"toggleHover($event)\" (dropped)=\"startUpload($event)\" [class.hovering]=\"isHovering\">\n        <mat-progress-spinner *ngIf=\"percentage | async as pct\" id=\"teamImgSpinner\" [mode]=\"imgUploadSpinnerMode\" [value]=\"pct\"></mat-progress-spinner>\n        <img [src]=\"imgURL | async\" alt=\"\">\n        <button mat-stroked-button (click)=\"fileinput.click()\">Choose an image</button>\n        <p>or drop it here</p>\n        <input #fileinput hidden=\"true\" type=\"file\" (change)=\"startUpload($event.target.files)\">\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -3275,7 +3276,8 @@ var TeamSettingsComponent = /** @class */ (function () {
                             })
                                 .catch(function (err) {
                                 that_1.loading = false;
-                                console.log(err.code);
+                                console.log(err);
+                                console.log(err.message);
                                 sweetalert2__WEBPACK_IMPORTED_MODULE_8___default()({
                                     title: 'Error',
                                     text: err.message,
@@ -3456,7 +3458,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/magnustrandokken/Desktop/Magson/Projects/Web/scrumboard/angular/src/main.ts */"./main.ts");
+module.exports = __webpack_require__(/*! /Users/magnustrandokken/Desktop/Magson/Web/scrumboard/angular/src/main.ts */"./main.ts");
 
 
 /***/ })

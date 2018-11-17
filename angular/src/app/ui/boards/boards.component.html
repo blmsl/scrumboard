@@ -9,9 +9,9 @@
         <div class="container">
           <h3>{{board.name}}</h3>
           <div id="distributionBar">
-            <div id="todoBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.todo" matTooltip="{{(board.aggregatedData.todo | number) + ' tasks'}}"></div>
-            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.inProgress" matTooltip="{{(board.aggregatedData.inProgress | number) + ' tasks'}}"></div>
-            <div id="doneBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.done" matTooltip="{{(board.aggregatedData.done | number) + ' tasks'}}"></div>
+            <div id="todoBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.todo" matTooltip="{{'Todo: ' + (board.aggregatedData.todo | number)}}"></div>
+            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.inProgress" matTooltip="{{'In progress: ' + (board.aggregatedData.inProgress | number)}}"></div>
+            <div id="doneBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.done" matTooltip="{{'Done: ' + (board.aggregatedData.done | number)}}"></div>
           </div>
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
             <mat-icon>more_vert</mat-icon>
@@ -69,7 +69,7 @@
 
 <div id="noTeam" *ngIf="(teamsService.$teams | async)?.length === 0">
   <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>
-  <p>You are currently not a member of any team. You can join a team by being invited. You can also create your own
+  <p>You are currently not a member of any team. You can join a team by accepting an invitation or you can create your own
     team with the button below.</p>
   <button mat-raised-button (click)="teamsService.createNewTeam()">Create a new team</button>
 </div>

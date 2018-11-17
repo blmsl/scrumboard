@@ -252,20 +252,20 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
             eventAction: 'Delete task',
           });
         });
-      } else if (
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swal(
-          'Cancelled',
-          'This task is safe',
-          'error'
-        );
       }
     });
   }
 
   updateEntryState(entry: EntryInterface, state: 'todo' | 'inProgress' | 'done') {
-    this.entryCollection.doc(entry.id).update({ state });
+    if (state === 'inProgress') {
+      this.auth.user$.take(1).subscribe((user) => {
+        // tslint:disable-next-line:max-line-length
+        this.entryCollection.doc(entry.id).update({ state: state, imgUrl: user.photoURL, developer: user.displayName, time: firestore.FieldValue.serverTimestamp() });
+      });
+    } else {
+      this.entryCollection.doc(entry.id).update({ state: state, time: firestore.FieldValue.serverTimestamp() });
+    }
+
   }
 
 
@@ -494,7 +494,12 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     if (post) {
       // add to firebase
-      this.bugCollection.add({ txt: post, time: firestore.FieldValue.serverTimestamp() });
+      this.auth.user$.take(1).subscribe((user) => {
+        this.bugCollection.add({
+          txt: post, developer: user.displayName, time: firestore.FieldValue.serverTimestamp(),
+          imgUrl: user.photoURL
+        });
+      });
       // Google analytics event
       (<any>window).ga('send', 'event', {
         eventCategory: 'Scrumboard interaction',

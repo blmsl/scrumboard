@@ -23,7 +23,7 @@
         <h4>Manage team members</h4>
         <form *ngIf="isAdmin" [formGroup]="form" (ngSubmit)="onFormSubmit()">
           <mat-form-field class="inp">
-            <input matInput placeholder="Email" [formControl]="emailFormControl">
+            <input matInput id="addUserInput" placeholder="Email" [formControl]="emailFormControl">
             <mat-error *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">
               Please enter a valid email address
             </mat-error>
@@ -55,7 +55,7 @@
             </button>
             <button mat-menu-item *ngIf="member.val.isAdmin" (click)="removeAdmin(member.key)">
               <mat-icon>keyboard_arrow_down</mat-icon>
-              <span>Demote user</span>
+              <span>Demote</span>
             </button>
             <button mat-menu-item (click)="deleteMember(member.key)">
               <mat-icon>exit_to_app</mat-icon>
