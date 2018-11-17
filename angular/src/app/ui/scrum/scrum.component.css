@@ -1,263 +1,264 @@
 main {
-  display: table;
-  margin: 0 auto;
+    display: table;
+    margin: 0 auto;
 }
 
 #tabNav {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: var(--button-color);
-  z-index: 10;
-  font-weight: bold;
-  box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 6px rgba(59, 64, 69, 0.1);
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: var(--button-color);
+    z-index: 10;
+    font-weight: bold;
+    box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 6px rgba(59, 64, 69, 0.1);
 }
 
 #tabNav ul {
-  position: relative;
-  display: table;
-  margin: 0 auto;
-  list-style: none;
-  padding: 0;
+    position: relative;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+    display: table;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 #tabNav li {
-  line-height: 48px;
-  display: inline-block;
-  text-align: center;
-  width: 65px;
-  margin: 0 30px;
-  font-size: 17px;
-  color: rgba(255, 255, 255, .7);
-  cursor: pointer;
+    line-height: 48px;
+    display: inline-block;
+    text-align: center;
+    width: 65px;
+    margin: 0 30px;
+    font-size: 17px;
+    color: rgba(255, 255, 255, .7);
+    cursor: pointer;
 }
 
 #tabNav li.active {
-  color: var(--bg-color);
-  border-bottom: 2px solid var(--bg-color);
+    color: var(--bg-color);
+    border-bottom: 2px solid var(--bg-color);
 }
 
 .todoContainer {
-  margin: 16px auto;
-  display: flex;
-  flex-direction: row;
-  font-family: roboto;
+    margin: 16px auto;
+    display: flex;
+    flex-direction: row;
+    font-family: roboto;
 }
 
 #sortBy {
-  position: absolute;
-  right: 50px;
-  color: var(--txt-color) !important;
-  width: 120px;
+    position: absolute;
+    right: 50px;
+    color: var(--txt-color) !important;
+    width: 120px;
 }
 
 #sortBy mat-icon {
-  margin-top: -3px;
+    margin-top: -3px;
 }
 
 mat-select {
-  position: inherit;
+    position: inherit;
 }
 
 .menuBtn {
-  position: absolute;
-  right: 0;
+    position: absolute;
+    right: 0;
 }
 
 .todoContainer>section {
-  flex-grow: 1;
-  margin: 0 10px;
-  max-width: calc(33.33% - 20px);
+    flex-grow: 1;
+    margin: 0 10px;
+    max-width: calc(33.33% - 20px);
 }
 
 section .container {
-  margin: 0 10px;
+    margin: 0 10px;
 }
 
 .card {
-  width: 100%;
-  background: var(--cards);
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-  display: table;
-  border-radius: 8px;
-  margin-bottom: 13px;
-  overflow: hidden;
-  position: relative;
+    width: 100%;
+    background: var(--cards);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+    display: table;
+    border-radius: 8px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    position: relative;
 }
 
 .gridWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 10px;
-  position: relative;
-  font-family: roboto;
-
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    position: relative;
+    font-family: roboto;
 }
 
 .gridCard {
-  background: var(--cards);
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  position: relative;
+    background: var(--cards);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
 }
 
 #profilePic {
-  overflow: hidden;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  margin-top: 10px;
-  display: inline-block;
+    overflow: hidden;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin-top: 10px;
+    display: inline-block;
 }
 
 #profilePic img {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 #profilePic mat-icon {
-  position: absolute;
-  font-size: 42px;
+    position: absolute;
+    font-size: 42px;
 }
 
 .withProfilePic strong {
-  position: absolute;
-  margin-top: 19px;
-  margin-left: 10px;
-  width: calc(100% - 90px);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    position: absolute;
+    margin-top: 19px;
+    margin-left: 10px;
+    width: calc(100% - 90px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .withProfilePic p {
-  margin-top: 8px;
+    margin-top: 8px;
 }
 
 #backButton {
-  cursor: pointer;
-  position: absolute;
-  left: 30px;
-  font-size: 35px;
-  top: 24px;
+    cursor: pointer;
+    position: absolute;
+    left: 30px;
+    font-size: 35px;
+    top: 24px;
 }
 
 .setButton {
-  width: 100%;
-  border-style: none;
-  font-size: 15px;
-  padding: 10px;
-  background-color: var(--button-color);
-  color: white;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.2s;
+    width: 100%;
+    border-style: none;
+    font-size: 15px;
+    padding: 10px;
+    background-color: var(--button-color);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
 }
 
 .setButton:hover {
-  background-color: var(--button-accent);
+    background-color: var(--button-accent);
 }
 
 .container>p,
 .container>strong {
-  font-size: 19px;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
+    font-size: 19px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 .container>p:first-letter {
-  text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 #shareBtn {
-  position: absolute;
-  right: 88px;
-  top: 14px;
+    position: absolute;
+    right: 88px;
+    top: 14px;
 }
 
 #shareBtn mat-icon {
-  margin-right: 3px;
-  font-size: 21px;
+    margin-right: 3px;
+    font-size: 21px;
 }
 
 #copyLinkBtn {
-  float: right;
+    float: right;
 }
 
 #shareableLink {
-  width: 100%;
+    width: 100%;
 }
 
 #noEntries {
-  margin-top: 30%;
-  text-align: center;
+    margin-top: 30%;
+    text-align: center;
 }
 
-.no_content_div{
-  max-height: 155px;
-  width: 40%;
-  max-width: 655px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 0 solid;
-  border-radius: 10px;
-  padding: 40px 0 25px 0;
-  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
-  background-color: var(--header);
+.no_content_div {
+    display: table;
+    margin: 0 auto;
+    max-width: 500px;
+    border: 0 solid;
+    border-radius: 10px;
+    padding: 40px 0 25px 0;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2);
+    background-color: var(--header);
 }
 
 .no_content_div button {
-  background-color: var(--button-color);
-  border: 0 solid;
-  border-radius: 7px;
-  font-size: 20px;
-  transition: all 0.3s;
-  display: block;
-  cursor: pointer;
-  outline: 0;
-  margin: 30px auto 0 auto;
-  padding: 10px 20px;
-  color: white;
+    background-color: var(--button-color);
+    border: 0 solid;
+    border-radius: 7px;
+    font-size: 20px;
+    transition: all 0.3s;
+    display: block;
+    cursor: pointer;
+    outline: 0;
+    margin: 30px auto 0 auto;
+    padding: 10px 20px;
+    color: white;
 }
 
 .no_content_div button:hover {
-  background-color: var(--button-accent);
+    background-color: var(--button-accent);
 }
 
 .no_content_div h1 {
-  width: 60%;
-  margin: 0 auto;
-  text-align: center;
-  font-size: 22px;
+    width: calc(100% - 46px);
+    margin: 0 auto;
+    text-align: center;
+    font-size: 22px;
+    padding: 0 23px;
 }
 
 @media only screen and (max-width: 800px) {
-  .todoContainer {
-    display: block;
-    margin: 0 auto;
-    padding-top: 5px;
-  }
-
-  .todoContainer>section {
-    max-width: unset;
-    margin: 0;
-  }
-
-  #sortBy {
-    top: 80px;
-  }
-
-  #tabNav li {
-    font-size: 14px;
-    margin: 0 15px;
-  }
+    .no_content_div h1 {
+        font-size: 17px;
+    }
+    .todoContainer {
+        display: block;
+        margin: 0 auto;
+        padding-top: 5px;
+    }
+    .todoContainer>section {
+        max-width: unset;
+        margin: 0;
+    }
+    #sortBy {
+        top: 80px;
+    }
+    #tabNav ul {
+        display: block;
+    }
+    #tabNav li {
+        font-size: 14px;
+        margin: 0 15px;
+    }
 }

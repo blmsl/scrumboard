@@ -881,7 +881,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   openThread(entry: EntryInterface) {
     const dialogRef = this.dialog.open(ThreadComponent, {
       width: '40%',
-      data: {entry, teamId: this.teamId, boardId: this.bo},
+      data: {entry, teamId: this.teamId, boardId: this.id},
       // position: {
       //   bottom: '0px'
       // }
