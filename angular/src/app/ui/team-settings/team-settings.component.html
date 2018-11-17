@@ -23,7 +23,7 @@
         <h4>Manage team members</h4>
         <form *ngIf="isAdmin" [formGroup]="form" (ngSubmit)="onFormSubmit()">
           <mat-form-field class="inp">
-            <input matInput placeholder="Email" [formControl]="emailFormControl">
+            <input matInput id="addUserInput" placeholder="Email" [formControl]="emailFormControl">
             <mat-error *ngIf="emailFormControl?.hasError('email') && !emailFormControl?.hasError('required')">
               Please enter a valid email address
             </mat-error>
