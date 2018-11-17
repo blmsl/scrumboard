@@ -172,6 +172,10 @@
                   <mat-icon>edit</mat-icon>
                   <span>Edit</span>
                 </button>
+                <button mat-menu-item (click)="assign(bug)">
+                  <mat-icon>face</mat-icon>
+                  <span>Assign developer</span>
+                </button>
                 <button mat-menu-item (click)="openThread(bug)">
                   <mat-icon>chat</mat-icon>
                   <span>Comments</span>
@@ -238,7 +242,7 @@
                 <strong>{{idea.developer}}</strong>
                 <p [innerHTML]="idea.txt | linky"></p>
               </div>
-              <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO TASKS</button>
+              <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO INPROGRESS</button>
             </div>
           </div>
           <button mat-fab id="addButton" (click)="addIdea()" (click)="$event.stopPropagation()">
@@ -313,16 +317,6 @@
 
     <div *ngIf="!(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0)">
       <div class="todoContainer" *ngSwitchCase="'beta'">
-        <!-- <div id="sortBy">
-        <mat-icon>sort</mat-icon>
-        <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
-
-          <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
-          <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
-          <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
-          <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
-        </mat-select>
-      </div> -->
         <section>
           <h3>Bugs ({{($client_bugs | async)?.length}})</h3>
           <div>
