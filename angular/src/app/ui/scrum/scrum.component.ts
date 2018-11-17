@@ -252,14 +252,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
             eventAction: 'Delete task',
           });
         });
-      } else if (
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swal(
-          'Cancelled',
-          'This task is safe',
-          'error'
-        );
       }
     });
   }
