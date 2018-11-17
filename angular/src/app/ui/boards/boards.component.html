@@ -9,9 +9,9 @@
         <div class="container">
           <h3>{{board.name}}</h3>
           <div id="distributionBar">
-            <div id="todoBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.todo" matTooltip="{{(board.aggregatedData.todo | number) + ' todo'}}"></div>
-            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.inProgress" matTooltip="{{(board.aggregatedData.inProgress | number) + ' in progress'}}"></div>
-            <div id="doneBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.done" matTooltip="{{(board.aggregatedData.done | number) + ' finished'}}"></div>
+            <div id="todoBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.todo" matTooltip="{{'Todo: ' + (board.aggregatedData.todo | number)}}"></div>
+            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.inProgress" matTooltip="{{'In progress: ' + (board.aggregatedData.inProgress | number)}}"></div>
+            <div id="doneBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.done" matTooltip="{{'Done: ' + (board.aggregatedData.done | number)}}"></div>
           </div>
           <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
             <mat-icon>more_vert</mat-icon>
