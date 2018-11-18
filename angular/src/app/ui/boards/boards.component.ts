@@ -11,6 +11,7 @@ import 'rxjs/add/operator/take';
 import { Subscription } from '../../../../node_modules/rxjs';
 import 'rxjs/add/operator/share';
 import { HotkeysService, Hotkey } from 'angular2-hotkeys';
+import { firestore } from 'firebase';
 
 @Component({
   selector: 'app-boards',
@@ -141,7 +142,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     });
     if (name) {
       this.boardCollection.take(1).subscribe(collection => {
-        collection.add({ name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } });
+        collection.add({ name, date: firestore.FieldValue.serverTimestamp(), aggregatedData: { todo: 0, inProgress: 0, done: 0 } });
       });
       // Google analytics event
       (<any>window).ga('send', 'event', {
@@ -163,7 +164,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
       if (result.value) {
         // Archive method here
         this.archiveCollection.take(1).subscribe(collection => collection
-          .add({ name: board.name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
+          .add({ name: board.name, date: board.date, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
         this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
         swal(
           'Archived!',
@@ -189,10 +190,10 @@ export class BoardsComponent implements OnInit, OnDestroy {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        // TODO Activate method here
-        this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
+        // TODO: Activate method here
         this.boardCollection.take(1).subscribe(collection => collection.add(
-          { name: board.name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
+          { name: board.name, date: board.date, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
+          this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
         swal(
           'Archived!',
           'Your project has been reactivated.',
