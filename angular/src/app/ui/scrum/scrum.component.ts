@@ -345,13 +345,20 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'What is the name of the task?',
       html:
         // tslint:disable-next-line:max-line-length
-        `<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input" (keyup.enter)="console.log('mangus')">` +
-        this.getRadio('!'),
+        `<form id="swalForm">
+        <input id="swal-input1" type="text" placeholder="Task description" class="swal2-input" (keyup.enter)="console.log('mangus')">` +
+        this.getRadio('!') +
+        `<input style="visibility:hidden" type="submit">
+        </form>`
+        ,
       reverseButtons: true,
       showCancelButton: true,
       onOpen: () => {
         (<HTMLInputElement>document.getElementById('swal-input1')).focus();
-        this.swalVar = swal;
+        (<HTMLInputElement>document.getElementById('swalForm')).onsubmit = function(evt) {
+          evt.preventDefault();
+          swal.clickConfirm();
+        };
       },
       preConfirm: () => {
         let priority: string;
@@ -383,10 +390,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         text: 'Please fill in a description of the task!'
       });
     }
-  }
-
-  confirmSwal() {
-    this.swalVar.clickConfirm();
   }
 
   async assign() {
