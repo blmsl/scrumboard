@@ -59,6 +59,8 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   isSignedIn = false;
   shareableLink: string;
 
+  swalVar;
+
   entryCollection: AngularFirestoreCollection<EntryInterface>;
 
   $todo: Observable<EntryInterface[]>;
@@ -342,10 +344,15 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     const { value: post } = await swal({
       title: 'What is the name of the task?',
       html:
-        '<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input">' +
+        // tslint:disable-next-line:max-line-length
+        `<input id="swal-input1" type="text" placeholder="Task description" class="swal2-input" (keyup.enter)="console.log('mangus')">` +
         this.getRadio('!'),
       reverseButtons: true,
       showCancelButton: true,
+      onOpen: () => {
+        (<HTMLInputElement>document.getElementById('swal-input1')).focus();
+        this.swalVar = swal;
+      },
       preConfirm: () => {
         let priority: string;
 
@@ -362,7 +369,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         ];
       },
     });
-    if (post[0] !== '') {
+    if (post[0] !== '' && post[0] !== ' ') {
       this.entryCollection.add({ txt: post[0], state: 'todo', priority: post[1], time: firestore.FieldValue.serverTimestamp() });
       // Google analytics event
       (<any>window).ga('send', 'event', {
@@ -373,9 +380,13 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       swal({
         title: 'Invalid task.',
         type: 'error',
-        text: 'Please fill in a task description!'
+        text: 'Please fill in a description of the task!'
       });
     }
+  }
+
+  confirmSwal() {
+    this.swalVar.clickConfirm();
   }
 
   async assign() {

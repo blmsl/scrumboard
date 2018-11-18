@@ -69,7 +69,8 @@
 
 <div id="noTeam" *ngIf="(teamsService.$teams | async)?.length === 0">
   <h2>Hi {{(auth.user$ | async)?.displayName}}!</h2>
-  <p>You are currently not a member of any team. You can join a team by accepting an invitation or you can create your own
+  <p>You are currently not a member of any team. You can join a team by accepting an invitation or you can create your
+    own
     team with the button below.</p>
   <button mat-raised-button (click)="teamsService.createNewTeam()">Create a new team</button>
 </div>
