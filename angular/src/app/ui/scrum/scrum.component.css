@@ -183,6 +183,10 @@ section .container {
     hyphens: auto;
 }
 
+.mat-badge-medium.mat-badge-above .mat-badge-content {
+  top: 2px !important;
+}
+
 .container>p:first-letter {
     text-transform: uppercase;
 }

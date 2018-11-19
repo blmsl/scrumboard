@@ -39,6 +39,7 @@ import { TeamsModuleComponent } from './modules/teams-module/teams-module.compon
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { AdminComponent } from './ui/admin/admin.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatBadgeModule } from '@angular/material/badge';
 
 // Other
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
@@ -79,6 +80,7 @@ import {HotkeyModule} from 'angular2-hotkeys';
         expiration: 45,
       },
     ]),
+    MatBadgeModule,
     HotkeyModule.forRoot(),
     MatTooltipModule,
     LinkyModule,
