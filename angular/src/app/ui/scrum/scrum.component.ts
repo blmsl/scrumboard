@@ -97,7 +97,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('linkShareSwal') private linkShareSwal: SwalComponent;
 
-
   ngAfterViewInit(): void {
     this.disableAnimations = true;
   }

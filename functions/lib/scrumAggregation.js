@@ -11,36 +11,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const fs = admin.firestore();
-exports.onTodoCreated = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/todo/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'todo', true); }));
-exports.onTodoDeleted = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/todo/{entryId}')
-    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'todo', false); }));
-exports.onInProgressCreated = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/inProgress/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'inProgress', true); }));
-exports.onInProgressDeleted = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/inProgress/{entryId}')
-    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'inProgress', false); }));
-exports.onDoneCreated = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'done', true); }));
-exports.onDoneDeleted = functions.firestore
-    .document('teams/{teamId}/boards/{boardId}/done/{entryId}')
-    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, 'done', false); }));
-function update(teamId, boardId, subcollection, increment) {
+exports.onEntryCreated = functions.firestore
+    .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
+    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: 'todo', delete: false }); }));
+exports.onEntryDeleted = functions.firestore
+    .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
+    .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: false, delete: snap.data().state }); }));
+exports.onEntryUpdated = functions.firestore
+    .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
+    .onUpdate((change, context) => __awaiter(this, void 0, void 0, function* () {
+    const before = change.before.data();
+    const after = change.after.data();
+    if (before.state === after.state)
+        return false;
+    return update(context.params.teamId, context.params.boardId, { delete: before.state, add: after.state });
+}));
+function update(teamId, boardId, stateChange) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log({ teamId, boardId, subcollection, increment });
+        console.log({ teamId, boardId });
         const boardDoc = (yield fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
         let aggregatedData = boardDoc.aggregatedData;
         if (!aggregatedData) {
             aggregatedData = { todo: 0, inProgress: 0, done: 0 };
         }
-        if (increment)
-            aggregatedData[subcollection]++;
-        else
-            aggregatedData[subcollection]--;
+        if (stateChange.add) {
+            aggregatedData[stateChange.add]++;
+        }
+        if (stateChange.delete) {
+            aggregatedData[stateChange.delete]--;
+        }
         return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
     });
 }
