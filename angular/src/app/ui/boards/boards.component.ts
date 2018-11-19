@@ -39,6 +39,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
     this.hotkeysService.add(new Hotkey('n', (event: KeyboardEvent): boolean => {
       this.addBoard();
+      console.log('adding board');
       return false;
     }));
 
