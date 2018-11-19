@@ -6,7 +6,7 @@
   <div id="tabNav" *ngIf="isSignedIn">
     <ul>
       <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">Tasks</li>
-      <li [class.active]="navTab == 'bugs'" class="selected" (click)="navTab = 'bugs'">Bugs</li>
+      <li [class.active]="navTab == 'bugs'" matBadge="22" matBadgeColor="warn" class="selected" (click)="navTab = 'bugs'">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
