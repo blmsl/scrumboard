@@ -120,6 +120,14 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       navbarService.title = board.name;
     });
 
+/*     const containers = document.getElementsByClassName('container');
+    console.log({containers});
+    for (let i = 0; i < containers.length; i++) {
+      console.log('hello');
+      // tslint:disable-next-line:max-line-length
+      containers[i].style.marginBottom = <HTMLElement>document.getElementsByClassName('gridCard')[i].style.height - containers[i].style.height - <HTMLElement>document.getElementsByClassName('setButton').style.height + 'px';
+     }
+ */
     // set the orderBy to default TODO save and retrieve from localStorage
     if (localStorage.orderBy) {
       this.sortBy = localStorage.orderBy;
@@ -218,6 +226,10 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     }));
     this.hotkeysService.add(new Hotkey('5', (event: KeyboardEvent): boolean => {
       this.navTab = 'beta';
+      return false;
+    }));
+    this.hotkeysService.add(new Hotkey('6', (event: KeyboardEvent): boolean => {
+      this.navTab = 'info';
       return false;
     }));
     this.hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
