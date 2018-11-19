@@ -277,10 +277,22 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     const { value: post } = await swal({
       title: 'Edit',
       html:
-        `<input id="swal-input1" type="text" value='${entry.txt}' class="swal2-input">` +
-        this.getRadio(entry.priority),
+        `
+        <form id="swalForm" >
+        <input id="swal-input1" type="text" value='${entry.txt}' class="swal2-input">` +
+        this.getRadio(entry.priority) +
+        `<input style="visibility:hidden" type="submit">
+        </form>`,
       showCancelButton: true,
       reverseButtons: true,
+      onOpen: () => {
+        // tslint:disable-next-line:max-line-length
+        (<HTMLInputElement>document.getElementById('swal-input1')).select();
+        (<HTMLInputElement>document.getElementById('swalForm')).onsubmit = function (evt) {
+          evt.preventDefault();
+          swal.clickConfirm();
+        };
+      },
       preConfirm: () => {
         let priority: string;
 
@@ -346,7 +358,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     const { value: post } = await swal({
       title: 'What is the name of the task?',
       html:
-        // tslint:disable-next-line:max-line-length
         `<form id="swalForm">
         <input id="swal-input1" type="text" placeholder="Task description" class="swal2-input" (keyup.enter)="console.log('mangus')">` +
         this.getRadio('!') +
