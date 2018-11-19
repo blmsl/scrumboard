@@ -1,5 +1,6 @@
 export interface Board {
     name: string;
+    date: firebase.firestore.FieldValue;
     aggregatedData?: {
         todo: number;
         inProgress: number;

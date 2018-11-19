@@ -11,6 +11,7 @@ import 'rxjs/add/operator/take';
 import { Subscription } from '../../../../node_modules/rxjs';
 import 'rxjs/add/operator/share';
 import { HotkeysService, Hotkey } from 'angular2-hotkeys';
+import { firestore } from 'firebase';
 
 @Component({
   selector: 'app-boards',
@@ -133,7 +134,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     });
     if (name) {
       this.boardCollection.take(1).subscribe(collection => {
-        collection.add({ name, aggregatedData: { todo: 0, inProgress: 0, done: 0 } });
+        collection.add({ name, date: firestore.FieldValue.serverTimestamp(), aggregatedData: { todo: 0, inProgress: 0, done: 0 } });
       });
       // Google analytics event
       (<any>window).ga('send', 'event', {
