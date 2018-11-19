@@ -44,11 +44,11 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="activate(archivedBoard)">
+              <button mat-menu-item (click)="unarchive(archivedBoard)">
                 <mat-icon>undo</mat-icon>
                 <span>Reactivate</span>
               </button>
-              <button mat-menu-item (click)="deleteArchived(archivedBoard)">
+              <button mat-menu-item (click)="delete(archivedBoard)">
                 <mat-icon>delete</mat-icon>
                 <span>Delete</span>
               </button>
