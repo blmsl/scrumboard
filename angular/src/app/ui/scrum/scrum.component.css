@@ -162,10 +162,10 @@ section .container {
 }
 
 .altContainer {
-    margin-bottom: 60px !important;
+    margin-bottom: 55px !important;
 }
 
-.alternativeBtn {
+.setButton {
     position: absolute;
     right: 0;
     bottom: 0;
