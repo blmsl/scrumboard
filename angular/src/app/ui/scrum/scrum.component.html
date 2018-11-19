@@ -6,7 +6,7 @@
   <div id="tabNav" *ngIf="isSignedIn">
     <ul>
       <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">Tasks</li>
-      <li [class.active]="navTab == 'bugs'" matBadge="22" matBadgeColor="warn" class="selected" (click)="navTab = 'bugs'">Bugs</li>
+      <li [class.active]="navTab == 'bugs'"  (click)="navTab = 'bugs'" [matBadge]="($bugs | async)?.length" matBadgeColor="warn">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
@@ -63,7 +63,7 @@
                     <span>Delete</span>
                   </button>
                 </mat-menu>
-                <div class="container">
+                <div class="container altContainer">
                   <p>
                     <strong>Priority: {{entry.priority}}</strong>
                   </p>
@@ -99,7 +99,7 @@
                     <span>Delete</span>
                   </button>
                 </mat-menu>
-                <div class="container withProfilePic">
+                <div class="container altContainer withProfilePic">
                   <div id="profilePic">
                     <img *ngIf="entry.imgUrl" src="{{entry.imgUrl}}">
                     <mat-icon>account_circle</mat-icon>
@@ -194,7 +194,7 @@
                 <strong>{{bug.developer}}</strong>
                 <p [innerHTML]="bug.txt | linky"></p>
               </div>
-              <button class="setButton alternativeBtn" (click)="move_to_inprogress(bug, bugCollection)">MOVE TO
+              <button class="setButton" (click)="move_to_inprogress(bug, bugCollection)">MOVE TO
                 INPROGRESS</button>
             </div>
           </div>
@@ -244,7 +244,7 @@
                 <strong>{{idea.developer}}</strong>
                 <p [innerHTML]="idea.txt | linky"></p>
               </div>
-              <button class="setButton alternativeBtn" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO
+              <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO
                 INPROGRESS</button>
             </div>
           </div>
