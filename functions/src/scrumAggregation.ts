@@ -5,13 +5,12 @@ const fs = admin.firestore();
 
 export const onEntryCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
-    .onCreate(async (snap, context) => 
-    update(context.params.teamId, context.params.boardId, {add: 'todo', delete: false}));
+    .onCreate(async (snap, context) => update(context.params.teamId, context.params.boardId, { add: snap.data().state, delete: false }));
 
 export const onEntryDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
-    .onDelete(async (snap, context) => 
-    update(context.params.teamId, context.params.boardId, {add: false, delete: snap.data().state}));
+    .onDelete(async (snap, context) =>
+        update(context.params.teamId, context.params.boardId, { add: false, delete: snap.data().state }));
 
 export const onEntryUpdated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
@@ -21,8 +20,8 @@ export const onEntryUpdated = functions.firestore
 
         if (before.state === after.state) return false;
 
-        return update(context.params.teamId, context.params.boardId, 
-            {delete: before.state, add: after.state});
+        return update(context.params.teamId, context.params.boardId,
+            { delete: before.state, add: after.state });
     });
 
 
