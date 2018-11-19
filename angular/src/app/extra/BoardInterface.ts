@@ -14,5 +14,6 @@ export interface Board {
     };
     isPublic?: boolean;
     id?: string;
+    archived?: boolean;
 }
 

@@ -21,11 +21,11 @@ import { firestore } from 'firebase';
 export class BoardsComponent implements OnInit, OnDestroy {
 
   // boards of the selected team
-  $boards: Observable<Board[]>;
+  $allBoards: Observable<Board[]>;
+  $boards: Observable<Board[]>; // not archived boards
   boardCollection: Observable<AngularFirestoreCollection<Board>>;
 
   $archived: Observable<Board[]>;
-  archiveCollection: Observable<AngularFirestoreCollection<Board>>;
 
   teamId: string;
 
@@ -85,7 +85,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.$boards = this.boardCollection.filter(collection => collection !== undefined)
+    this.$allBoards = (this.boardCollection.filter(collection => collection !== undefined)
       .switchMap(collection => collection.snapshotChanges().map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data() as Board;
@@ -102,18 +102,10 @@ export class BoardsComponent implements OnInit, OnDestroy {
           }
           return data;
         });
-      }));
+      })));
 
-    this.archiveCollection = this.route.paramMap.map(paramMap =>
-      this.afs.collection<Board>('teams/' + paramMap.get('teamId') + '/archived'));
-    this.$archived = this.archiveCollection.filter(collection => collection !== undefined)
-      .switchMap(collection => collection.snapshotChanges().map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as Board;
-          data.id = a.payload.doc.id;
-          return data;
-        });
-      }));
+    this.$boards = this.$allBoards.map(boards => boards.filter(board => !board.archived));
+    this.$archived = this.$allBoards.map(boards => boards.filter(board => board.archived));
 
     if (!localStorage.getItem('firstTime')) {
       swal({
@@ -127,7 +119,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
         }
       });
     }
-    this.sub = this.$boards.take(1).subscribe(() => this.loading = false);
+    this.sub = this.$allBoards.take(1).subscribe(() => this.loading = false);
   }
 
   async addBoard() {
@@ -161,12 +153,10 @@ export class BoardsComponent implements OnInit, OnDestroy {
       showCancelButton: true,
       confirmButtonText: 'Archive!',
       reverseButtons: true
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.value) {
-        // Archive method here
-        this.archiveCollection.take(1).subscribe(collection => collection
-          .add({ name: board.name, date: board.date, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
-        this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
+        // Archive
+        await this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).update({archived: true}));
         swal(
           'Archived!',
           'Your project has been archived. You can find it in the archived section below.',
@@ -181,20 +171,18 @@ export class BoardsComponent implements OnInit, OnDestroy {
     });
   }
 
-  activate(board: Board) {
+  unarchive(board: Board) {
     swal({
       title: 'Are you sure?',
-      text: 'This will reactivate your project.',
+      text: 'This will unarchive your scrum.',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Activate!',
       reverseButtons: true
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.value) {
-        // TODO: Activate method here
-        this.boardCollection.take(1).subscribe(collection => collection.add(
-          { name: board.name, date: board.date, aggregatedData: { todo: 0, inProgress: 0, done: 0 } }));
-          this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
+        // TODO Activate method here
+        await this.boardCollection.take(1).subscribe(collection => collection.doc(board.id).update({archived: null}));
         swal(
           'Archived!',
           'Your project has been reactivated.',
@@ -233,42 +221,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
         (<any>window).ga('send', 'event', {
           eventCategory: 'Project management',
           eventAction: 'Delete project',
-        });
-      } else if (
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swal(
-          'Cancelled',
-          'Your project is safe',
-          'error'
-        );
-      }
-    });
-  }
-  deleteArchived(board: Board) {
-    swal({
-      title: 'Are you sure?',
-      text: 'This will delete your project permanently!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        // Delete method
-        this.archiveCollection.take(1).subscribe(collection => collection.doc(board.id).delete());
-
-        swal(
-          'Deleted!',
-          'Your project has been deleted.',
-          'success'
-        );
-        // Google analytics event
-        (<any>window).ga('send', 'event', {
-          eventCategory: 'Project management',
-          eventAction: 'Delete archived project',
         });
       } else if (
         result.dismiss === swal.DismissReason.cancel
