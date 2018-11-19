@@ -85,7 +85,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   client_notes_collection: AngularFirestoreCollection<EntryInterface>;
   $c_notes: Observable<EntryInterface[]>;
 
-  sortBy = '{"field": "time", "direction": "desc"}';
+  sortBy = '{"field": "priority", "direction": "desc"}';
   $orderBy: BehaviorSubject<string>;
 
   sub: Subscription;
@@ -120,15 +120,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       navbarService.title = board.name;
     });
 
-/*     const containers = document.getElementsByClassName('container');
-    console.log({containers});
-    for (let i = 0; i < containers.length; i++) {
-      console.log('hello');
-      // tslint:disable-next-line:max-line-length
-      containers[i].style.marginBottom = <HTMLElement>document.getElementsByClassName('gridCard')[i].style.height - containers[i].style.height - <HTMLElement>document.getElementsByClassName('setButton').style.height + 'px';
-     }
- */
-    // set the orderBy to default TODO save and retrieve from localStorage
+    // set the orderBy to last used
     if (localStorage.orderBy) {
       this.sortBy = localStorage.orderBy;
     }
@@ -177,8 +169,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSignedIn = true;
       }
     });
-    this.hotkeysService.add(new Hotkey('ctrl+n', (event: KeyboardEvent): boolean => {
-
+    this.hotkeysService.add(new Hotkey('ctr+n', (event: KeyboardEvent): boolean => {
 
       switch (this.navTab) {
         case 'todo':
@@ -201,7 +192,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log('beta');
           this.add_feedback();
           break;
-
         default:
           break;
       }

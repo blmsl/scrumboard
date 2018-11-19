@@ -161,6 +161,16 @@ section .container {
     background-color: var(--button-accent);
 }
 
+.altContainer {
+    margin-bottom: 60px !important;
+}
+
+.alternativeBtn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
 .container>p,
 .container>strong {
     font-size: 19px;
