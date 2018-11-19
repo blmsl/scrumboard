@@ -156,7 +156,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
   archive(board: Board) {
     swal({
       title: 'Are you sure?',
-      text: 'This will archive your project. Shared public links wont work anymore. You can of course reactivate at any time.',
+      text: 'This will archive your project. Shared public links won\'t work anymore. You can of course reactivate at any time.',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Archive!',
