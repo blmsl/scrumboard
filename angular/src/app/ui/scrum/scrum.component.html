@@ -6,7 +6,8 @@
   <div id="tabNav" *ngIf="isSignedIn">
     <ul>
       <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">Tasks</li>
-      <li [class.active]="navTab == 'bugs'"  (click)="navTab = 'bugs'" [matBadge]="($bugs | async)?.length" matBadgeColor="warn">Bugs</li>
+      <!-- <li [class.active]="navTab == 'bugs'"  (click)="navTab = 'bugs'" [matBadge]="($bugs | async)?.length" matBadgeColor="warn">Bugs</li> -->
+      <li [class.active]="navTab == 'bugs'"  (click)="navTab = 'bugs'" matBadgeColor="warn">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
@@ -22,7 +23,6 @@
           <button (click)="add()" (click)="$event.stopPropagation()">Create task</button>
         </div>
       </div>
-
       <div *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)">
         <div class="todoContainer" *ngSwitchCase="'todo'">
           <div id="sortBy">

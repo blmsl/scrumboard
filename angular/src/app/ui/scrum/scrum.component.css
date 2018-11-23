@@ -188,6 +188,7 @@ section .container {
 }
 
 .container>p:first-letter {
+    /* This fucks up. Cannot select last letter on text in tasks */
     text-transform: uppercase;
 }
 
