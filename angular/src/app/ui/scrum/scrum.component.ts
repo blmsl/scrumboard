@@ -168,7 +168,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isSignedIn = true;
       }
     });
-    this.hotkeysService.add(new Hotkey('ctr+n', (event: KeyboardEvent): boolean => {
+    this.hotkeysService.add(new Hotkey('n', (event: KeyboardEvent): boolean => {
 
       switch (this.navTab) {
         case 'todo':
