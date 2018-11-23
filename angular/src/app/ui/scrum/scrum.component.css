@@ -36,7 +36,7 @@ main {
 
 #tabNav li.active {
     color: var(--bg-color);
-    border-bottom: 2px solid var(--bg-color);
+    border-bottom: 3.5px solid var(--bg-color);
 }
 
 .todoContainer {
@@ -172,7 +172,9 @@ section .container {
 }
 
 .container>p,
-.container>strong {
+.container>strong,
+#repoDiv>p,
+#repoDiv>strong {
     font-size: 19px;
     -ms-word-break: break-all;
     word-break: break-all;
@@ -214,6 +216,33 @@ section .container {
 #noEntries {
     margin-top: 30%;
     text-align: center;
+}
+
+#repoDiv {
+    width: 20%;
+    background: var(--cards);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+    display: table;
+    border-radius: 8px;
+    margin-bottom: 13px;
+    overflow: hidden;
+    position: relative;
+    padding: 16px;
+}
+
+#repoDiv div{
+    display: table;
+    margin: 0 auto;
+    width: 80%;
+    border-style: none;
+    font-size: 15px;
+    padding: 10px;
+    background-color: var(--button-color);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+
 }
 
 .no_content_div {
