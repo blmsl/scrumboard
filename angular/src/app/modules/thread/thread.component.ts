@@ -23,7 +23,6 @@ export class ThreadComponent implements OnInit {
 
   commentFormControl = new FormControl('', [
     Validators.required,
-    Validators.email,
   ]);
 
   commentForm = new FormGroup({
@@ -59,7 +58,7 @@ export class ThreadComponent implements OnInit {
 
   onFormSubmit() { // Creating new comment
     const input = this.commentForm.value.comment;
-    console.log(input);
+    if (this.commentFormControl.valid) {
     this.auth.user$.take(1).subscribe(user => {
       this.commentsCollection.add({
         username: user.displayName,
@@ -68,6 +67,7 @@ export class ThreadComponent implements OnInit {
         time: firebase.firestore.FieldValue.serverTimestamp()
       } as CommentInterface);
     });
+  }
   }
 
   close() {

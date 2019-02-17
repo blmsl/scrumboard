@@ -7,10 +7,9 @@
 
     <form [formGroup]="commentForm" (ngSubmit)="onFormSubmit()">
       <mat-form-field class="inp">
-        <input matInput placeholder="Write your comment" [formControl]="commentFormControl">
+        <input matInput autocomplete="off" placeholder="Write your comment" [formControl]="commentFormControl">
         <mat-error *ngIf="commentFormControl.hasError('required')">
-          Name is
-          <strong>required</strong>
+          <strong>Required</strong>
         </mat-error>
       </mat-form-field>
       <button id="submitBtn" type="submit" mat-stroked-button>Comment</button>
