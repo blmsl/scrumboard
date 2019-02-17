@@ -119,6 +119,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       navbarService.title = board.name;
     });
 
+
     // set the orderBy to last used
     if (localStorage.orderBy) {
       this.sortBy = localStorage.orderBy;

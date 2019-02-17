@@ -7,7 +7,7 @@
     <ul>
       <li [class.active]="navTab == 'todo'" class="selected" (click)="navTab = 'todo'">Tasks</li>
       <!-- <li [class.active]="navTab == 'bugs'"  (click)="navTab = 'bugs'" [matBadge]="($bugs | async)?.length" matBadgeColor="warn">Bugs</li> -->
-      <li [class.active]="navTab == 'bugs'"  (click)="navTab = 'bugs'" matBadgeColor="warn">Bugs</li>
+      <li [class.active]="navTab == 'bugs'" (click)="navTab = 'bugs'" matBadgeColor="warn">Bugs</li>
       <li [class.active]="navTab == 'ideas'" (click)="navTab = 'ideas'">Ideas</li>
       <li [class.active]="navTab == 'notes'" (click)="navTab = 'notes'">Notes</li>
       <li [class.active]="navTab == 'beta'" (click)="navTab = 'beta'">Feedback</li>
@@ -41,7 +41,9 @@
           <section id="todoSection">
             <h3>TODO ({{($todo | async)?.length}})</h3>
             <div id="todoElements">
-              <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify">
+              <!-- FIXME: Add amount and visibility of comment-->
+              <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify"
+                matBadge="1" matBadgePosition="before" matBadgeColor="warn" [matBadgeHidden]="false">
                 <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
@@ -419,7 +421,8 @@
     </div>
 
     <div *ngSwitchCase="'info'">
-      <p>Info om prosjektet, countdown til deadline?, kontaktansvarlig ved oppdrag, link til prototype/design etc, stats (når prosjektet ble dannet
+      <p>Info om prosjektet, countdown til deadline?, kontaktansvarlig ved oppdrag, link til prototype/design etc,
+        stats (når prosjektet ble dannet
         ++, beste developer?), link til github repo</p>
     </div>
   </main>
