@@ -363,12 +363,12 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         this.getRadio('!') +
         `<input style="visibility:hidden" type="submit">
         </form>`
-        ,
+      ,
       reverseButtons: true,
       showCancelButton: true,
       onOpen: () => {
         (<HTMLInputElement>document.getElementById('swal-input1')).focus();
-        (<HTMLInputElement>document.getElementById('swalForm')).onsubmit = function(evt) {
+        (<HTMLInputElement>document.getElementById('swalForm')).onsubmit = function (evt) {
           evt.preventDefault();
           swal.clickConfirm();
         };
@@ -478,9 +478,8 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   .radio-group {
     border: solid 3px var(--button-color);
     display: inline-block;
-    margin: 20px;
+    margin: 0;
     border-radius: 10px;
-    overflow: hidden;
   }
   </style>
   <div class="radio-group">
@@ -908,7 +907,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   openThread(entry: EntryInterface) {
     const dialogRef = this.dialog.open(ThreadComponent, {
       width: '40%',
-      data: {entry, teamId: this.teamId, boardId: this.id},
+      data: { entry, teamId: this.teamId, boardId: this.id },
       // position: {
       //   bottom: '0px'
       // }
