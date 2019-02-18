@@ -222,8 +222,10 @@ section .container {
 }
 
 .no_content_div {
-    display: table;
-    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     max-width: 500px;
     border: 0 solid;
     border-radius: 10px;
