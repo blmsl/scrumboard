@@ -23,7 +23,8 @@
           "/assets/**",
           "/*.jpg",
           "/*.png",
-          "/*.svg"
+          "/*.svg",
+          "firebase-messaging-sw.js"
         ]
       }
     }]

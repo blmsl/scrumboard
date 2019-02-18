@@ -1,3 +1,4 @@
+import { MessagingService } from './services/messaging.service';
 import { NavbarService } from './services/navbar.service';
 import { FirebaseConfig } from './../environments/FirebaseConfig';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,6 +10,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 // Components and services
 import { AppComponent } from './app.component';
@@ -97,6 +99,7 @@ import {HotkeyModule} from 'angular2-hotkeys';
     AngularFireStorageModule,
     OverlayModule,
     MatSnackBarModule,
+    AngularFireMessagingModule,
     FormsModule,
     MatProgressBarModule,
     MatButtonModule,
@@ -125,6 +128,7 @@ import {HotkeyModule} from 'angular2-hotkeys';
     ProfileGuardService,
     NavbarService,
     AngularFireFunctions,
+    MessagingService
   ],
   bootstrap: [AppComponent]
 })

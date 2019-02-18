@@ -5500,7 +5500,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/magnustrandokken/Desktop/Magson/Projects/Web/scrumboard/angular/src/polyfills.ts */"./polyfills.ts");
+module.exports = __webpack_require__(/*! C:\Users\Sondr\Desktop\scrumboard\angular\src\polyfills.ts */"./polyfills.ts");
 
 
 /***/ })
