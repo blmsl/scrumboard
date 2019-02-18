@@ -199,7 +199,7 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
             imageWidth: 100,
             imageHeight: 100,
             imageAlt: 'Scrumboard user profile',
-            confirmButtonText: 'Add',
+            confirmButtonText: 'Invite',
             showCancelButton: true,
             reverseButtons: true,
             showLoaderOnConfirm: true,

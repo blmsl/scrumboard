@@ -125,6 +125,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
     const { value: name } = await swal({
       title: 'What is the name of your project?',
       input: 'text',
+      confirmButtonText: 'Done',
       reverseButtons: true,
       inputPlaceholder: 'Project name',
       showCancelButton: true,
@@ -150,7 +151,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
       text: 'This will archive your project. Shared public links won\'t work anymore. You can of course reactivate at any time.',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Archive!',
+      confirmButtonText: 'Archive',
       reverseButtons: true
     }).then(async (result) => {
       if (result.value) {
@@ -202,9 +203,9 @@ export class BoardsComponent implements OnInit, OnDestroy {
       text: 'This will delete your project permanently!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
+      cancelButtonText: 'Cancel!',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -239,6 +240,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
       input: 'text',
       inputValue: board.name,
       showCancelButton: true,
+      confirmButtonText: 'Done',
+      reverseButtons: true,
       onOpen: function () {
         const input = (<HTMLInputElement>swal.getInput());
         input.setSelectionRange(0, input.value.length);

@@ -234,9 +234,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       text: 'This will delete this task permanently!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
+      cancelButtonText: 'Cancel',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -596,9 +596,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       text: 'This will delete this bug permanently!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
+      cancelButtonText: 'Cancel',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -675,9 +675,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       text: 'This will delete your idea permanently!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
+      cancelButtonText: 'Cancel',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -755,9 +755,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       text: 'This will delete your note permanently!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
+      cancelButtonText: 'Cancel',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
@@ -840,9 +840,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       text: 'This will delete it permanently!',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: 'Delete',
       confirmButtonColor: '#e95d4f',
-      cancelButtonText: 'No, cancel!',
+      cancelButtonText: 'Cancel',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
