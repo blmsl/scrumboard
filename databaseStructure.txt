@@ -43,6 +43,11 @@
         teamName: string
     }            
 }
+/users/{uid} {
+    /notifications/{notificationId} {
+        txt: string
+    }
+}
 /feedback/{feedbackId} {
     category: string
     date: timeStamp
