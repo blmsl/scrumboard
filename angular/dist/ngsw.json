@@ -54,11 +54,11 @@
     "/assets/google.svg": "93d457e741af6373c8408fd91743cfd716b7339e",
     "/assets/logo@1024x1024.jpg": "71f7d8938dedc18185cb0919022e6714507780db",
     "/index.html": "d7f5fd0cecc03a10cb04346cab2fab6fb94bd4a9",
-    "/main.js": "ec29986d01ec0950f96831283f0e12fe0f938a48",
-    "/polyfills.js": "c9164ef82fa7039469814ffda4f1b52dd48a8ecf",
+    "/main.js": "501b8fe1ca3743a1da3783437d4773b4108617b6",
+    "/polyfills.js": "2ff66414754a31051ae9cbad596357721bc7616c",
     "/runtime.js": "b06ddc772732e66d43856386415cd4d1b89a50b1",
-    "/styles.js": "9d6a32853bef7403435e4223a456e92754508206",
-    "/vendor.js": "247df4c80166c9f7a2596004e21aebdaa4c6f8c0"
+    "/styles.js": "69cfbc99dffec735deb1eb1182c05f2609aa845a",
+    "/vendor.js": "5e0700a9689a06469eb45eb4a3271ec828591738"
   },
   "navigationUrls": [
     {

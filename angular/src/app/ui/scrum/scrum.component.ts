@@ -506,14 +506,12 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-
-
   /* ---------------------------------------------------------------------------------------------------- */
   /* BUGS METHODS */
 
   async addBug() {
     const { value: post } = await swal({
-      title: 'Describe the bug',
+      title: 'Report bug',
       input: 'text',
       reverseButtons: true,
       showCancelButton: true,
