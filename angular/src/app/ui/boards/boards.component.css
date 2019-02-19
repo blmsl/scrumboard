@@ -12,6 +12,10 @@ main {
   display: flex;
 }
 
+#boards {
+  position: relative;
+}
+
 .boardsWrapper {
   flex: 1;
 }
