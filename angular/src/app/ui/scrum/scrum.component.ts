@@ -272,14 +272,13 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-
   async edit(entry: EntryInterface) {
     const { value: post } = await swal({
       title: 'Edit',
       html:
         `
         <form id="swalForm" >
-        <input id="swal-input1" type="text" value='${entry.txt}' class="swal2-input">` +
+        <input id="swal-input1" autocomplete="off" type="text" value='${entry.txt}' class="swal2-input">` +
         this.getRadio(entry.priority) +
         `<input style="visibility:hidden" type="submit">
         </form>`,
@@ -359,9 +358,9 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
       title: 'What is the name of the task?',
       html:
         `<form id="swalForm">
-        <input id="swal-input1" type="text" placeholder="Task description" class="swal2-input" (keyup.enter)="console.log('mangus')">` +
+        <input id="swal-input1" autocomplete="off" type="text" placeholder="Task description" class="swal2-input">` +
         this.getRadio('!') +
-        `<input style="visibility:hidden" type="submit">
+        `<p id="workNow-btn" onclick="addInprogress()">Start working now</p>
         </form>`
       ,
       reverseButtons: true,
@@ -397,6 +396,36 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         eventAction: 'New todo',
       });
     } else if (post[0] === '') {
+      swal({
+        title: 'Invalid task.',
+        type: 'error',
+        text: 'Please fill in a description of the task!'
+      });
+    }
+  }
+// FIXME:
+// "not defined" scrum.component.ts: 363
+  addInprogress() {
+    let priority: string;
+
+    if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
+      priority = '!';
+    } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
+      priority = '!!';
+    } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
+      priority = '!!!';
+    }
+
+    const txt = (<HTMLInputElement>document.getElementById('swal-input1')).value;
+
+    if (txt !== '' && txt !== ' ') {
+      this.entryCollection.add({ txt: txt, state: 'inProgress', priority: priority, time: firestore.FieldValue.serverTimestamp() });
+      // Google analytics event
+      (<any>window).ga('send', 'event', {
+        eventCategory: 'Scrumboard interaction',
+        eventAction: 'New todo',
+      });
+    } else if (txt === '') {
       swal({
         title: 'Invalid task.',
         type: 'error',
@@ -480,6 +509,18 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     display: inline-block;
     margin: 0;
     border-radius: 10px;
+  }
+
+  #workNow-btn {
+    cursor:pointer;
+    color: var(--button-color);
+    text-decoration: underline;
+    font-size: 18px;
+    transition: 0.2s all;
+  }
+
+  #workNow-btn:hover {
+    color: var(--button-accent);
   }
   </style>
   <div class="radio-group">

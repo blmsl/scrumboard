@@ -183,10 +183,6 @@ section .container {
     hyphens: auto;
 }
 
-.mat-badge-medium.mat-badge-above .mat-badge-content {
-  top: -7px !important;
-  left: -7px !important;
-}
 
 #tabNav .mat-badge-medium.mat-badge-above .mat-badge-content {
   top: 2px !important;
@@ -259,6 +255,8 @@ section .container {
     font-size: 22px;
     padding: 0 23px;
 }
+
+
 
 @media only screen and (max-width: 800px) {
     .no_content_div h1 {
