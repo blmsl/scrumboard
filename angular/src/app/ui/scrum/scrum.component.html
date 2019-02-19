@@ -71,7 +71,7 @@
                   </p>
                   <p [innerHTML]="entry.txt | linky"></p>
                 </div>
-                <button class="setButton" (click)="updateEntryState(entry, 'inProgress')">SET TO INPROGRESS</button>
+                <button matRipple class="setButton" (click)="updateEntryState(entry, 'inProgress')">SET TO INPROGRESS</button>
               </div>
             </div>
 
@@ -109,7 +109,7 @@
                   <strong>{{entry.developer}}</strong>
                   <p [innerHTML]="entry.txt | linky"></p>
                 </div>
-                <button class="setButton" (click)="updateEntryState(entry, 'done')">FINISHED</button>
+                <button matRipple class="setButton" (click)="updateEntryState(entry, 'done')">FINISHED</button>
               </div>
             </div>
           </section>
@@ -196,7 +196,7 @@
                 <strong>{{bug.developer}}</strong>
                 <p [innerHTML]="bug.txt | linky"></p>
               </div>
-              <button class="setButton" (click)="move_to_inprogress(bug, bugCollection)">MOVE TO
+              <button class="setButton" matRipple (click)="move_to_inprogress(bug, bugCollection)">MOVE TO
                 INPROGRESS</button>
             </div>
           </div>
@@ -246,7 +246,7 @@
                 <strong>{{idea.developer}}</strong>
                 <p [innerHTML]="idea.txt | linky"></p>
               </div>
-              <button class="setButton" (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO
+              <button class="setButton" matRipple (click)="move_to_inprogress(idea, ideaCollection)">MOVE TO
                 INPROGRESS</button>
             </div>
           </div>
@@ -349,7 +349,7 @@
                 </p>
                 <p [innerHTML]="c_bug.txt | linky"></p>
               </div>
-              <button class="setButton" (click)="moveToBugs(c_bug)" *ngIf="isSignedIn">MOVE TO BUGS</button>
+              <button class="setButton" matRipple (click)="moveToBugs(c_bug)" *ngIf="isSignedIn">MOVE TO BUGS</button>
             </div>
           </div>
         </section>
@@ -381,7 +381,8 @@
                 </p>
                 <p [innerHTML]="c_feature.txt | linky"></p>
               </div>
-              <button class="setButton" (click)="move_to_inprogress(c_feature, client_feature_collection)" *ngIf="isSignedIn">SET
+              <button class="setButton" matRipple (click)="move_to_inprogress(c_feature, client_feature_collection)"
+                *ngIf="isSignedIn">SET
                 INPROGRESS</button>
             </div>
           </div>
