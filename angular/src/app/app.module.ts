@@ -40,6 +40,7 @@ import { AngularFireFunctions } from 'angularfire2/functions';
 import { AdminComponent } from './ui/admin/admin.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatRippleModule } from '@angular/material/core';
 
 // Other
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
@@ -91,6 +92,7 @@ import {HotkeyModule} from 'angular2-hotkeys';
     MatInputModule,
     MatSliderModule,
     MatDialogModule,
+    MatRippleModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatToolbarModule,

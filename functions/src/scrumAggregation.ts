@@ -24,10 +24,7 @@ export const onEntryUpdated = functions.firestore
             { delete: before.state, add: after.state });
     });
 
-
 async function update(teamId: string, boardId: string, stateChange?: stateChangeInterface) {
-    console.log({ teamId, boardId });
-
     const boardDoc = (await fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
     let aggregatedData = boardDoc.aggregatedData;
     if (!aggregatedData) {

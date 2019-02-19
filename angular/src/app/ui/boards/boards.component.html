@@ -4,7 +4,7 @@
   <app-teams-module></app-teams-module>
   <div *ngIf="!(($boards | async)?.length == 0 && ($archived | async)?.length == 0)" class="boardsWrapper">
     <h4><strong>Active projects</strong></h4>
-    <section id="boards" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
+<section id="boards" matRipple *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
       <div class="card">
         <div class="container">
           <h3>{{board.name}}</h3>
