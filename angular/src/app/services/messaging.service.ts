@@ -3,6 +3,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { mergeMapTo } from 'rxjs/operators';
 import { AuthServiceService } from './auth-service.service';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { firestore } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class MessagingService {
         (token) => {
           console.log(token);
           // Upload token to server
-          this.auth.user$.take(1).subscribe(user => {
-            this.afs.doc<any>('users/' + user.uid).set({
-              notificationToken: token
+          this.auth.user$.filter(user => user != null).subscribe(user => {
+            this.afs.doc<any>('users/' + user.uid).update({
+              fcmTokens: firestore.FieldValue.arrayUnion(token)
             });
           });
         },

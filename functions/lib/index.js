@@ -35,4 +35,6 @@ const scrumAggregation_1 = require("./scrumAggregation");
 exports.onEntryCreated = scrumAggregation_1.onEntryCreated;
 exports.onEntryDeleted = scrumAggregation_1.onEntryDeleted;
 exports.onEntryUpdated = scrumAggregation_1.onEntryUpdated;
+const sendNotification_1 = require("./sendNotification");
+exports.sendNotification = sendNotification_1.sendNotification;
 //# sourceMappingURL=index.js.map
