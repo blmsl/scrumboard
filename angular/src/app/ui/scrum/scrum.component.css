@@ -183,6 +183,9 @@ section .container {
     hyphens: auto;
 }
 
+#commentsCountTxt {
+    margin-right: 5px;
+}
 
 #tabNav .mat-badge-medium.mat-badge-above .mat-badge-content {
   top: 2px !important;

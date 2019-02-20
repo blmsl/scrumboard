@@ -25,8 +25,8 @@ exports.onNewScrumComments = functions.firestore
         }));
     }
     else {
-        promises.push(scrumRef.set({
-            commentsCount: 0
+        promises.push(scrumRef.update({
+            commentsCount: 1
         }));
     }
     // Send notifcation to all users

@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -95,6 +96,7 @@ import {HotkeyModule} from 'angular2-hotkeys';
     MatSliderModule,
     MatDialogModule,
     MatRippleModule,
+    MatChipsModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatToolbarModule,

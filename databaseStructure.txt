@@ -25,6 +25,7 @@
             txt: string
             state: string ('todo', 'inProgress', 'done')
             commentsCount?: number
+            assigned?: string
             developer?: string
             imgUrl?: string
 

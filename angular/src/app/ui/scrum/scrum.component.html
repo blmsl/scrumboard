@@ -17,22 +17,28 @@
   <main [ngSwitch]='navTab'>
     <div *ngIf="isSignedIn">
       <!-- No tasks -->
-      <div *ngIf="($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0 && navTab == 'todo'">
+      <div
+        *ngIf="($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0 && navTab == 'todo'">
         <div class="no_content_div">
           <h1>Keep your project´s tasks organized and availible for the whole team</h1>
           <button (click)="add()" (click)="$event.stopPropagation()">Create task</button>
         </div>
       </div>
-      <div *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)">
+      <div
+        *ngIf="!(($todo | async)?.length == 0 && ($inProgress | async)?.length == 0 && ($done | async)?.length == 0)">
         <div class="todoContainer" *ngSwitchCase="'todo'">
           <div id="sortBy">
             <mat-icon>sort</mat-icon>
             <mat-select placeholder="Sort by" [(value)]="sortBy" (selectionChange)="sortChanged()">
 
-              <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority</mat-option>
-              <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest</mat-option>
-              <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest</mat-option>
-              <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical</mat-option>
+              <mat-option (click)='sendEvent("Priority")' value='{"field": "priority", "direction": "desc"}'>Priority
+              </mat-option>
+              <mat-option (click)='sendEvent("Newest")' value='{"field": "time", "direction": "desc"}'>Newest
+              </mat-option>
+              <mat-option (click)='sendEvent("Oldest")' value='{"field": "time", "direction": "asc"}'>Oldest
+              </mat-option>
+              <mat-option (click)='sendEvent("Alphabetical")' value='{"field": "txt", "direction": "asc"}'>Alfabetical
+              </mat-option>
             </mat-select>
           </div>
           <button mat-fab id="addButton" (click)="add()" (click)="$event.stopPropagation()">
@@ -42,8 +48,9 @@
             <h3>TODO ({{($todo | async)?.length}})</h3>
             <div id="todoElements">
               <!-- FIXME: Add amount and visibility of comment-->
-              <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $todo | async; trackBy: identify"
-                matBadge="1" matBadgePosition="before" matBadgeColor="warn" [matBadgeHidden]="false">
+              <div [@entriesAnim]="loading ? null : 'in'" class="card"
+                *ngFor="let entry of $todo | async; trackBy: identify" matBadge="1" matBadgePosition="before"
+                matBadgeColor="warn" [matBadgeHidden]="false">
                 <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
@@ -70,11 +77,16 @@
                     <strong>Priority: {{entry.priority}}</strong>
                   </p>
                   <p [innerHTML]="entry.txt | linky"></p>
-                  <div>
-                    <mat-icon *ngIf="entry.commentsCount > 0">comment</mat-icon>
-                  </div>
+                  <mat-chip-list>
+                    <mat-chip *ngIf="entry.commentsCount > 0" (click)="openThread(entry)">
+                      <span id="commentsCountTxt">{{entry.commentsCount}}</span>
+                      <mat-icon>comment</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+                  <!-- <img [src]="entry.assigned"> -->
                 </div>
-                <button matRipple class="setButton" (click)="updateEntryState(entry, 'inProgress')">SET TO INPROGRESS</button>
+                <button matRipple class="setButton" (click)="updateEntryState(entry, 'inProgress')">SET TO
+                  INPROGRESS</button>
               </div>
             </div>
 
@@ -82,7 +94,8 @@
           <section id="inprogressSection">
             <h3>In progress ({{($inProgress | async)?.length}})</h3>
             <div id="inprogressElements">
-              <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $inProgress | async; trackBy: identify">
+              <div [@entriesAnim]="loading ? null : 'in'" class="card"
+                *ngFor="let entry of $inProgress | async; trackBy: identify">
                 <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
@@ -119,7 +132,8 @@
           <section id="finishedSection">
             <h3>Done ({{($done | async)?.length}})</h3>
             <div id="finishedElements">
-              <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let entry of $done | async; trackBy: identify">
+              <div [@entriesAnim]="loading ? null : 'in'" class="card"
+                *ngFor="let entry of $done | async; trackBy: identify">
                 <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
@@ -169,7 +183,8 @@
         <section *ngIf="!(($bugs | async)?.length == 0)">
           <h3>Bugs ({{($bugs | async)?.length}})</h3>
           <div class="gridWrapper">
-            <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let bug of $bugs | async; trackBy: identify">
+            <div [@entriesAnim]="loading ? null : 'in'" class="gridCard"
+              *ngFor="let bug of $bugs | async; trackBy: identify">
               <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -223,7 +238,8 @@
         <section *ngIf="!(($ideas | async)?.length == 0)">
           <h3>Ideas ({{($ideas | async)?.length}})</h3>
           <div class="gridWrapper">
-            <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let idea of $ideas | async; trackBy: identify">
+            <div [@entriesAnim]="loading ? null : 'in'" class="gridCard"
+              *ngFor="let idea of $ideas | async; trackBy: identify">
               <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -272,7 +288,8 @@
         <section *ngIf="!(($notes | async)?.length == 0)">
           <h3>Notes ({{($notes | async)?.length}})</h3>
           <div class="gridWrapper">
-            <div [@entriesAnim]="loading ? null : 'in'" class="gridCard" *ngFor="let note of $notes | async; trackBy: identify">
+            <div [@entriesAnim]="loading ? null : 'in'" class="gridCard"
+              *ngFor="let note of $notes | async; trackBy: identify">
               <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -310,7 +327,8 @@
     </div>
     <!-- No betatester reports -->
     <!-- TODO: Why is it slow? -->
-    <div *ngIf="(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'">
+    <div
+      *ngIf="(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0) && navTab=='beta'">
       <div class="no_content_div" *ngIf="isPublic == false">
         <h1>No customer has done anything blablba ispublic: {{isPublic}}. Share link now</h1>
         <button (click)="linkShareSwal.show()" (click)="$event.stopPropagation()">Make public</button>
@@ -323,12 +341,14 @@
     </div>
 
 
-    <div *ngIf="!(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0)">
+    <div
+      *ngIf="!(($client_bugs | async)?.length == 0 && ($c_features | async)?.length == 0 && ($c_notes | async)?.length == 0)">
       <div class="todoContainer" *ngSwitchCase="'beta'">
         <section>
           <h3>Bugs ({{($client_bugs | async)?.length}})</h3>
           <div>
-            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let c_bug of $client_bugs | async; trackBy: identify">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card"
+              *ngFor="let c_bug of $client_bugs | async; trackBy: identify">
               <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -360,7 +380,8 @@
         <section>
           <h3>Feature requests ({{($c_features | async)?.length}})</h3>
           <div>
-            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let c_feature of $c_features | async; trackBy: identify">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card"
+              *ngFor="let c_feature of $c_features | async; trackBy: identify">
               <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -394,7 +415,8 @@
         <section>
           <h3>Notes ({{($c_notes | async)?.length}})</h3>
           <div>
-            <div [@entriesAnim]="loading ? null : 'in'" class="card" *ngFor="let c_note of $c_notes | async; trackBy: identify">
+            <div [@entriesAnim]="loading ? null : 'in'" class="card"
+              *ngFor="let c_note of $c_notes | async; trackBy: identify">
               <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
@@ -418,7 +440,8 @@
             </div>
           </div>
         </section>
-        <button mat-fab id="addButton" (click)="add_feedback()" (click)="$event.stopPropagation()" *ngIf="!isSignedIn && isPublic">
+        <button mat-fab id="addButton" (click)="add_feedback()" (click)="$event.stopPropagation()"
+          *ngIf="!isSignedIn && isPublic">
           <mat-icon>add</mat-icon>
         </button>
       </div>
