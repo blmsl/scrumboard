@@ -13,7 +13,7 @@ const admin = require("firebase-admin");
 const fs = admin.firestore();
 exports.onEntryCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: 'todo', delete: false }); }));
+    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: snap.data().state, delete: false }); }));
 exports.onEntryDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
     .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: false, delete: snap.data().state }); }));
@@ -28,7 +28,6 @@ exports.onEntryUpdated = functions.firestore
 }));
 function update(teamId, boardId, stateChange) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log({ teamId, boardId });
         const boardDoc = (yield fs.doc('teams/' + teamId + '/boards/' + boardId).get()).data();
         let aggregatedData = boardDoc.aggregatedData;
         if (!aggregatedData) {

@@ -20,18 +20,11 @@ import { addMember } from './addMember';
 import { accountcleanup } from './accountcleanup';
 import { teamImageResizer } from './teamImageResizer';
 import { deleteScrum } from './deleteScrum';
-import { onEntryCreated, onEntryDeleted, onEntryUpdated} from './scrumAggregation';
+import { onEntryCreated, onEntryDeleted, onEntryUpdated } from './scrumAggregation';
+import { sendNotification } from './sendNotification';
 
-export { accountcleanup };
-export { addMember }
-export { createAdmin }
-export { deleteEmptyTeams }
-export { getUserByMail }
-export { listAllUsers }
-export { newRequest }
-export { deleteScrum }
-export { sendWelcomeEmail }
-export { sendInviteToNonExistentUsers }
-export { addNonExistentUsers }
-export { teamImageResizer }
-export { onEntryCreated, onEntryDeleted, onEntryUpdated}
+export { accountcleanup, addMember, createAdmin, deleteEmptyTeams, 
+    getUserByMail, listAllUsers, newRequest, deleteScrum, 
+    sendWelcomeEmail, sendInviteToNonExistentUsers, addNonExistentUsers, 
+    teamImageResizer, onEntryCreated, onEntryDeleted, onEntryUpdated,
+    sendNotification }
