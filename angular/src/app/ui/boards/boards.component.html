@@ -4,16 +4,17 @@
   <app-teams-module></app-teams-module>
   <div *ngIf="!(($boards | async)?.length == 0 && ($archived | async)?.length == 0)" class="boardsWrapper">
     <h4><strong>Active projects</strong></h4>
-<section id="boards" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
-<div class="card" matRipple>
+    <section id="boards" *ngFor="let board of $boards | async" [routerLink]="['/scrum', teamId, board.id]">
+      <div class="card" matRipple>
         <div class="container">
           <h3>{{board.name}}</h3>
           <div id="distributionBar">
             <div id="todoBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.todo" matTooltip="{{'Todo: ' + (board.aggregatedData.todo | number)}}"></div>
-            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.inProgress" matTooltip="{{'In progress: ' + (board.aggregatedData.inProgress | number)}}"></div>
+            <div id="inProgressBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.inProgress"
+              matTooltip="{{'In progress: ' + (board.aggregatedData.inProgress | number)}}"></div>
             <div id="doneBar" class="entryBar" [style.width.%]="board.aggregatedDataPercent.done" matTooltip="{{'Done: ' + (board.aggregatedData.done | number)}}"></div>
           </div>
-          <button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+<button class="menuBtn" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" (mousedown)="$event.stopPropagation()">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
