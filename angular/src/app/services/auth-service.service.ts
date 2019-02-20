@@ -11,6 +11,7 @@ export class AuthServiceService {
   user$: Observable<User>;
 
   constructor(private afAuth: AngularFireAuth, public router: Router) {
+    console.log('auth-service');
     this.user$ = afAuth.authState;
   }
 

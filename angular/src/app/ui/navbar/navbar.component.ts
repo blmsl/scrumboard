@@ -1,7 +1,8 @@
+import { MessagingService } from './../../services/messaging.service';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { NavbarService } from './../../services/navbar.service';
 import { AuthServiceService } from './../../services/auth-service.service';
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import swal from 'sweetalert2';
 import * as firebase from 'firebase/app';
@@ -50,7 +51,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     --accent-light: #392031;
   `;
 
-  constructor(public auth: AuthServiceService, public navbarService: NavbarService, public afs: AngularFirestore) {
+  constructor(public auth: AuthServiceService, public navbarService: NavbarService,
+    public afs: AngularFirestore, private mess: MessagingService) {
     this.sub = auth.user$.filter(user => user !== null).subscribe((user) => {
       this.profileUrl = user.photoURL;
       this.profileName = user.displayName;

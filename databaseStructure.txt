@@ -44,7 +44,10 @@
     }            
 }
 /users/{uid} {
+    fcmTokens?: { [token: string]: true };
+
     /notifications/{notificationId} {
+        title: string
         txt: string
     }
 }
