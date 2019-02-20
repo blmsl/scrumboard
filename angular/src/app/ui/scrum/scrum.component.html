@@ -70,6 +70,9 @@
                     <strong>Priority: {{entry.priority}}</strong>
                   </p>
                   <p [innerHTML]="entry.txt | linky"></p>
+                  <div>
+                    <mat-icon *ngIf="entry.commentsCount > 0">comment</mat-icon>
+                  </div>
                 </div>
                 <button matRipple class="setButton" (click)="updateEntryState(entry, 'inProgress')">SET TO INPROGRESS</button>
               </div>

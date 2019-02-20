@@ -22,9 +22,11 @@ import { teamImageResizer } from './teamImageResizer';
 import { deleteScrum } from './deleteScrum';
 import { onEntryCreated, onEntryDeleted, onEntryUpdated } from './scrumAggregation';
 import { sendNotification } from './sendNotification';
+import { onNewScrumComments, onDeletedScrumComments } from './onNewScrumComment';
+
 
 export { accountcleanup, addMember, createAdmin, deleteEmptyTeams, 
     getUserByMail, listAllUsers, newRequest, deleteScrum, 
     sendWelcomeEmail, sendInviteToNonExistentUsers, addNonExistentUsers, 
     teamImageResizer, onEntryCreated, onEntryDeleted, onEntryUpdated,
-    sendNotification }
+    sendNotification, onNewScrumComments, onDeletedScrumComments }

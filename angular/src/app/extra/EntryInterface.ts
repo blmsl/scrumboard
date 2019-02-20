@@ -6,6 +6,7 @@ export interface EntryInterface {
     priority?: string;
     time: firebase.firestore.FieldValue;
     imgUrl?: string;
+    commentsCount?: number;
     developer?: string;
     id?: string;
     assigned?: string;

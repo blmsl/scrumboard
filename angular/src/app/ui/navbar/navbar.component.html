@@ -1,10 +1,10 @@
 <header *ngIf="!navbarService.hidden">
-  <a [routerLink]="['/']">
-    <mat-icon *ngIf="navbarService.backBtn" id="backBtn">arrow_back</mat-icon>
-  </a>
+  <button [routerLink]="['/']" mat-icon-button id="backBtn" *ngIf="navbarService.backBtn">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
   <div id="logoWrapper" *ngIf="!navbarService.title">
-    <svg id="logo" version="1.1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="512" height="522" viewBox="0 0 512 522"
-      overflow="visible" enable-background="new 0 0 512 522" xml:space="preserve">
+    <svg id="logo" version="1.1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="512" height="522"
+      viewBox="0 0 512 522" overflow="visible" enable-background="new 0 0 512 522" xml:space="preserve">
       <g id="Layer_2">
         <circle fill="none" stroke="currentcolor" stroke-width="44" cx="255" cy="130" r="85" />
         <circle fill="none" stroke="currentcolor" stroke-width="44" cx="108" cy="385" r="85" />
@@ -13,7 +13,8 @@
       <g id="Layer_3">
         <g>
           <g>
-            <path fill="currentcolor" d="M334.938,125.557C334.963,126.37,335,127.181,335,128c0,15.014-4.1,29.063-11.219,41.118
+            <path fill="currentcolor"
+              d="M334.938,125.557C334.963,126.37,335,127.181,335,128c0,15.014-4.1,29.063-11.219,41.118
           C370.27,193.837,402,242.779,402,299c0,1.684-0.039,3.357-0.096,5.027c0.366-0.005,0.729-0.027,1.096-0.027
           c15.506,0,29.971,4.425,42.229,12.061C445.729,310.438,446,304.75,446,299C446,222.208,400.441,155.867,334.938,125.557z
            M184.689,169.936C177.271,157.703,173,143.351,173,128c0-0.502,0.029-0.997,0.038-1.497C108.622,157.234,64,223.001,64,299
@@ -28,6 +29,16 @@
     <h1 id="logoTxt">Scrumboard.io</h1>
   </div>
   <h1 *ngIf="navbarService.title" id="navbarTitle">{{navbarService.title}}</h1>
+  <button id="notificationsBtn" mat-icon-button [matMenuTriggerFor]="notificationMenu">
+    <mat-icon>notifications</mat-icon>
+  </button>
+  <mat-menu #notificationMenu="matMenu" [overlapTrigger]="false">
+    <h3>Scrum notifications</h3>
+    <div *ngFor="let notification of messagingService.notifications$ | async">
+      <h4><strong>{{notification.title}}</strong></h4>
+      <p>{{notification.txt}}</p>
+    </div>
+  </mat-menu>
   <div id="profilePic" [matMenuTriggerFor]="menu">
     <img [src]="profileUrl" alt="">
     <mat-icon>account_circle</mat-icon>
@@ -42,7 +53,8 @@
     </div>
     <div id="darkModeSettings">
       <p>Dark mode:</p>
-      <mat-slide-toggle [checked]="darkThemeActivated" (change)="toggleTheme($event)" (click)="$event.stopPropagation()"></mat-slide-toggle>
+      <mat-slide-toggle [checked]="darkThemeActivated" (change)="toggleTheme($event)"
+        (click)="$event.stopPropagation()"></mat-slide-toggle>
     </div>
     <div id="hr"></div>
     <button mat-menu-item [routerLink]="['/privacy']">

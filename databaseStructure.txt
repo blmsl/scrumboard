@@ -24,11 +24,12 @@
             time: timeStamp
             txt: string
             state: string ('todo', 'inProgress', 'done')
+            commentsCount?: number
             developer?: string
             imgUrl?: string
 
             /comments/{commentId} {
-                userName: string
+                username: string
                 txt: string
                 imgUrl: string
                 time: timeStamp

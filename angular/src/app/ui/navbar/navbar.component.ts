@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   `;
 
   constructor(public auth: AuthServiceService, public navbarService: NavbarService,
-    public afs: AngularFirestore, private mess: MessagingService) {
+    public afs: AngularFirestore, public messagingService: MessagingService) {
     this.sub = auth.user$.filter(user => user !== null).subscribe((user) => {
       this.profileUrl = user.photoURL;
       this.profileName = user.displayName;
