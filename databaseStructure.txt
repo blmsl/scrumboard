@@ -43,6 +43,13 @@
         teamName: string
     }            
 }
+/users/{uid} {
+    notificationToken: string
+
+    /notifications/{notificationId} {
+        fcmTokens?: { [token: string]: true };
+    }
+}
 /feedback/{feedbackId} {
     category: string
     date: timeStamp
