@@ -46,7 +46,7 @@
     }            
 }
 /users/{uid} {
-    fcmTokens?: string[];
+    fcmTokens: string[];
 
     /notifications/{notificationId} {
         title: string

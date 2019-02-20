@@ -2,17 +2,14 @@ header {
     height: 64px;
     display: flex;
     align-items: center;
-    justify-content: center;
     background: var(--header);
     box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 6px rgba(59, 64, 69, 0.1);
 }
 
 #logo {
-    width: 29px;
+    width: 65px;
     color: white;
-    border-radius: 50%;
-    height: 29px;
-    margin-top: 7px;
+    height: 44px;
     padding: 10px;
     background-color: var(--header-title);
 }
@@ -23,7 +20,7 @@ header {
 
 #logoTxt {
     line-height: 64px;
-    margin-left: 13px;
+    margin-left: 46px;
 }
 
 h1 {
@@ -53,7 +50,7 @@ h1 {
 
 #notificationsBtn {
     position: absolute;
-    right: 64px;
+    right: 75px;
 }
 
 #profilePic img {
@@ -113,6 +110,13 @@ mat-slide-toggle {
     header {
         height: 56px;
     }
+    #logo {
+        width: 52px;
+        height: 40px;
+    }
+    #logoTxt {
+        margin-left: 18px;
+    }
     header h1 {
         font-size: 24px;
         width: calc(100% - 120px);
@@ -127,5 +131,8 @@ mat-slide-toggle {
         top: 8px;
         left: 16px;
         font-size: 30px;
+    }
+    #notificationsBtn {
+        right: 64px;
     }
 }

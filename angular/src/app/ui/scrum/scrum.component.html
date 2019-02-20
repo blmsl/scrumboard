@@ -124,6 +124,12 @@
                   </div>
                   <strong>{{entry.developer}}</strong>
                   <p [innerHTML]="entry.txt | linky"></p>
+                  <mat-chip-list>
+                    <mat-chip *ngIf="entry.commentsCount > 0" (click)="openThread(entry)">
+                      <span id="commentsCountTxt">{{entry.commentsCount}}</span>
+                      <mat-icon>comment</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
                 </div>
                 <button matRipple class="setButton" (click)="updateEntryState(entry, 'done')">FINISHED</button>
               </div>

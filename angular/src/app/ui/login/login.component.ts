@@ -43,13 +43,22 @@ export class LoginComponent implements OnInit, OnDestroy {
             code: this.code, uid: user.uid, teamId: this.teamId,
             imgUrl: user.photoURL, name: user.displayName
           }).toPromise().then(() => {
-            this.router.navigate(['/']);
+            this.redirect(user);
           });
         } else {
-          this.router.navigate(['/']);
+          this.redirect(user);
         }
       }
     });
+  }
+
+  redirect(user: firebase.User) {
+    // Add user doc if not exists
+    this.afs.doc('users/' + user.uid).set({
+      fcmTokens: []
+    }, { merge: true });
+
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy() {
