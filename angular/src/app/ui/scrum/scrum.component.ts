@@ -276,7 +276,7 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   edit(entry: EntryInterface) {
     this.dialog.open(AddScrumEntryComponent, {
-      data: { entryCollection: this.entryCollection, entry },
+      data: { entryCollection: this.entryCollection, entry, teamId: this.teamId },
       // position: {
       //   bottom: '0px'
       // }
@@ -328,43 +328,11 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   async add() {
     this.dialog.open(AddScrumEntryComponent, {
-      data: { entryCollection: this.entryCollection },
+      data: { entryCollection: this.entryCollection, teamId: this.teamId },
       // position: {
       //   bottom: '0px'
       // }
     });
-  }
-
-  async assign() {
-    const users = new MapToIterablePipe().transform(
-      (await this.afs.doc('teams/' + this.teamId).valueChanges().take(1).toPromise() as TeamsInterface).members);
-
-    const teamMembers = {};
-    for (const user of users) {
-      teamMembers[user.key] = user.val.name;
-    }
-
-    const { value: post } = await swal({
-      title: 'Assign developer',
-      input: 'select',
-      inputOptions: teamMembers,
-      reverseButtons: true,
-      inputPlaceholder: 'Select developer',
-      showCancelButton: true,
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          if (value === '') {
-            resolve('You need to choose someone');
-          } else {
-            resolve();
-          }
-        });
-      }
-    });
-    if (post !== '') {
-      // TODO: Do something here
-      swal('You selected: ' + post);
-    }
   }
 
   identify(idx, item: EntryInterface) {

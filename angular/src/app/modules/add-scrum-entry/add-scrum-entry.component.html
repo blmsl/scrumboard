@@ -6,6 +6,17 @@
     </mat-form-field>
     <br>
     <app-priority [(priority)]="priority" (priorityChanged)="this.priority = $event"></app-priority>
+    <mat-form-field *ngIf="assignDeveloper">
+      <mat-select placeholder="Developer assigned for task" formControlName="assignedDeveloper" [value]="data.entry.assigned">
+        <mat-option *ngFor="let developer of teamMembers$ | async" [value]="developer.value">
+          {{developer.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-chip-list>
+      <mat-chip [selected]="assignDeveloper" (click)="assignDeveloper = !assignDeveloper" color="accent"><mat-icon>face</mat-icon><span>Assign developer</span></mat-chip>
+      <mat-chip color="accent"><mat-icon>image</mat-icon><span>Add image</span></mat-chip>
+    </mat-chip-list>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button type="submit" cdkFocusInitial>OK</button>
