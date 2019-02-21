@@ -3,7 +3,7 @@ import 'firebase/firestore';
 export interface EntryInterface {
     txt: string;
     state?: 'todo' | 'inProgress' | 'done';
-    priority?: string;
+    priority?: '!' | '!!' | '!!!';
     time: firebase.firestore.FieldValue;
     imgUrl?: string;
     commentsCount?: number;

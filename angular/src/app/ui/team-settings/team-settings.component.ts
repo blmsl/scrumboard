@@ -11,7 +11,7 @@ import { FormControl, Validators, FormGroup } from '../../../../node_modules/@an
 import swal from 'sweetalert2';
 import { AngularFireFunctions } from 'angularfire2/functions';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { getImgUrlFromRef } from '../../extra/shared';
 @Component({
   selector: 'app-team-settings',
@@ -64,7 +64,12 @@ export class TeamSettingsComponent implements OnInit, OnDestroy {
     this.navbarService.backBtn = true;
     this.sub = this.team$.subscribe(team => this.navbarService.title = team.name);
     this.teamRef = this.afs.firestore.doc('teams/' + this.teamId);
-    this.imgURL = this.team$.switchMap(team => {
+    this.imgURL = this.team$.pipe(tap(team => {
+      this.nameForm.patchValue(
+        {
+          name: team.name
+        });
+    })).switchMap(team => {
       getImgUrlFromRef(team, this.storage);
       this.percentage = null; // Removing progress spinner when new img is initialized
       return team.imgURL;

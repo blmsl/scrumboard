@@ -62,6 +62,7 @@ export class ThreadComponent implements OnInit {
     this.auth.user$.take(1).subscribe(user => {
       this.commentsCollection.add({
         username: user.displayName,
+        uid: user.uid,
         txt: input,
         imgUrl: user.photoURL,
         time: firebase.firestore.FieldValue.serverTimestamp()

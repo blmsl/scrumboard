@@ -30,7 +30,7 @@
   </div>
   <h1 *ngIf="navbarService.title" id="navbarTitle">{{navbarService.title}}</h1>
   <button id="notificationsBtn" mat-icon-button [matMenuTriggerFor]="notificationMenu">
-    <mat-icon>notifications</mat-icon>
+    <mat-icon matBadge="8" matBadgeSize="medium">notifications</mat-icon>
   </button>
   <mat-menu #notificationMenu="matMenu" [overlapTrigger]="false">
     <h3>Scrum notifications</h3>

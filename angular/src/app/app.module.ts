@@ -57,6 +57,8 @@ import { DropZoneDirective } from './extra/drop-zone.directive';
 import { ThreadComponent } from './modules/thread/thread.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {HotkeyModule} from 'angular2-hotkeys';
+import { AddScrumEntryComponent } from './modules/add-scrum-entry/add-scrum-entry.component';
+import { PriorityComponent } from './extra/priority/priority.component';
 
 @NgModule({
   declarations: [
@@ -72,9 +74,12 @@ import {HotkeyModule} from 'angular2-hotkeys';
     PrivacyComponent,
     DropZoneDirective,
     ThreadComponent,
+    AddScrumEntryComponent,
+    PriorityComponent,
   ],
   entryComponents: [
-    ThreadComponent
+    ThreadComponent,
+    AddScrumEntryComponent
   ],
   imports: [
     AbTestsModule.forRoot([

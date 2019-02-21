@@ -1,0 +1,44 @@
+.swalRadioBtns {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+    background-color: #332f35;
+  }
+
+  .swalRadioBtnsLabel {
+    color: var(--button-color);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 20px;
+    float: left;
+    outline: 0;
+  }
+
+  .swalRadioBtns:checked+.swalRadioBtnsLabel {
+    color: white;
+    background: var(--button-color);
+  }
+
+  .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
+    border-left: solid 3px var(--button-color);
+  }
+
+  .radio-group {
+    border: solid 3px var(--button-color);
+    display: inline-block;
+    margin: 0;
+    border-radius: 10px;
+  }
+
+  #workNow-btn {
+    cursor: pointer;
+    color: var(--button-color);
+    text-decoration: underline;
+    font-size: 18px;
+    transition: 0.2s all;
+  }
+
+  #workNow-btn:hover {
+    color: var(--button-accent);
+  }
+  

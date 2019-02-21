@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="add()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Text</mat-label>
+      <input #txt [value]="data.entry?.txt" formControlName="txt" matInput placeholder="Text">
+    </mat-form-field>
+    <br>
+    <app-priority [(priority)]="priority" (priorityChanged)="this.priority = $event"></app-priority>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="submit" cdkFocusInitial>OK</button>
+  </mat-dialog-actions>
+</form>

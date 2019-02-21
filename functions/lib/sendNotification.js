@@ -16,16 +16,17 @@ exports.sendNotification = functions.firestore
     const messaging = admin.messaging();
     const firestore = admin.firestore();
     const userId = context.params.uid;
-    const message = snap.data();
+    const notifiation = snap.data();
     const payload = {
         notification: {
-            title: message.title,
-            body: message.txt,
+            title: notifiation.title,
+            body: notifiation.txt,
+            click_action: notifiation.link,
             icon: "https://scrumboard.io/assets/logo@1024x1024.jpg"
         }
     };
     const user = (yield firestore.doc('users/' + userId).get()).data();
-    console.log({ userId, message, user });
+    console.log({ userId, message: notifiation, user });
     const tokens = user.fcmTokens;
     const promises = [];
     tokens.forEach(token => {

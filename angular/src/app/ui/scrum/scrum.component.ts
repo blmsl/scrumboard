@@ -1,3 +1,4 @@
+import { AddScrumEntryComponent } from './../../modules/add-scrum-entry/add-scrum-entry.component';
 import { EntryInterface } from './../../extra/EntryInterface';
 import { TeamsService } from './../../services/teams.service';
 import { Board } from './../../extra/BoardInterface';
@@ -5,7 +6,7 @@ import { NavbarService } from './../../services/navbar.service';
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestoreCollection, DocumentChangeAction, AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Observable, BehaviorSubject, Subscription, combineLatest } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, combineLatest, forkJoin } from 'rxjs';
 import { AuthServiceService } from '../../services/auth-service.service';
 import 'rxjs/add/operator/switchMap';
 import swal from 'sweetalert2';
@@ -18,6 +19,7 @@ import { TeamsInterface } from '../../extra/TeamsInterface';
 import { MapToIterablePipe } from '../../extra/map-to-iterable.pipe';
 import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { merge } from 'rxjs/operators';
 
 @Component({
   selector: 'app-scrum',
@@ -272,55 +274,26 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  async edit(entry: EntryInterface) {
-    const { value: post } = await swal({
-      title: 'Edit',
-      html:
-        `
-        <form id="swalForm" >
-        <input id="swal-input1" autocomplete="off" type="text" value='${entry.txt}' class="swal2-input">` +
-        this.getRadio(entry.priority) +
-        `<input style="visibility:hidden" type="submit">
-        </form>`,
-      showCancelButton: true,
-      reverseButtons: true,
-      onOpen: () => {
-        // tslint:disable-next-line:max-line-length
-        (<HTMLInputElement>document.getElementById('swal-input1')).select();
-        (<HTMLInputElement>document.getElementById('swalForm')).onsubmit = function (evt) {
-          evt.preventDefault();
-          swal.clickConfirm();
-        };
-      },
-      preConfirm: () => {
-        let priority: string;
-
-        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-          priority = '!';
-        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-          priority = '!!';
-        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-          priority = '!!!';
-        }
-        return [
-          (<HTMLInputElement>document.getElementById('swal-input1')).value,
-          priority
-        ];
-      },
-      inputValidator: (value) => {
-        return !value && 'You need to write something!';
-      }
+  edit(entry: EntryInterface) {
+    this.dialog.open(AddScrumEntryComponent, {
+      data: { entryCollection: this.entryCollection, entry },
+      // position: {
+      //   bottom: '0px'
+      // }
     });
-    if (post) {
-      this.entryCollection.doc(entry.id).update({
-        txt: post[0],
-        priority: post[1]
-      });
-    }
   }
 
   ngOnInit() {
     this.navbarService.backBtn = true;
+    if (this.route.snapshot.queryParamMap.get('e')) {
+      this.$todo.pipe(merge(this.$inProgress), merge(this.$done)).subscribe(entries => {
+        entries.forEach(entry => {
+          if (entry.id === this.route.snapshot.queryParamMap.get('e')) {
+            this.openThread(entry);
+          }
+        });
+      });
+    }
   }
 
   sortChanged() {
@@ -354,84 +327,12 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async add() {
-    const { value: post } = await swal({
-      title: 'What is the name of the task?',
-      html:
-        `<form id="swalForm">
-        <input id="swal-input1" autocomplete="off" type="text" placeholder="Task description" class="swal2-input">` +
-        this.getRadio('!') +
-        `<p id="workNow-btn" onclick="addInprogress()">Start working now</p>
-        </form>`
-      ,
-      reverseButtons: true,
-      showCancelButton: true,
-      onOpen: () => {
-        (<HTMLInputElement>document.getElementById('swal-input1')).focus();
-        (<HTMLInputElement>document.getElementById('swalForm')).onsubmit = function (evt) {
-          evt.preventDefault();
-          swal.clickConfirm();
-        };
-      },
-      preConfirm: () => {
-        let priority: string;
-
-        if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-          priority = '!';
-        } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-          priority = '!!';
-        } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-          priority = '!!!';
-        }
-        return [
-          (<HTMLInputElement>document.getElementById('swal-input1')).value,
-          priority
-        ];
-      },
+    this.dialog.open(AddScrumEntryComponent, {
+      data: { entryCollection: this.entryCollection },
+      // position: {
+      //   bottom: '0px'
+      // }
     });
-    if (post[0] !== '' && post[0] !== ' ') {
-      this.entryCollection.add({ txt: post[0], state: 'todo', priority: post[1], time: firestore.FieldValue.serverTimestamp() });
-      // Google analytics event
-      (<any>window).ga('send', 'event', {
-        eventCategory: 'Scrumboard interaction',
-        eventAction: 'New todo',
-      });
-    } else if (post[0] === '') {
-      swal({
-        title: 'Invalid task.',
-        type: 'error',
-        text: 'Please fill in a description of the task!'
-      });
-    }
-  }
-// FIXME:
-// "not defined" scrum.component.ts: 363
-  addInprogress() {
-    let priority: string;
-
-    if ((<HTMLInputElement>document.getElementById('option-one')).checked) {
-      priority = '!';
-    } else if ((<HTMLInputElement>document.getElementById('option-two')).checked) {
-      priority = '!!';
-    } else if ((<HTMLInputElement>document.getElementById('option-three')).checked) {
-      priority = '!!!';
-    }
-
-    const txt = (<HTMLInputElement>document.getElementById('swal-input1')).value;
-
-    if (txt !== '' && txt !== ' ') {
-      this.entryCollection.add({ txt: txt, state: 'inProgress', priority: priority, time: firestore.FieldValue.serverTimestamp() });
-      // Google analytics event
-      (<any>window).ga('send', 'event', {
-        eventCategory: 'Scrumboard interaction',
-        eventAction: 'New todo',
-      });
-    } else if (txt === '') {
-      swal({
-        title: 'Invalid task.',
-        type: 'error',
-        text: 'Please fill in a description of the task!'
-      });
-    }
   }
 
   async assign() {
@@ -474,63 +375,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
     const copyText = <HTMLInputElement>document.getElementById('shareableLinkInp');
     copyText.select();
     document.execCommand('copy');
-  }
-
-  getRadio(priority: string) {
-    return `
-  <style>
-  .swalRadioBtns {
-    position: absolute;
-    visibility: hidden;
-    display: none;
-    background-color: #332f35;
-  }
-
-  .swalRadioBtnsLabel {
-    color: var(--button-color);
-    cursor: pointer;
-    font-weight: bold;
-    padding: 5px 20px;
-    float: left;
-    outline: 0;
-  }
-
-  .swalRadioBtns:checked+.swalRadioBtnsLabel {
-    color: white;
-    background: var(--button-color);
-  }
-
-  .swalRadioBtnsLabel+.swalRadioBtns+.swalRadioBtnsLabel {
-    border-left: solid 3px var(--button-color);
-  }
-
-  .radio-group {
-    border: solid 3px var(--button-color);
-    display: inline-block;
-    margin: 0;
-    border-radius: 10px;
-  }
-
-  #workNow-btn {
-    cursor:pointer;
-    color: var(--button-color);
-    text-decoration: underline;
-    font-size: 18px;
-    transition: 0.2s all;
-  }
-
-  #workNow-btn:hover {
-    color: var(--button-accent);
-  }
-  </style>
-  <div class="radio-group">
-  <input class="swalRadioBtns" type="radio" id="option-one" name="selector" value="!" ${this.checkIfChecked(priority, '!')}>
-  <label class="swalRadioBtnsLabel" for="option-one">!</label>
-  <input class="swalRadioBtns" type="radio" id="option-two" name="selector" value="!!" ${this.checkIfChecked(priority, '!!')}>
-  <label class="swalRadioBtnsLabel" for="option-two">!!</label>
-  <input class="swalRadioBtns" type="radio" id="option-three" name="selector" value="!!!" ${this.checkIfChecked(priority, '!!!')}>
-  <label class="swalRadioBtnsLabel" for="option-three">!!!</label>
-  </div>`;
   }
 
   checkIfChecked(priority: string, x: string) {
@@ -945,7 +789,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openThread(entry: EntryInterface) {
     const dialogRef = this.dialog.open(ThreadComponent, {
-      width: '40%',
       data: { entry, teamId: this.teamId, boardId: this.id },
       // position: {
       //   bottom: '0px'
