@@ -17,17 +17,19 @@ export class AddScrumEntryComponent implements OnInit {
 
   priority: '!' | '!!' | '!!!' = '!';
 
+  linkPreview = false;
+  image = false;
+  subtasks = false;
   assignDeveloper = false;
+
+  subtaskList: { txt: string, finished: boolean }[] = [{ txt: 'test', finished: true }];
+
   teamMembers$: Observable<any>;
-  teamMembers = [
-    {
-      viewValue: 'fuck u', value: 'hehe'
-    }
-  ];
 
   form = this.formBuilder.group({
     txt: ['', Validators.required],
     assignedDeveloper: [''],
+    linkInp: [''],
   });
 
   constructor(private afs: AngularFirestore, public dialogRef: MatDialogRef<AddScrumEntryComponent>, private formBuilder: FormBuilder,
@@ -41,8 +43,12 @@ export class AddScrumEntryComponent implements OnInit {
         this.assignDeveloper = true;
         this.form.patchValue({ assignedDeveloper: data.entry.assigned });
       }
+      if (data.entry.link) {
+        this.linkPreview = true;
+        this.form.patchValue({ linkInp: data.entry.link });
+      }
+      this.form.patchValue({ txt: data.entry.txt });
     }
-    this.form.patchValue({ txt: data.entry.txt });
     this.teamMembers$ = this.afs.doc<TeamsInterface>('teams/' + this.data.teamId).valueChanges().take(1).shareReplay(1).map(team => {
       const users = new MapToIterablePipe().transform(team.members);
       const teamMembers = [];
@@ -54,32 +60,39 @@ export class AddScrumEntryComponent implements OnInit {
       console.log(teamMembers);
       return teamMembers;
     });
-    this.teamMembers$.subscribe(x => console.log(x));
   }
 
   ngOnInit() {
   }
 
   add() {
-    let assigned = null;
-    if (this.assignDeveloper) {
-      assigned = this.form.value.assignedDeveloper;
+    if (this.form.valid) {
+      let assigned = null;
+      let link = null;
+      if (this.assignDeveloper) {
+        assigned = this.form.value.assignedDeveloper;
+      }
+      if (this.linkPreview) {
+        link = this.form.value.linkInp;
+      }
+      if (this.data.entry) {
+        this.data.entryCollection.doc(this.data.entry.id).update({
+          txt: this.form.value.txt,
+          priority: this.priority,
+          assigned,
+          link
+        });
+      } else {
+        this.data.entryCollection.add({
+          txt: this.form.value.txt,
+          state: 'todo', priority: this.priority,
+          time: firestore.FieldValue.serverTimestamp(),
+          assigned,
+          link
+        });
+      }
+      this.close();
     }
-    if (this.data.entry) {
-      this.data.entryCollection.doc(this.data.entry.id).update({
-        txt: this.form.value.txt,
-        priority: this.priority,
-        assigned
-      });
-    } else {
-      this.data.entryCollection.add({
-        txt: this.form.value.txt,
-        state: 'todo', priority: this.priority,
-        time: firestore.FieldValue.serverTimestamp(),
-        assigned
-      });
-    }
-    this.close();
   }
 
   close() {

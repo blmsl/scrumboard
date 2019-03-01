@@ -10,10 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const grabity = require("grabity");
 const fs = admin.firestore();
 exports.onEntryCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
-    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: snap.data().state, delete: false }); }));
+    .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () {
+    return Promise.all([
+        update(context.params.teamId, context.params.boardId, { add: snap.data().state, delete: false }),
+        createLinkPreview(snap.data().link, snap.ref)
+    ]);
+}));
 exports.onEntryDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
     .onDelete((snap, context) => __awaiter(this, void 0, void 0, function* () { return update(context.params.teamId, context.params.boardId, { add: false, delete: snap.data().state }); }));
@@ -40,6 +46,16 @@ function update(teamId, boardId, stateChange) {
             aggregatedData[stateChange.delete]--;
         }
         return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
+    });
+}
+function createLinkPreview(link, ref) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (link) {
+            const response = yield grabity.grabIt(link);
+            return ref.update({ link: response });
+        }
+        else
+            return Promise.resolve();
     });
 }
 //# sourceMappingURL=scrumAggregation.js.map

@@ -137,8 +137,6 @@ export class ScrumComponent implements OnInit, OnDestroy, AfterViewInit {
         .collection<EntryInterface>('entries', ref => ref.orderBy(config.field, config.direction)).snapshotChanges());
     });
 
-    $entries.subscribe(c => console.log(c));
-
     this.$todo = $entries.map(entrier => entrier.filter(entry => entry.state === 'todo'));
     this.$inProgress = $entries.map(entrier => entrier.filter(entry => entry.state === 'inProgress'));
     this.$done = $entries.map(entrier => entrier.filter(entry => entry.state === 'done'));

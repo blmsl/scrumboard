@@ -10,4 +10,10 @@ export interface EntryInterface {
     developer?: string;
     id?: string;
     assigned?: string;
+    link?: {
+        url: string,
+        imageUrl?: string;
+        title?: string;
+        description?: string;
+    };
 }

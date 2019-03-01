@@ -1,11 +1,17 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+const grabity = require("grabity");
 
 const fs = admin.firestore();
 
 export const onEntryCreated = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
-    .onCreate(async (snap, context) => update(context.params.teamId, context.params.boardId, { add: snap.data().state, delete: false }));
+    .onCreate(async (snap, context) => {
+        return Promise.all([
+            update(context.params.teamId, context.params.boardId, { add: snap.data().state, delete: false }),
+            createLinkPreview(snap.data().link, snap.ref)
+        ]);
+    });
 
 export const onEntryDeleted = functions.firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
@@ -37,6 +43,14 @@ async function update(teamId: string, boardId: string, stateChange?: stateChange
         aggregatedData[stateChange.delete]--;
     }
     return fs.doc('teams/' + teamId + '/boards/' + boardId).update({ aggregatedData });
+}
+
+async function createLinkPreview(link: string, ref: FirebaseFirestore.DocumentReference): Promise<any> {
+    if (link) {
+        const response = await grabity.grabIt(link);
+        return ref.update({link: response})
+    }
+    else return Promise.resolve();
 }
 
 interface stateChangeInterface {
