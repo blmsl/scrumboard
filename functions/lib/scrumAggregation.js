@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const grabity = require("grabity");
+const linkPreview_1 = require("./extra/linkPreview");
 const fs = admin.firestore();
-exports.onEntryCreated = functions.firestore
+exports.onEntryCreated = functions.runWith({ memory: '1GB' }).firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
     .onCreate((snap, context) => __awaiter(this, void 0, void 0, function* () {
     return Promise.all([
@@ -51,8 +51,8 @@ function update(teamId, boardId, stateChange) {
 function createLinkPreview(link, ref) {
     return __awaiter(this, void 0, void 0, function* () {
         if (link) {
-            const response = yield grabity.grabIt(link);
-            return ref.update({ link: response });
+            const preview = yield linkPreview_1.linkPreview(link);
+            return ref.update({ link: preview });
         }
         else
             return Promise.resolve();

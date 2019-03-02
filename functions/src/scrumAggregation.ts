@@ -1,10 +1,10 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-const grabity = require("grabity");
+import { linkPreview } from './extra/linkPreview';
 
 const fs = admin.firestore();
 
-export const onEntryCreated = functions.firestore
+export const onEntryCreated = functions.runWith({ memory: '1GB' }).firestore
     .document('teams/{teamId}/boards/{boardId}/entries/{entryId}')
     .onCreate(async (snap, context) => {
         return Promise.all([
@@ -47,8 +47,8 @@ async function update(teamId: string, boardId: string, stateChange?: stateChange
 
 async function createLinkPreview(link: string, ref: FirebaseFirestore.DocumentReference): Promise<any> {
     if (link) {
-        const response = await grabity.grabIt(link);
-        return ref.update({link: response})
+        const preview = await linkPreview(link);
+        return ref.update({ link: preview })
     }
     else return Promise.resolve();
 }
